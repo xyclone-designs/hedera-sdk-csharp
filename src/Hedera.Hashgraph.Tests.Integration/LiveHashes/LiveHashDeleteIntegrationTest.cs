@@ -7,15 +7,15 @@ using Hedera.Hashgraph.SDK.LiveHashes;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="LiveHashDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashDeleteIntegrationTest"]" />
+    /// <include file="LiveHashDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.LiveHashDeleteIntegrationTest"]' />
     public class LiveHashDeleteIntegrationTest
     {
         private static readonly byte[] HASH = Hex.Decode("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002");
 
         [Fact]
-        /// <include file="LiveHashDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashDeleteIntegrationTest.CannotDeleteLiveHashBecauseItsNotSupported"]" />
+        /// <include file="LiveHashDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.LiveHashDeleteIntegrationTest.CannotDeleteLiveHashBecauseItsNotSupported"]' />
         public virtual void CannotDeleteLiveHashBecauseItsNotSupported()
         {
             using (var testEnv = new IntegrationTestEnv(1))

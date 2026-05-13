@@ -21,7 +21,7 @@
     </summary>
     <param name="id">a string representing a valid account id</param>
     <returns>the account id object</returns>
-    <exception cref="IllegalArgumentException">when the account id and checksum are invalid</exception>
+    <exception cref="T:System.ArgumentException">when the account id and checksum are invalid</exception>
   </member>
   <member name="M:AccountId.FromEvmAddress(System.String)">
     <summary>
@@ -168,7 +168,7 @@
   <member name="M:AccountId.Validate(Client)">
     <summary></summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
     <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
   </member>
   <member name="M:AccountId.ValidateChecksum(Client)">
@@ -176,7 +176,7 @@
     Verify that the client has a valid checksum.
     </summary>
     <param name="client">the client to verify</param>
-    <exception cref="BadEntityIdException">when the account id and checksum are invalid</exception>
+    <exception cref="T:System.ArgumentException">when the account id and checksum are invalid</exception>
   </member>
   <member name="M:AccountId.ToBytes">
     <summary>

@@ -1,23 +1,23 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest">
     <summary>TODO: Describe TransferTransactionHooksIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.TransferWithPreTransactionAllowanceHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.TransferWithPreTransactionAllowanceHookSucceeds">
     <summary>TODO: Describe TransferWithPreTransactionAllowanceHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.MultipleAccountsHooksMustAllApprove">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.MultipleAccountsHooksMustAllApprove">
     <summary>TODO: Describe MultipleAccountsHooksMustAllApprove.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.TransferWithPrePostTransactionAllowanceHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.TransferWithPrePostTransactionAllowanceHookSucceeds">
     <summary>TODO: Describe TransferWithPrePostTransactionAllowanceHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.FungibleTokenTransferWithAllowanceHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.FungibleTokenTransferWithAllowanceHookSucceeds">
     <summary>TODO: Describe FungibleTokenTransferWithAllowanceHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.NftTransferWithAllowanceHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.NftTransferWithAllowanceHookSucceeds">
     <summary>TODO: Describe NftTransferWithAllowanceHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransferTransactionHooksIntegrationTest.SenderAndReceiverHooksExecuteForHbarTransfer">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest.SenderAndReceiverHooksExecuteForHbarTransfer">
     <summary>TODO: Describe SenderAndReceiverHooksExecuteForHbarTransfer.</summary>
   </member>
 </docs>

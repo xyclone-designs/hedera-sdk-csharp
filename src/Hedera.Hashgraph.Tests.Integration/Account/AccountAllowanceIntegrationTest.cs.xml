@@ -1,8 +1,8 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountAllowanceIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountAllowanceIntegrationTest">
     <summary>TODO: Describe AccountAllowanceIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountAllowanceIntegrationTest.CanSpendHbarAllowance">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountAllowanceIntegrationTest.CanSpendHbarAllowance">
     <summary>TODO: Describe CanSpendHbarAllowance.</summary>
   </member>
 </docs>

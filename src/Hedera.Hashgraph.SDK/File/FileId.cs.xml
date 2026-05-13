@@ -109,7 +109,7 @@
     <param name="realm">the realm number</param>
     <param name="evmAddress">the EVM address as a hex string</param>
     <returns>          the FileId object</returns>
-    <exception cref="IllegalArgumentException">if the EVM address is not a valid long zero address</exception>
+    <exception cref="T:System.ArgumentException">if the EVM address is not a valid long zero address</exception>
   </member>
   <member name="P:FileId.Shard">
     <summary>
@@ -165,7 +165,7 @@
   <member name="M:FileId.Validate(Client)">
     <summary></summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
     <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
   </member>
   <member name="M:FileId.ValidateChecksum(Client)">
@@ -173,6 +173,6 @@
     Validate that the client is configured correctly.
     </summary>
     <param name="client">the client to validate</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
 </docs>

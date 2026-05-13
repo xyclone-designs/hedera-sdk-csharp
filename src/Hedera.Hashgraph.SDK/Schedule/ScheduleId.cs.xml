@@ -78,7 +78,7 @@
   <member name="M:ScheduleId.Validate(Client)">
     <summary></summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
     <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
   </member>
   <member name="M:ScheduleId.ValidateChecksum(Client)">
@@ -86,7 +86,7 @@
     Validate the configured client.
     </summary>
     <param name="client">the configured client</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
   <member name="M:ScheduleId.ToStringWithChecksum(Client)">
     <summary>

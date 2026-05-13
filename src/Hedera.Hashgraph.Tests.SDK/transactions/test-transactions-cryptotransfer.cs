@@ -14,7 +14,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest"]" />
+    /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest"]' />
     public class CryptoTransferTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = KeyTestDataFactory.ED25519_TEST_KEY;
@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TransferTransaction();
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytes"]" />
+        /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             });
         }
         [Fact]
-        /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.CanGetDecimals"]" />
+        /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.CanGetDecimals"]' />
         public virtual void CanGetDecimals()
         {
             var tx = new TransferTransaction();
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetTokenIdDecimals()[TokenId.FromString(TestData.TOKEN_ID_1)], (uint)5);
         }
         [Fact]
-        /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.TransactionBodiesMustMatch"]" />
+        /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.TransactionBodiesMustMatch"]' />
         public virtual void TransactionBodiesMustMatch()
         {
             Proto.Services.Transaction tx1 = Proto.SDK.TransactionList.Parser.ParseFrom(SpawnTestTransaction().ToBytes()).TransactionList_[0];
@@ -135,7 +135,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             });
         }
         [Fact]
-        /// <include file="test-transactions-cryptotransfer.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-transactions-cryptotransfer.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody()

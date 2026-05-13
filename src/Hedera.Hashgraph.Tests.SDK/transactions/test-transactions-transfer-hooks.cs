@@ -9,11 +9,11 @@ using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest"]" />
+    /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest"]' />
     public class TransferTransactionHooksTest
     {
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPreTxAllowanceHook"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPreTxAllowanceHook"]' />
         public virtual void ShouldAddHbarTransferWithPreTxAllowanceHook()
         {
             var tx = new TransferTransaction();
@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId], amount);
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPrePostTxAllowanceHook"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPrePostTxAllowanceHook"]' />
         public virtual void ShouldAddHbarTransferWithPrePostTxAllowanceHook()
         {
             var tx = new TransferTransaction();
@@ -39,14 +39,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId], amount);
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldNotAllowNullHookTypeRemovedByTypedAPI"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldNotAllowNullHookTypeRemovedByTypedAPI"]' />
         public virtual void ShouldNotAllowNullHookTypeRemovedByTypedAPI()
         {
             // No-op: hook type is encoded in FungibleHookCall now
             Assert.True(true);
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldUpdateExistingTransferWithHook"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldUpdateExistingTransferWithHook"]' />
         public virtual void ShouldUpdateExistingTransferWithHook()
         {
             var tx = new TransferTransaction();
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId], Hbar.FromTinybars(2000));
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldCreateNewTransferWhenExistingTransferHasHook"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldCreateNewTransferWhenExistingTransferHasHook"]' />
         public virtual void ShouldCreateNewTransferWhenExistingTransferHasHook()
         {
             var tx = new TransferTransaction();
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId], Hbar.FromTinybars(2000));
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldHandleMultipleAccountsWithHooks"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldHandleMultipleAccountsWithHooks"]' />
         public virtual void ShouldHandleMultipleAccountsWithHooks()
         {
             var tx = new TransferTransaction();
@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId2], amount);
         }
         [Fact]
-        /// <include file="test-transactions-transfer-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldThrowExceptionWhenFrozen"]" />
+        /// <include file="test-transactions-transfer-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldThrowExceptionWhenFrozen"]' />
         public virtual void ShouldThrowExceptionWhenFrozen()
         {
             var tx = new TransferTransaction();

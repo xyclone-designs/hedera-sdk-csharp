@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractExecuteIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest">
     <summary>TODO: Describe ContractExecuteIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractExecuteIntegrationTest.CanExecuteContractMethods">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest.CanExecuteContractMethods">
     <summary>TODO: Describe CanExecuteContractMethods.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenContractIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenContractIDIsNotSet">
     <summary>TODO: Describe CannotExecuteContractWhenContractIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenContractFunctionParametersAreNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenContractFunctionParametersAreNotSet">
     <summary>TODO: Describe CannotExecuteContractWhenContractFunctionParametersAreNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenGasIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest.CannotExecuteContractWhenGasIsNotSet">
     <summary>TODO: Describe CannotExecuteContractWhenGasIsNotSet.</summary>
   </member>
 </docs>

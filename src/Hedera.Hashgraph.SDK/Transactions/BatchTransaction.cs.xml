@@ -90,7 +90,7 @@
     &lt;exception cref="NullPointerException"&gt;if transactions is null&lt;/exception&gt;
     &lt;exception cref="IllegalStateException"&gt;if this transaction is frozen&lt;/exception&gt;
     &lt;exception cref="IllegalStateException"&gt;if any inner transaction is not frozen or missing a batch key&lt;/exception&gt;
-    &lt;exception cref="IllegalArgumentException"&gt;if any transaction is of a blacklisted type&lt;/exception&gt;</summary>
+    &lt;exception cref="T:System.ArgumentException"&gt;if any transaction is of a blacklisted type&lt;/exception&gt;</summary>
   </member>
   <member name="M:BatchTransaction.InitFromTransactionBody_2">
     <summary>
@@ -109,7 +109,7 @@
     &lt;/ul&gt;
     &lt;/summary&gt;
     &lt;param name="transaction"&gt;The transaction to validate&lt;/param&gt;
-    &lt;exception cref="IllegalArgumentException"&gt;if the transaction is blacklisted&lt;/exception&gt;
+    &lt;exception cref="T:System.ArgumentException"&gt;if the transaction is blacklisted&lt;/exception&gt;
     &lt;exception cref="IllegalStateException"&gt;if the transaction is not frozen or missing a batch key&lt;/exception&gt;</summary>
   </member>
   <member name="M:BatchTransaction.ToProtobuf">

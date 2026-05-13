@@ -9,7 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
-    /// <include file="test-fees-custom-list.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest"]" />
+    /// <include file="test-fees-custom-list.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest"]' />
     public class CustomFeeListTest
     {
         private static IList<CustomFee> SpawnCustomFeeListExample()
@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			};
         }
         [Fact]
-        /// <include file="test-fees-custom-list.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest.ShouldSerialize"]" />
+        /// <include file="test-fees-custom-list.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest.ShouldSerialize"]' />
         public virtual void ShouldSerialize()
         {
             var originalCustomFeeList = SpawnCustomFeeListExample();
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(originalCustomFeeList.ToString());
         }
         [Fact]
-        /// <include file="test-fees-custom-list.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest.DeepClone"]" />
+        /// <include file="test-fees-custom-list.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest.DeepClone"]' />
         public virtual void DeepClone()
         {
             var originalCustomFeeList = SpawnCustomFeeListExample();

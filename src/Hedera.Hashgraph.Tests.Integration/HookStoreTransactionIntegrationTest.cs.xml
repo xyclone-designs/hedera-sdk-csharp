@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.HookStoreTransactionIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.HookStoreTransactionIntegrationTest">
     <summary>TODO: Describe HookStoreTransactionIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreUpdatesStorageWithValidSignature">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreUpdatesStorageWithValidSignature">
     <summary>TODO: Describe LambdaSStoreUpdatesStorageWithValidSignature.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreFailsWithoutProperSignature">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreFailsWithoutProperSignature">
     <summary>TODO: Describe LambdaSStoreFailsWithoutProperSignature.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreFailsWithNonExistentHookId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreFailsWithNonExistentHookId">
     <summary>TODO: Describe LambdaSStoreFailsWithNonExistentHookId.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreTooManyStorageUpdatesFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.HookStoreTransactionIntegrationTest.LambdaSStoreTooManyStorageUpdatesFails">
     <summary>TODO: Describe LambdaSStoreTooManyStorageUpdatesFails.</summary>
   </member>
 </docs>

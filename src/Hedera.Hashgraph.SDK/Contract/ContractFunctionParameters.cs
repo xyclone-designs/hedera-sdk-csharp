@@ -12,29 +12,28 @@ namespace Hedera.Hashgraph.SDK.Contract
 	// an implementation of function selector and parameter encoding as specified here:
 	// https://solidity.readthedocs.io/en/v0.5.7/abi-spec.html#
 
-	/**
-	 * Builder for encoding parameters for a Solidity contract constructor/function call.
-	 * <p>
-	 * If you require a type which is not supported here, please let us know on
-	 * <a href="https://github.com/hashgraph/hedera-sdk-java/issues/298">this Github issue</a>.
-	 */
+	/// <summary>
+	/// Builder for encoding parameters for a Solidity contract constructor/function call.
+	/// If you require a type which is not supported here, please let us know on
+	/// <a href="https://github.com/hashgraph/hedera-sdk-java/issues/298">this Github issue</a>.
+	/// </summary>
 	public sealed partial class ContractFunctionParameters
 	{
-		/**
-		 * The length of a Solidity Address in bytes.
-		 */
+		/// <summary>
+		/// The length of a Solidity Address in bytes.
+		/// </summary>
 		public static readonly int ADDRESS_LEN = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN;
-		/**
-		 * The length of a hexadecimal-encoded Solidity Address, in ASCII characters (bytes).
-		 */
+		/// <summary>
+		/// The length of a hexadecimal-encoded Solidity Address, in ASCII characters (bytes).
+		/// </summary>
 		public static readonly int ADDRESS_LEN_HEX = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX;
-		/**
-		 * Function selector length in bytes
-		 */
+		/// <summary>
+		/// Function selector length in bytes
+		/// </summary>
 		public static readonly int SELECTOR_LEN = 4;
-		/**
-		 * Function selector length in hex characters
-		 */
+		/// <summary>
+		/// Function selector length in hex characters
+		/// </summary>
 		public static readonly int SELECTOR_LEN_HEX = 8;
 
 		// padding that we can substring without new allocations
@@ -194,27 +193,23 @@ namespace Hedera.Hashgraph.SDK.Contract
 			return rem == 32 ? input : input.Concat(bytestring);
 		}
 
-		/**
-		 * Add a parameter of type {@code string}.
-		 * <p>
-		 * For Solidity Addresses, use {@link #addAddress(string)}.
-		 *
-		 * @param param The string to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>string</c>.
+		/// For Solidity Addresses, use <see cref="AddAddress(string)"/>.
+		/// </summary>
+		/// <param name="param">The string to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddString(string param)
 		{
 			args.Add(new Argument("string", EncodeString(param), true));
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code string[]}.
-		 *
-		 * @param strings The array of Strings to be Added
-		 * @return {@code this}
-		 * @ if any value in `strings` is null
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>string[]</c>.
+		/// </summary>
+		/// <param name="strings">The array of Strings to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddStringArray(string[] strings)
 		{
 			ByteString argBytes = EncodeDynArr(strings.Select(_ => EncodeString(_)));
@@ -223,24 +218,22 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes}, a byte-string.
-		 *
-		 * @param param The byte-string to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes</c>, a byte-string.
+		/// </summary>
+		/// <param name="param">The byte-string to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytes(byte[] param)
 		{
 			args.Add(new Argument("bytes", EncodeBytes(param), true));
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes[]}, an array of byte-strings.
-		 *
-		 * @param param The array of byte-strings to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes[]</c>, an array of byte-strings.
+		/// </summary>
+		/// <param name="param">The array of byte-strings to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytesArray(byte[][] param)
 		{
 			ByteString argBytes = EncodeDynArr(param.Select(_ => EncodeBytes(_)));
@@ -249,56 +242,46 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes4}, a 4-byte fixed-length byte-string.
-		 *
-		 * @param param The 4-byte array to be Added
-		 * @return {@code this}
-		 * @ if the length of the byte array is not 4.
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes4</c>, a 4-byte fixed-length byte-string.
+		/// </summary>
+		/// <param name="param">The 4-byte array to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytes4(byte[] param)
 		{
 			args.Add(new Argument("bytes4", EncodeBytes4(param), false));
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes4[]}, an array of 4-byte fixed-length byte-strings.
-		 *
-		 * @param param The array of 4-byte arrays to be Added
-		 * @return {@code this}
-		 * @ if the length of any byte array is not 4.
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes4[]</c>, an array of 4-byte fixed-length byte-strings.
+		/// </summary>
+		/// <param name="param">The array of 4-byte arrays to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytes4Array(byte[][] param)
 		{
 			args.Add(new Argument("bytes4[]", EncodeArray(param.Select(_ => EncodeBytes4(_))), true));
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes32}, a 32-byte byte-string.
-		 * <p>
-		 * If applicable, the array will be right-padded with zero bytes to a length of 32 bytes.
-		 *
-		 * @param param The byte-string to be Added
-		 * @return {@code this}
-		 * @ if the length of the byte array is greater than 32.
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes32</c>, a 32-byte byte-string.
+		/// If applicable, the array will be right-padded with zero bytes to a length of 32 bytes.
+		/// </summary>
+		/// <param name="param">The byte-string to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytes32(byte[] param)
 		{
 			args.Add(new Argument("bytes32", EncodeBytes32(param), false));
 
 			return this;
 		}
-		/**
-		 * Add a parameter of type {@code bytes32[]}, an array of 32-byte byte-strings.
-		 * <p>
-		 * Each byte array will be right-padded with zero bytes to a length of 32 bytes.
-		 *
-		 * @param param The array of byte-strings to be Added
-		 * @return {@code this}
-		 * @ if the length of any byte array is greater than 32.
-		 */
+		/// <summary>
+		/// Add a parameter of type <c>bytes32[]</c>, an array of 32-byte byte-strings.
+		/// Each byte array will be right-padded with zero bytes to a length of 32 bytes.
+		/// </summary>
+		/// <param name="param">The array of byte-strings to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBytes32Array(byte[][] param)
 		{
 			// array of fixed-size elements
@@ -307,24 +290,22 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a bool parameter
-		 *
-		 * @param bool The bool to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a bool parameter
+		/// </summary>
+		/// <param name="val">The bool to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBool(bool val)
 		{
 			// bool Encodes to `uint8` of values [0, 1]
 			args.Add(new Argument("bool", EncodeBool(val), false));
 			return this;
 		}
-		/**
-		 * Add a bool array parameter
-		 *
-		 * @param param The array of bools to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a bool array parameter
+		/// </summary>
+		/// <param name="param">The array of bools to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddBoolArray(bool[] param)
 		{
 			bool[] boolWrapperArray = new bool[param.Length];
@@ -338,400 +319,365 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add an 8-bit integer.
-		 * <p>
-		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
-		 *
-		 * @param value The value to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add an 8-bit integer.
+		/// The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
+		/// </summary>
+		/// <param name="value">The value to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt8(byte value)
 		{
 			args.Add(new Argument("int8", Int256(value, 8), false));
 
 			return this;
 		}
-		/**
-		 * Add a 16-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 16-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt16(int value)
 		{
 			args.Add(new Argument("int16", Int256(value, 16), false));
 
 			return this;
 		}
-		/**
-		 * Add a 24-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 24-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt24(int value)
 		{
 			args.Add(new Argument("int24", Int256(value, 24), false));
 
 			return this;
 		}
-		/**
-		 * Add a 32-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 32-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt32(int value)
 		{
 			args.Add(new Argument("int32", Int256(value, 32), false));
 
 			return this;
 		}
-		/**
-		 * Add a 40-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 40-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt40(long value)
 		{
 			args.Add(new Argument("int40", Int256(value, 40), false));
 
 			return this;
 		}
-		/**
-		 * Add a 48-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 48-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt48(long value)
 		{
 			args.Add(new Argument("int48", Int256(value, 48), false));
 
 			return this;
 		}
-		/**
-		 * Add a 56-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 56-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt56(long value)
 		{
 			args.Add(new Argument("int56", Int256(value, 56), false));
 
 			return this;
 		}
-		/**
-		 * Add a 64-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 64-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt64(long value)
 		{
 			args.Add(new Argument("int64", Int256(value, 64), false));
 
 			return this;
 		}
-		/**
-		 * Add a 72-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 72-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt72(BigInteger value)
 		{
 			args.Add(new Argument("int72", Int256(value, 72), false));
 
 			return this;
 		}
-		/**
-		 * Add a 80-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 80-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt80(BigInteger value)
 		{
 			args.Add(new Argument("int80", Int256(value, 80), false));
 
 			return this;
 		}
-		/**
-		 * Add a 88-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 88-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt88(BigInteger value)
 		{
 			args.Add(new Argument("int88", Int256(value, 88), false));
 
 			return this;
 		}
-		/**
-		 * Add a 96-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 96-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt96(BigInteger value)
 		{
 			args.Add(new Argument("int96", Int256(value, 96), false));
 
 			return this;
 		}
-		/**
-		 * Add a 104-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 104-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt104(BigInteger value)
 		{
 			args.Add(new Argument("int104", Int256(value, 104), false));
 
 			return this;
 		}
-		/**
-		 * Add a 112-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 112-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt112(BigInteger value)
 		{
 			args.Add(new Argument("int112", Int256(value, 112), false));
 
 			return this;
 		}
-		/**
-		 * Add a 120-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 120-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt120(BigInteger value)
 		{
 			args.Add(new Argument("int120", Int256(value, 120), false));
 
 			return this;
 		}
-		/**
-		 * Add a 128-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 128-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt128(BigInteger value)
 		{
 			args.Add(new Argument("int128", Int256(value, 128), false));
 
 			return this;
 		}
-		/**
-		 * Add a 136-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 136-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt136(BigInteger value)
 		{
 			args.Add(new Argument("int136", Int256(value, 136), false));
 
 			return this;
 		}
-		/**
-		 * Add a 144-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 144-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt144(BigInteger value)
 		{
 			args.Add(new Argument("int144", Int256(value, 144), false));
 
 			return this;
 		}
-		/**
-		 * Add a 152-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 152-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt152(BigInteger value)
 		{
 			args.Add(new Argument("int152", Int256(value, 152), false));
 
 			return this;
 		}
-		/**
-		 * Add a 160-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 160-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt160(BigInteger value)
 		{
 			args.Add(new Argument("int160", Int256(value, 160), false));
 
 			return this;
 		}
-		/**
-		 * Add a 168-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 168-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt168(BigInteger value)
 		{
 			args.Add(new Argument("int168", Int256(value, 168), false));
 
 			return this;
 		}
-		/**
-		 * Add a 176-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 176-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt176(BigInteger value)
 		{
 			args.Add(new Argument("int176", Int256(value, 176), false));
 
 			return this;
 		}
-		/**
-		 * Add a 184-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 184-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt184(BigInteger value)
 		{
 			args.Add(new Argument("int184", Int256(value, 184), false));
 
 			return this;
 		}
-		/**
-		 * Add a 192-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 192-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt192(BigInteger value)
 		{
 			args.Add(new Argument("int192", Int256(value, 192), false));
 
 			return this;
 		}
-		/**
-		 * Add a 200-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 200-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt200(BigInteger value)
 		{
 			args.Add(new Argument("int200", Int256(value, 200), false));
 
 			return this;
 		}
-		/**
-		 * Add a 208-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 208-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt208(BigInteger value)
 		{
 			args.Add(new Argument("int208", Int256(value, 208), false));
 
 			return this;
 		}
-		/**
-		 * Add a 216-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 216-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt216(BigInteger value)
 		{
 			args.Add(new Argument("int216", Int256(value, 216), false));
 
 			return this;
 		}
-		/**
-		 * Add a 224-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 224-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt224(BigInteger value)
 		{
 			args.Add(new Argument("int224", Int256(value, 224), false));
 
 			return this;
 		}
-		/**
-		 * Add a 232-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 232-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt232(BigInteger value)
 		{
 			args.Add(new Argument("int232", Int256(value, 232), false));
 
 			return this;
 		}
-		/**
-		 * Add a 240-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 240-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt240(BigInteger value)
 		{
 			args.Add(new Argument("int240", Int256(value, 240), false));
 
 			return this;
 		}
-		/**
-		 * Add a 248-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 248-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt248(BigInteger value)
 		{
 			args.Add(new Argument("int248", Int256(value, 248), false));
 
 			return this;
 		}
-		/**
-		 * Add a 256-bit integer.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 256-bit integer.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt256(BigInteger value)
 		{
 			args.Add(new Argument("int256", Int256(value, 256), false));
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 8-bit integers.
-		 * <p>
-		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 8-bit integers.
+		/// The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt8Array(byte[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 8).ToByteArray())]);
@@ -742,12 +688,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 16-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 16-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt16Array(int[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 16).ToByteArray())]);
@@ -758,12 +703,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 24-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 24-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt24Array(int[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 24).ToByteArray())]);
@@ -774,12 +718,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 32-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 32-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt32Array(int[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 32).ToByteArray())]);
@@ -790,12 +733,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 40-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 40-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt40Array(long[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 40).ToByteArray())]);
@@ -806,12 +748,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 48-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 48-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt48Array(long[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 48).ToByteArray())]);
@@ -822,12 +763,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 56-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 56-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt56Array(long[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 56).ToByteArray())]);
@@ -838,12 +778,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 64-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 64-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt64Array(long[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 64).ToByteArray())]);
@@ -854,12 +793,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 72-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 72-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt72Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 72).ToByteArray())]);
@@ -870,12 +808,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 80-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 80-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt80Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 80).ToByteArray())]);
@@ -886,12 +823,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 88-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 88-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt88Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 88).ToByteArray())]);
@@ -902,12 +838,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 96-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 96-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt96Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 96).ToByteArray())]);
@@ -918,12 +853,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 104-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 104-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt104Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 104).ToByteArray())]);
@@ -934,12 +868,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 112-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 112-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt112Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 112).ToByteArray())]);
@@ -950,12 +883,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 120-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 120-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt120Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 120).ToByteArray())]);
@@ -966,12 +898,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 128-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 128-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt128Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 128).ToByteArray())]);
@@ -982,12 +913,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 136-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 136-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt136Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 136).ToByteArray())]);
@@ -998,12 +928,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 144-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 144-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt144Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 144).ToByteArray())]);
@@ -1014,12 +943,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 152-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 152-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt152Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 152).ToByteArray())]);
@@ -1030,12 +958,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 160-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 160-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt160Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 160).ToByteArray())]);
@@ -1046,12 +973,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 168-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 168-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt168Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 168).ToByteArray())]);
@@ -1062,12 +988,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 176-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 176-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt176Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 176).ToByteArray())]);
@@ -1078,12 +1003,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 184-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 184-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt184Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 184).ToByteArray())]);
@@ -1094,12 +1018,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 192-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 192-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt192Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 192).ToByteArray())]);
@@ -1110,12 +1033,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 200-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 200-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt200Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 200).ToByteArray())]);
@@ -1126,12 +1048,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 208-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 208-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt208Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 208).ToByteArray())]);
@@ -1142,12 +1063,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 216-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 216-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt216Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 216).ToByteArray())]);
@@ -1158,12 +1078,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 224-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 224-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt224Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 224).ToByteArray())]);
@@ -1174,12 +1093,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 232-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 232-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt232Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 232).ToByteArray())]);
@@ -1190,12 +1108,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 240-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 240-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt240Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 240).ToByteArray())]);
@@ -1206,12 +1123,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 248-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 248-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt248Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 248).ToByteArray())]);
@@ -1222,12 +1138,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 256-bit integers.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 256-bit integers.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddInt256Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 256).ToByteArray())]);
@@ -1238,517 +1153,396 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add an unsigned 8-bit integer.
-		 * <p>
-		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add an unsigned 8-bit integer.
+		/// The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint8(byte value)
 		{
 			args.Add(new Argument("uint8", Uint256(value, 8), false));
 
 			return this;
 		}
-		/**
-		 * Add a 16-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 16-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint16(uint value)
 		{
 			args.Add(new Argument("uint16", Uint256(value, 16), false));
 
 			return this;
 		}
-		/**
-		 * Add a 24-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 24-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint24(uint value)
 		{
 			args.Add(new Argument("uint24", Uint256(value, 24), false));
 
 			return this;
 		}
-		/**
-		 * Add a 32-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 32-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint32(uint value)
 		{
 			args.Add(new Argument("uint32", Uint256(value, 32), false));
 
 			return this;
 		}
-		/**
-		 * Add a 40-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 40-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint40(ulong value)
 		{
 			args.Add(new Argument("uint40", Uint256(value, 40), false));
 
 			return this;
 		}
-		/**
-		 * Add a 48-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 48-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint48(ulong value)
 		{
 			args.Add(new Argument("uint48", Uint256(value, 48), false));
 
 			return this;
 		}
-		/**
-		 * Add a 56-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 56-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint56(ulong value)
 		{
 			args.Add(new Argument("uint56", Uint256(value, 56), false));
 
 			return this;
 		}
-		/**
-		 * Add a 64-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a 64-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint64(ulong value)
 		{
 			args.Add(new Argument("uint64", Uint256(value, 64), false));
 
 			return this;
 		}
-		/**
-		 * Add a 72-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 72-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint72(BigInteger value)
 		{
 			args.Add(new Argument("uint72", Uint256(value, 72), false));
 
 			return this;
 		}
-		/**
-		 * Add a 80-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 80-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint80(BigInteger value)
 		{
 			args.Add(new Argument("uint80", Uint256(value, 80), false));
 
 			return this;
 		}
-		/**
-		 * Add a 88-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 88-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint88(BigInteger value)
 		{
 			args.Add(new Argument("uint88", Uint256(value, 88), false));
 
 			return this;
 		}
-		/**
-		 * Add a 96-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 96-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint96(BigInteger value)
 		{
 			args.Add(new Argument("uint96", Uint256(value, 96), false));
 
 			return this;
 		}
-		/**
-		 * Add a 104-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 104-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint104(BigInteger value)
 		{
 			args.Add(new Argument("uint104", Uint256(value, 104), false));
 
 			return this;
 		}
-		/**
-		 * Add a 112-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 112-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint112(BigInteger value)
 		{
 			args.Add(new Argument("uint112", Uint256(value, 112), false));
 
 			return this;
 		}
-		/**
-		 * Add a 120-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 120-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint120(BigInteger value)
 		{
 			args.Add(new Argument("uint120", Uint256(value, 120), false));
 
 			return this;
 		}
-		/**
-		 * Add a 128-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 128-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint128(BigInteger value)
 		{
 			args.Add(new Argument("uint128", Uint256(value, 128), false));
 
 			return this;
 		}
-		/**
-		 * Add a 136-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 136-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint136(BigInteger value)
 		{
 			args.Add(new Argument("uint136", Uint256(value, 136), false));
 
 			return this;
 		}
-		/**
-		 * Add a 144-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 144-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint144(BigInteger value)
 		{
 			args.Add(new Argument("uint144", Uint256(value, 144), false));
 
 			return this;
 		}
-		/**
-		 * Add a 152-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 152-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint152(BigInteger value)
 		{
 			args.Add(new Argument("uint152", Uint256(value, 152), false));
 
 			return this;
 		}
-		/**
-		 * Add a 160-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 160-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint160(BigInteger value)
 		{
 			args.Add(new Argument("uint160", Uint256(value, 160), false));
 
 			return this;
 		}
-		/**
-		 * Add a 168-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 168-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint168(BigInteger value)
 		{
 			args.Add(new Argument("uint168", Uint256(value, 168), false));
 
 			return this;
 		}
-		/**
-		 * Add a 176-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 176-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint176(BigInteger value)
 		{
 			args.Add(new Argument("uint176", Uint256(value, 176), false));
 
 			return this;
 		}
-		/**
-		 * Add a 184-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 184-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint184(BigInteger value)
 		{
 			args.Add(new Argument("uint184", Uint256(value, 184), false));
 
 			return this;
 		}
-		/**
-		 * Add a 192-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 192-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint192(BigInteger value)
 		{
 			args.Add(new Argument("uint192", Uint256(value, 192), false));
 
 			return this;
 		}
-		/**
-		 * Add a 200-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 200-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint200(BigInteger value)
 		{
 			args.Add(new Argument("uint200", Uint256(value, 200), false));
 
 			return this;
 		}
-		/**
-		 * Add a 208-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 208-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint208(BigInteger value)
 		{
 			args.Add(new Argument("uint208", Uint256(value, 208), false));
 
 			return this;
 		}
-		/**
-		 * Add a 216-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 216-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint216(BigInteger value)
 		{
 			args.Add(new Argument("uint216", Uint256(value, 216), false));
 
 			return this;
 		}
-		/**
-		 * Add a 224-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 224-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint224(BigInteger value)
 		{
 			args.Add(new Argument("uint224", Uint256(value, 224), false));
 
 			return this;
 		}
-		/**
-		 * Add a 232-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 232-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint232(BigInteger value)
 		{
 			args.Add(new Argument("uint232", Uint256(value, 232), false));
 
 			return this;
 		}
-		/**
-		 * Add a 240-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 240-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint240(BigInteger value)
 		{
 			args.Add(new Argument("uint240", Uint256(value, 240), false));
 
 			return this;
 		}
-		/**
-		 * Add a 248-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 248-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint248(BigInteger value)
 		{
 			args.Add(new Argument("uint248", Uint256(value, 248), false));
 
 			return this;
 		}
-		/**
-		 * Add a 256-bit unsigned integer.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param value The integer to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a 256-bit unsigned integer.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="value">The integer to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint256(BigInteger value)
 		{
 			args.Add(new Argument("uint256", Uint256(value, 256), false));
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of unsigned 8-bit integers.
-		 * <p>
-		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of unsigned 8-bit integers.
+		/// The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint8Array(byte[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 8).ToByteArray())]);
@@ -1759,15 +1553,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 16-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 16-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint16Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 16).ToByteArray())]);
@@ -1778,15 +1569,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 24-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 24-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint24Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 24).ToByteArray())]);
@@ -1797,15 +1585,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 32-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 32-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint32Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 32).ToByteArray())]);
@@ -1816,15 +1601,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 40-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 40-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint40Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 40).ToByteArray())]);
@@ -1835,15 +1617,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 48-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 48-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint48Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 48).ToByteArray())]);
@@ -1854,15 +1633,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 56-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 56-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint56Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 56).ToByteArray())]);
@@ -1873,15 +1649,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 64-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 */
+		/// <summary>
+		/// Add a dynamic array of 64-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint64Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 64).ToByteArray())]);
@@ -1892,16 +1665,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 72-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 72-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint72Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 72).ToByteArray())]);
@@ -1912,16 +1681,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 80-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 80-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint80Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 80).ToByteArray())]);
@@ -1932,16 +1697,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 88-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 88-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint88Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 88).ToByteArray())]);
@@ -1952,16 +1713,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 96-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 96-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint96Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 96).ToByteArray())]);
@@ -1972,16 +1729,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 104-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 104-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint104Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 104).ToByteArray())]);
@@ -1992,16 +1745,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 112-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 112-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint112Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 112).ToByteArray())]);
@@ -2012,16 +1761,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 120-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 120-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint120Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 120).ToByteArray())]);
@@ -2032,16 +1777,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 128-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 128-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint128Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 128).ToByteArray())]);
@@ -2052,16 +1793,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 136-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 136-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint136Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 136).ToByteArray())]);
@@ -2072,16 +1809,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 144-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 144-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint144Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 144).ToByteArray())]);
@@ -2092,16 +1825,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 152-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 152-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint152Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 152).ToByteArray())]);
@@ -2112,16 +1841,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 160-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 160-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint160Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 160).ToByteArray())]);
@@ -2132,16 +1857,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 168-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 168-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint168Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 168).ToByteArray())]);
@@ -2152,16 +1873,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 176-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 176-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint176Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 176).ToByteArray())]);
@@ -2172,16 +1889,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 184-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 184-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint184Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 184).ToByteArray())]);
@@ -2192,16 +1905,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 192-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 192-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint192Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 192).ToByteArray())]);
@@ -2212,16 +1921,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 200-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 200-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint200Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 200).ToByteArray())]);
@@ -2232,16 +1937,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 208-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 208-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint208Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 208).ToByteArray())]);
@@ -2252,16 +1953,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 216-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 216-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint216Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 216).ToByteArray())]);
@@ -2272,16 +1969,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 224-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 224-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint224Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 224).ToByteArray())]);
@@ -2292,16 +1985,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 232-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 232-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint232Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 232).ToByteArray())]);
@@ -2312,16 +2001,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 240-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 240-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint240Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 240).ToByteArray())]);
@@ -2332,16 +2017,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 248-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 248-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint248Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 248).ToByteArray())]);
@@ -2352,16 +2033,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a dynamic array of 256-bit unsigned integers.
-		 * <p>
-		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
-		 * bytes).
-		 *
-		 * @param intArray The array of integers to be Added
-		 * @return {@code this}
-		 * @ if {@code bigInt.Sign < 0}.
-		 */
+		/// <summary>
+		/// Add a dynamic array of 256-bit unsigned integers.
+		/// The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32 bytes).
+		/// </summary>
+		/// <param name="intArray">The array of integers to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddUint256Array(BigInteger[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 256).ToByteArray())]);
@@ -2372,17 +2049,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity Address parameter with the type {@code Address}.
-		 * <p>
-		 * Note: Adding a {@code Address payable} or {@code contract} parameter must also use this function as the ABI does
-		 * not support those types directly.
-		 *
-		 * @param Address The Address to be Added
-		 * @return {@code this}
-		 * @ if the Address is not exactly {@value ADDRESS_LEN_HEX} characters long or fails
-		 *                                  to decode as hexadecimal.
-		 */
+		/// <summary>
+		/// Add a <see cref="ADDRESS_LEN_HEX"/>-character hex-encoded Solidity Address parameter with the type <c>Address</c>.
+		/// Note: Adding a <c>Address payable</c> or <c>contract</c> parameter must also use this function as the ABI does not support those types directly.
+		/// </summary>
+		/// <param name="address">The Address to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddAddress(string address)
 		{
 			byte[] addressBytes = DecodeAddress(address);
@@ -2391,15 +2063,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add an array of {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity Addresses as a {@code Address[]} param.
-		 *
-		 * @param Addresses The array of Addresses to be Added
-		 * @return {@code this}
-		 * @ if any value is not exactly {@value ADDRESS_LEN_HEX} characters long or fails to
-		 *                                  decode as hexadecimal.
-		 * @     if any value in the array is null.
-		 */
+		/// <summary>
+		/// Add an array of <see cref="ADDRESS_LEN_HEX"/>-character hex-encoded Solidity Addresses as a <c>Address[]</c> param.
+		/// </summary>
+		/// <param name="addresses">The array of Addresses to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddAddressArray(string[] addresses)
 		{
 			ByteString addressArray = EncodeArray(addresses.Select(_ =>
@@ -2413,29 +2081,22 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/**
-		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract Address and a
-		 * {@value SELECTOR_LEN}-byte function selector.
-		 *
-		 * @param Address  a hex-encoded {@value ADDRESS_LEN_HEX}-character Solidity Address.
-		 * @param selector a
-		 * @return {@code this}
-		 * @ if {@code Address} is not {@value ADDRESS_LEN_HEX} characters or
-		 *                                  {@code selector} is not {@value SELECTOR_LEN} bytes.
-		 */
+		/// <summary>
+		/// Add a Solidity function reference as a <see cref="ADDRESS_LEN"/>-byte contract Address and a <see cref="SELECTOR_LEN"/>-byte function selector.
+		/// </summary>
+		/// <param name="address">a hex-encoded <see cref="ADDRESS_LEN_HEX"/>-character Solidity Address.</param>
+		/// <param name="selector">a</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddFunction(string address, byte[] selector)
 		{
 			return AddFunction(DecodeAddress(address), selector);
 		}
-		/**
-		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract Address and a constructed
-		 * {@link ContractFunctionSelector}. The {@link ContractFunctionSelector} may not be modified after this call.
-		 *
-		 * @param Address  The Address used in the function to be Added
-		 * @param selector The selector used in the function to be Added
-		 * @return {@code this}
-		 * @ if {@code Address} is not {@value ADDRESS_LEN_HEX} characters.
-		 */
+		/// <summary>
+		/// Add a Solidity function reference as a <see cref="ADDRESS_LEN"/>-byte contract Address and a constructed <see cref="ContractFunctionSelector"/>. The <see cref="ContractFunctionSelector"/> may not be modified after this call.
+		/// </summary>
+		/// <param name="address">The Address used in the function to be Added</param>
+		/// <param name="selector">The selector used in the function to be Added</param>
+		/// <returns>this</returns>
 		public ContractFunctionParameters AddFunction(string address, ContractFunctionSelector selector)
 		{
 			// allow the `FunctionSelector` to be reused multiple times
@@ -2454,13 +2115,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 			return this;
 		}
 
-		/**
-		 * Get the encoding of the currently Added parameters as a {@link ByteString}.
-		 * <p>
-		 * You may continue to Add parameters and call this again.
-		 *
-		 * @return the Solidity encoding of the call parameters in the order they were Added.
-		 */
+		/// <summary>
+		/// Get the encoding of the currently Added parameters as a <see cref="ByteString"/>.
+		/// You may continue to Add parameters and call this again.
+		/// </summary>
+		/// <returns>the Solidity encoding of the call parameters in the order they were Added.</returns>
 		public ByteString ToBytes(string? funcName)
 		{
 			// offset for dynamic-length data, immediately after value arguments

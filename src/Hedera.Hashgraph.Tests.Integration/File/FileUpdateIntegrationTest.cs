@@ -6,14 +6,15 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest"]" />
+    /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest"]' />
     public class FileUpdateIntegrationTest
     {
         [Fact]
-        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFile"]" />
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFile"]' />
         public virtual void CanUpdateFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -66,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateImmutableFile"]" />
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateImmutableFile"]' />
         public virtual void CannotUpdateImmutableFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -103,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateFileWhenFileIDIsNotSet"]" />
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateFileWhenFileIDIsNotSet"]' />
         public virtual void CannotUpdateFileWhenFileIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -120,7 +121,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFeeScheduleFile"]" />
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFeeScheduleFile"]' />
         public virtual void CanUpdateFeeScheduleFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))

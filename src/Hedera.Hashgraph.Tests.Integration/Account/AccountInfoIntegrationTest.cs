@@ -6,13 +6,13 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest"]" />
+    /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest"]' />
     public class AccountInfoIntegrationTest
     {
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.CanQueryAccountInfoForClientOperator"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.CanQueryAccountInfoForClientOperator"]' />
         public virtual void CanQueryAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostAccountInfoForClientOperator"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.GetCostAccountInfoForClientOperator"]' />
         public virtual void GetCostAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostBigMaxAccountInfoForClientOperator"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.GetCostBigMaxAccountInfoForClientOperator"]' />
         public virtual void GetCostBigMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostSmallMaxAccountInfoForClientOperator"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.GetCostSmallMaxAccountInfoForClientOperator"]' />
         public virtual void GetCostSmallMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostInsufficientTxFeeAccountInfoForClientOperator"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.GetCostInsufficientTxFeeAccountInfoForClientOperator"]' />
         public virtual void GetCostInsufficientTxFeeAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
-        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.AccountInfoFlowVerifyFunctions"]" />
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountInfoIntegrationTest.AccountInfoFlowVerifyFunctions"]' />
         public virtual void AccountInfoFlowVerifyFunctions()
         {
             using (var testEnv = new IntegrationTestEnv(1))

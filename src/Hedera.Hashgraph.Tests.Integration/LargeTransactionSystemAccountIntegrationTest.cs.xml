@@ -1,32 +1,32 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest">
     <summary>TODO: Describe LargeTransactionSystemAccountIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateLargeFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateLargeFile">
     <summary>TODO: Describe PrivilegedSystemAccountCanCreateLargeFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanUpdateLargeFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanUpdateLargeFile">
     <summary>TODO: Describe PrivilegedSystemAccountCanUpdateLargeFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanAppendLargeFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanAppendLargeFile">
     <summary>TODO: Describe PrivilegedSystemAccountCanAppendLargeFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateLargeFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateLargeFile">
     <summary>TODO: Describe NonPrivilegedAccountCannotCreateLargeFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateAccountWithLargeKeyList">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateAccountWithLargeKeyList">
     <summary>TODO: Describe NonPrivilegedAccountCannotCreateAccountWithLargeKeyList.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedAccountAtNear130KBLimit">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedAccountAtNear130KBLimit">
     <summary>TODO: Describe PrivilegedAccountAtNear130KBLimit.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCanCreateSmallFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCanCreateSmallFile">
     <summary>TODO: Describe NonPrivilegedAccountCanCreateSmallFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.TreasuryAccountCanCreateLargeFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.TreasuryAccountCanCreateLargeFile">
     <summary>TODO: Describe TreasuryAccountCanCreateLargeFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateAccountWithLargeKeyList">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateAccountWithLargeKeyList">
     <summary>TODO: Describe PrivilegedSystemAccountCanCreateAccountWithLargeKeyList.</summary>
   </member>
 </docs>

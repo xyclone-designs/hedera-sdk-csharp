@@ -6,14 +6,15 @@ using System.Linq;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest"]" />
+    /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest"]' />
     public class TokenNftInfoIntegrationTest
     {
         [Fact]
-        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByNftId"]" />
+        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByNftId"]' />
         public virtual void CanQueryNftInfoByNftId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -51,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidNftId"]" />
+        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidNftId"]' />
         public virtual void CannotQueryNftInfoByInvalidNftId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -90,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidSerialNumber"]" />
+        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidSerialNumber"]' />
         public virtual void CannotQueryNftInfoByInvalidSerialNumber()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -129,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByAccountId"]" />
+        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByAccountId"]' />
         public virtual void CanQueryNftInfoByAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -174,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByTokenId"]" />
+        /// <include file="TokenNftInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByTokenId"]' />
         public virtual void CanQueryNftInfoByTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

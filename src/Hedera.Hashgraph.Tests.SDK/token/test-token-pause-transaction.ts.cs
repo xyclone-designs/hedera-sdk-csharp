@@ -11,7 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest"]" />
+    /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest"]' />
     public class TokenPauseTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -32,13 +32,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldSerialize"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldSerialize"]' />
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldBytesNft"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldBytesNft"]' />
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenPauseTransaction();
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenPauseTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ConstructTokenPauseTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.ConstructTokenPauseTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenPauseTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenPauseTransactionBody
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenPauseTransaction.TokenId, testTokenId);
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.GetSetTokenId"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.GetSetTokenId"]' />
         public virtual void GetSetTokenId()
         {
             var tokenPauseTransaction = new TokenPauseTransaction
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenPauseTransaction.TokenId, testTokenId);
         }
         [Fact]
-        /// <include file="test-token-pause-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.GetSetTokenIdFrozen"]" />
+        /// <include file="test-token-pause-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenPauseTransactionTest.GetSetTokenIdFrozen"]' />
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();

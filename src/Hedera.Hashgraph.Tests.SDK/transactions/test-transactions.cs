@@ -17,7 +17,7 @@ using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest"]" />
+    /// <include file="test-transactions.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest"]' />
     public class TransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             };
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionFromBytesWorksWithProtobufTransactionBytes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionFromBytesWorksWithProtobufTransactionBytes"]' />
         public virtual void TransactionFromBytesWorksWithProtobufTransactionBytes()
         {
             var bytes = Hex.Decode("1acc010a640a2046fe5013b6f6fc796c3e65ec10d2a10d03c07188fc3de13d46caad6b8ec4dfb81a4045f1186be5746c9783f68cb71d6a71becd3ffb024906b855ac1fa3a2601273d41b58446e5d6a0aaf421c229885f9e70417353fab2ce6e9d8e7b162e9944e19020a640a20f102e75ff7dc3d72c9b7075bb246fcc54e714c59714814011e8f4b922d2a6f0a1a40f2e5f061349ab03fa21075020c75cf876d80498ae4bac767f35941b8e3c393b0e0a886ede328e44c1df7028ea1474722f2dcd493812d04db339480909076a10122500a180a0c08a1cc98830610c092d09e0312080800100018e4881d120608001000180418b293072202087872240a220a0f0a080800100018e4881d10ff83af5f0a0f0a080800100018eb881d108084af5f");
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(transaction.GetHbarTransfers().Contains(KeyValuePair.Create(new AccountId(0, 0, 476267), new Hbar(1))));
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBodyBytes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBodyBytes"]' />
         public virtual void TokenAssociateTransactionFromTransactionBodyBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.Services.TokenAssociateTransactionBody { };
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromSignedTransactionBytes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromSignedTransactionBytes"]' />
         public virtual void TokenAssociateTransactionFromSignedTransactionBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.Services.TokenAssociateTransactionBody { };
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBytes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBytes"]' />
         public virtual void TokenAssociateTransactionFromTransactionBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.Services.TokenAssociateTransactionBody
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze().Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SameSizeForIdenticalTransactions"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SameSizeForIdenticalTransactions"]' />
         public virtual void SameSizeForIdenticalTransactions()
         {
             var accountCreateTransaction = new AccountCreateTransaction
@@ -141,7 +141,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(accountCreateTransaction.GetTransactionSize(), accountCreateTransaction2.GetTransactionSize());
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SignedTransactionShouldHaveLargerSize"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SignedTransactionShouldHaveLargerSize"]' />
         public virtual void SignedTransactionShouldHaveLargerSize()
         {
             var accountCreateTransaction = new AccountCreateTransaction
@@ -161,7 +161,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(accountCreateTransaction.GetTransactionSize() > accountCreateTransaction2.GetTransactionSize());
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithLargerContentShouldHaveLargerTransactionBody"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithLargerContentShouldHaveLargerTransactionBody"]' />
         public virtual void TransactionWithLargerContentShouldHaveLargerTransactionBody()
         {
             var fileCreateTransactionSmallContent = new FileCreateTransaction
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(fileCreateTransactionSmallContent.GetTransactionBodySize() < fileCreateTransactionLargeContent.GetTransactionBodySize());
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody"]' />
         public virtual void TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody()
         {
             var noOptionalFieldsTransaction = new AccountCreateTransaction
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(noOptionalFieldsTransaction.GetTransactionBodySize() < fullOptionalFieldsTransaction.GetTransactionBodySize());
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.MultiChunkTransactionShouldReturnArrayOfBodySizes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.MultiChunkTransactionShouldReturnArrayOfBodySizes"]' />
         public virtual void MultiChunkTransactionShouldReturnArrayOfBodySizes()
         {
             var size = 3;
@@ -223,7 +223,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(size, objects.Count);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SingleChunkTransactionShouldReturnArrayOfOneSize"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SingleChunkTransactionShouldReturnArrayOfOneSize"]' />
         public virtual void SingleChunkTransactionShouldReturnArrayOfOneSize()
         {
 
@@ -243,7 +243,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(bodySizes);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithNoContentShouldReturnSingleBodyChunk"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithNoContentShouldReturnSingleBodyChunk"]' />
         public virtual void TransactionWithNoContentShouldReturnSingleBodyChunk()
         {
             var fileAppendTx = new FileAppendTransaction
@@ -259,7 +259,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(bodySizes); // Contains one empty chunk
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.ChunkedFileAppendTransactionShouldReturnProperSizes"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.ChunkedFileAppendTransactionShouldReturnProperSizes"]' />
         public virtual void ChunkedFileAppendTransactionShouldReturnProperSizes()
         {
             byte[] largeContent = new byte[2048];
@@ -294,7 +294,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(largeSize > smallSize);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SingleNodeSingleChunk"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SingleNodeSingleChunk"]' />
         public virtual void TestAddSignatureV2SingleNodeSingleChunk()
         {
             var transaction = new FileAppendTransaction
@@ -317,7 +317,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesSingleChunk"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesSingleChunk"]' />
         public virtual void TestAddSignatureV2MultipleNodesSingleChunk()
         {
             var transaction = new FileAppendTransaction
@@ -345,7 +345,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesMultipleChunks"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesMultipleChunks"]' />
         public virtual void TestAddSignatureV2MultipleNodesMultipleChunks()
         {
             byte[] content = new byte[2048];
@@ -382,7 +382,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongNodeID"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongNodeID"]' />
         public virtual void TestAddSignatureV2WrongNodeID()
         {
             var transaction = new FileAppendTransaction
@@ -400,7 +400,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.False(signatures.ContainsKey(invalidNodeID));
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongTransactionID"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongTransactionID"]' />
         public virtual void TestAddSignatureV2WrongTransactionID()
         {
             var transaction = new FileAppendTransaction
@@ -421,7 +421,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SameSignatureTwice"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SameSignatureTwice"]' />
         public virtual void TestAddSignatureV2SameSignatureTwice()
         {
             var transaction = new FileAppendTransaction
@@ -446,7 +446,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WithEmptyInnerSignedTransactions"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WithEmptyInnerSignedTransactions"]' />
         public virtual void TestAddSignatureV2WithEmptyInnerSignedTransactions()
         {
             var tx = new FileAppendTransaction();
@@ -465,7 +465,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(result, tx);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListUnfrozen"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListUnfrozen"]' />
         public virtual void TestGetSignableNodeBodyBytesListUnfrozen()
         {
             var tx = new TransferTransaction();
@@ -475,7 +475,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             });
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListBasic"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListBasic"]' />
         public virtual void TestGetSignableNodeBodyBytesListBasic()
         {
             var tx = new TransferTransaction
@@ -494,7 +494,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotEmpty(list[0].Body);
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListContents"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListContents"]' />
         public virtual void TestGetSignableNodeBodyBytesListContents()
         {
             var tx = new TransferTransaction
@@ -512,7 +512,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(TransactionId.FromProtobuf(body.TransactionId).ToString(), testTransactionID.ToString());
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListMultipleNodeIDs"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListMultipleNodeIDs"]' />
         public virtual void TestGetSignableNodeBodyBytesListMultipleNodeIDs()
         {
             var tx = new TransferTransaction
@@ -539,7 +539,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }
         }
         [Fact]
-        /// <include file="test-transactions.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListFileAppendMultipleChunks"]" />
+        /// <include file="test-transactions.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListFileAppendMultipleChunks"]' />
         public virtual void TestGetSignableNodeBodyBytesListFileAppendMultipleChunks()
         {
             byte[] content = new byte[4096];

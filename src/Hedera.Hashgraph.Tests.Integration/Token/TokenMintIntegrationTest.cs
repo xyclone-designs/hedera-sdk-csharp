@@ -5,13 +5,13 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest"]" />
+    /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest"]' />
     public class TokenMintIntegrationTest
     {
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintTokens"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintTokens"]' />
         public virtual void CanMintTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintMoreThanMaxSupply"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintMoreThanMaxSupply"]' />
         public virtual void CannotMintMoreThanMaxSupply()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenTokenIDIsNotSet"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenTokenIDIsNotSet"]' />
         public virtual void CannotMintTokensWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintTokensWhenAmountIsNotSet"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintTokensWhenAmountIsNotSet"]' />
         public virtual void CanMintTokensWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenSupplyKeyDoesNotSignTransaction"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenSupplyKeyDoesNotSignTransaction"]' />
         public virtual void CannotMintTokensWhenSupplyKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -170,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintNfts"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintNfts"]' />
         public virtual void CanMintNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -202,7 +202,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenMintIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintNftsIfMetadataTooBig"]" />
+        /// <include file="TokenMintIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintNftsIfMetadataTooBig"]' />
         public virtual void CannotMintNftsIfMetadataTooBig()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

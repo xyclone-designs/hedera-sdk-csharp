@@ -8,14 +8,15 @@ using System;
 using System.Text;
 using System.Threading;
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest"]" />
+    /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest"]' />
     public class FileAppendIntegrationTest
     {
         [Fact]
-        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendToFile"]" />
+        /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest.CanAppendToFile"]' />
         public virtual void CanAppendToFile()
         {
 
@@ -67,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFile"]" />
+        /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFile"]' />
         public virtual void CanAppendLargeContentsToFile()
         {
 
@@ -127,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFileDespiteExpiration"]" />
+        /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFileDespiteExpiration"]' />
         public virtual void CanAppendLargeContentsToFileDespiteExpiration()
         {
 
@@ -190,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanFileAppendSignForMultipleNodes"]" />
+        /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest.CanFileAppendSignForMultipleNodes"]' />
         public virtual void CanFileAppendSignForMultipleNodes()
         {
             using (var testEnv = new IntegrationTestEnv(1))

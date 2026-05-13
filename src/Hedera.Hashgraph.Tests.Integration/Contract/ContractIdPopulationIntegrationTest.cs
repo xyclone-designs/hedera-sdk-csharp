@@ -4,13 +4,13 @@ using Hedera.Hashgraph.SDK.Contract;
 using System.Threading;
 using System.Text;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest"]" />
+    /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractIdPopulationIntegrationTest"]' />
     public class ContractIdPopulationIntegrationTest
     {
         [Fact]
-        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumSync"]" />
+        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumSync"]' />
         public virtual void CanPopulateContractIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumAsync"]" />
+        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumAsync"]' />
         public virtual void CanPopulateContractIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))

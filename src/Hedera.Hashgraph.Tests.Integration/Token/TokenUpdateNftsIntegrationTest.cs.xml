@@ -1,23 +1,23 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest">
     <summary>TODO: Describe TokenUpdateNftsIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfEntireCollection">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfEntireCollection">
     <summary>TODO: Describe CanUpdateNFTMetadataOfEntireCollection.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfPartOfCollection">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfPartOfCollection">
     <summary>TODO: Describe CanUpdateNFTMetadataOfPartOfCollection.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenItsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenItsNotSet">
     <summary>TODO: Describe CannotUpdateNFTMetadataWhenItsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanEraseNFTsMetadata">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanEraseNFTsMetadata">
     <summary>TODO: Describe CanEraseNFTsMetadata.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey">
     <summary>TODO: Describe CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenMetadataKeyNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenMetadataKeyNotSet">
     <summary>TODO: Describe CannotUpdateNFTMetadataWhenMetadataKeyNotSet.</summary>
   </member>
 </docs>

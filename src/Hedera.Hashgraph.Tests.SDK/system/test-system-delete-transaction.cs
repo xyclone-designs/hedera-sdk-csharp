@@ -13,7 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.System
 {
-    /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest"]" />
+    /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest"]' />
     public class SystemDeleteTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Verifier.Verify(SpawnTestTransactionContract().ToString());
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new SystemDeleteTransaction();
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesContract"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesContract"]' />
         public virtual void ShouldBytesContract()
         {
             var tx = SpawnTestTransactionContract();
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesFile"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesFile"]' />
         public virtual void ShouldBytesFile()
         {
             var tx = SpawnTestTransactionFile();
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.IsType<SystemDeleteTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ConstructSystemDeleteTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ConstructSystemDeleteTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructSystemDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyWithFileId = new Proto.Services.SystemDeleteTransactionBody
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(systemDeleteTransactionWithContractId.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileId"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileId"]' />
         public virtual void GetSetFileId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -141,14 +141,14 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(systemDeleteTransaction.FileId, testFileId);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileIdFrozen"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileIdFrozen"]' />
         public virtual void GetSetFileIdFrozen()
         {
             var tx = SpawnTestTransactionFile();
             Assert.Throws<InvalidOperationException>(() => tx.FileId = testFileId);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetContractId"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetContractId"]' />
         public virtual void GetSetContractId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Throws<InvalidOperationException>(() => tx.ContractId = testContractId);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTime"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTime"]' />
         public virtual void GetSetExpirationTime()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -176,14 +176,14 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(systemDeleteTransaction.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTimeFrozen"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTimeFrozen"]' />
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransactionFile();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = validStart);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetFileId"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetFileId"]' />
         public virtual void ResetFileId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction();
@@ -193,7 +193,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.NotNull(systemDeleteTransaction.ContractId);
         }
         [Fact]
-        /// <include file="test-system-delete-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetContractId"]" />
+        /// <include file="test-system-delete-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetContractId"]' />
         public virtual void ResetContractId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction();

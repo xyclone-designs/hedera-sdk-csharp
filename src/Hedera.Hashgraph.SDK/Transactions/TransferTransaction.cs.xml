@@ -97,7 +97,7 @@
     <param name="amount">the amount to transfer</param>
     <param name="hookCall">the fungible hook call to execute</param>
     <returns>the updated transaction</returns>
-    <exception cref="IllegalArgumentException">if hookCall is null</exception>
+    <exception cref="T:System.ArgumentException">if hookCall is null</exception>
   </member>
   <member name="M:TransferTransaction.SetHbarTransferApproval(AccountId,System.Boolean)">
     <summary></summary>

@@ -7,13 +7,13 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest"]" />
+    /// <include file="TokenUnpauseIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenUnpauseIntegrationTest"]' />
     public class TokenUnpauseIntegrationTest
     {
         [Fact]
-        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CanExecuteTokenUnpauseTransaction"]" />
+        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUnpauseIntegrationTest.CanExecuteTokenUnpauseTransaction"]' />
         public virtual void CanExecuteTokenUnpauseTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CannotUnpauseWithNoTokenId"]" />
+        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUnpauseIntegrationTest.CannotUnpauseWithNoTokenId"]' />
         public virtual void CannotUnpauseWithNoTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

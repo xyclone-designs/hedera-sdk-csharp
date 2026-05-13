@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenDeleteIntegrationTest">
     <summary>TODO: Describe TokenDeleteIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteToken">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteToken">
     <summary>TODO: Describe CanDeleteToken.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteTokenWithOnlyAdminKeySet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteTokenWithOnlyAdminKeySet">
     <summary>TODO: Describe CanDeleteTokenWithOnlyAdminKeySet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction">
     <summary>TODO: Describe CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenTokenIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenTokenIDIsNotSet">
     <summary>TODO: Describe CannotDeleteTokenWhenTokenIDIsNotSet.</summary>
   </member>
 </docs>

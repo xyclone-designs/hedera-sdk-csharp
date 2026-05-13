@@ -11,7 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
-    /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest"]" />
+    /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest"]' />
     public class AccountAllowanceApproveTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytes"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.PropertiesTest"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.PropertiesTest"]' />
         public virtual void PropertiesTest()
         {
             var tx = SpawnTestTransaction();
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.NotEmpty(tx.GetTokenNftApprovals());
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountAllowanceApproveTransaction();
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.IsType<AccountAllowanceApproveTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerials"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerials"]' />
         public virtual void DeleteNftAllowanceAllSerials()
         {
             var accountAllowanceApproveTransaction = new AccountAllowanceApproveTransaction()
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Null(accountAllowanceApproveTransaction.GetTokenNftApprovals()[0].DelegatingSpender);
         }
         [Fact]
-        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerialsFrozen"]" />
+        /// <include file="test-account-allowance-approve-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerialsFrozen"]' />
         public virtual void DeleteNftAllowanceAllSerialsFrozen()
         {
             var tx = SpawnTestTransaction();

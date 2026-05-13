@@ -13,7 +13,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
-    /// <include file="test-file-update-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest"]" />
+    /// <include file="test-file-update-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest"]' />
     public class FileUpdateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-file-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.ShouldBytes"]" />
+        /// <include file="test-file-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-file-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-file-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileUpdateTransaction();
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-file-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-file-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileUpdateTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

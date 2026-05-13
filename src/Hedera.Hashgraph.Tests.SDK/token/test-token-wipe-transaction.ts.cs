@@ -12,7 +12,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest"]" />
+    /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest"]' />
     public class TokenWipeTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenWipeTransaction();
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesFungible"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesFungible"]' />
         public virtual void ShouldBytesFungible()
         {
             var tx = SpawnTestTransaction();
@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNft"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNft"]' />
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransactionNft();
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -102,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenWipeTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ConstructTokenWipeTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ConstructTokenWipeTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenWipeTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenWipeAccountTransactionBody
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenWipeTransaction.Serials, testSerialNumbers);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetTokenId"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetTokenId"]' />
         public virtual void GetSetTokenId()
         {
             var tokenWipeTransaction = new TokenWipeTransaction
@@ -140,42 +140,42 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountId"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountId"]' />
         public virtual void GetSetAccountId()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.AccountId, testAccountId);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountIdFrozen"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountIdFrozen"]' />
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmount"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmount"]' />
         public virtual void GetSetAmount()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Amount, (ulong)testAmount);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmountFrozen"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmountFrozen"]' />
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Amount = (ulong)testAmount);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbers"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbers"]' />
         public virtual void GetSetSerialNumbers()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Serials, testSerialNumbers);
         }
         [Fact]
-        /// <include file="test-token-wipe-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbersFrozen"]" />
+        /// <include file="test-token-wipe-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbersFrozen"]' />
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();

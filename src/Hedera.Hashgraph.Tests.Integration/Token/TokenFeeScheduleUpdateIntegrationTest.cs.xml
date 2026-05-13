@@ -1,11 +1,11 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest">
     <summary>TODO: Describe TokenFeeScheduleUpdateIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CanUpdateToken">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CanUpdateToken">
     <summary>TODO: Describe CanUpdateToken.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CannotUpdateWithAnyOtherKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CannotUpdateWithAnyOtherKey">
     <summary>TODO: Describe CannotUpdateWithAnyOtherKey.</summary>
   </member>
 </docs>

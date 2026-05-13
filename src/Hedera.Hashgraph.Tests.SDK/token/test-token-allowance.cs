@@ -4,7 +4,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-allowance.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest"]" />
+    /// <include file="test-token-allowance.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest"]' />
     public class TokenAllowanceTest
     {
         private static readonly TokenId testTokenId = TokenId.FromString("0.6.9");
@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly AccountId testSpenderAccountId = AccountId.FromString("7.7.7");
         private static readonly long testAmount = 4;
         [Fact]
-        /// <include file="test-token-allowance.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ConstructWithTokenIdOwnerSpenderAmount"]" />
+        /// <include file="test-token-allowance.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ConstructWithTokenIdOwnerSpenderAmount"]' />
         public virtual void ConstructWithTokenIdOwnerSpenderAmount()
         {
             TokenAllowance tokenAllowance = new (testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount);
@@ -24,10 +24,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-allowance.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.FromProtobuf"]" />
+        /// <include file="test-token-allowance.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.FromProtobuf"]' />
         public virtual void FromProtobuf()
         {
-            /// <include file="test-token-allowance.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ToProtobuf"]" />
+            /// <include file="test-token-allowance.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ToProtobuf"]' />
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
             var tokenAllowance = TokenAllowance.FromProtobuf(tokenAllowanceProtobuf);
 

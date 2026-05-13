@@ -5,13 +5,13 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenFreezeIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest"]" />
+    /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest"]' />
     public class TokenFreezeIntegrationTest
     {
         [Fact]
-        /// <include file="TokenFreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CanFreezeAccountWithToken"]" />
+        /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest.CanFreezeAccountWithToken"]' />
         public virtual void CanFreezeAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenFreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenTokenIDIsNotSet"]" />
+        /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenTokenIDIsNotSet"]' />
         public virtual void CannotFreezeAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenFreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountIDIsNotSet"]" />
+        /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountIDIsNotSet"]' />
         public virtual void CannotFreezeAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenFreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith"]" />
+        /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith"]' />
         public virtual void CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

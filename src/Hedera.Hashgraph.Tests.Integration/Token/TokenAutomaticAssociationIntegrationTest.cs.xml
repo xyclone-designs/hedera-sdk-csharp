@@ -1,32 +1,32 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest">
     <summary>TODO: Describe TokenAutomaticAssociationIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithLimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithLimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferNftsToAccountsWithLimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanSetUnlimitedMaxAutoAssociationsForAccount">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanSetUnlimitedMaxAutoAssociationsForAccount">
     <summary>TODO: Describe CanSetUnlimitedMaxAutoAssociationsForAccount.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
     <summary>TODO: Describe CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CannotSetInvalidMaxAutoAssociationsValues">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CannotSetInvalidMaxAutoAssociationsValues">
     <summary>TODO: Describe CannotSetInvalidMaxAutoAssociationsValues.</summary>
   </member>
 </docs>

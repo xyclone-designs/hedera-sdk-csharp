@@ -137,7 +137,7 @@
   <member name="M:ContractId.Validate(Client)">
     <summary></summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
     <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
   </member>
   <member name="M:ContractId.ValidateChecksum(Client)">
@@ -145,7 +145,7 @@
     Verify the checksum.
     </summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
   <member name="M:ContractId.ToStringWithChecksum(Client)">
     <summary>

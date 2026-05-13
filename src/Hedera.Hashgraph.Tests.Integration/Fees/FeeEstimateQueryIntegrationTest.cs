@@ -15,9 +15,9 @@ using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest"]" />
+    /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest"]' />
     public class FeeEstimateQueryIntegrationTest
     {
         private static readonly long MIRROR_SYNC_DELAY_MILLIS = (long)TimeSpan.FromSeconds(2).TotalMilliseconds;
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenCreateTransactionFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenCreateTransactionFeeEstimate"]' />
         public virtual void TokenCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionStateModeFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionStateModeFeeEstimate"]' />
         public virtual void TransferTransactionStateModeFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionIntrinsicModeFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionIntrinsicModeFeeEstimate"]' />
         public virtual void TransferTransactionIntrinsicModeFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionDefaultModeIsState"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionDefaultModeIsState"]' />
         public virtual void TransferTransactionDefaultModeIsState()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -146,7 +146,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenMintTransactionFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenMintTransactionFeeEstimate"]' />
         public virtual void TokenMintTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicCreateTransactionFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicCreateTransactionFeeEstimate"]' />
         public virtual void TopicCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.ContractCreateTransactionFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.ContractCreateTransactionFeeEstimate"]' />
         public virtual void ContractCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -227,7 +227,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.FileCreateTransactionFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.FileCreateTransactionFeeEstimate"]' />
         public virtual void FileCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -255,7 +255,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.FileAppendTransactionFeeEstimateAggregatesChunks"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.FileAppendTransactionFeeEstimateAggregatesChunks"]' />
         public virtual void FileAppendTransactionFeeEstimateAggregatesChunks()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -283,7 +283,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitSingleChunkFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitSingleChunkFeeEstimate"]' />
         public virtual void TopicMessageSubmitSingleChunkFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -311,7 +311,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitMultipleChunkFeeEstimate"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitMultipleChunkFeeEstimate"]' />
         public virtual void TopicMessageSubmitMultipleChunkFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -339,7 +339,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.MalformedTransactionReturnsInvalidArgumentError"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.MalformedTransactionReturnsInvalidArgumentError"]' />
         public virtual void MalformedTransactionReturnsInvalidArgumentError()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -363,7 +363,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.QueryWithoutTransactionThrowsError"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.QueryWithoutTransactionThrowsError"]' />
         public virtual void QueryWithoutTransactionThrowsError()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -378,7 +378,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.ActualFeesMatchEstimateWithinTolerance"]" />
+        /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.ActualFeesMatchEstimateWithinTolerance"]' />
         public virtual void ActualFeesMatchEstimateWithinTolerance()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())

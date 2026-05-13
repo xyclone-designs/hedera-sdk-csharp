@@ -5,11 +5,11 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest"]" />
+    /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest"]' />
     public class EvmHookStorageUpdateTest
     {
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotConstructsAndDefensiveCopies"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotConstructsAndDefensiveCopies"]' />
         public virtual void EvmHookStorageSlotConstructsAndDefensiveCopies()
         {
             byte[] key = new byte[]
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x03, 0x04 }, slot.Value);
         }
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotProtobufRoundTrip"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotProtobufRoundTrip"]' />
         public virtual void EvmHookStorageSlotProtobufRoundTrip()
         {
             var original = new EvmHookStorageSlot(new byte[] { 0x0A }, new byte[] { 0x0B });
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(original.ToString().Contains("key"));
         }
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesConstructsValidatesAndCopies"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesConstructsValidatesAndCopies"]' />
         public virtual void EvmHookMappingEntriesConstructsValidatesAndCopies()
         {
             byte[] mappingSlot = new byte[]
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(list1, list2);
         }
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesValidation"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesValidation"]' />
         public virtual void EvmHookMappingEntriesValidation()
         {
             // mappingSlot cannot be null
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []);
         }
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesProtobufRoundTrip"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesProtobufRoundTrip"]' />
         public virtual void EvmHookMappingEntriesProtobufRoundTrip()
         {
             var entry1 = EvmHookMappingEntry.OfKey(new byte[] { 0x11 }, new byte[] { 0x22 });
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(original.ToString().Contains("mappingSlot"));
         }
         [Fact]
-        /// <include file="test-evm-hook-storageupdate.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.FromProtobufWithoutUpdateThrows"]" />
+        /// <include file="test-evm-hook-storageupdate.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.FromProtobufWithoutUpdateThrows"]' />
         public virtual void FromProtobufWithoutUpdateThrows()
         {
             var emptyProto = new Proto.Services.EvmHookStorageUpdate();

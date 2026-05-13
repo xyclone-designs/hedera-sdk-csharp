@@ -187,7 +187,7 @@
     &lt;/summary&gt;
     &lt;param name="AliasEvmAddress"&gt;The ethereum account 20-byte EVM address&lt;/param&gt;
     &lt;returns&gt;{@code this}&lt;/returns&gt;
-    &lt;exception cref="IllegalArgumentException"&gt;when evmAddress is invalid&lt;/exception&gt;</summary>
+    &lt;exception cref="T:System.ArgumentException"&gt;when evmAddress is invalid&lt;/exception&gt;</summary>
   </member>
   <member name="M:ToProtobuf">
     <summary>

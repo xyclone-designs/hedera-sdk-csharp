@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest">
     <summary>TODO: Describe FileUpdateIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFile">
     <summary>TODO: Describe CanUpdateFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateImmutableFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateImmutableFile">
     <summary>TODO: Describe CannotUpdateImmutableFile.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateFileWhenFileIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateFileWhenFileIDIsNotSet">
     <summary>TODO: Describe CannotUpdateFileWhenFileIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFeeScheduleFile">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFeeScheduleFile">
     <summary>TODO: Describe CanUpdateFeeScheduleFile.</summary>
   </member>
 </docs>

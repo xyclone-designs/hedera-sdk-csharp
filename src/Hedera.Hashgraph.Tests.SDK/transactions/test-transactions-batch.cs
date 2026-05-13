@@ -13,7 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest"]" />
+    /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest"]' />
     public class BatchTransactionTest
     {
         private static readonly PrivateKey privateKeyED25519 = KeyTestDataFactory.ED25519_TEST_KEY;
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytes"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new BatchTransaction();
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionsShouldReturnCorrectTransactions"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionsShouldReturnCorrectTransactions"]' />
         public virtual void GetInnerTransactionsShouldReturnCorrectTransactions()
         {
             var batchTransaction = SpawnTestTransaction();
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Equal(batchTransaction.InnerTransactions[2], INNER_TRANSACTIONS[2]);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.SetInnerTransactionsShouldUpdateTransactions"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.SetInnerTransactionsShouldUpdateTransactions"]' />
         public virtual void SetInnerTransactionsShouldUpdateTransactions()
         {
             var batchTransaction = new BatchTransaction();
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Equal(batchTransaction.InnerTransactions[1], newInnerTransactions[1]);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.InnerTransactionsAddShouldAppendTransaction"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.InnerTransactionsAddShouldAppendTransaction"]' />
         public virtual void InnerTransactionsAddShouldAppendTransaction()
         {
             var batchTransaction = new BatchTransaction();
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(batchTransaction.InnerTransactions[0], newTransaction);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionIdsShouldReturnCorrectIds"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionIdsShouldReturnCorrectIds"]' />
         public virtual void GetInnerTransactionIdsShouldReturnCorrectIds()
         {
             var batchTransaction = SpawnTestTransaction();
@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.All(transactionIds, (id) => Equals(id, expectedTransactionId));
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAllowChainedSetters"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAllowChainedSetters"]' />
         public virtual void ShouldAllowChainedSetters()
         {
             var batchTransaction = new BatchTransaction
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(batchTransaction.TransactionId);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectFreezeTransaction"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectFreezeTransaction"]' />
         public virtual void ShouldRejectFreezeTransaction()
         {
             var batchTransaction = new BatchTransaction();
@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBatchTransaction"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBatchTransaction"]' />
         public virtual void ShouldRejectBatchTransaction()
         {
             var batchTransaction = new BatchTransaction();
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Contains("Transaction type BatchTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBlacklistedTransactionInList"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBlacklistedTransactionInList"]' />
         public virtual void ShouldRejectBlacklistedTransactionInList()
         {
             var batchTransaction = new BatchTransaction();
@@ -177,7 +177,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectUnfrozenTransaction"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectUnfrozenTransaction"]' />
         public virtual void ShouldRejectUnfrozenTransaction()
         {
             var batchTransaction = new BatchTransaction();
@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Contains("Inner transaction should be frozen", exception.Message);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionAfterFreeze"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionAfterFreeze"]' />
         public virtual void ShouldRejectTransactionAfterFreeze()
         {
             var batchTransaction = new BatchTransaction
@@ -205,7 +205,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionListAfterFreeze"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionListAfterFreeze"]' />
         public virtual void ShouldRejectTransactionListAfterFreeze()
         {
             var batchTransaction = new BatchTransaction
@@ -219,7 +219,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldPreserveTransactionOrder"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldPreserveTransactionOrder"]' />
         public virtual void ShouldPreserveTransactionOrder()
         {
             var batchTransaction = new BatchTransaction();
@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(batchTransaction.InnerTransactions, [transaction1, transaction2, transaction3]);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldCreateDefensiveCopyOfTransactionList"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldCreateDefensiveCopyOfTransactionList"]' />
         public virtual void ShouldCreateDefensiveCopyOfTransactionList()
         {
             var batchTransaction = new BatchTransaction();
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(batchTransaction.InnerTransactions, INNER_TRANSACTIONS);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionWithoutBatchKey"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionWithoutBatchKey"]' />
         public virtual void ShouldRejectTransactionWithoutBatchKey()
         {
             var batchTransaction = new BatchTransaction();
@@ -259,7 +259,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateAllTransactionsInList"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateAllTransactionsInList"]' />
         public virtual void ShouldValidateAllTransactionsInList()
         {
             var batchTransaction = new BatchTransaction();
@@ -275,7 +275,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateMultipleConditions"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateMultipleConditions"]' />
         public virtual void ShouldValidateMultipleConditions()
         {
             var batchTransaction = new BatchTransaction();
@@ -309,7 +309,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Contains("FreezeTransaction is not allowed in a batch transaction", exception2.Message);
 		}
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAcceptValidTransaction"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAcceptValidTransaction"]' />
         public virtual void ShouldAcceptValidTransaction()
         {
             var batchTransaction = new BatchTransaction();
@@ -326,7 +326,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(batchTransaction.InnerTransactions, [validTransaction]);
         }
         [Fact]
-        /// <include file="test-transactions-batch.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateTransactionStateInOrder"]" />
+        /// <include file="test-transactions-batch.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateTransactionStateInOrder"]' />
         public virtual void ShouldValidateTransactionStateInOrder()
         {
             var batchTransaction = new BatchTransaction();

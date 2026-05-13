@@ -1,11 +1,11 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountUpdateIntegrationTest">
     <summary>TODO: Describe AccountUpdateIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest.CanUpdateAccountWithNewKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateIntegrationTest.CanUpdateAccountWithNewKey">
     <summary>TODO: Describe CanUpdateAccountWithNewKey.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest.CannotUpdateAccountWhenAccountIdIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateIntegrationTest.CannotUpdateAccountWhenAccountIdIsNotSet">
     <summary>TODO: Describe CannotUpdateAccountWhenAccountIdIsNotSet.</summary>
   </member>
 </docs>

@@ -15,7 +15,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
-    /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest"]" />
+    /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest"]' />
     public class TokenUpdateNftsTransactionTest
     {
         private static readonly PrivateKey testMetadataKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             .Sign(testMetadataKey);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUpdateNftsTransaction();
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytes"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.IsType<TokenUpdateNftsTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ConstructTokenUpdateTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ConstructTokenUpdateTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenUpdateNftsTransactionBody
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(tokenUpdateNftsTransaction.Serials, testSerialNumbers);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenId"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenId"]' />
         public virtual void GetSetTokenId()
         {
             var tokenUpdateNftsTransaction = new TokenUpdateNftsTransaction
@@ -105,35 +105,35 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(tokenUpdateNftsTransaction.TokenId, testTokenId);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenIdFrozen"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenIdFrozen"]' />
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadata"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadata"]' />
         public virtual void GetSetMetadata()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Metadata, testMetadata);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadataFrozen"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadataFrozen"]' />
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Metadata = testMetadata);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbers"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbers"]' />
         public virtual void GetSetSerialNumbers()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Serials, testSerialNumbers);
         }
         [Fact]
-        /// <include file="test-token-nft-update-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbersFrozen"]" />
+        /// <include file="test-token-nft-update-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbersFrozen"]' />
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();

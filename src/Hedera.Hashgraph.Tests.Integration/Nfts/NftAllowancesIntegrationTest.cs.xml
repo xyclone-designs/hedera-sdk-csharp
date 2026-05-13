@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest">
     <summary>TODO: Describe NftAllowancesIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferWithoutAllowanceApproval">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferWithoutAllowanceApproval">
     <summary>TODO: Describe CannotTransferWithoutAllowanceApproval.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferAfterAllowanceRemove">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferAfterAllowanceRemove">
     <summary>TODO: Describe CannotTransferAfterAllowanceRemove.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotRemoveSingleSerialWhenAllowanceIsGivenForAll">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotRemoveSingleSerialWhenAllowanceIsGivenForAll">
     <summary>TODO: Describe CannotRemoveSingleSerialWhenAllowanceIsGivenForAll.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle">
     <summary>TODO: Describe AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle.</summary>
   </member>
 </docs>

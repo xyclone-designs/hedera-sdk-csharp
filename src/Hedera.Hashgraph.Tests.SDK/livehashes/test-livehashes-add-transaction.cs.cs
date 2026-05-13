@@ -11,7 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 {
-    /// <include file="test-livehashes-add-transaction.cs.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest"]" />
+    /// <include file="test-livehashes-add-transaction.cs.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest"]' />
     public class LiveHashAddTransactionTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
             .Sign(privateKey);
         }
         [Fact]
-        /// <include file="test-livehashes-add-transaction.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-livehashes-add-transaction.cs.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new LiveHashAddTransaction();
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-livehashes-add-transaction.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest.ShouldBytes"]" />
+        /// <include file="test-livehashes-add-transaction.cs.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.LiveHashes.LiveHashAddTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();

@@ -98,7 +98,7 @@
     <param name="num">the num part</param>
     <param name="client">the configured client</param>
     <param name="checksum">the checksum</param>
-    <exception cref="BadEntityIdException"></exception>
+    <exception cref="T:System.ArgumentException"></exception>
   </member>
   <member name="M:EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(Client,System.Int64)">
     <summary>

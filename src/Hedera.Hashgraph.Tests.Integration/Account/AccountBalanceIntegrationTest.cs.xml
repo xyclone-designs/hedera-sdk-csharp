@@ -1,35 +1,35 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest">
     <summary>TODO: Describe AccountBalanceIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToPreviewnetWithTLS">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToPreviewnetWithTLS">
     <summary>TODO: Describe CanConnectToPreviewnetWithTLS.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToTestnetWithTLS">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToTestnetWithTLS">
     <summary>TODO: Describe CanConnectToTestnetWithTLS.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToMainnetWithTLS">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToMainnetWithTLS">
     <summary>TODO: Describe CanConnectToMainnetWithTLS.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled">
     <summary>TODO: Describe CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanFetchBalanceForClientOperator">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanFetchBalanceForClientOperator">
     <summary>TODO: Describe CanFetchBalanceForClientOperator.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostBalanceForClientOperator">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostBalanceForClientOperator">
     <summary>TODO: Describe GetCostBalanceForClientOperator.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostBigMaxBalanceForClientOperator">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostBigMaxBalanceForClientOperator">
     <summary>TODO: Describe GetCostBigMaxBalanceForClientOperator.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostSmallMaxBalanceForClientOperator">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostSmallMaxBalanceForClientOperator">
     <summary>TODO: Describe GetCostSmallMaxBalanceForClientOperator.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanNotFetchBalanceForInvalidAccountId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanNotFetchBalanceForInvalidAccountId">
     <summary>TODO: Describe CanNotFetchBalanceForInvalidAccountId.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanFetchTokenBalancesForClientOperator">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanFetchTokenBalancesForClientOperator">
     <summary>TODO: Describe CanFetchTokenBalancesForClientOperator.</summary>
   </member>
 </docs>

@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateFlowIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest">
     <summary>TODO: Describe ContractCreateFlowIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlow">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlow">
     <summary>TODO: Describe CreateContractWithFlow.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowWithoutSigning">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowWithoutSigning">
     <summary>TODO: Describe CreateContractWithFlowWithoutSigning.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowPrivateKeySign">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowPrivateKeySign">
     <summary>TODO: Describe CreateContractWithFlowPrivateKeySign.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowPublicKeySign">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest.CreateContractWithFlowPublicKeySign">
     <summary>TODO: Describe CreateContractWithFlowPublicKeySign.</summary>
   </member>
 </docs>

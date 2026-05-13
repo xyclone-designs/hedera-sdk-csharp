@@ -9,13 +9,13 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest"]" />
+    /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest"]' />
     public class NftAllowancesIntegrationTest
     {
         [Fact]
-        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferWithoutAllowanceApproval"]" />
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferWithoutAllowanceApproval"]' />
         public virtual void CannotTransferWithoutAllowanceApproval()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferAfterAllowanceRemove"]" />
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferAfterAllowanceRemove"]' />
         public virtual void CannotTransferAfterAllowanceRemove()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -193,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotRemoveSingleSerialWhenAllowanceIsGivenForAll"]" />
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.CannotRemoveSingleSerialWhenAllowanceIsGivenForAll"]' />
         public virtual void CannotRemoveSingleSerialWhenAllowanceIsGivenForAll()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -283,7 +283,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle"]" />
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest.AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle"]' />
         public virtual void AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -13,13 +13,13 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions-messagesubmit.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest"]" />
+    /// <include file="test-transactions-messagesubmit.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest"]' />
     public class MessageSubmitTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         [Fact]
-        /// <include file="test-transactions-messagesubmit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.ShouldBytes"]" />
+        /// <include file="test-transactions-messagesubmit.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-messagesubmit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-transactions-messagesubmit.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicMessageSubmitTransaction();
@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-transactions-messagesubmit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-transactions-messagesubmit.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.MessageSubmitTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

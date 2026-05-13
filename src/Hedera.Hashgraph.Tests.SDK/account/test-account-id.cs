@@ -14,7 +14,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
-    /// <include file="test-account-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest"]" />
+    /// <include file="test-account-id.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest"]' />
     public class AccountIdTest : BaseTestFixture
     {
         public virtual void FromString()
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             AccountId.FromString(TestData.TEST_ID_PREVIEWNET).ValidateChecksum(PreviewnetClient);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.BadChecksumOnPreviewnet"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.BadChecksumOnPreviewnet"]' />
         public virtual void BadChecksumOnPreviewnet()
         {
             Assert.Throws<BadEntityIdException>(() =>
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdString"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdString"]' />
         public virtual void MalformedIdString()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum"]' />
         public virtual void MalformedIdChecksum()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum2"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum2"]' />
         public virtual void MalformedIdChecksum2()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey"]' />
         public virtual void MalformedAliasKey()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey2"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey2"]' />
         public virtual void MalformedAliasKey2()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             });
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey3"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey3"]' />
         public virtual void MalformedAliasKey3()
         {
 			Assert.Throws<ArgumentException>(() =>
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Verifier.Verify(AccountId.FromBytes(new AccountId(0, 0, 5005).ToBytes()).ToString());
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobuf"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobuf"]' />
         public virtual void ToFromProtobuf()
         {
             var id1 = new AccountId(0, 0, 5005);
@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Verifier.Verify(AccountId.FromBytes(AccountId.FromString(TestData.ALIAS_KEY_HEX).ToBytes()).ToString());
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufAliasKey"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufAliasKey"]' />
         public virtual void ToFromProtobufAliasKey()
         {
             var id1 = AccountId.FromString(TestData.ALIAS_KEY_HEX);
@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id2, id1);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEcdsaAliasKey"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEcdsaAliasKey"]' />
         public virtual void ToFromProtobufEcdsaAliasKey()
         {
             var id1 = AccountId.FromString(TestData.ECDSA_ALIAS_KEY_HEX);
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Verifier.Verify(AccountId.FromBytes(AccountId.FromString(TestData.EVM_ADDRESS_SHORT).ToBytes()).ToString());
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEvmAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEvmAddress"]' />
         public virtual void ToFromProtobufEvmAddress()
         {
             var id1 = AccountId.FromString(TestData.EVM_ADDRESS_SHORT);
@@ -197,7 +197,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id2, id1);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufRawEvmAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufRawEvmAddress"]' />
         public virtual void ToFromProtobufRawEvmAddress()
         {
             var id1 = AccountId.FromString(TestData.EVM_ADDRESS_HEX);
@@ -210,7 +210,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Verifier.Verify(new AccountId(0, 0, 5005).ToEvmAddress());
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddress"]' />
         public virtual void FromEvmAddress()
         {
             var id = AccountId.FromEvmAddress(TestData.EVM_ADDRESS_HEX, 5, 9);
@@ -219,7 +219,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Realm, 9);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithPrefix"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithPrefix"]' />
         public virtual void FromEvmAddressWithPrefix()
         {
             EvmAddress evmAddress = EvmAddress.FromString(TestData.EVM_ADDRESS_HEX);
@@ -228,7 +228,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id2, id1);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressNormalAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressNormalAddress"]' />
         public virtual void FromEvmAddressNormalAddress()
         {
             byte[] expectedBytes = Hex.Decode(TestData.EVM_ADDRESS_NORMAL);
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithDifferentShardAndRealm"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithDifferentShardAndRealm"]' />
         public virtual void FromEvmAddressWithDifferentShardAndRealm()
         {
             byte[] expectedBytes = Hex.Decode(TestData.EVM_ADDRESS_NORMAL);
@@ -250,7 +250,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddress"]' />
         public virtual void FromEvmAddressLongZeroAddress()
         {
             byte[] expectedBytes = Hex.Decode(TestData.EVM_ADDRESS_LONG_ZERO);
@@ -261,7 +261,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddressWithShardAndRealm"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddressWithShardAndRealm"]' />
         public virtual void FromEvmAddressLongZeroAddressWithShardAndRealm()
         {
             byte[] expectedBytes = Hex.Decode(TestData.EVM_ADDRESS_LONG_ZERO);
@@ -272,28 +272,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalAccountId"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalAccountId"]' />
         public virtual void ToEvmAddressNormalAccountId()
         {
             AccountId id = new AccountId(0, 0, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressWithDifferentShardAndRealm"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressWithDifferentShardAndRealm"]' />
         public virtual void ToEvmAddressWithDifferentShardAndRealm()
         {
             AccountId id = new AccountId(1, 1, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressLongZeroAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressLongZeroAddress"]' />
         public virtual void ToEvmAddressLongZeroAddress()
         {
             AccountId id = AccountId.FromEvmAddress(TestData.EVM_ADDRESS_LONG_ZERO, 1, 1);
             Assert.Equal(id.ToEvmAddress(), TestData.EVM_ADDRESS_LONG_ZERO.ToLower());
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddress"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddress"]' />
         public virtual void ToEvmAddressNormalEvmAddress()
         {
             AccountId id = AccountId.FromEvmAddress(TestData.EVM_ADDRESS_NORMAL, 0, 0);
@@ -301,7 +301,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.ToEvmAddress(), expected);
         }
         [Fact]
-        /// <include file="test-account-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddressWithShardAndRealm"]" />
+        /// <include file="test-account-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddressWithShardAndRealm"]' />
         public virtual void ToEvmAddressNormalEvmAddressWithShardAndRealm()
         {
             AccountId id = AccountId.FromEvmAddress(TestData.EVM_ADDRESS_NORMAL, 1, 1);

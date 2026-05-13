@@ -93,6 +93,6 @@
     Validate the configured client.
     </summary>
     <param name="client">the configured client</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
 </docs>

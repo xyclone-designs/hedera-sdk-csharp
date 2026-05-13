@@ -1,11 +1,11 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest">
     <summary>TODO: Describe TokenNftTransferIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest.CanTransferNfts">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest.CanTransferNfts">
     <summary>TODO: Describe CanTransferNfts.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest.CannotTransferUnownedNfts">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest.CannotTransferUnownedNfts">
     <summary>TODO: Describe CannotTransferUnownedNfts.</summary>
   </member>
 </docs>

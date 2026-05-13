@@ -8,7 +8,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
-    /// <include file="test-fees-schedules.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest"]" />
+    /// <include file="test-fees-schedules.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest"]' />
     public class FeeSchedulesTest
     {
         public virtual FeeSchedules SpawnFeeSchedulesExample()
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             };
         }
         [Fact]
-        /// <include file="test-fees-schedules.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest.ShouldSerialize"]" />
+        /// <include file="test-fees-schedules.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest.ShouldSerialize"]' />
         public virtual void ShouldSerialize()
         {
             var originalFeeSchedules = SpawnFeeSchedulesExample();
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(Regex.Replace(originalFeeSchedules.ToString(), "@[A-Za-z0-9]+", ""));
         }
         [Fact]
-        /// <include file="test-fees-schedules.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest.ShouldSerializeNull"]" />
+        /// <include file="test-fees-schedules.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.FeeSchedulesTest.ShouldSerializeNull"]' />
         public virtual void ShouldSerializeNull()
         {
             var originalFeeSchedules = new FeeSchedules();

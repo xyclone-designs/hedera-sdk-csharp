@@ -5,11 +5,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Exceptions
 {
-    /// <include file="test-exception-maxquerypaymentexceeded.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest"]" />
+    /// <include file="test-exception-maxquerypaymentexceeded.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest"]' />
     public class MaxQueryPaymentExceededExceptionTest
     {
         [Fact]
-        /// <include file="test-exception-maxquerypaymentexceeded.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest.ShouldHaveMessage"]" />
+        /// <include file="test-exception-maxquerypaymentexceeded.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest.ShouldHaveMessage"]' />
         public virtual void ShouldHaveMessage()
         {
             var e = new MaxQueryPaymentExceededException(typeof(AccountBalanceQuery), new Hbar(30), new Hbar(15));

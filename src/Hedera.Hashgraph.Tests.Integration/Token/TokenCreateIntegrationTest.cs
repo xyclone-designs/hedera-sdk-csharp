@@ -12,9 +12,9 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest"]" />
+    /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest"]' />
     public class TokenCreateIntegrationTest
     {
         private static List<CustomFee> CreateFixedFeeList(int count, AccountId feeCollector)
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithOperatorAsAllKeys"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithOperatorAsAllKeys"]' />
         public virtual void CanCreateTokenWithOperatorAsAllKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSet"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSet"]' />
         public virtual void CanCreateTokenWithMinimalPropertiesSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenNameIsNotSet"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenNameIsNotSet"]' />
         public virtual void CannotCreateTokenWhenTokenNameIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenSymbolIsNotSet"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenSymbolIsNotSet"]' />
         public virtual void CannotCreateTokenWhenTokenSymbolIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet"]' />
         public virtual void CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction"]' />
         public virtual void CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenAdminKeyDoesNotSignTransaction"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenAdminKeyDoesNotSignTransaction"]' />
         public virtual void CannotCreateTokenWhenAdminKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithCustomFees"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithCustomFees"]' />
         public virtual void CanCreateTokenWithCustomFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -222,7 +222,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMoreThanTenCustomFees"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMoreThanTenCustomFees"]' />
         public virtual void CannotCreateMoreThanTenCustomFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFixedFees"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFixedFees"]' />
         public virtual void CanCreateTenFixedFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -262,7 +262,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFractionalFees"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFractionalFees"]' />
         public virtual void CanCreateTenFractionalFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMinGreaterThanMax"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMinGreaterThanMax"]' />
         public virtual void CannotCreateMinGreaterThanMax()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -309,7 +309,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateInvalidFeeCollector"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateInvalidFeeCollector"]' />
         public virtual void CannotCreateInvalidFeeCollector()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -334,7 +334,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateNegativeFee"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateNegativeFee"]' />
         public virtual void CannotCreateNegativeFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -361,7 +361,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateZeroDenominator"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CannotCreateZeroDenominator"]' />
         public virtual void CannotCreateZeroDenominator()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -390,7 +390,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateNfts"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateNfts"]' />
         public virtual void CanCreateNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -413,7 +413,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateRoyaltyFee"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateRoyaltyFee"]' />
         public virtual void CanCreateRoyaltyFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -442,7 +442,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet"]' />
         public virtual void CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -467,7 +467,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanSetAutoRenewPeriod"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanSetAutoRenewPeriod"]' />
         public virtual void CanSetAutoRenewPeriod()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -494,7 +494,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanSetExpirationTime"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanSetExpirationTime"]' />
         public virtual void CanSetExpirationTime()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -518,7 +518,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId"]' />
         public virtual void WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -552,7 +552,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDecimalAdjustmentForSupplyValues"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDecimalAdjustmentForSupplyValues"]' />
         public virtual void CanCreateTokenWithDecimalAdjustmentForSupplyValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -587,7 +587,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateNftWithZeroDecimalsAndZeroInitialSupply"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateNftWithZeroDecimalsAndZeroInitialSupply"]' />
         public virtual void CanCreateNftWithZeroDecimalsAndZeroInitialSupply()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -615,7 +615,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDifferentDecimalPrecisionValues"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDifferentDecimalPrecisionValues"]' />
         public virtual void CanCreateTokenWithDifferentDecimalPrecisionValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -655,7 +655,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWhenAutoRenewPeriodIsNull"]" />
+        /// <include file="TokenCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWhenAutoRenewPeriodIsNull"]' />
         public virtual void CanCreateTokenWhenAutoRenewPeriodIsNull()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

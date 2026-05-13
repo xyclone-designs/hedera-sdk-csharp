@@ -11,16 +11,16 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest"]" />
+    /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest"]' />
     public class MirrorNodeContractQueryIntegrationTest
     {
         private static readonly string SMART_CONTRACT_BYTECODE = "6080604052348015600e575f80fd5b50335f806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506104a38061005b5f395ff3fe608060405260043610610033575f3560e01c8063607a4427146100375780637065cb4814610053578063893d20e81461007b575b5f80fd5b610051600480360381019061004c919061033c565b6100a5565b005b34801561005e575f80fd5b50610079600480360381019061007491906103a2565b610215565b005b348015610086575f80fd5b5061008f6102b7565b60405161009c91906103dc565b60405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff165f8054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16146100fb575f80fd5b805f806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550600181908060018154018082558091505060019003905f5260205f20015f9091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505f8173ffffffffffffffffffffffffffffffffffffffff166108fc3490811502906040515f60405180830381858888f19350505050905080610211576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004016102089061044f565b60405180910390fd5b5050565b805f806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550600181908060018154018082558091505060019003905f5260205f20015f9091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b5f805f9054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b5f80fd5b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f61030b826102e2565b9050919050565b61031b81610301565b8114610325575f80fd5b50565b5f8135905061033681610312565b92915050565b5f60208284031215610351576103506102de565b5b5f61035e84828501610328565b91505092915050565b5f610371826102e2565b9050919050565b61038181610367565b811461038b575f80fd5b50565b5f8135905061039c81610378565b92915050565b5f602082840312156103b7576103b66102de565b5b5f6103c48482850161038e565b91505092915050565b6103d681610367565b82525050565b5f6020820190506103ef5f8301846103cd565b92915050565b5f82825260208201905092915050565b7f5472616e73666572206661696c656400000000000000000000000000000000005f82015250565b5f610439600f836103f5565b915061044482610405565b602082019050919050565b5f6020820190508181035f8301526104668161042d565b905091905056fea26469706673582212206c46ddb2acdbcc4290e15be83eb90cd0b2ce5bd82b9bfe58a0709c5aec96305564736f6c634300081a0033";
         private static readonly string ADDRESS = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4";
 
         [Fact]
-        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateTransaction"]" />
+        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateTransaction"]' />
         public virtual void CanSimulateTransaction()
         {
             // Clear any system properties to ensure clean state
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.ReturnsDefaultValuesWhenContractIsNotDeployed"]" />
+        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest.ReturnsDefaultValuesWhenContractIsNotDeployed"]' />
         public virtual void ReturnsDefaultValuesWhenContractIsNotDeployed()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenGasLimitIsLow"]" />
+        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenGasLimitIsLow"]' />
         public virtual void FailsWhenGasLimitIsLow()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenSenderIsNotSet"]" />
+        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenSenderIsNotSet"]' />
         public virtual void FailsWhenSenderIsNotSet()
         {
             // Set system property to use port 5551 for contract calls in this test
@@ -241,7 +241,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateWithSenderSet"]" />
+        /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateWithSenderSet"]' />
         public virtual void CanSimulateWithSenderSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))

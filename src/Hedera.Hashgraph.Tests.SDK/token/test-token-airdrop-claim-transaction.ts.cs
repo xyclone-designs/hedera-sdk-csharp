@@ -14,7 +14,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest"]" />
+    /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest"]' />
     public class TokenClaimAirdropTransactionTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenClaimAirdropTransaction();
@@ -58,13 +58,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             transaction = new TokenClaimAirdropTransaction();
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestConstructorSetsDefaultMaxTransactionFee"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestConstructorSetsDefaultMaxTransactionFee"]' />
         public virtual void TestConstructorSetsDefaultMaxTransactionFee()
         {
             Assert.Equal(Hbar.From(1), transaction.DefaultMaxTransactionFee);
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestGetAndSetPendingAirdropIds"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestGetAndSetPendingAirdropIds"]' />
         public virtual void TestGetAndSetPendingAirdropIds()
         {
             List<PendingAirdropId> pendingAirdropIds =
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(pendingAirdropIds, transaction.PendingAirdropIds);
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestClearPendingAirdropIds"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestClearPendingAirdropIds"]' />
         public virtual void TestClearPendingAirdropIds()
         {
             IList<PendingAirdropId> pendingAirdropIds = [];
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(transaction.PendingAirdropIds.Count == 0);
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestAddAllPendingAirdrops"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestAddAllPendingAirdrops"]' />
         public virtual void TestAddAllPendingAirdrops()
         {
             PendingAirdropId pendingAirdropId1 = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
@@ -102,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId2));
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestBuildTransactionBody"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestBuildTransactionBody"]' />
         public virtual void TestBuildTransactionBody()
         {
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             //Assert.Equal(TokenServiceGrpc.ClaimAirdropMethod, transaction.GetMethodDescriptor());
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestOnFreeze"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestOnFreeze"]' />
         public virtual void TestOnFreeze()
         {
             var bodyBuilder = new Proto.Services.TransactionBody();
@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(bodyBuilder.TokenClaimAirdrop is not null);
         }
         [Fact]
-        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestOnScheduled"]" />
+        /// <include file="test-token-airdrop-claim-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenClaimAirdropTransactionTest.TestOnScheduled"]' />
         public virtual void TestOnScheduled()
         {
             Proto.Services.SchedulableTransactionBody scheduled = new ();

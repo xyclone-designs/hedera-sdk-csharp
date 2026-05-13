@@ -3,13 +3,13 @@ using System.Text;
 
 using Hedera.Hashgraph.SDK.File;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FileCreateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest"]" />
+    /// <include file="FileCreateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileCreateIntegrationTest"]' />
     public class FileCreateIntegrationTest
     {
         [Fact]
-        /// <include file="FileCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFile"]" />
+        /// <include file="FileCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileCreateIntegrationTest.CanCreateFile"]' />
         public virtual void CanCreateFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoContents"]" />
+        /// <include file="FileCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoContents"]' />
         public virtual void CanCreateFileWithNoContents()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoKeys"]" />
+        /// <include file="FileCreateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoKeys"]' />
         public virtual void CanCreateFileWithNoKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1))

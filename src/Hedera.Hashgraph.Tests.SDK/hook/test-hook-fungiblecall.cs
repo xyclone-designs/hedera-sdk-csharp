@@ -9,11 +9,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    /// <include file="test-hook-fungiblecall.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest"]" />
+    /// <include file="test-hook-fungiblecall.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest"]' />
     public class FungibleHookCallTest
     {
         [Fact]
-        /// <include file="test-hook-fungiblecall.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.ConstructorWithNumericIdAndType"]" />
+        /// <include file="test-hook-fungiblecall.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.ConstructorWithNumericIdAndType"]' />
         public virtual void ConstructorWithNumericIdAndType()
         {
             var evm = new EvmHookCall(new byte[] { }, 25000);
@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(call.Type, FungibleHookType.PreTxAllowanceHook);
         }
         [Fact]
-        /// <include file="test-hook-fungiblecall.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.HbarTransferSerializesHookByType"]" />
+        /// <include file="test-hook-fungiblecall.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.HbarTransferSerializesHookByType"]' />
         public virtual void HbarTransferSerializesHookByType()
         {
             var tx = new TransferTransaction();
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(rebuilt.GetHbarTransfers()[accountId], Hbar.FromTinybars(1));
         }
         [Fact]
-        /// <include file="test-hook-fungiblecall.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.TokenTransferSerializesHookByType"]" />
+        /// <include file="test-hook-fungiblecall.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.TokenTransferSerializesHookByType"]' />
         public virtual void TokenTransferSerializesHookByType()
         {
             var tx = new TransferTransaction();

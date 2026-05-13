@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest"]" />
+    /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest"]' />
     public class KeyListTest
     {
         private static readonly PublicKey mTestPublicKey1 = PrivateKey.FromStringED25519("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10").GetPublicKey();
@@ -26,13 +26,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var keyList = KeyList.FromProtobuf(protoKeyList, 3);
 
             // Then
-            /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Contains"]" />
+            /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Contains"]' />
             Assert.True(keyList.Contains(mTestPublicKey1));
             Assert.True(keyList.Contains(mTestPublicKey2));
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.OfKeys"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.OfKeys"]' />
         public virtual void OfKeys()
         {
 
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.ToProtobufKey"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.ToProtobufKey"]' />
         public virtual void ToProtobufKey()
         {
 
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(protoKey.KeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.ToProtobuf"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.ToProtobuf"]' />
         public virtual void ToProtobuf()
         {
 
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			Assert.Equal(protoKeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
 		}
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Size"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Size"]' />
         public virtual void Size()
         {
 
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.False(emptyKeyList.Contains(mTestPublicKey3));
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Add"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Add"]' />
         public virtual void Add()
         {
 
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Remove"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Remove"]' />
         public virtual void Remove()
         {
 
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
         [Fact]
-        /// <include file="tets-keys-keylist.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Clear"]" />
+        /// <include file="tets-keys-keylist.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyListTest.Clear"]' />
         public virtual void Clear()
         {
 

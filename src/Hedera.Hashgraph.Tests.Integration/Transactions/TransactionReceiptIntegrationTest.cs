@@ -2,13 +2,13 @@
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TransactionReceiptIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest"]" />
+    /// <include file="TransactionReceiptIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransactionReceiptIntegrationTest"]' />
     public class TransactionReceiptIntegrationTest
     {
         [Fact]
-        /// <include file="TransactionReceiptIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest.NextExchangeRatePropertyIsNotNullInTransactionReceipt"]" />
+        /// <include file="TransactionReceiptIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionReceiptIntegrationTest.NextExchangeRatePropertyIsNotNullInTransactionReceipt"]' />
         public virtual void NextExchangeRatePropertyIsNotNullInTransactionReceipt()
         {
             using (var testEnv = new IntegrationTestEnv(1))

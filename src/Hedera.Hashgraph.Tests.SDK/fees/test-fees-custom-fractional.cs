@@ -6,7 +6,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
-    /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest"]" />
+    /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest"]' />
     public class CustomFractionalFeeTest
     {
         private static readonly bool allCollectorsAreExempt = true;
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToString());
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.DeepCloneSubclass"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.DeepCloneSubclass"]' />
         public virtual void DeepCloneSubclass()
         {
             var customFractionalFee = new CustomFractionalFee
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetNumerator"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetNumerator"]' />
         public virtual void GetSetNumerator()
         {
             var customFractionalFee = new CustomFractionalFee { Numerator = numerator };
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFractionalFee.Numerator, numerator);
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetDenominator"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetDenominator"]' />
         public virtual void GetSetDenominator()
         {
             var customFractionalFee = new CustomFractionalFee { Denominator = denominator };
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFractionalFee.Denominator, denominator);
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMinimumAmount"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMinimumAmount"]' />
         public virtual void GetSetMinimumAmount()
         {
             var customFractionalFee = new CustomFractionalFee { Min = minAmount };
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFractionalFee.Min, minAmount);
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMaximumAmount"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMaximumAmount"]' />
         public virtual void GetSetMaximumAmount()
         {
             var customFractionalFee = new CustomFractionalFee { Max = maxAmount };
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFractionalFee.Max, maxAmount);
         }
         [Fact]
-        /// <include file="test-fees-custom-fractional.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetAssessmentMethod"]" />
+        /// <include file="test-fees-custom-fractional.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetAssessmentMethod"]' />
         public virtual void GetSetAssessmentMethod()
         {
             var customFractionalFee = new CustomFractionalFee { AssessmentMethod = feeAssessmentMethod };

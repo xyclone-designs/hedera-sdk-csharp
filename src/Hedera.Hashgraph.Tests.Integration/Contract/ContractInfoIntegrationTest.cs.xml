@@ -1,23 +1,23 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest">
     <summary>TODO: Describe ContractInfoIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.CanQueryContractInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.CanQueryContractInfo">
     <summary>TODO: Describe CanQueryContractInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.CanQueryContractInfoWhenAdminKeyIsNull">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.CanQueryContractInfoWhenAdminKeyIsNull">
     <summary>TODO: Describe CanQueryContractInfoWhenAdminKeyIsNull.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.CannotQueryContractInfoWhenContractIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.CannotQueryContractInfoWhenContractIDIsNotSet">
     <summary>TODO: Describe CannotQueryContractInfoWhenContractIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.GetCostBigMaxContractInfoFunction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.GetCostBigMaxContractInfoFunction">
     <summary>TODO: Describe GetCostBigMaxContractInfoFunction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.GetCostSmallMaxContractInfoFunction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.GetCostSmallMaxContractInfoFunction">
     <summary>TODO: Describe GetCostSmallMaxContractInfoFunction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractInfoIntegrationTest.GetCostInsufficientTxFeeContractInfoFunction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractInfoIntegrationTest.GetCostInsufficientTxFeeContractInfoFunction">
     <summary>TODO: Describe GetCostInsufficientTxFeeContractInfoFunction.</summary>
   </member>
 </docs>

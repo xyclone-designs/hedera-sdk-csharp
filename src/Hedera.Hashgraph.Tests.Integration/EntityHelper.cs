@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
     /// <summary>
     /// The EntityCreator class provides static methods for creating different entities in a Hedera network, such as token, account, and contract.

@@ -1,32 +1,32 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest">
     <summary>TODO: Describe AccountUpdateTransactionHooksIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithBasicLambdaHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithBasicLambdaHookSucceeds">
     <summary>TODO: Describe AccountUpdateWithBasicLambdaHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithDuplicateHookIdsInSameTransactionFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithDuplicateHookIdsInSameTransactionFails">
     <summary>TODO: Describe AccountUpdateWithDuplicateHookIdsInSameTransactionFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithExistingHookIdFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithExistingHookIdFails">
     <summary>TODO: Describe AccountUpdateWithExistingHookIdFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds">
     <summary>TODO: Describe AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookIdAlreadyInUseFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookIdAlreadyInUseFails">
     <summary>TODO: Describe AccountUpdateWithHookIdAlreadyInUseFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookDeletionSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookDeletionSucceeds">
     <summary>TODO: Describe AccountUpdateWithHookDeletionSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithNonExistentHookIdDeletionFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithNonExistentHookIdDeletionFails">
     <summary>TODO: Describe AccountUpdateWithNonExistentHookIdDeletionFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAddAndDeleteSameHookIdFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAddAndDeleteSameHookIdFails">
     <summary>TODO: Describe AccountUpdateWithAddAndDeleteSameHookIdFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAlreadyDeletedHookFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAlreadyDeletedHookFails">
     <summary>TODO: Describe AccountUpdateWithAlreadyDeletedHookFails.</summary>
   </member>
 </docs>

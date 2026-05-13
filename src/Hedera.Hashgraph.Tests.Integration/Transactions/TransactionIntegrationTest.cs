@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest"]" />
+    /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest"]' />
     public class TransactionIntegrationTest
     {
         public virtual async void TransactionHashInTransactionRecordIsEqualToTheDerivedTransactionHash()
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeCompareFields"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeCompareFields"]' />
         public virtual void CanSerializeDeserializeCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeWithNodeAccountIdsDeserializeCompareFields"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeWithNodeAccountIdsDeserializeCompareFields"]' />
         public virtual void CanSerializeWithNodeAccountIdsDeserializeCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransaction"]' />
         public virtual void CanSerializeDeserializeAndExecuteIncompleteTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds"]' />
         public virtual void CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -142,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFields"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFields"]' />
         public virtual void CanSerializeDeserializeEditExecuteCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -170,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds"]' />
         public virtual void CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -202,7 +202,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeReserializeAndExecute"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeReserializeAndExecute"]' />
         public virtual void CanFreezeSignSerializeDeserializeReserializeAndExecute()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -245,7 +245,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSerializeDeserializeAddSignatureAndExecute"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanFreezeSerializeDeserializeAddSignatureAndExecute"]' />
         public virtual void CanFreezeSerializeDeserializeAddSignatureAndExecute()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -278,7 +278,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction"]' />
         public virtual void CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -319,7 +319,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteFileAppendChunkedTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteFileAppendChunkedTransaction"]' />
         public virtual void CanSerializeDeserializeExecuteFileAppendChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -369,7 +369,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds"]' />
         public virtual void CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -421,7 +421,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction"]' />
         public virtual void CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -459,7 +459,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction"]' />
         public virtual void CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -508,7 +508,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds"]' />
         public virtual void CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -559,7 +559,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         // dumb, but it's a good idea for a test.
         // Any way to fix it and bring it back?
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.TransactionFromToBytes2"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.TransactionFromToBytes2"]' />
         public virtual void TransactionFromToBytes2()
         {
 			var id = TransactionId.Generate(new AccountId(0, 0, 542348));
@@ -645,7 +645,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
-        /// <include file="TransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanAddSignatureToTransaction"]" />
+        /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest.CanAddSignatureToTransaction"]' />
         public virtual void CanAddSignatureToTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

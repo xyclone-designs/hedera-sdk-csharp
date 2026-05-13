@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Airdrops;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest"]" />
+    /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest"]' />
     public class TokenAirdropClaimIntegrationTest
     {
         private readonly int amount = 100;
 
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokens"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokens"]' />
         public virtual void CanClaimTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -92,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensToMultipleReceivers"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensToMultipleReceivers"]' />
         public virtual void CanClaimTokensToMultipleReceivers()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -138,7 +139,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 record = new TokenClaimAirdropTransaction
                 {
-					PendingAirdropIds = pendingAirdropIDs,
+					PendingAirdropIds = [.. pendingAirdropIDs],
 				
                 }.FreezeWith(testEnv.Client).Sign(receiver1AccountKey).Sign(receiver2AccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -177,7 +178,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensFromMultipleAirdropTxns"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensFromMultipleAirdropTxns"]' />
         public virtual void CanClaimTokensFromMultipleAirdropTxns()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -225,7 +226,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // claim the all the tokens with the receiver
                 var record = new TokenClaimAirdropTransaction
                 {
-					PendingAirdropIds = pendingAirdropIDs,
+					PendingAirdropIds = [.. pendingAirdropIDs],
 
 				}.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -246,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForNonExistingAirdrop"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForNonExistingAirdrop"]' />
         public virtual void CannotClaimTokensForNonExistingAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -282,7 +283,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForAlreadyClaimedAirdrop"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForAlreadyClaimedAirdrop"]' />
         public virtual void CannotClaimTokensForAlreadyClaimedAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -324,7 +325,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimWithEmptyPendingAirdropsList"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimWithEmptyPendingAirdropsList"]' />
         public virtual void CannotClaimWithEmptyPendingAirdropsList()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -343,7 +344,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWithDuplicateEntries"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWithDuplicateEntries"]' />
         public virtual void CannotClaimTokensWithDuplicateEntries()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -377,7 +378,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsPaused"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsPaused"]' />
         public virtual void CannotClaimTokensWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -416,7 +417,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsDeleted"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsDeleted"]' />
         public virtual void CannotClaimTokensWhenTokenIsDeleted()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -455,7 +456,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsFrozen"]" />
+        /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsFrozen"]' />
         public virtual void CannotClaimTokensWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

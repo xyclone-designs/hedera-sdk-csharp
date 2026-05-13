@@ -7,14 +7,15 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest"]" />
+    /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest"]' />
     public class TokenUpdateNftsIntegrationTest
     {
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfEntireCollection"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfEntireCollection"]' />
         public virtual void CanUpdateNFTMetadataOfEntireCollection()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfPartOfCollection"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanUpdateNFTMetadataOfPartOfCollection"]' />
         public virtual void CanUpdateNFTMetadataOfPartOfCollection()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -138,7 +139,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenItsNotSet"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenItsNotSet"]' />
         public virtual void CannotUpdateNFTMetadataWhenItsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -192,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CanEraseNFTsMetadata"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CanEraseNFTsMetadata"]' />
         public virtual void CanEraseNFTsMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -248,7 +249,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey"]' />
         public virtual void CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -313,7 +314,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenMetadataKeyNotSet"]" />
+        /// <include file="TokenUpdateNftsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenUpdateNftsIntegrationTest.CannotUpdateNFTMetadataWhenMetadataKeyNotSet"]' />
         public virtual void CannotUpdateNFTMetadataWhenMetadataKeyNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

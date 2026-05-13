@@ -1,32 +1,32 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest">
     <summary>TODO: Describe ContractUpdateTransactionHooksIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithBasicLambdaHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithBasicLambdaHookSucceeds">
     <summary>TODO: Describe ContractUpdateWithBasicLambdaHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithDuplicateHookIdsInSameTransactionFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithDuplicateHookIdsInSameTransactionFails">
     <summary>TODO: Describe ContractUpdateWithDuplicateHookIdsInSameTransactionFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithExistingHookIdFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithExistingHookIdFails">
     <summary>TODO: Describe ContractUpdateWithExistingHookIdFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithLambdaHookAndStorageUpdatesSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithLambdaHookAndStorageUpdatesSucceeds">
     <summary>TODO: Describe ContractUpdateWithLambdaHookAndStorageUpdatesSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithHookIdAlreadyInUseFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithHookIdAlreadyInUseFails">
     <summary>TODO: Describe ContractUpdateWithHookIdAlreadyInUseFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithHookDeletionSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithHookDeletionSucceeds">
     <summary>TODO: Describe ContractUpdateWithHookDeletionSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithNonExistentHookIdDeletionFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithNonExistentHookIdDeletionFails">
     <summary>TODO: Describe ContractUpdateWithNonExistentHookIdDeletionFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithAddAndDeleteSameHookIdFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithAddAndDeleteSameHookIdFails">
     <summary>TODO: Describe ContractUpdateWithAddAndDeleteSameHookIdFails.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithAlreadyDeletedHookFails">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest.ContractUpdateWithAlreadyDeletedHookFails">
     <summary>TODO: Describe ContractUpdateWithAlreadyDeletedHookFails.</summary>
   </member>
 </docs>

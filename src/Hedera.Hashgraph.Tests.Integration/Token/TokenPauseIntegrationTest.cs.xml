@@ -1,11 +1,11 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenPauseIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenPauseIntegrationTest">
     <summary>TODO: Describe TokenPauseIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenPauseIntegrationTest.CanExecuteTokenPauseTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenPauseIntegrationTest.CanExecuteTokenPauseTransaction">
     <summary>TODO: Describe CanExecuteTokenPauseTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenPauseIntegrationTest.CannotPauseWithNoTokenId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenPauseIntegrationTest.CannotPauseWithNoTokenId">
     <summary>TODO: Describe CannotPauseWithNoTokenId.</summary>
   </member>
 </docs>

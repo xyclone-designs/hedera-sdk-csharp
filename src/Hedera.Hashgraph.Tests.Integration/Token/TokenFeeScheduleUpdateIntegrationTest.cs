@@ -3,14 +3,15 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Cryptography;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest"]" />
+    /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest"]' />
     public class TokenFeeScheduleUpdateIntegrationTest
     {
         [Fact]
-        /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CanUpdateToken"]" />
+        /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CanUpdateToken"]' />
         public virtual void CanUpdateToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -143,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CannotUpdateWithAnyOtherKey"]" />
+        /// <include file="TokenFeeScheduleUpdateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenFeeScheduleUpdateIntegrationTest.CannotUpdateWithAnyOtherKey"]' />
         public virtual void CannotUpdateWithAnyOtherKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

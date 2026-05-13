@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateTransactionHooksIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest">
     <summary>TODO: Describe ContractCreateTransactionHooksIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithBasicLambdaHookSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithBasicLambdaHookSucceeds">
     <summary>TODO: Describe ContractCreateWithBasicLambdaHookSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithLambdaHookAndStorageUpdatesSucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithLambdaHookAndStorageUpdatesSucceeds">
     <summary>TODO: Describe ContractCreateWithLambdaHookAndStorageUpdatesSucceeds.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithDuplicateHookIdsFailsPrecheck">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithDuplicateHookIdsFailsPrecheck">
     <summary>TODO: Describe ContractCreateWithDuplicateHookIdsFailsPrecheck.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithLambdaHookAndAdminKeySucceeds">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest.ContractCreateWithLambdaHookAndAdminKeySucceeds">
     <summary>TODO: Describe ContractCreateWithLambdaHookAndAdminKeySucceeds.</summary>
   </member>
 </docs>

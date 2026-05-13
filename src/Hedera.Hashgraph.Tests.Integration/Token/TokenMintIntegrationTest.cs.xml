@@ -1,26 +1,26 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest">
     <summary>TODO: Describe TokenMintIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintTokens">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintTokens">
     <summary>TODO: Describe CanMintTokens.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintMoreThanMaxSupply">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintMoreThanMaxSupply">
     <summary>TODO: Describe CannotMintMoreThanMaxSupply.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenTokenIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenTokenIDIsNotSet">
     <summary>TODO: Describe CannotMintTokensWhenTokenIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintTokensWhenAmountIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintTokensWhenAmountIsNotSet">
     <summary>TODO: Describe CanMintTokensWhenAmountIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenSupplyKeyDoesNotSignTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintTokensWhenSupplyKeyDoesNotSignTransaction">
     <summary>TODO: Describe CannotMintTokensWhenSupplyKeyDoesNotSignTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CanMintNfts">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CanMintNfts">
     <summary>TODO: Describe CanMintNfts.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenMintIntegrationTest.CannotMintNftsIfMetadataTooBig">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenMintIntegrationTest.CannotMintNftsIfMetadataTooBig">
     <summary>TODO: Describe CannotMintNftsIfMetadataTooBig.</summary>
   </member>
 </docs>

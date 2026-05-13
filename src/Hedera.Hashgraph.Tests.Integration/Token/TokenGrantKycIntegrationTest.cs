@@ -5,13 +5,13 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenGrantKycIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest"]" />
+    /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest"]' />
     public class TokenGrantKycIntegrationTest
     {
         [Fact]
-        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CanGrantKycAccountWithToken"]" />
+        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest.CanGrantKycAccountWithToken"]' />
         public virtual void CanGrantKycAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
-        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet"]" />
+        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet"]' />
         public virtual void CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
-        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet"]" />
+        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet"]' />
         public virtual void CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
-        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith"]" />
+        /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith"]' />
         public virtual void CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

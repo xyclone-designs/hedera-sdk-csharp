@@ -1,20 +1,20 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest">
     <summary>TODO: Describe TopicInfoIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.CanQueryTopicInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.CanQueryTopicInfo">
     <summary>TODO: Describe CanQueryTopicInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostQueryTopicInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostQueryTopicInfo">
     <summary>TODO: Describe GetCostQueryTopicInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostBigMaxQueryTopicInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostBigMaxQueryTopicInfo">
     <summary>TODO: Describe GetCostBigMaxQueryTopicInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostSmallMaxQueryTopicInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostSmallMaxQueryTopicInfo">
     <summary>TODO: Describe GetCostSmallMaxQueryTopicInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostInsufficientTxFeeQueryTopicInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostInsufficientTxFeeQueryTopicInfo">
     <summary>TODO: Describe GetCostInsufficientTxFeeQueryTopicInfo.</summary>
   </member>
 </docs>

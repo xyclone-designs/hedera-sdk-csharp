@@ -9,7 +9,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
     public class IntegrationTestEnv : IDisposable
     {

@@ -8,13 +8,13 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest"]" />
+    /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest"]' />
     public class ClientIntegrationTest
     {
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.FailsWhenNoNodesAreMatching"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.FailsWhenNoNodesAreMatching"]' />
         public virtual void FailsWhenNoNodesAreMatching()
         {
             var client = Client.ForTestnet(client => client.TransportSecurity = true);
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.CanSkipNodes"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.CanSkipNodes"]' />
         public virtual void CanSkipNodes()
         {
             var client = Client.ForTestnet(client => client.TransportSecurity = true);
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestReplaceNodes"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.TestReplaceNodes"]' />
         public virtual void TestReplaceNodes()
         {
             Dictionary<string, AccountId> network = new()
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TransactionIdNetworkIsVerified"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.TransactionIdNetworkIsVerified"]' />
         public virtual void TransactionIdNetworkIsVerified()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             });
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestMaxNodesPerTransaction"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.TestMaxNodesPerTransaction"]' />
         public virtual void TestMaxNodesPerTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.Ping"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.Ping"]' />
         public virtual void Ping()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAll"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.PingAll"]' />
         public virtual void PingAll()
         {
             using (var testEnv = new IntegrationTestEnv())
@@ -146,7 +146,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAllBadNetwork"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.PingAllBadNetwork"]' />
         public virtual void PingAllBadNetwork()
         {
             using (var testEnv = new IntegrationTestEnv(3))
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAsync"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.PingAsync"]' />
         public virtual void PingAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -194,7 +194,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAllAsync"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.PingAllAsync"]' />
         public virtual void PingAllAsync()
         {
             using (var testEnv = new IntegrationTestEnv())
@@ -213,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetwork"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetwork"]' />
         public virtual void TestClientInitWithMirrorNetwork()
         {
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";
@@ -226,7 +226,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
         }
         [Fact]
-        /// <include file="ClientIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetworkAnCustomRealmAndShard"]" />
+        /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetworkAnCustomRealmAndShard"]' />
         public virtual void TestClientInitWithMirrorNetworkAnCustomRealmAndShard()
         {
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";

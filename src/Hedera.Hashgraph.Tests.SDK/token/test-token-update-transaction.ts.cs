@@ -13,7 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest"]" />
+    /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest"]' />
     public class TokenUpdateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUpdateTransaction();
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             }.Freeze().Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ShouldBytes"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenUpdateTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ConstructTokenUpdateTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.ConstructTokenUpdateTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenUpdateTransactionBody
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TokenKeyVerificationMode, TokenKeyValidation.NoValidation);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenId"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenId"]' />
         public virtual void GetSetTokenId()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TokenId, testTokenId);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenIdFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenIdFrozen"]' />
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
@@ -191,14 +191,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TokenName, testTokenName);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetNameFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetNameFrozen"]' />
         public virtual void GetSetNameFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenName = testTokenName);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSymbol"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSymbol"]' />
         public virtual void GetSetSymbol()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -208,14 +208,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TokenSymbol, testTokenSymbol);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSymbolFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSymbolFrozen"]' />
         public virtual void GetSetSymbolFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenSymbol = testTokenSymbol);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTreasuryAccountId"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTreasuryAccountId"]' />
         public virtual void GetSetTreasuryAccountId()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -225,14 +225,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TreasuryAccountId, testTreasuryAccountId);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTreasuryAccountIdFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTreasuryAccountIdFrozen"]' />
         public virtual void GetSetTreasuryAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TreasuryAccountId = testTreasuryAccountId);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAdminKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAdminKey"]' />
         public virtual void GetSetAdminKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -242,14 +242,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.AdminKey, testAdminKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAdminKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAdminKeyFrozen"]' />
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AdminKey = testAdminKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKycKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKycKey"]' />
         public virtual void GetSetKycKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -259,14 +259,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.KycKey, testKycKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKycKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKycKeyFrozen"]' />
         public virtual void GetSetKycKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.KycKey = testKycKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFreezeKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFreezeKey"]' />
         public virtual void GetSetFreezeKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -276,14 +276,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.FreezeKey, testFreezeKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFreezeKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFreezeKeyFrozen"]' />
         public virtual void GetSetFreezeKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.FreezeKey = testFreezeKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetWipeKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetWipeKey"]' />
         public virtual void GetSetWipeKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -293,14 +293,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.WipeKey, testWipeKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetWipeKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetWipeKeyFrozen"]' />
         public virtual void GetSetWipeKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.WipeKey = testWipeKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSupplyKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSupplyKey"]' />
         public virtual void GetSetSupplyKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -310,14 +310,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.SupplyKey, testSupplyKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSupplyKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetSupplyKeyFrozen"]' />
         public virtual void GetSetSupplyKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.SupplyKey = testSupplyKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewAccountId"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewAccountId"]' />
         public virtual void GetSetAutoRenewAccountId()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -327,14 +327,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewAccountIdFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewAccountIdFrozen"]' />
         public virtual void GetSetAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = testAutoRenewAccountId);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewPeriod"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewPeriod"]' />
         public virtual void GetSetAutoRenewPeriod()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -344,14 +344,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewPeriodFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetAutoRenewPeriodFrozen"]' />
         public virtual void GetSetAutoRenewPeriodFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetExpirationTime"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetExpirationTime"]' />
         public virtual void GetSetExpirationTime()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -361,14 +361,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.ExpirationTime, testExpirationTime);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetExpirationTimeFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetExpirationTimeFrozen"]' />
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenMemo"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenMemo"]' />
         public virtual void GetSetTokenMemo()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -378,14 +378,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.TokenMemo, testTokenMemo);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenMemoFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetTokenMemoFrozen"]' />
         public virtual void GetSetTokenMemoFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenMemo = testTokenMemo);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFeeScheduleKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFeeScheduleKey"]' />
         public virtual void GetSetFeeScheduleKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -395,14 +395,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.FeeScheduleKey, testFeeScheduleKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFeeScheduleKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetFeeScheduleKeyFrozen"]' />
         public virtual void GetSetFeeScheduleKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.FeeScheduleKey = testFeeScheduleKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetPauseKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetPauseKey"]' />
         public virtual void GetSetPauseKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -412,14 +412,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.PauseKey, testPauseKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetPauseKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetPauseKeyFrozen"]' />
         public virtual void GetSetPauseKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.PauseKey = testPauseKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataKey"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataKey"]' />
         public virtual void GetSetMetadataKey()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
@@ -429,35 +429,35 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.MetadataKey, testMetadataKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataKeyFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataKeyFrozen"]' />
         public virtual void GetSetMetadataKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.MetadataKey = testMetadataKey);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadata"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadata"]' />
         public virtual void GetSetMetadata()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.TokenMetadata, testMetadata);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetMetadataFrozen"]' />
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenMetadata = testMetadata);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKeyVerificationMode"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKeyVerificationMode"]' />
         public virtual void GetSetKeyVerificationMode()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.TokenKeyVerificationMode, TokenKeyValidation.NoValidation);
         }
         [Fact]
-        /// <include file="test-token-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKeyVerificationModeFrozen"]" />
+        /// <include file="test-token-update-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUpdateTransactionTest.GetSetKeyVerificationModeFrozen"]' />
         public virtual void GetSetKeyVerificationModeFrozen()
         {
             var tx = SpawnTestTransaction();

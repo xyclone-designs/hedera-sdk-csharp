@@ -13,11 +13,11 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest"]" />
+    /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest"]' />
     public class KeyTest
     {
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerified"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerified"]' />
         public virtual void SignatureVerified()
         {
 			var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(publicKey.Verify(message, signature));
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerifiedECDSA"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerifiedECDSA"]' />
         public virtual void SignatureVerifiedECDSA()
         {
             var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.False(publicKey.Verify(message, signature));
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.CalculateRecoveryIdECDSA"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.CalculateRecoveryIdECDSA"]' />
         public virtual void CalculateRecoveryIdECDSA()
         {
 			var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(recId >= 0 && recId <= 1);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FailToCalculateRecoveryIdWithIllegalInputDataECDSA"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FailToCalculateRecoveryIdWithIllegalInputDataECDSA"]' />
         public virtual void FailToCalculateRecoveryIdWithIllegalInputDataECDSA()
         {
 
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyEd25519"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyEd25519"]' />
         public virtual void FromProtoKeyEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(cut.ToBytes(), keyBytes);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyECDSA"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyECDSA"]' />
         public virtual void FromProtoKeyECDSA()
         {
             var keyProtobufBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(((PublicKey)cut).ToProtobufKey().ToByteArray(), keyProtobufBytes);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyKeyList"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyKeyList"]' />
         public virtual void FromProtoKeyKeyList()
         {
             // given
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyThresholdKey"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyThresholdKey"]' />
         public virtual void FromProtoKeyThresholdKey()
         {
             // given
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKey"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKey"]' />
         public virtual void ThrowsUnsupportedKey()
         {
             byte[] keyBytes = new[]
@@ -177,7 +177,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Key.FromProtobufKey(protoKey));
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyEquals"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyEquals"]' />
         public virtual void KeyEquals()
         {
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -189,14 +189,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.NotEqual("random string", key1.GetPublicKey().ToStringRaw());
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyHash"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyHash"]' />
         public virtual void KeyHash()
         {
             var key = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             var _ = key.GetHashCode();
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyListMethods"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyListMethods"]' />
         public virtual void KeyListMethods()
         {
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -235,7 +235,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Empty(keyList);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesEd25519"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesEd25519"]' />
         public virtual void FromBytesEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
@@ -246,7 +246,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(cut.ToBytes(), keyBytes);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesECDSA"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesECDSA"]' />
         public virtual void FromBytesECDSA()
         {
             var keyBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
@@ -255,7 +255,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(cut.ToProtobufKey().ToByteArray(), keyBytes);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesKeyList"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesKeyList"]' />
         public virtual void FromBytesKeyList()
         {
             var keyBytes = new byte[][]
@@ -281,7 +281,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesThresholdKey"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesThresholdKey"]' />
         public virtual void FromBytesThresholdKey()
         {
             var keyBytes = new byte[][]
@@ -311,7 +311,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
         [Fact]
-        /// <include file="tets-keys-key.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKeyFromBytes"]" />
+        /// <include file="tets-keys-key.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKeyFromBytes"]' />
         public virtual void ThrowsUnsupportedKeyFromBytes()
         {
             byte[] keyBytes = [0, 1, 2];

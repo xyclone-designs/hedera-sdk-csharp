@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest"]" />
+    /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest"]' />
     public class TransactionIdTest
     {
         public virtual void ShouldSerialize()
@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Verifier.Verify(TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/3").ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes"]' />
         public virtual void ShouldToBytes()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes2"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes2"]' />
         public virtual void ShouldToBytes2()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/2");
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFromBytes"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFromBytes"]' />
         public virtual void ShouldFromBytes()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParse"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParse"]' />
         public virtual void ShouldParse()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325");
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(632521325, validStart.Nanosecond);
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseScheduled"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseScheduled"]' />
         public virtual void ShouldParseScheduled()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal("0.0.23847@1588539964.632521325?scheduled", transactionId.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseNonce"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseNonce"]' />
         public virtual void ShouldParseNonce()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325/4");
@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal("0.0.23847@1588539964.632521325/4", transactionId.ToString());
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.Compare"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.Compare"]' />
         public virtual void Compare()
         {
             // Compare when only one of the txs is schedules
@@ -148,14 +148,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(transactionId1, transactionId2);
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFail"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFail"]' />
         public virtual void ShouldFail()
         {
             Assert.Throws<ArgumentException>(() => TransactionId.FromString("0.0.23847.1588539964.632521325/4"));
             Assert.Throws<ArgumentException>(() => TransactionId.FromString("0.0.23847@1588539964/4"));
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldAddTrailingZeroesToNanoseconds"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldAddTrailingZeroesToNanoseconds"]' />
         public virtual void ShouldAddTrailingZeroesToNanoseconds()
         {
             var txIdString = "0.0.4163533@1681876267.054802581";
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(txId.ToString(), txIdString);
         }
         [Fact]
-        /// <include file="test-transactions-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.EqualsHashCodeContractWithNonce"]" />
+        /// <include file="test-transactions-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.EqualsHashCodeContractWithNonce"]' />
         public virtual void EqualsHashCodeContractWithNonce()
         {
             AccountId accountId = new (0, 0, 1000);

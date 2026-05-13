@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest"]" />
+    /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest"]' />
     public class Ed25519PrivateKeyTest
     {
         private static readonly string TEST_KEY_STR = "302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10";
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             yield return TEST_KEY_STR_RAW;
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyGenerates"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyGenerates"]' />
         public virtual void KeyGenerates()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(key.IsDerivable());
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization"]' />
         public virtual void KeySerialization()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Bytes, key1Bytes);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization2"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization2"]' />
         public virtual void KeySerialization2()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key3Bytes, key1Bytes);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization3"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization3"]' />
         public virtual void KeySerialization3()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key3Bytes, key1Bytes);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification"]' />
         public virtual void KeyStringification()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2String, key1String);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification2"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification2"]' />
         public virtual void KeyStringification2()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key3String, key1String);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification3"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification3"]' />
         public virtual void KeyStringification3()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToStringRaw(), TEST_KEY_STR_RAW);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyToString"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyToString"]' />
         public virtual void KeyToString()
         {
             PrivateKey key = PrivateKey.FromString(TEST_KEY_STR);
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToString(), TEST_KEY_STR);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromPem"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromPem"]' />
         public virtual void KeyFromPem()
         {
             StringReader stringReader = new StringReader(TEST_KEY_PEM);
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(privateKey.ToString(), TEST_KEY_STR);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromMnemonic"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromMnemonic"]' />
         public virtual void KeyFromMnemonic()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_STRING);
@@ -179,7 +179,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Mnemonic.FromString(mnemonic.ToString());
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ValidateLegacyMnemonic"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ValidateLegacyMnemonic"]' />
         public virtual void ValidateLegacyMnemonic()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_LEGACY_STRING);
@@ -192,7 +192,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Mnemonic.FromString(mnemonic.ToString());
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DeriveKeyIndex0"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DeriveKeyIndex0"]' />
         public virtual void DeriveKeyIndex0()
         {
             Mnemonic iosMnemonic = Mnemonic.FromString(IOS_MNEMONIC_STRING);
@@ -207,7 +207,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(androidDerivedKey.ToBytes(), androidExpectedKey.ToBytes());
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic24"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic24"]' />
         public virtual void KeyFromGeneratedMnemonic24()
         {
             Mnemonic mnemonic = Mnemonic.Generate24();
@@ -217,7 +217,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic12"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic12"]' />
         public virtual void KeyFromGeneratedMnemonic12()
         {
             Mnemonic mnemonic = Mnemonic.Generate12();
@@ -227,14 +227,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromEncryptedPem"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromEncryptedPem"]' />
         public virtual void KeyFromEncryptedPem()
         {
             PrivateKey privateKey = PrivateKey.FromPem(ENCRYPTED_PEM, PEM_PASSPHRASE);
             Assert.Equal(privateKey.ToString(), TEST_KEY_STR);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ErrorKeyFromEncryptedPemNoPassphrase"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ErrorKeyFromEncryptedPemNoPassphrase"]' />
         public virtual void ErrorKeyFromEncryptedPemNoPassphrase()
         {
             BadKeyException exception = Assert.Throws<BadKeyException>(() => PrivateKey.FromPem(ENCRYPTED_PEM));
@@ -250,14 +250,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(Hex.ToHexString(signature), SIG_STR);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsECDSA"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsECDSA"]' />
         public virtual void KeyIsECDSA()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
             Assert.True(key.IsED25519());
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsNotEd25519"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsNotEd25519"]' />
         public virtual void KeyIsNotEd25519()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
@@ -276,7 +276,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			return data;
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector1"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector1"]' />
         public virtual void Slip10TestVector1()
         {
             // https://github.com/satoshilabs/slips/blob/master/slip-0010.md#test-vector-1-for-ed25519
@@ -337,7 +337,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector2"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector2"]' />
         public virtual void Slip10TestVector2()
         {
 
@@ -399,7 +399,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.PEMImportTestVectors"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.PEMImportTestVectors"]' />
         public virtual void PEMImportTestVectors()
         {
 
@@ -418,7 +418,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(ed25519PrivateKey2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
         }
         [Fact]
-        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DERImportTestVectors"]" />
+        /// <include file="tets-keys-privatekey-ed25519.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DERImportTestVectors"]' />
         public virtual void DERImportTestVectors()
         {
 

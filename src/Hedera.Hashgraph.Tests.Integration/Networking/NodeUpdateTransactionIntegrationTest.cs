@@ -10,13 +10,13 @@ using Hedera.Hashgraph.SDK;
 using System.Linq;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest"]" />
+    /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest"]' />
     public class NodeUpdateTransactionIntegrationTest
     {
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanExecuteNodeUpdateTransaction"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanExecuteNodeUpdateTransaction"]' />
         public virtual void CanExecuteNodeUpdateTransaction()
         {
 
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanDeleteGrpcWebProxyEndpoint"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanDeleteGrpcWebProxyEndpoint"]' />
         public virtual void CanDeleteGrpcWebProxyEndpoint()
         {
 
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]// ================== hip-1299 changing node account ID (dab) tests ==================
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures"]' />
         public virtual void ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures()
         {
 
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeToSameAccount"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeToSameAccount"]' />
         public virtual void TestNodeUpdateTransactionCanChangeToSameAccount()
         {
 
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry"]' />
         public virtual void TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry()
         {
 
@@ -247,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature"]' />
         public virtual void TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature()
         {
 
@@ -297,7 +297,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature"]' />
         public virtual void TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature()
         {
 
@@ -348,7 +348,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]// TODO - currently the test fails because returned status is ResponseStatus.InvalidSignature
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount"]' />
         public virtual void TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount()
         {
 
@@ -392,7 +392,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount"]' />
         public virtual void TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount()
         {
 
@@ -452,7 +452,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSubsequentTransactionWithNewNodeAccountIdSucceeds"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSubsequentTransactionWithNewNodeAccountIdSucceeds"]' />
         public virtual void TestSubsequentTransactionWithNewNodeAccountIdSucceeds()
         {
 
@@ -517,7 +517,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount"]" />
+        /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount"]' />
         public virtual void TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount()
         {
             var network = new Dictionary<string, AccountId>()

@@ -1,47 +1,47 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest">
     <summary>TODO: Describe ScheduleCreateIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateSchedule">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateSchedule">
     <summary>TODO: Describe CanCreateSchedule.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanGetTransactionSchedule">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanGetTransactionSchedule">
     <summary>TODO: Describe CanGetTransactionSchedule.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateWithSchedule">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateWithSchedule">
     <summary>TODO: Describe CanCreateWithSchedule.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule2">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule2">
     <summary>TODO: Describe CanSignSchedule2.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTokenTransfer">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTokenTransfer">
     <summary>TODO: Describe CanScheduleTokenTransfer.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTwoTransactions">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTwoTransactions">
     <summary>TODO: Describe CannotScheduleTwoTransactions.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTopicMessage">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTopicMessage">
     <summary>TODO: Describe CanScheduleTopicMessage.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule">
     <summary>TODO: Describe CanSignSchedule.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionOneYearIntoTheFuture">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionOneYearIntoTheFuture">
     <summary>TODO: Describe CannotScheduleTransactionOneYearIntoTheFuture.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionInThePast">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionInThePast">
     <summary>TODO: Describe CannotScheduleTransactionInThePast.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignScheduleAndWaitForExpiry">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanSignScheduleAndWaitForExpiry">
     <summary>TODO: Describe CanSignScheduleAndWaitForExpiry.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSigAndUpdateSigningRequirements">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSigAndUpdateSigningRequirements">
     <summary>TODO: Describe CanSignWithMultiSigAndUpdateSigningRequirements.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSig">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSig">
     <summary>TODO: Describe CanSignWithMultiSig.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanExecuteWithShortExpirationTime">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest.CanExecuteWithShortExpirationTime">
     <summary>TODO: Describe CanExecuteWithShortExpirationTime.</summary>
   </member>
 </docs>

@@ -9,7 +9,7 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
-    /// <include file="test-topic-message.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest"]" />
+    /// <include file="test-topic-message.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest"]' />
     public class TopicMessageTest
     {
         private static readonly DateTimeOffset testTimestamp = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly TransactionId testTransactionId = new (new AccountId(0, 0, 1), testTimestamp);
 
         [Fact]
-        /// <include file="test-topic-message.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.ConstructWithArgs"]" />
+        /// <include file="test-topic-message.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.ConstructWithArgs"]' />
         public virtual void ConstructWithArgs()
         {
             var consensusTopicResponse = new Proto.Mirror.ConsensusTopicResponse
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
         [Fact]
-        /// <include file="test-topic-message.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfSingle"]" />
+        /// <include file="test-topic-message.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfSingle"]' />
         public virtual void OfSingle()
         {
             var consensusTopicResponse = new Proto.Mirror.ConsensusTopicResponse
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
         [Fact]
-        /// <include file="test-topic-message.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfMany"]" />
+        /// <include file="test-topic-message.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfMany"]' />
         public virtual void OfMany()
         {
             var consensusTopicResponse1 = new Proto.Mirror.ConsensusTopicResponse

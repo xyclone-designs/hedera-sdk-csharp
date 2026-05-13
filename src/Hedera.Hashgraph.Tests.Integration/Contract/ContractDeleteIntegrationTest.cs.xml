@@ -1,14 +1,14 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractDeleteIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractDeleteIntegrationTest">
     <summary>TODO: Describe ContractDeleteIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractDeleteIntegrationTest.CanDeleteContractWithAdminKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractDeleteIntegrationTest.CanDeleteContractWithAdminKey">
     <summary>TODO: Describe CanDeleteContractWithAdminKey.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractDeleteIntegrationTest.CannotDeleteContractWhichHasNoAdminKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractDeleteIntegrationTest.CannotDeleteContractWhichHasNoAdminKey">
     <summary>TODO: Describe CannotDeleteContractWhichHasNoAdminKey.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractDeleteIntegrationTest.CannotDeleteContractWhenContractIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractDeleteIntegrationTest.CannotDeleteContractWhenContractIDIsNotSet">
     <summary>TODO: Describe CannotDeleteContractWhenContractIDIsNotSet.</summary>
   </member>
 </docs>

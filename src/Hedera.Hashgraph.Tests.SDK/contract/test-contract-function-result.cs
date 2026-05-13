@@ -10,7 +10,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
-    /// <include file="test-contract-function-result.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest"]" />
+    /// <include file="test-contract-function-result.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest"]' />
     public class ContractFunctionResultTest
     {
         internal static readonly string CALL_RESULT_HEX = "00000000000000000000000000000000000000000000000000000000ffffffff" + "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" + "00000000000000000000000011223344556677889900aabbccddeeff00112233" + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" + "00000000000000000000000000000000000000000000000000000000000000c0" + "0000000000000000000000000000000000000000000000000000000000000100" + "000000000000000000000000000000000000000000000000000000000000000d" + "48656c6c6f2c20776f726c642100000000000000000000000000000000000000" + "0000000000000000000000000000000000000000000000000000000000000014" + "48656c6c6f2c20776f726c642c20616761696e21000000000000000000000000";
@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         private static readonly byte[] callResult = Hex.Decode(CALL_RESULT_HEX);
         private static readonly byte[] stringArrayCallResult = Hex.Decode(STRING_ARRAY_RESULT_HEX);
         [Fact]
-        /// <include file="test-contract-function-result.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.ProvidesResultsCorrectly"]" />
+        /// <include file="test-contract-function-result.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.ProvidesResultsCorrectly"]' />
         public virtual void ProvidesResultsCorrectly()
         {
             var proto = new Proto.Services.ContractFunctionResult
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Single(result.ContractNonces, new ContractNonceInfo(ContractId.FromString("1.2.3"), 10));
         }
         [Fact]
-        /// <include file="test-contract-function-result.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.CanGetStringArrayResult"]" />
+        /// <include file="test-contract-function-result.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.CanGetStringArrayResult"]' />
         public virtual void CanGetStringArrayResult()
         {
             var result = new ContractFunctionResult(new Proto.Services.ContractFunctionResult

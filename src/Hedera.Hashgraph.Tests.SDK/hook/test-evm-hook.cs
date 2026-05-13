@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    /// <include file="test-evm-hook.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest"]" />
+    /// <include file="test-evm-hook.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest"]' />
     public class EvmHookTest
     {
         [Fact]
-        /// <include file="test-evm-hook.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.GettersReturnExpectedAndStorageUpdatesAreImmutable"]" />
+        /// <include file="test-evm-hook.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.GettersReturnExpectedAndStorageUpdatesAreImmutable"]' />
         public virtual void GettersReturnExpectedAndStorageUpdatesAreImmutable()
         {
             var contractId = new ContractId(0, 0, 123);
@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
 			Assert.IsType<IReadOnlyCollection<EvmHookStorageUpdate>>(updates); // list must be unmodifiable
 		}
         [Fact]
-        /// <include file="test-evm-hook.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ProtobufRoundTripPreservesData"]" />
+        /// <include file="test-evm-hook.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ProtobufRoundTripPreservesData"]' />
         public virtual void ProtobufRoundTripPreservesData()
         {
             var spec = new ContractId(0, 0, 77);
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(original.StorageUpdates, restored.StorageUpdates);
         }
         [Fact]
-        /// <include file="test-evm-hook.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.EqualsAndHashCodeDependOnSpecAndUpdates"]" />
+        /// <include file="test-evm-hook.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.EqualsAndHashCodeDependOnSpecAndUpdates"]' />
         public virtual void EqualsAndHashCodeDependOnSpecAndUpdates()
         {
             var spec1 = new ContractId(0, 0, 1);
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotEqual(a, d);
         }
         [Fact]
-        /// <include file="test-evm-hook.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ToStringContainsSpecAndUpdates"]" />
+        /// <include file="test-evm-hook.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ToStringContainsSpecAndUpdates"]' />
         public virtual void ToStringContainsSpecAndUpdates()
         {
             var spec = new ContractId(0, 0, 10);

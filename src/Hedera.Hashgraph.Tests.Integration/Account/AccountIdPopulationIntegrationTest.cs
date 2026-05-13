@@ -4,14 +4,15 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 using System.Threading;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest"]" />
+    /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest"]' />
     public class AccountIdPopulationIntegrationTest
     {
         [Fact]
-        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumSync"]" />
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumSync"]' />
         public virtual void CanPopulateAccountIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -42,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumAsync"]" />
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumAsync"]' />
         public virtual void CanPopulateAccountIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -74,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressSync"]" />
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressSync"]' />
         public virtual void CanPopulateAccountIdEvmAddressSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -104,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressAsync"]" />
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressAsync"]' />
         public virtual void CanPopulateAccountIdEvmAddressAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))

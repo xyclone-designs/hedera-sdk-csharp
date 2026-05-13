@@ -1,47 +1,47 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest">
     <summary>TODO: Describe FeeEstimateQueryIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenCreateTransactionFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenCreateTransactionFeeEstimate">
     <summary>TODO: Describe TokenCreateTransactionFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionStateModeFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionStateModeFeeEstimate">
     <summary>TODO: Describe TransferTransactionStateModeFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionIntrinsicModeFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionIntrinsicModeFeeEstimate">
     <summary>TODO: Describe TransferTransactionIntrinsicModeFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionDefaultModeIsState">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TransferTransactionDefaultModeIsState">
     <summary>TODO: Describe TransferTransactionDefaultModeIsState.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenMintTransactionFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TokenMintTransactionFeeEstimate">
     <summary>TODO: Describe TokenMintTransactionFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicCreateTransactionFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicCreateTransactionFeeEstimate">
     <summary>TODO: Describe TopicCreateTransactionFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.ContractCreateTransactionFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.ContractCreateTransactionFeeEstimate">
     <summary>TODO: Describe ContractCreateTransactionFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.FileCreateTransactionFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.FileCreateTransactionFeeEstimate">
     <summary>TODO: Describe FileCreateTransactionFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.FileAppendTransactionFeeEstimateAggregatesChunks">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.FileAppendTransactionFeeEstimateAggregatesChunks">
     <summary>TODO: Describe FileAppendTransactionFeeEstimateAggregatesChunks.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitSingleChunkFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitSingleChunkFeeEstimate">
     <summary>TODO: Describe TopicMessageSubmitSingleChunkFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitMultipleChunkFeeEstimate">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.TopicMessageSubmitMultipleChunkFeeEstimate">
     <summary>TODO: Describe TopicMessageSubmitMultipleChunkFeeEstimate.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.MalformedTransactionReturnsInvalidArgumentError">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.MalformedTransactionReturnsInvalidArgumentError">
     <summary>TODO: Describe MalformedTransactionReturnsInvalidArgumentError.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.QueryWithoutTransactionThrowsError">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.QueryWithoutTransactionThrowsError">
     <summary>TODO: Describe QueryWithoutTransactionThrowsError.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeEstimateQueryIntegrationTest.ActualFeesMatchEstimateWithinTolerance">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest.ActualFeesMatchEstimateWithinTolerance">
     <summary>TODO: Describe ActualFeesMatchEstimateWithinTolerance.</summary>
   </member>
 </docs>

@@ -4,13 +4,13 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Consensus;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest"]" />
+    /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest"]' />
     public class TopicInfoIntegrationTest
     {
         [Fact]
-        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.CanQueryTopicInfo"]" />
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.CanQueryTopicInfo"]' />
         public virtual void CanQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostQueryTopicInfo"]" />
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostQueryTopicInfo"]' />
         public virtual void GetCostQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostBigMaxQueryTopicInfo"]" />
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostBigMaxQueryTopicInfo"]' />
         public virtual void GetCostBigMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostSmallMaxQueryTopicInfo"]" />
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostSmallMaxQueryTopicInfo"]' />
         public virtual void GetCostSmallMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostInsufficientTxFeeQueryTopicInfo"]" />
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicInfoIntegrationTest.GetCostInsufficientTxFeeQueryTopicInfo"]' />
         public virtual void GetCostInsufficientTxFeeQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

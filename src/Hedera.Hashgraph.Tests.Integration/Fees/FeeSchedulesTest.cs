@@ -4,13 +4,13 @@ using Hedera.Hashgraph.SDK.Fee;
 
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FeeSchedulesTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FeeSchedulesTest"]" />
+    /// <include file="FeeSchedulesTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FeeSchedulesTest"]' />
     public class FeeSchedulesTest
     {
         [Fact]
-        /// <include file="FeeSchedulesTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeSchedulesTest.CanFetchFeeSchedules"]" />
+        /// <include file="FeeSchedulesTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FeeSchedulesTest.CanFetchFeeSchedules"]' />
         public virtual void CanFetchFeeSchedules()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
-    /// <include file="test-ethereum-flowmock.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest"]" />
+    /// <include file="test-ethereum-flowmock.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest"]' />
     public class EthereumFlowMockTest
     {
         static ByteString ETHEREUM_DATA = ByteString.CopyFrom(
@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
             Convert.FromHexString(new string('0', 5121 * 2))
         );
         [Fact]
-        /// <include file="test-ethereum-flowmock.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest.DontTruncateEthereumDataUnnecessarily"]" />
+        /// <include file="test-ethereum-flowmock.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest.DontTruncateEthereumDataUnnecessarily"]' />
         public virtual void DontTruncateEthereumDataUnnecessarily()
         {
             IList<object> responses1 =

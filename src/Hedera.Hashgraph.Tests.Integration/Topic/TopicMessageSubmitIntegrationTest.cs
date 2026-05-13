@@ -9,14 +9,15 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Threading;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest"]" />
+    /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest"]' />
     public class TopicMessageSubmitIntegrationTest
     {
 		[Fact]
-        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitATopicMessage"]" />
+        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitATopicMessage"]' />
         public virtual void CanSubmitATopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -60,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 		[Fact]
-        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitALargeTopicMessage"]" />
+        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitALargeTopicMessage"]' />
         public virtual void CanSubmitALargeTopicMessage()
 		{
 			// Skip if using PreviewNet
@@ -116,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
 		[Fact]
-        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CannotSubmitMessageWhenTopicIDIsNotSet"]" />
+        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest.CannotSubmitMessageWhenTopicIDIsNotSet"]' />
         public virtual void CannotSubmitMessageWhenTopicIDIsNotSet()
         {
             // Skip if using PreviewNet
@@ -154,7 +155,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
-        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.DecodeHexRegressionTest"]" />
+        /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest.DecodeHexRegressionTest"]' />
         public virtual void DecodeHexRegressionTest()
         {
             string binaryHex = "2ac2010a580a130a0b08d38f8f880610a09be91512041899e11c120218041880c2d72f22020878da01330a0418a5a1201210303030303030313632373633373731351a190a130a0b08d38f8f880610a09be91512041899e11c1001180112660a640a20603edaec5d1c974c92cb5bee7b011310c3b84b13dc048424cd6ef146d6a0d4a41a40b6a08f310ee29923e5868aac074468b2bde05da95a806e2f4a4f452177f129ca0abae7831e595b5beaa1c947e2cb71201642bab33fece5184b04547afc40850a";

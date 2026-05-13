@@ -7,13 +7,13 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Exceptions;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest"]" />
+    /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest"]' />
     public class AccountBalanceIntegrationTest
     {
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToPreviewnetWithTLS"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToPreviewnetWithTLS"]' />
         public virtual void CanConnectToPreviewnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             Assert.True(succeededAtLeastOnce);
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToTestnetWithTLS"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToTestnetWithTLS"]' />
         public virtual void CanConnectToTestnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             Assert.True(succeededAtLeastOnce);
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToMainnetWithTLS"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanConnectToMainnetWithTLS"]' />
         public virtual void CanConnectToMainnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             Assert.True(succeededAtLeastOnce);
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled"]' />
         public virtual void CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled()
         {
             var client = Client.ForPreviewnet(client =>
@@ -133,7 +133,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanFetchBalanceForClientOperator"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanFetchBalanceForClientOperator"]' />
         public virtual void CanFetchBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostBalanceForClientOperator"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostBalanceForClientOperator"]' />
         public virtual void GetCostBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -166,7 +166,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostBigMaxBalanceForClientOperator"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostBigMaxBalanceForClientOperator"]' />
         public virtual void GetCostBigMaxBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -183,7 +183,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.GetCostSmallMaxBalanceForClientOperator"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.GetCostSmallMaxBalanceForClientOperator"]' />
         public virtual void GetCostSmallMaxBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanNotFetchBalanceForInvalidAccountId"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanNotFetchBalanceForInvalidAccountId"]' />
         public virtual void CanNotFetchBalanceForInvalidAccountId()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -218,7 +218,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountBalanceIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountBalanceIntegrationTest.CanFetchTokenBalancesForClientOperator"]" />
+        /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest.CanFetchTokenBalancesForClientOperator"]' />
         public virtual void CanFetchTokenBalancesForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

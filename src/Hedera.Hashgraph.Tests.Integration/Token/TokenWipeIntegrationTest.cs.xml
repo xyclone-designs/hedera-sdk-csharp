@@ -1,23 +1,23 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest">
     <summary>TODO: Describe TokenWipeIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalance">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalance">
     <summary>TODO: Describe CanWipeAccountsBalance.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsNfts">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsNfts">
     <summary>TODO: Describe CanWipeAccountsNfts.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsNftsIfNotOwned">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsNftsIfNotOwned">
     <summary>TODO: Describe CannotWipeAccountsNftsIfNotOwned.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenAccountIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenAccountIDIsNotSet">
     <summary>TODO: Describe CannotWipeAccountsBalanceWhenAccountIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenTokenIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenTokenIDIsNotSet">
     <summary>TODO: Describe CannotWipeAccountsBalanceWhenTokenIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalanceWhenAmountIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalanceWhenAmountIsNotSet">
     <summary>TODO: Describe CanWipeAccountsBalanceWhenAmountIsNotSet.</summary>
   </member>
 </docs>

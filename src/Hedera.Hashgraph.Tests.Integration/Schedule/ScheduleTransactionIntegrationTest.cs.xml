@@ -1,14 +1,14 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest">
     <summary>TODO: Describe ScheduleTransactionIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction">
     <summary>TODO: Describe ShouldChargeHbarsWithLimitUsingScheduledTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction">
     <summary>TODO: Describe ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction">
     <summary>TODO: Describe ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction.</summary>
   </member>
 </docs>

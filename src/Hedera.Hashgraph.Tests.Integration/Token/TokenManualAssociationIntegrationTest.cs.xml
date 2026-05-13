@@ -1,26 +1,26 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest">
     <summary>TODO: Describe TokenManualAssociationIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithFungibleToken">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithFungibleToken">
     <summary>TODO: Describe CanManuallyAssociateAccountWithFungibleToken.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithNft">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithNft">
     <summary>TODO: Describe CanManuallyAssociateAccountWithNft.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithFungibleToken">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithFungibleToken">
     <summary>TODO: Describe CanManuallyAssociateContractWithFungibleToken.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithNft">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithNft">
     <summary>TODO: Describe CanManuallyAssociateContractWithNft.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet">
     <summary>TODO: Describe CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWithTokensWhenAccountIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWithTokensWhenAccountIDIsNotSet">
     <summary>TODO: Describe CannotAssociateAccountWithTokensWhenAccountIDIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWhenAccountDoesNotSignTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWhenAccountDoesNotSignTransaction">
     <summary>TODO: Describe CannotAssociateAccountWhenAccountDoesNotSignTransaction.</summary>
   </member>
 </docs>

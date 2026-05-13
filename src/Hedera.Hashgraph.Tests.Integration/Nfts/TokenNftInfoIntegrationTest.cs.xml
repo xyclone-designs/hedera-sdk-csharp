@@ -1,20 +1,20 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest">
     <summary>TODO: Describe TokenNftInfoIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByNftId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByNftId">
     <summary>TODO: Describe CanQueryNftInfoByNftId.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidNftId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidNftId">
     <summary>TODO: Describe CannotQueryNftInfoByInvalidNftId.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidSerialNumber">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CannotQueryNftInfoByInvalidSerialNumber">
     <summary>TODO: Describe CannotQueryNftInfoByInvalidSerialNumber.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByAccountId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByAccountId">
     <summary>TODO: Describe CanQueryNftInfoByAccountId.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByTokenId">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenNftInfoIntegrationTest.CanQueryNftInfoByTokenId">
     <summary>TODO: Describe CanQueryNftInfoByTokenId.</summary>
   </member>
 </docs>

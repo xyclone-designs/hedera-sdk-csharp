@@ -2,13 +2,13 @@
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TransactionResponseTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionResponseTest"]" />
+    /// <include file="TransactionResponseTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransactionResponseTest"]' />
     public class TransactionResponseTest
     {
         [Fact]
-        /// <include file="TransactionResponseTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionResponseTest.TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash"]" />
+        /// <include file="TransactionResponseTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TransactionResponseTest.TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash"]' />
         public virtual void TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash()
         {
             using (var testEnv = new IntegrationTestEnv(1))

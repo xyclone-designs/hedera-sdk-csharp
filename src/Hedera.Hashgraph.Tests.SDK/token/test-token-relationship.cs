@@ -7,7 +7,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-relationship.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest"]" />
+    /// <include file="test-token-relationship.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest"]' />
     public class TokenRelationshipTest
     {
         public virtual TokenRelationship SpawnTokenRelationshipExample()
@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             return new TokenRelationship(TokenId.FromString("1.2.3"), "ABC", 55, true, true, 4, true);
         }
         [Fact]
-        /// <include file="test-token-relationship.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest.ShouldSerializeTokenRelationship"]" />
+        /// <include file="test-token-relationship.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest.ShouldSerializeTokenRelationship"]' />
         public virtual void ShouldSerializeTokenRelationship()
         {
             var originalTokenRelationship = SpawnTokenRelationshipExample();

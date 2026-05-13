@@ -1,17 +1,17 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest">
     <summary>TODO: Describe AccountIdPopulationIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumSync">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumSync">
     <summary>TODO: Describe CanPopulateAccountIdNumSync.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumAsync">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumAsync">
     <summary>TODO: Describe CanPopulateAccountIdNumAsync.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressSync">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressSync">
     <summary>TODO: Describe CanPopulateAccountIdEvmAddressSync.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressAsync">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressAsync">
     <summary>TODO: Describe CanPopulateAccountIdEvmAddressAsync.</summary>
   </member>
 </docs>

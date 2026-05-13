@@ -6,13 +6,13 @@ using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest"]" />
+    /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest"]' />
     public class AccountUpdateTransactionHooksIntegrationTest
     {
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithBasicLambdaHookSucceeds"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithBasicLambdaHookSucceeds"]' />
         public virtual void AccountUpdateWithBasicLambdaHookSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithDuplicateHookIdsInSameTransactionFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithDuplicateHookIdsInSameTransactionFails"]' />
         public virtual void AccountUpdateWithDuplicateHookIdsInSameTransactionFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithExistingHookIdFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithExistingHookIdFails"]' />
         public virtual void AccountUpdateWithExistingHookIdFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds"]' />
         public virtual void AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -166,7 +166,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookIdAlreadyInUseFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookIdAlreadyInUseFails"]' />
         public virtual void AccountUpdateWithHookIdAlreadyInUseFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -208,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookDeletionSucceeds"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithHookDeletionSucceeds"]' />
         public virtual void AccountUpdateWithHookDeletionSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithNonExistentHookIdDeletionFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithNonExistentHookIdDeletionFails"]' />
         public virtual void AccountUpdateWithNonExistentHookIdDeletionFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -283,7 +283,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAddAndDeleteSameHookIdFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAddAndDeleteSameHookIdFails"]' />
         public virtual void AccountUpdateWithAddAndDeleteSameHookIdFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -322,7 +322,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAlreadyDeletedHookFails"]" />
+        /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest.AccountUpdateWithAlreadyDeletedHookFails"]' />
         public virtual void AccountUpdateWithAlreadyDeletedHookFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))

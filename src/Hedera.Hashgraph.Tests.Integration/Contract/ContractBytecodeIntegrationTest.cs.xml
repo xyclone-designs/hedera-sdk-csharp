@@ -1,20 +1,20 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest">
     <summary>TODO: Describe ContractBytecodeIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest.CanQueryContractBytecode">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest.CanQueryContractBytecode">
     <summary>TODO: Describe CanQueryContractBytecode.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest.GetCostBigMaxQueryContractBytecode">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest.GetCostBigMaxQueryContractBytecode">
     <summary>TODO: Describe GetCostBigMaxQueryContractBytecode.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest.GetCostSmallMaxQueryContractBytecode">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest.GetCostSmallMaxQueryContractBytecode">
     <summary>TODO: Describe GetCostSmallMaxQueryContractBytecode.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest.GetCostInsufficientTxFeeQueryContractBytecode">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest.GetCostInsufficientTxFeeQueryContractBytecode">
     <summary>TODO: Describe GetCostInsufficientTxFeeQueryContractBytecode.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractBytecodeIntegrationTest.CannotQueryContractBytecodeWhenContractIDIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest.CannotQueryContractBytecodeWhenContractIDIsNotSet">
     <summary>TODO: Describe CannotQueryContractBytecodeWhenContractIDIsNotSet.</summary>
   </member>
 </docs>

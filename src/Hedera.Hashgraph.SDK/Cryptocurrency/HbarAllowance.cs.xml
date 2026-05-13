@@ -56,7 +56,7 @@
     Validate that the client is configured correctly.
     </summary>
     <param name="client">the client to verify</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
   <member name="M:HbarAllowance.ToBytes">
     <summary>

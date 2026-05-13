@@ -1,8 +1,8 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.AccountRecordsIntegrationTest">
     <summary>TODO: Describe AccountRecordsIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest.CanQueryAccountRecords">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.AccountRecordsIntegrationTest.CanQueryAccountRecords">
     <summary>TODO: Describe CanQueryAccountRecords.</summary>
   </member>
 </docs>

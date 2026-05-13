@@ -6,13 +6,13 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest"]" />
+    /// <include file="AccountDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountDeleteIntegrationTest"]' />
     public class AccountDeleteIntegrationTest
     {
         [Fact]
-        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CanDeleteAccount"]" />
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountDeleteIntegrationTest.CanDeleteAccount"]' />
         public virtual void CanDeleteAccount()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotCreateAccountWithNoKey"]" />
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountDeleteIntegrationTest.CannotCreateAccountWithNoKey"]' />
         public virtual void CannotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotDeleteAccountThatHasNotSignedTransaction"]" />
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountDeleteIntegrationTest.CannotDeleteAccountThatHasNotSignedTransaction"]' />
         public virtual void CannotDeleteAccountThatHasNotSignedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

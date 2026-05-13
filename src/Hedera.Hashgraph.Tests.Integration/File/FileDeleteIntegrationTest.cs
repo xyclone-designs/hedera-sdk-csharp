@@ -1,16 +1,16 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
 using System.Text;
-
+using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FileDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest"]" />
+    /// <include file="FileDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileDeleteIntegrationTest"]' />
     public class FileDeleteIntegrationTest
     {
         [Fact]
-        /// <include file="FileDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest.CanDeleteFile"]" />
+        /// <include file="FileDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileDeleteIntegrationTest.CanDeleteFile"]' />
         public virtual void CanDeleteFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest.CannotDeleteImmutableFile"]" />
+        /// <include file="FileDeleteIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileDeleteIntegrationTest.CannotDeleteImmutableFile"]' />
         public virtual void CannotDeleteImmutableFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))

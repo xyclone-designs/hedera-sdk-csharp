@@ -11,7 +11,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
-    /// <include file="test-topic-delete-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest"]" />
+    /// <include file="test-topic-delete-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest"]' />
     public class TopicDeleteTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-topic-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-topic-delete-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicDeleteTransaction();
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-topic-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.ShouldBytes"]" />
+        /// <include file="test-topic-delete-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-topic-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-topic-delete-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicDeleteTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

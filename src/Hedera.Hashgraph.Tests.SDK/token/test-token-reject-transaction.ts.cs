@@ -15,7 +15,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest"]" />
+    /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest"]' />
     public class TokenRejectTransactionTest
     {
         private static readonly PrivateKey TEST_PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenRejectTransaction();
@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytes"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ConstructTokenRejectTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ConstructTokenRejectTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenRejectTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.Services.TokenRejectTransactionBody
@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerId"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerId"]' />
         public virtual void GetSetOwnerId()
         {
             var transaction = new TokenRejectTransaction { OwnerId = TEST_OWNER_ID };
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerIdFrozen"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerIdFrozen"]' />
         public virtual void GetSetOwnerIdFrozen()
         {
             var transaction = SpawnTestTransaction();
@@ -127,14 +127,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetTokenIds"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetTokenIds"]' />
         public virtual void GetSetTokenIds()
         {
             var transaction = new TokenRejectTransaction { TokenIds = TEST_TOKEN_IDS };
             Assert.Equal(transaction.TokenIds_Read, TEST_TOKEN_IDS);
         }
         [Fact]
-        /// <include file="test-token-reject-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetNftIds"]" />
+        /// <include file="test-token-reject-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetNftIds"]' />
         public virtual void GetSetNftIds()
         {
             var transaction = new TokenRejectTransaction { NftIds = TEST_NFT_IDS };

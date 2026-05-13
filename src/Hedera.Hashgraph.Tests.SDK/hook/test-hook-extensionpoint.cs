@@ -5,11 +5,11 @@ using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    /// <include file="test-hook-extensionpoint.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest"]" />
+    /// <include file="test-hook-extensionpoint.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest"]' />
     public class HookExtensionPointTest
     {
         [Fact]
-        /// <include file="test-hook-extensionpoint.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.RoundTripAllEnumValues"]" />
+        /// <include file="test-hook-extensionpoint.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.RoundTripAllEnumValues"]' />
         public virtual void RoundTripAllEnumValues()
         {
             foreach (HookExtensionPoint value in Enum.GetValues<HookExtensionPoint>())
@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             }
         }
         [Fact]
-        /// <include file="test-hook-extensionpoint.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.ProtoValuesAreStable"]" />
+        /// <include file="test-hook-extensionpoint.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.ProtoValuesAreStable"]' />
         public virtual void ProtoValuesAreStable()
         {
 			foreach (HookExtensionPoint value in Enum.GetValues<HookExtensionPoint>())

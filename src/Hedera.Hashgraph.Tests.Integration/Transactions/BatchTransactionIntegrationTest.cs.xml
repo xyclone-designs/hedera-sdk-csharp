@@ -1,35 +1,35 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest">
     <summary>TODO: Describe BatchTransactionIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanCreateBatchTransaction">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.CanCreateBatchTransaction">
     <summary>TODO: Describe CanCreateBatchTransaction.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteFromToBytes">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteFromToBytes">
     <summary>TODO: Describe CanExecuteFromToBytes.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteLargeBatchTransactionUpToMaximumRequestSize">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteLargeBatchTransactionUpToMaximumRequestSize">
     <summary>TODO: Describe CanExecuteLargeBatchTransactionUpToMaximumRequestSize.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithoutInnerTransactionsShouldThrowAnError">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithoutInnerTransactionsShouldThrowAnError">
     <summary>TODO: Describe BatchTransactionWithoutInnerTransactionsShouldThrowAnError.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError">
     <summary>TODO: Describe BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError">
     <summary>TODO: Describe BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.ChunkedInnerTransactionsShouldBeExecutedSuccessfully">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.ChunkedInnerTransactionsShouldBeExecutedSuccessfully">
     <summary>TODO: Describe ChunkedInnerTransactionsShouldBeExecutedSuccessfully.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteWithDifferentBatchKeys">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteWithDifferentBatchKeys">
     <summary>TODO: Describe CanExecuteWithDifferentBatchKeys.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed">
     <summary>TODO: Describe SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.TransactionShouldFailWhenBatchified">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest.TransactionShouldFailWhenBatchified">
     <summary>TODO: Describe TransactionShouldFailWhenBatchified.</summary>
   </member>
 </docs>

@@ -86,7 +86,7 @@
     <param name="Realm">the Realm Number</param>
     <param name="evmAddress">the EVM address as a hex string</param>
     <returns>          the TokenID object</returns>
-    <exception cref="IllegalArgumentException">if the EVM address is not a valid long zero address</exception>
+    <exception cref="T:System.ArgumentException">if the EVM address is not a valid long zero address</exception>
   </member>
   <member name="M:TokenId.Nft(System.Int64)">
     <summary>
@@ -118,7 +118,7 @@
   <member name="M:TokenId.Validate(Client)">
     <summary></summary>
     <param name="client">to validate against</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
     <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
   </member>
   <member name="M:TokenId.ValidateChecksum(Client)">
@@ -126,7 +126,7 @@
     Validate the configured client.
     </summary>
     <param name="client">the configured client</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
   <member name="M:TokenId.ToBytes">
     <summary>

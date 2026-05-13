@@ -14,7 +14,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
-    /// <include file="test-ethereum-transaction.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest"]" />
+    /// <include file="test-ethereum-transaction.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest"]' />
     public class EthereumTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
             .Sign(unusedPrivateKey);
         }
         [Fact]
-        /// <include file="test-ethereum-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-ethereum-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new EthereumTransaction();
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
-        /// <include file="test-ethereum-transaction.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNft"]" />
+        /// <include file="test-ethereum-transaction.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNft"]' />
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();

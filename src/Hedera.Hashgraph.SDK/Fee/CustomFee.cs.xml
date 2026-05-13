@@ -56,7 +56,7 @@
     Verify the validity of the client object.
     </summary>
     <param name="client">the configured client</param>
-    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <exception cref="T:System.ArgumentException">if entity ID is formatted poorly</exception>
   </member>
   <member name="M:CustomFee.FinishToProtobuf(Proto.CustomFee)">
     <summary>

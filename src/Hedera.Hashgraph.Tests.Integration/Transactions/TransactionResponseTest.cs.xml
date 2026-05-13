@@ -1,8 +1,8 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionResponseTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TransactionResponseTest">
     <summary>TODO: Describe TransactionResponseTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionResponseTest.TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransactionResponseTest.TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash">
     <summary>TODO: Describe TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash.</summary>
   </member>
 </docs>

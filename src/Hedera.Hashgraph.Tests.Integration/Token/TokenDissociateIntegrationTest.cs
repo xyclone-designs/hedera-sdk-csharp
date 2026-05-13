@@ -5,13 +5,13 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest"]" />
+    /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest"]' />
     public class TokenDissociateIntegrationTest
     {
         [Fact]
-        /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CanAssociateAccountWithToken"]" />
+        /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest.CanAssociateAccountWithToken"]' />
         public virtual void CanAssociateAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet"]" />
+        /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest.CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet"]' />
         public virtual void CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWithTokensWhenAccountIDIsNotSet"]" />
+        /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWithTokensWhenAccountIDIsNotSet"]' />
         public virtual void CannotDissociateAccountWithTokensWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWhenAccountDoesNotSignTransaction"]" />
+        /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWhenAccountDoesNotSignTransaction"]' />
         public virtual void CannotDissociateAccountWhenAccountDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenDissociateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith"]" />
+        /// <include file="TokenDissociateIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith"]' />
         public virtual void CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

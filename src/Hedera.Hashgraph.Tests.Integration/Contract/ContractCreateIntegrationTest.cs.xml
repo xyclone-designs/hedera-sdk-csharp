@@ -1,20 +1,20 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest">
     <summary>TODO: Describe ContractCreateIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest.CanCreateContract">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest.CanCreateContract">
     <summary>TODO: Describe CanCreateContract.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest.CanCreateContractWithNoAdminKey">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest.CanCreateContractWithNoAdminKey">
     <summary>TODO: Describe CanCreateContractWithNoAdminKey.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenGasIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenGasIsNotSet">
     <summary>TODO: Describe CannotCreateContractWhenGasIsNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenConstructorParametersAreNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenConstructorParametersAreNotSet">
     <summary>TODO: Describe CannotCreateContractWhenConstructorParametersAreNotSet.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenBytecodeFileIdIsNotSet">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.ContractCreateIntegrationTest.CannotCreateContractWhenBytecodeFileIdIsNotSet">
     <summary>TODO: Describe CannotCreateContractWhenBytecodeFileIdIsNotSet.</summary>
   </member>
 </docs>

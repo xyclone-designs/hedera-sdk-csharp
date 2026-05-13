@@ -1,26 +1,26 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest">
     <summary>TODO: Describe TokenInfoIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenAllKeysAreDifferent">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenAllKeysAreDifferent">
     <summary>TODO: Describe CanQueryTokenInfoWhenAllKeysAreDifferent.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties">
     <summary>TODO: Describe CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryNfts">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.CanQueryNfts">
     <summary>TODO: Describe CanQueryNfts.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostQueryTokenInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.GetCostQueryTokenInfo">
     <summary>TODO: Describe GetCostQueryTokenInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostBigMaxQueryTokenInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.GetCostBigMaxQueryTokenInfo">
     <summary>TODO: Describe GetCostBigMaxQueryTokenInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostSmallMaxTokenInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.GetCostSmallMaxTokenInfo">
     <summary>TODO: Describe GetCostSmallMaxTokenInfo.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostInsufficientTxFeeQueryTokenInfo">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenInfoIntegrationTest.GetCostInsufficientTxFeeQueryTokenInfo">
     <summary>TODO: Describe GetCostInsufficientTxFeeQueryTokenInfo.</summary>
   </member>
 </docs>

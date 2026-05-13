@@ -5,13 +5,13 @@ using Hedera.Hashgraph.SDK;
 
 using System.Text;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest"]" />
+    /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest"]' />
     public class FileInfoIntegrationTest
     {
         [Fact]
-        /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest.CanQueryFileInfo"]" />
+        /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest.CanQueryFileInfo"]' />
         public virtual void CanQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest.CanQueryFileInfoWithNoAdminKeyOrContents"]" />
+        /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest.CanQueryFileInfoWithNoAdminKeyOrContents"]' />
         public virtual void CanQueryFileInfoWithNoAdminKeyOrContents()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest.GetCostBigMaxQueryFileInfo"]" />
+        /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest.GetCostBigMaxQueryFileInfo"]' />
         public virtual void GetCostBigMaxQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -92,7 +92,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest.GetCostSmallMaxQueryFileInfo"]" />
+        /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest.GetCostSmallMaxQueryFileInfo"]' />
         public virtual void GetCostSmallMaxQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="FileInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileInfoIntegrationTest.GetCostInsufficientTxFeeQueryFileInfo"]" />
+        /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest.GetCostInsufficientTxFeeQueryFileInfo"]' />
         public virtual void GetCostInsufficientTxFeeQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

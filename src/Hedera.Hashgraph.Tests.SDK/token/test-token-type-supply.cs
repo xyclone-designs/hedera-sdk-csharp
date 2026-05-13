@@ -5,7 +5,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-type-supply.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest"]" />
+    /// <include file="test-token-type-supply.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest"]' />
     public class TokenSupplyTypeTest
     {
         private readonly TokenSupplyType tokenSupplyTypeInfinite = TokenSupplyType.Infinite;
@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             //Verifier.Verify((Proto.TokenSupplyType)tokenSupplyTypeInfinite, (Proto.TokenSupplyType)tokenSupplyTypeFinite);
         }
         [Fact]
-        /// <include file="test-token-type-supply.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest.TokenSupplyTestToString"]" />
+        /// <include file="test-token-type-supply.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest.TokenSupplyTestToString"]' />
         public virtual void TokenSupplyTestToString()
         {
             Assert.Equal(TokenSupplyType.Infinite.ToString(), "INFINITE");

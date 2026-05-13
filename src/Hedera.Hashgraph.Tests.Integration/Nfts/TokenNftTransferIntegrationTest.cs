@@ -8,13 +8,13 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenNftTransferIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest"]" />
+    /// <include file="TokenNftTransferIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest"]' />
     public class TokenNftTransferIntegrationTest
     {
         [Fact]
-        /// <include file="TokenNftTransferIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest.CanTransferNfts"]" />
+        /// <include file="TokenNftTransferIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest.CanTransferNfts"]' />
         public virtual void CanTransferNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenNftTransferIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenNftTransferIntegrationTest.CannotTransferUnownedNfts"]" />
+        /// <include file="TokenNftTransferIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest.CannotTransferUnownedNfts"]' />
         public virtual void CannotTransferUnownedNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

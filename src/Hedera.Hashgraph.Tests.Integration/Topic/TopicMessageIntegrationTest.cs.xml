@@ -1,14 +1,14 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TopicMessageIntegrationTest">
     <summary>TODO: Describe TopicMessageIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.CanReceiveATopicMessage">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageIntegrationTest.CanReceiveATopicMessage">
     <summary>TODO: Describe CanReceiveATopicMessage.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.CanReceiveALargeTopicMessage">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageIntegrationTest.CanReceiveALargeTopicMessage">
     <summary>TODO: Describe CanReceiveALargeTopicMessage.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.UnsubscribingDoesNotLogRetryWarnings">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TopicMessageIntegrationTest.UnsubscribingDoesNotLogRetryWarnings">
     <summary>TODO: Describe UnsubscribingDoesNotLogRetryWarnings.</summary>
   </member>
 </docs>

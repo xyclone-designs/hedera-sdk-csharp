@@ -5,15 +5,15 @@ using Hedera.Hashgraph.SDK.File;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="ContractNonceInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractNonceInfoIntegrationTest"]" />
+    /// <include file="ContractNonceInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractNonceInfoIntegrationTest"]' />
     public class ContractNonceInfoIntegrationTest
     {
         private static readonly string SMART_CONTRACT_BYTECODE = "6080604052348015600f57600080fd5b50604051601a90603b565b604051809103906000f0801580156035573d6000803e3d6000fd5b50506047565b605c8061009483390190565b603f806100556000396000f3fe6080604052600080fdfea2646970667358221220a20122cbad3457fedcc0600363d6e895f17048f5caa4afdab9e655123737567d64736f6c634300081200336080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122053dfd8835e3dc6fedfb8b4806460b9b7163f8a7248bac510c6d6808d9da9d6d364736f6c63430008120033";
 
         [Fact]
-        /// <include file="ContractNonceInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractNonceInfoIntegrationTest.CanIncrementNonceThroughContractConstructor"]" />
+        /// <include file="ContractNonceInfoIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ContractNonceInfoIntegrationTest.CanIncrementNonceThroughContractConstructor"]' />
         public virtual void CanIncrementNonceThroughContractConstructor()
         {
             using (var testEnv = new IntegrationTestEnv(1))

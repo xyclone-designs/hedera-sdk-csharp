@@ -15,7 +15,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest"]" />
+    /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest"]' />
     public class TokenMintTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesNoSetters"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesNoSetters"]' />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenMintTransaction();
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytes"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytes"]' />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesMetadata"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesMetadata"]' />
         public virtual void ShouldBytesMetadata()
         {
             var tx = SpawnMetadataTestTransaction();
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.FromScheduledTransaction"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.FromScheduledTransaction"]' />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenMintTransaction>(tx);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ConstructTokenMintTransactionFromTransactionBodyProtobuf"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ConstructTokenMintTransactionFromTransactionBodyProtobuf"]' />
         public virtual void ConstructTokenMintTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenMintTransactionBody
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenMintTransaction.Metadata.Last(), testMetadataByteString.ToByteArray());
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenId"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenId"]' />
         public virtual void GetSetTokenId()
         {
             var tokenMintTransaction = new TokenMintTransaction
@@ -129,14 +129,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenMintTransaction.TokenId, testTokenId);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenIdFrozen"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenIdFrozen"]' />
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmount"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmount"]' />
         public virtual void GetSetAmount()
         {
             var tokenMintTransaction = new TokenMintTransaction
@@ -146,28 +146,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenMintTransaction.Amount, testAmount);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmountFrozen"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmountFrozen"]' />
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Amount = testAmount);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadata"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadata"]' />
         public virtual void GetSetMetadata()
         {
             var tokenMintTransaction = new TokenMintTransaction { Metadata = testMetadataList };
             Assert.Equal(tokenMintTransaction.Metadata, testMetadataList);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadataFrozen"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadataFrozen"]' />
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Metadata = testMetadataList);
         }
         [Fact]
-        /// <include file="test-token-mint-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.AddMetadata"]" />
+        /// <include file="test-token-mint-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.AddMetadata"]' />
         public virtual void AddMetadata()
         {
             var tokenMintTransaction = new TokenMintTransaction { Metadata = [testMetadataList.Last()] };

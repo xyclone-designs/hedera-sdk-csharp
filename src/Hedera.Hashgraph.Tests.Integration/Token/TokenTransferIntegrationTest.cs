@@ -7,13 +7,13 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenTransferIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest"]" />
+    /// <include file="TokenTransferIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenTransferIntegrationTest"]' />
     public class TokenTransferIntegrationTest
     {
         [Fact]
-        /// <include file="TokenTransferIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest.TokenTransferTest"]" />
+        /// <include file="TokenTransferIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenTransferIntegrationTest.TokenTransferTest"]' />
         public virtual void TokenTransferTest()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenTransferIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest.InsufficientBalanceForFee"]" />
+        /// <include file="TokenTransferIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenTransferIntegrationTest.InsufficientBalanceForFee"]' />
         public virtual void InsufficientBalanceForFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

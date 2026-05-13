@@ -32,7 +32,7 @@
     Validate that the endpoint does not contain both an IP address and a domain name.
     </summary>
     <param name="endpoint">the endpoint to validate</param>
-    <exception cref="IllegalArgumentException">if both ipAddressV4 and domainName are present</exception>
+    <exception cref="T:System.ArgumentException">if both ipAddressV4 and domainName are present</exception>
   </member>
   <member name="M:Endpoint.ToProtobuf">
     <summary>

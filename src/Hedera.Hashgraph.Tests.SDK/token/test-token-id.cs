@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    /// <include file="test-token-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest"]" />
+    /// <include file="test-token-id.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest"]' />
     public class TokenIdTest
     {
         public virtual void ShouldSerializeFromString()
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromString"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromString"]' />
         public virtual void UnitTokenIdFromString()
         {
             TokenId tokenId = new (1, 2, 3);
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenId, tokenIdFromString);
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumFromString"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumFromString"]' />
         public virtual void UnitTokenIdChecksumFromString()
         {
             TokenId tokenId = TokenId.FromString(TestData.TEST_ID_WITH_CHECKSUM);
@@ -70,21 +70,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(123, tokenId.Num);
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumToString"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumToString"]' />
         public virtual void UnitTokenIdChecksumToString()
         {
             TokenId id = new TokenId(50, 150, 520);
             Assert.Equal("50.150.520", id.ToString());
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromStringEVM"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromStringEVM"]' />
         public virtual void UnitTokenIdFromStringEVM()
         {
             TokenId id = TokenId.FromString("0.0.434");
             Assert.Equal("0.0.434", id.ToString());
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdProtobuf"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdProtobuf"]' />
         public virtual void UnitTokenIdProtobuf()
         {
             TokenId tokenId = TokenId.FromString("0.0.434");
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenId, pbFrom);
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddressIncorrectAddress"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddressIncorrectAddress"]' />
         public virtual void TestTokenIdFromEvmAddressIncorrectAddress()
         {
 
@@ -133,7 +133,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddress"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddress"]' />
         public virtual void TestTokenIdFromEvmAddress()
         {
             // Test with a long zero address representing token 1234
@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(1234, tokenId.Num);
         }
         [Fact]
-        /// <include file="test-token-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdToEvmAddress"]" />
+        /// <include file="test-token-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdToEvmAddress"]' />
         public virtual void TestTokenIdToEvmAddress()
         {
             // Test with a normal token ID

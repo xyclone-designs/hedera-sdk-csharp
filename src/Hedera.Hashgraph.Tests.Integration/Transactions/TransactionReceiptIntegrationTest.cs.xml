@@ -1,8 +1,8 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TransactionReceiptIntegrationTest">
     <summary>TODO: Describe TransactionReceiptIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest.NextExchangeRatePropertyIsNotNullInTransactionReceipt">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TransactionReceiptIntegrationTest.NextExchangeRatePropertyIsNotNullInTransactionReceipt">
     <summary>TODO: Describe NextExchangeRatePropertyIsNotNullInTransactionReceipt.</summary>
   </member>
 </docs>

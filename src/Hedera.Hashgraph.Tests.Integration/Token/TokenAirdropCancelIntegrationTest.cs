@@ -8,16 +8,17 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest"]" />
+    /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest"]' />
     public class TokenAirdropCancelIntegrationTest
     {
         private readonly int amount = 100;
 
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokens"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokens"]' />
         public virtual void CanCancelTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -80,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsFrozen"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsFrozen"]' />
         public virtual void CanCancelTokensWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -121,7 +122,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsPaused"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsPaused"]' />
         public virtual void CanCancelTokensWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -153,7 +154,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsDeleted"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsDeleted"]' />
         public virtual void CanCancelTokensWhenTokenIsDeleted()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -185,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensToMultipleReceivers"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensToMultipleReceivers"]' />
         public virtual void CanCancelTokensToMultipleReceivers()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -261,7 +262,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensFromMultipleAirdropTxns"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensFromMultipleAirdropTxns"]' />
         public virtual void CanCancelTokensFromMultipleAirdropTxns()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -302,7 +303,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // cancel the all the tokens with the receiver
                 var record = new TokenCancelAirdropTransaction
                 {
-					PendingAirdropIds = pendingAirdropIDs,
+					PendingAirdropIds = [.. pendingAirdropIDs],
 
 				}.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -331,7 +332,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensForNonExistingAirdrop"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensForNonExistingAirdrop"]' />
         public virtual void CannotCancelTokensForNonExistingAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -366,7 +367,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelTokensForAlreadyCanceledAirdrop"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelTokensForAlreadyCanceledAirdrop"]' />
         public virtual void CanonCancelTokensForAlreadyCanceledAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -403,7 +404,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelWithEmptyPendingAirdropsList"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelWithEmptyPendingAirdropsList"]' />
         public virtual void CanonCancelWithEmptyPendingAirdropsList()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -419,7 +420,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensWithDuplicateEntries"]" />
+        /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensWithDuplicateEntries"]' />
         public virtual void CannotCancelTokensWithDuplicateEntries()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

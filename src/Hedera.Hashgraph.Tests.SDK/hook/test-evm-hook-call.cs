@@ -3,11 +3,11 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    /// <include file="test-evm-hook-call.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest"]" />
+    /// <include file="test-evm-hook-call.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest"]' />
     public class EvmHookCallTest
     {
         [Fact]
-        /// <include file="test-evm-hook-call.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest.RoundTripProtoAndGettersAndEquality"]" />
+        /// <include file="test-evm-hook-call.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest.RoundTripProtoAndGettersAndEquality"]' />
         public virtual void RoundTripProtoAndGettersAndEquality()
         {
             byte[] data = [1,2,3];

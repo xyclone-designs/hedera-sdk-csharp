@@ -6,13 +6,13 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest"]" />
+    /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest"]' />
     public class TokenBurnIntegrationTest
     {
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokens"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokens"]' />
         public virtual void CanBurnTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenTokenIDIsNotSet"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenTokenIDIsNotSet"]' />
         public virtual void CannotBurnTokensWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokensWhenAmountIsNotSet"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokensWhenAmountIsNotSet"]' />
         public virtual void CanBurnTokensWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction"]' />
         public virtual void CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnNfts"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CanBurnNfts"]' />
         public virtual void CanBurnNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnNftsWhenNftIsNotOwned"]" />
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.TokenBurnIntegrationTest.CannotBurnNftsWhenNftIsNotOwned"]' />
         public virtual void CannotBurnNftsWhenNftIsNotOwned()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

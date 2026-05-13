@@ -5,7 +5,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
-    /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest"]" />
+    /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest"]' />
     public class EthereumTransactionDataLegacyTest
     {
         // https://github.com/hashgraph/hedera-services/blob/1e01d9c6b8923639b41359c55413640b589c4ec7/hapi-utils/src/test/java/com/hedera/services/ethereum/EthTxDataTest.java#L49
@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         static readonly string RAW_TX_TYPE_0_TRIMMED_LAST_BYTES = "f864012f83018000947e3a9eaf9bcc39e2ffa38eb30bf7a93feacbc18180827653820277a0f9fbff985d374be4a55f296915002eec11ac96f1ce2df183adf992baa9390b2fa00c1e867cc960d9c74ec2e6a662b7908ec4c8cc9f3091e886bcefbeb2290000";
         static readonly string RAW_TX_TYPE_2 = "02f87082012a022f2f83018000947e3a9eaf9bcc39e2ffa38eb30bf7a93feacbc181880de0b6b3a764000083123456c001a0df48f2efd10421811de2bfb125ab75b2d3c44139c4642837fb1fccce911fd479a01aaf7ae92bee896651dfc9d99ae422a296bf5d9f1ca49b2d96d82b79eb112d66";
         [Fact]
-        /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.LegacyToFromBytes"]" />
+        /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.LegacyToFromBytes"]' />
         public virtual void LegacyToFromBytes()
         {
             var data = (EthereumTransactionDataLegacy)EthereumTransactionData.FromBytes(Hex.Decode(RAW_TX_TYPE_0));
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
             //    Hex.toHexString(data.getEthereumHash()));
         }
         [Fact]
-        /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.Eip1559ToFromBytes"]" />
+        /// <include file="test-ethereum-transaction-data-legacy.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.Eip1559ToFromBytes"]' />
         public virtual void Eip1559ToFromBytes()
         {
             var data = (EthereumTransactionDataEip1559)EthereumTransactionData.FromBytes(Hex.Decode(RAW_TX_TYPE_2));

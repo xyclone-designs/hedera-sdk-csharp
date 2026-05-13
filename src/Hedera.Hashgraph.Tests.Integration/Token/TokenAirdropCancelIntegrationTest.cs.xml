@@ -1,35 +1,35 @@
 <docs>
-  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest">
+  <member name="T:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest">
     <summary>TODO: Describe TokenAirdropCancelIntegrationTest.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokens">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokens">
     <summary>TODO: Describe CanCancelTokens.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsFrozen">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsFrozen">
     <summary>TODO: Describe CanCancelTokensWhenTokenIsFrozen.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsPaused">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsPaused">
     <summary>TODO: Describe CanCancelTokensWhenTokenIsPaused.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsDeleted">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensWhenTokenIsDeleted">
     <summary>TODO: Describe CanCancelTokensWhenTokenIsDeleted.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensToMultipleReceivers">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensToMultipleReceivers">
     <summary>TODO: Describe CanCancelTokensToMultipleReceivers.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensFromMultipleAirdropTxns">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanCancelTokensFromMultipleAirdropTxns">
     <summary>TODO: Describe CanCancelTokensFromMultipleAirdropTxns.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensForNonExistingAirdrop">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensForNonExistingAirdrop">
     <summary>TODO: Describe CannotCancelTokensForNonExistingAirdrop.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelTokensForAlreadyCanceledAirdrop">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelTokensForAlreadyCanceledAirdrop">
     <summary>TODO: Describe CanonCancelTokensForAlreadyCanceledAirdrop.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelWithEmptyPendingAirdropsList">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CanonCancelWithEmptyPendingAirdropsList">
     <summary>TODO: Describe CanonCancelWithEmptyPendingAirdropsList.</summary>
   </member>
-  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensWithDuplicateEntries">
+  <member name="M:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest.CannotCancelTokensWithDuplicateEntries">
     <summary>TODO: Describe CannotCancelTokensWithDuplicateEntries.</summary>
   </member>
 </docs>

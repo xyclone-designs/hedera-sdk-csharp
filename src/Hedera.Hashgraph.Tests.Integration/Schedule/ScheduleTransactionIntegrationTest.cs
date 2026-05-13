@@ -8,13 +8,13 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Token;
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest"]" />
+    /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest"]' />
     public class ScheduleTransactionIntegrationTest
     {
         [Fact]
-        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction"]" />
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction"]' />
         public virtual void ShouldChargeHbarsWithLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction"]" />
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction"]' />
         public virtual void ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -162,7 +162,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
-        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction"]" />
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction"]' />
         public virtual void ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

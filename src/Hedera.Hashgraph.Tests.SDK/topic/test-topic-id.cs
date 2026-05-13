@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
-    /// <include file="test-topic-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest"]" />
+    /// <include file="test-topic-id.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest"]' />
     public class TopicIdTest
     {
         public virtual void ShouldSerializeFromString()
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
         }
         [Fact]
-        /// <include file="test-topic-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddressIncorrectAddress"]" />
+        /// <include file="test-topic-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddressIncorrectAddress"]' />
         public virtual void TestTopicIdFromEvmAddressIncorrectAddress()
         {
 
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
         }
         [Fact]
-        /// <include file="test-topic-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddress"]" />
+        /// <include file="test-topic-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddress"]' />
         public virtual void TestTopicIdFromEvmAddress()
         {
 
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(1234, id.Num);
         }
         [Fact]
-        /// <include file="test-topic-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdToEvmAddress"]" />
+        /// <include file="test-topic-id.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdToEvmAddress"]' />
         public virtual void TestTopicIdToEvmAddress()
         {
 

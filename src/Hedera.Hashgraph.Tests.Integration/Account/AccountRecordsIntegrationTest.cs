@@ -4,13 +4,13 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.SDK.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration
 {
-    /// <include file="AccountRecordsIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest"]" />
+    /// <include file="AccountRecordsIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountRecordsIntegrationTest"]' />
     public class AccountRecordsIntegrationTest
     {
         [Fact]
-        /// <include file="AccountRecordsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest.CanQueryAccountRecords"]" />
+        /// <include file="AccountRecordsIntegrationTest.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.Integration.AccountRecordsIntegrationTest.CanQueryAccountRecords"]' />
         public virtual void CanQueryAccountRecords()
         {
             using (var testEnv = new IntegrationTestEnv(1))
