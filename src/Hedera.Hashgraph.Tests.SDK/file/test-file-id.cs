@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.File;
@@ -9,6 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
+    /// <include file="test-file-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.File.FileIdTest"]" />
     public class FileIdTest
     {
         public virtual void ShouldSerializeFromString()
@@ -36,6 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(new FileId(0, 0, 5005).ToEvmAddress());
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetAddressBookFileIdForReturnsCorrectFileId"]" />
         public virtual void GetAddressBookFileIdForReturnsCorrectFileId()
         {
             FileId defaultAddressBook = FileId.GetAddressBookFileIdFor(0, 0);
@@ -59,6 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(customAddressBook.ToString());
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetFeeScheduleFileIdForReturnsCorrectFileId"]" />
         public virtual void GetFeeScheduleFileIdForReturnsCorrectFileId()
         {
             FileId defaultFeeSchedule = FileId.GetFeeScheduleFileIdFor(0, 0);
@@ -82,6 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(customFeeSchedule.ToString());
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetExchangeRatesFileIdForReturnsCorrectFileId"]" />
         public virtual void GetExchangeRatesFileIdForReturnsCorrectFileId()
         {
             FileId defaultExchangeRates = FileId.GetExchangeRatesFileIdFor(0, 0);
@@ -105,6 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(customExchangeRates.ToString());
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdFromEvmAddressIncorrectAddress"]" />
         public virtual void TestFileIdFromEvmAddressIncorrectAddress()
         {
 
@@ -141,6 +146,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Contains("EVM address is not a correct long zero address", exception.Message);
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdFromEvmAddress"]" />
         public virtual void TestFileIdFromEvmAddress()
         {
             // Test with a long zero address representing file 1234
@@ -157,6 +163,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(1234, id.Num);
         }
         [Fact]
+        /// <include file="test-file-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdToEvmAddress"]" />
         public virtual void TestFileIdToEvmAddress()
         {
             // Test with a normal file ID

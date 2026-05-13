@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -9,9 +9,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
+    /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest"]" />
     public class ContractCreateTransactionHooksTest
     {
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionWithHooks"]" />
         public virtual void TestContractCreateTransactionWithHooks()
         {
             // Create a test contract ID that the hook will reference (it can be any number for unit tests)
@@ -54,6 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.True(second.Hook.StorageUpdates.Count == 0);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionSetHooks"]" />
         public virtual void TestContractCreateTransactionSetHooks()
         {
             ContractId targetContractId = new ContractId(200);
@@ -70,6 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(hookDetails, retrieved[0]);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide"]" />
         public virtual void TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide()
         {
             ContractId targetContractId = new ContractId(300);
@@ -91,6 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(1, proto.HookCreationDetails[1].HookId);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionProtobufSerialization"]" />
         public virtual void TestContractCreateTransactionProtobufSerialization()
         {
 			ContractId targetContractId = new ContractId(400);
@@ -113,6 +118,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.True(protoHook.EvmHook is not null);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionEmptyHooks"]" />
         public virtual void TestContractCreateTransactionEmptyHooks()
         {
             var tx = new ContractCreateTransaction
@@ -126,6 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(0, proto.HookCreationDetails.Count);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionHooksPersistThroughBytesRoundTrip"]" />
         public virtual void TestContractCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
             ContractId targetContractId = new ContractId(500);

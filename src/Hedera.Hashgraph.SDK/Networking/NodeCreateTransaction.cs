@@ -12,26 +12,26 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="T:NodeCreateTransaction"]/*' />
+	/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="T:NodeCreateTransaction"]' />
 	public class NodeCreateTransaction : Transaction<NodeCreateTransaction>
     {
 		private List<Endpoint> _GossipEndpoints = [];
 		private List<Endpoint> _ServiceEndpoints = [];
 
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor"]' />
 		public NodeCreateTransaction() { }
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal NodeCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal NodeCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen"]' />
 		public AccountId? AccountId
 		{
 			get;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_2"]' />
 		public string? Description
 		{
 			get;
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_3"]' />
 		public IList<Endpoint> GossipEndpoints
 		{
 			get { RequireNotFrozen(); return _GossipEndpoints; }
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 		public IReadOnlyList<Endpoint> GossipEndpoints_Read => _GossipEndpoints.AsReadOnly();
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_4"]' />
 		public IList<Endpoint> ServiceEndpoints
 		{
 			get { RequireNotFrozen(); return _ServiceEndpoints; }
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 		public IReadOnlyList<Endpoint> ServiceEndpoints_Read => ServiceEndpoints.AsReadOnly();
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_5"]' />
 		public byte[]? GossipCaCertificate
 		{
 			get;
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_6"]' />
 		public byte[]? GrpcCertificateHash
 		{
 			get;
@@ -133,7 +133,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_7"]' />
 		public Key? AdminKey
 		{
 			get;
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_8"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_8"]' />
 		public bool? DeclineReward
 		{
 			get;
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_9"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.RequireNotFrozen_9"]' />
 		public Endpoint? GrpcWebProxyEndpoint
 		{
 			get;
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.NodeCreate;
@@ -203,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				GrpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
 			}
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.ToProtobuf"]/*' />
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.NodeCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.NodeCreateTransactionBody();

@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest"]" />
     public class TokenDeleteIntegrationTest
     {
         [Fact]
+        /// <include file="TokenDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteToken"]" />
         public virtual void CanDeleteToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -38,6 +40,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CanDeleteTokenWithOnlyAdminKeySet"]" />
         public virtual void CanDeleteTokenWithOnlyAdminKeySet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -55,6 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction"]" />
         public virtual void CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,6 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDeleteIntegrationTest.CannotDeleteTokenWhenTokenIDIsNotSet"]" />
         public virtual void CannotDeleteTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

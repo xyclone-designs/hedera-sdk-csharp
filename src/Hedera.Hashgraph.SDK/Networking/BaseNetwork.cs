@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="T:BaseNetwork"]/*' />
+	/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="T:BaseNetwork"]' />
 	public abstract class BaseNetwork<BaseNetworkT, KeyT, BaseNodeT>
         where BaseNetworkT : BaseNetwork<BaseNetworkT, KeyT, BaseNodeT> 
         where BaseNodeT : BaseNode<BaseNodeT, KeyT>
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         protected readonly ExecutorService Executor;
 		protected abstract BaseNodeT CreateNodeFromNetworkEntry(KeyValuePair<string, KeyT> entry);
 
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.RemoveDeadNodes"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.RemoveDeadNodes"]' />
 		protected virtual void RemoveDeadNodes()
 		{
 			if (MaxNodeAttempts > 0)
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodesToRemove(System.Collections.Generic.Dictionary{System.String,KeyT})"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodesToRemove(System.Collections.Generic.Dictionary{System.String,KeyT})"]' />
 		protected virtual IList<int> GetNodesToRemove(Dictionary<string, KeyT> network)
 		{
 			var _nodes = new List<int>(Nodes.Count);
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return _nodes;
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNumberOfMostHealthyNodes(System.Int32)"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNumberOfMostHealthyNodes(System.Int32)"]' />
 		protected virtual IList<BaseNodeT> GetNumberOfMostHealthyNodes(int count)
 		{
 			lock (this)
@@ -116,27 +116,27 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.Nodes"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.Nodes"]' />
 		public IList<BaseNodeT> Nodes { get; protected set; } = [];
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.HealthyNodes"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.HealthyNodes"]' />
 		public IList<BaseNodeT> HealthyNodes { get; protected set; } = [];        
-        /// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.AddSeconds(Client.DEFAULT_MIN_NODE_BACKOFF.)"]/*' />
+        /// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.AddSeconds(Client.DEFAULT_MIN_NODE_BACKOFF.)"]' />
         public DateTimeOffset EarliestReadmitTime { get; protected set; } = DateTimeOffset.UtcNow.AddSeconds(Client.DEFAULT_MIN_NODE_BACKOFF.TotalSeconds);
 
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)"]' />
 		public virtual LedgerId? LedgerId
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_2"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_2"]' />
 		public virtual int MaxNodeAttempts
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = DEFAULT_MAX_NODE_ATTEMPTS;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_3"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_3"]' />
 		public virtual TimeSpan MinNodeBackoff
 		{
 			get { lock (this) return field; }
@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
 
 		} = Client.DEFAULT_MIN_NODE_BACKOFF;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_4"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_4"]' />
 		public virtual TimeSpan MaxNodeBackoff
 		{
 			get { lock (this) return field; }
@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 
 		} = Client.DEFAULT_MAX_NODE_BACKOFF;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_5"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_5"]' />
 		public virtual TimeSpan MinNodeReadmitTime
 		{
 			get { lock (this) return field; }
@@ -184,23 +184,23 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
 
 		} = Client.DEFAULT_MIN_NODE_BACKOFF;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_6"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_6"]' />
 		public virtual TimeSpan MaxNodeReadmitTime
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = Client.DEFAULT_MAX_NODE_BACKOFF;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_7"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_7"]' />
 		public virtual TimeSpan CloseTimeout
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = Client.DEFAULT_CLOSE_TIMEOUT;
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.TransportSecurity"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.TransportSecurity"]' />
 		public virtual bool TransportSecurity { get; set; }
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_8"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_8"]' />
 		public virtual BaseNodeT RandomNode
 		{
 			get
@@ -222,7 +222,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="F:BaseNetwork.set"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="F:BaseNetwork.set"]' />
 		public virtual Dictionary<KeyT, IList<BaseNodeT>> Network { protected get; set; } = [];
 		public virtual ReadOnlyDictionary<KeyT, IList<BaseNodeT>> Network_Read
 		{
@@ -237,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 					node.Channel?.ShutdownAsync().GetAwaiter().GetResult();
 			}
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.ReadmitNodes"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.ReadmitNodes"]' />
 		public virtual void ReadmitNodes()
 		{
 			lock (this)
@@ -397,7 +397,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				return (BaseNetworkT)this;
 			}
 		}
-		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodeProxies(KeyT)"]/*' />
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodeProxies(KeyT)"]' />
 		public virtual IList<BaseNodeT> GetNodeProxies(KeyT key)
 		{
 			lock (this)

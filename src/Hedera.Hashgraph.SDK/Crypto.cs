@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK
 
 		private Crypto() { }
 
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DeriveKeySha256(System.String,System.Byte[],System.Int32,System.Int32)"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DeriveKeySha256(System.String,System.Byte[],System.Int32,System.Int32)"]' />
 		internal static KeyParameter DeriveKeySha256(string passphrase, byte[] salt, int iterations, int dkLenBytes)
 		{
 			Pkcs5S2ParametersGenerator gen = new (new Sha256Digest());
@@ -42,21 +42,21 @@ namespace Hedera.Hashgraph.SDK
 
 			return (KeyParameter)gen.GenerateDerivedParameters("AES256", dkLenBytes * 8);
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCtr128(KeyParameter,System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCtr128(KeyParameter,System.Byte[])"]' />
 		internal static BufferedBlockCipher InitAesCtr128(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new SicBlockCipher(new AesEngine()));
 			cipher.Init(true, new ParametersWithIV(key, iv));
 			return cipher;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Encrypt(KeyParameter,System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Encrypt(KeyParameter,System.Byte[])"]' />
 		internal static BufferedBlockCipher InitAesCbc128Encrypt(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new CbcBlockCipher(new AesEngine()));
 			cipher.Init(true, new ParametersWithIV(key, iv));
 			return cipher;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Decrypt(KeyParameter,System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Decrypt(KeyParameter,System.Byte[])"]' />
 		internal static BufferedBlockCipher InitAesCbc128Decrypt(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new CbcBlockCipher(new AesEngine()));
@@ -64,17 +64,17 @@ namespace Hedera.Hashgraph.SDK
 			return cipher;
 		}
 
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:EncryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:EncryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]' />
 		internal static byte[] EncryptAesCtr128(KeyParameter key, byte[] iv, byte[] input)
 		{
 			return RunCipher(InitAesCtr128(key, iv), input);
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DecryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DecryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]' />
 		internal static byte[] DecryptAesCtr128(KeyParameter key, byte[] iv, byte[] input)
 		{
 			return RunCipher(InitAesCtr128(key, iv), input);
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RunCipher(BufferedBlockCipher,System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RunCipher(BufferedBlockCipher,System.Byte[])"]' />
 		internal static byte[] RunCipher(BufferedBlockCipher cipher, byte[] input)
 		{
 			byte[] output = new byte[cipher.GetOutputSize(input.Length)];
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return trimmed;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcHmacSha384(KeyParameter,System.Byte[],System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcHmacSha384(KeyParameter,System.Byte[],System.Byte[])"]' />
 		internal static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[]? iv, byte[] input)
 		{
 			HMac hmac = new (new Sha384Digest());
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return output;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcKeccak256(System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcKeccak256(System.Byte[])"]' />
 		internal static byte[] CalcKeccak256(byte[] input)
 		{
 			// Note: KeccakDigest(256) is NOT the same as Sha3Digest(256)
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK
 			digest.DoFinal(output, 0);
 			return output;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RandomBytes(System.Int32)"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RandomBytes(System.Int32)"]' />
 		internal static byte[] RandomBytes(int len)
 		{
 			byte[] output = new byte[len];
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.SDK
 			random.NextBytes(output);
 			return output;
 		}
-		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RecoverPublicKeyECDSAFromSignature(System.Int32,BigInteger,BigInteger,System.Byte[])"]/*' />
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RecoverPublicKeyECDSAFromSignature(System.Int32,BigInteger,BigInteger,System.Byte[])"]' />
 		internal static byte[]? RecoverPublicKeyECDSAFromSignature(int recId, BigInteger r, BigInteger s, byte[] messageHash)
 		{
 			if (recId != 0 && recId != 1) throw new ArgumentException("Recovery Id must be 0 or 1 for secp256k1.");

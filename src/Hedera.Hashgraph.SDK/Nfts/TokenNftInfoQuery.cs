@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="T:TokenNftInfoQuery"]/*' />
+	/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="T:TokenNftInfoQuery"]' />
 	public class TokenNftInfoQuery : Query<IList<TokenNftInfo>, TokenNftInfoQuery>
     {
-        /// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.NftId"]/*' />
+        /// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.NftId"]' />
         public virtual NftId? NftId { get; set; }
-		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.TokenId"]/*' />
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.TokenId"]' />
 		public virtual TokenId? TokenId { get; set; }
-		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.AccountId"]/*' />
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.AccountId"]' />
 		public virtual AccountId? AccountId { get; set; }
-		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.Start"]/*' />
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.Start"]' />
 		public virtual long Start { get; set; }
-		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.End"]/*' />
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.End"]' />
 		public virtual long End { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

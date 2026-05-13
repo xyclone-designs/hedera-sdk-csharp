@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
@@ -8,9 +8,11 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountUpdateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest"]" />
     public class AccountUpdateIntegrationTest
     {
         [Fact]
+        /// <include file="AccountUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest.CanUpdateAccountWithNewKey"]" />
         public virtual void CanUpdateAccountWithNewKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -61,6 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountUpdateIntegrationTest.CannotUpdateAccountWhenAccountIdIsNotSet"]" />
         public virtual void CannotUpdateAccountWhenAccountIdIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))

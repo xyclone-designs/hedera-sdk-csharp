@@ -12,21 +12,21 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="T:ScheduleCreateTransaction"]/*' />
+    /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="T:ScheduleCreateTransaction"]' />
     public sealed class ScheduleCreateTransaction : Transaction<ScheduleCreateTransaction>
     {
-        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor"]/*' />
+        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor"]' />
         public ScheduleCreateTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
         internal ScheduleCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen"]' />
 		public DateTimeOffset? ExpirationTime 
         {
             get;
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
                     ExpirationTimeDuration = null;
             }
         }
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_2"]' />
 		public TimeSpan? ExpirationTimeDuration
 		{
 			get;
@@ -50,9 +50,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
                     ExpirationTime = null;
             }
 		}
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="P:ScheduleCreateTransaction.WaitForExpiry"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="P:ScheduleCreateTransaction.WaitForExpiry"]' />
 		public bool WaitForExpiry { get; set; }
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_3"]' />
 		public AccountId? PayerAccountId 
         {
 			get;
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 				field = value;
 			}
 		}
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_4"]' />
 		public Proto.Services.SchedulableTransactionBody? ScheduledTransactionBody
 		{
 			get;
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 				field = value;
 			}
 		}
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_5"]' />
 		public Key? AdminKey
 		{
 			get;
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 				field = value;
 			}
 		}
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_6"]' />
 		public string ScheduleMemo 
         {
             get;
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
         } = string.Empty;
 
-		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.ToProtobuf"]/*' />
+		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.ToProtobuf"]' />
 		public Proto.Services.ScheduleCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ScheduleCreateTransactionBody();
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             return builder;
         }
 
-        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ScheduleCreate;

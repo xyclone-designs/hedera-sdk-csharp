@@ -5,7 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-	/// <include file="HederaPreCheckStatusException.cs.xml" path='docs/member[@name="T:HederaPreCheckStatusException"]/*' />
+	/// <include file="HederaPreCheckStatusException.cs.xml" path='docs/member[@name="T:HederaPreCheckStatusException"]' />
 	[Obsolete("Obsolete")]
     public sealed class HederaPreCheckStatusException : PrecheckStatusException
     {

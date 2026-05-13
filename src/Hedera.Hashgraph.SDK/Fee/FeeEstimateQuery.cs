@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Fee
             HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, httpresponsemessage);
         }
 
-        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleError(System.Exception,System.Int32)"]/*' />
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleError(System.Exception,System.Int32)"]' />
         private void HandleError(Exception error, int attempt)
         {
             if (!ShouldRetry(error) || attempt >= MaxAttempts)
@@ -139,7 +139,7 @@ namespace Hedera.Hashgraph.SDK.Fee
 
             WarnAndDelay(attempt, error);
         }
-        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleResponse(HttpResponseMessage,FeeEstimateMode,System.Int32)"]/*' />
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleResponse(HttpResponseMessage,FeeEstimateMode,System.Int32)"]' />
         private FeeEstimateResponse? HandleResponse(HttpResponseMessage response, FeeEstimateMode resolvedMode, int attempt)
         {
             if (IsSuccessfulResponse(response.StatusCode))
@@ -157,7 +157,7 @@ namespace Hedera.Hashgraph.SDK.Fee
             return null;
         }
 
-        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncError(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,System.Exception)"]/*' />
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncError(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,System.Exception)"]' />
         private void HandleAsyncError(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, Exception error)
         {
             if (attempt >= MaxAttempts || !ShouldRetry(error))
@@ -170,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Fee
             WarnAndDelay(attempt, error);
             ExecuteAsync(client, timeout, resolvedMode, returnFuture, attempt + 1);
         }
-        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncResponse(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,HttpResponseMessage)"]/*' />
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncResponse(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,HttpResponseMessage)"]' />
         private async void HandleAsyncResponse(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, HttpResponseMessage response)
         {
             if (IsSuccessfulResponse(response.StatusCode))

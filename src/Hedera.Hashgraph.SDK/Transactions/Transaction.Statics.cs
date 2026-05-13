@@ -25,17 +25,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 {
 	public static partial class Transaction
 	{
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromDays(90)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromDays(90)"]' />
 		internal static readonly TimeSpan DEFAULT_AUTO_RENEW_PERIOD = TimeSpan.FromDays(90);
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="T:Unknown"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="T:Unknown"]' />
 		internal static readonly AccountId DUMMY_ACCOUNT_ID = new(0, 0, 0);
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:WithValidStart(DUMMY_ACCOUNT_ID,DateTimeOffset.)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:WithValidStart(DUMMY_ACCOUNT_ID,DateTimeOffset.)"]' />
 		internal static readonly TransactionId DUMMY_TRANSACTION_ID = TransactionId.WithValidStart(DUMMY_ACCOUNT_ID, DateTimeOffset.UnixEpoch);
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromSeconds(120)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromSeconds(120)"]' />
 		internal static readonly TimeSpan DEFAULT_TRANSACTION_VALID_DURATION = TimeSpan.FromSeconds(120);
 		internal static readonly string ATOMIC_BATCH_NODE_ACCOUNT_ID = "0.0.0";
 
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromBytes``1(System.Byte[])"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromBytes``1(System.Byte[])"]' />
 		public static T FromBytes<T>(byte[] bytes) where T : Transaction<T>
 		{
 			var list = Proto.SDK.TransactionList.Parser.ParseFrom(bytes);
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return CreateTransactionFromDataCase<T>(dataCase, txsMap);
 		}
 
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:GenerateHash(System.Byte[])"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:GenerateHash(System.Byte[])"]' />
 		public static byte[] GenerateHash(byte[] bytes)
 		{
 			var digest = new Sha384Digest();
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return hash;
 		}
 
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:AddTransactionToMap(Proto.Services.Transaction,Proto.Services.TransactionBody,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:AddTransactionToMap(Proto.Services.Transaction,Proto.Services.TransactionBody,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal static void AddTransactionToMap(Proto.Services.Transaction transaction, Proto.Services.TransactionBody txBody, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txsMap)
 		{
 			var account = txBody.NodeAccountId is not null ? AccountId.FromProtobuf(txBody.NodeAccountId) : DUMMY_ACCOUNT_ID;
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			txsMap.AddOrReplace(transactionId, linked);
 		}
 
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:CreateTransactionFromDataCase``1(Proto.Services.TransactionBody.DataOneofCase,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:CreateTransactionFromDataCase``1(Proto.Services.TransactionBody.DataOneofCase,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal static T CreateTransactionFromDataCase<T>(Proto.Services.TransactionBody.DataOneofCase dataCase, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) where T : Transaction<T>
 		{
 			return dataCase switch
@@ -133,7 +133,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			} ?? throw new ArgumentException("transaction body has no counterpart");
 		}
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ProcessSingleTransaction(System.Byte[],DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ProcessSingleTransaction(System.Byte[],DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal static Proto.Services.TransactionBody.DataOneofCase ProcessSingleTransaction(byte[] bytes, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txsMap)
 		{
 			var transaction = Proto.Services.Transaction.Parser.ParseFrom(bytes);
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return txBody.DataCase;
 		}
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ProcessTransactionList(System.Collections.Generic.List{Proto.Services.Transaction},DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ProcessTransactionList(System.Collections.Generic.List{Proto.Services.Transaction},DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal static Proto.Services.TransactionBody.DataOneofCase ProcessTransactionList(List<Proto.Services.Transaction> transactionList, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txsMap)
 		{
 			if (transactionList.Count == 0)
@@ -169,7 +169,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return dataCase;
 		}
 
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromScheduledTransaction``1(Proto.Services.SchedulableTransactionBody)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromScheduledTransaction``1(Proto.Services.SchedulableTransactionBody)"]' />
 		public static T FromScheduledTransaction<T>(Proto.Services.SchedulableTransactionBody scheduled) where T : Transaction<T>
 		{
 			T? transaction = null;
@@ -570,7 +570,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return transaction ?? throw new InvalidOperationException("schedulable transaction did not have a transaction set");
 		}
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ParseTransactionBody(ByteString)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ParseTransactionBody(ByteString)"]' />
 		internal static Proto.Services.TransactionBody ParseTransactionBody(ByteString signedTransactionBuilder)
 		{
 			try
@@ -582,7 +582,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new Exception("Failed to parse transaction body", e);
 			}
 		}
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ParseTransactionBody(Proto.Services.SignedTransaction)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:ParseTransactionBody(Proto.Services.SignedTransaction)"]' />
 		internal static Proto.Services.TransactionBody ParseTransactionBody(Proto.Services.SignedTransaction signedTransactionBuilder)
 		{
 			try
@@ -594,7 +594,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new Exception("Failed to parse transaction body", e);
 			}
 		}
-		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:PrepareSingleTransaction(Proto.Services.Transaction)"]/*' />
+		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:PrepareSingleTransaction(Proto.Services.Transaction)"]' />
 		internal static Proto.Services.Transaction PrepareSingleTransaction(Proto.Services.Transaction transaction)
 		{
 			if (transaction.SignedTransactionBytes.Length == 0)

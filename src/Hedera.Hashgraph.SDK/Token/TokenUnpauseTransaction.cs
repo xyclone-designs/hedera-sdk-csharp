@@ -8,26 +8,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="T:TokenUnpauseTransaction"]/*' />
+    /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="T:TokenUnpauseTransaction"]' />
     public class TokenUnpauseTransaction : Transaction<TokenUnpauseTransaction>
     {
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor"]/*' />
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor"]' />
 		public TokenUnpauseTransaction() { }
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenUnpauseTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenUnpauseTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUnpause;
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 TokenId = TokenId.FromProtobuf(body.Token);
             }
         }
-        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenUnpauseTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenUnpauseTransactionBody();

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -11,6 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Node
 {
+    /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest"]" />
     public class NodeDeleteTransactionTest
     {
         private static readonly PrivateKey TEST_PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -36,6 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             .Sign(TEST_PRIVATE_KEY);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -44,6 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeDeleteTransaction();
@@ -52,6 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -63,6 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.IsType<NodeDeleteTransaction>(tx);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ConstructNodeDeleteTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructNodeDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.Services.NodeDeleteTransactionBody();
@@ -75,6 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeDeleteTransaction.NodeId, TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.GetSetNodeId"]" />
         public virtual void GetSetNodeId()
         {
             var nodeDeleteTransaction = new NodeDeleteTransaction
@@ -84,12 +90,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeDeleteTransaction.NodeId, TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.GetSetNodeIdFrozen"]" />
         public virtual void GetSetNodeIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.NodeId = TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldFreezeSuccessfullyWhenNodeIdIsSet"]" />
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSet()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -106,6 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(transaction.NodeId, (ulong)420);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenFreezingWithoutSettingNodeId"]" />
         public virtual void ShouldThrowErrorWhenFreezingWithoutSettingNodeId()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -120,6 +129,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenFreezingWithZeroNodeId"]" />
         public virtual void ShouldThrowErrorWhenFreezingWithZeroNodeId()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -135,6 +145,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet"]" />
         public virtual void ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -150,6 +161,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(transaction.NodeId, (ulong)420);
         }
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt"]" />
         public virtual void ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt()
         {
             var transaction = new NodeDeleteTransaction();
@@ -159,6 +171,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         }
 
         [Fact]
+        /// <include file="test-node-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldAllowSettingNodeIdToZero"]" />
         public virtual void ShouldAllowSettingNodeIdToZero()
         {
             var transaction = new NodeDeleteTransaction

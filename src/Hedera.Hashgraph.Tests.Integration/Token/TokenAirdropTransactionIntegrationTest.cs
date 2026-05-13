@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fee;
@@ -9,11 +9,13 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest"]" />
     public class TokenAirdropTransactionIntegrationTest
     {
         private readonly int amount = 100;
 
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropAssociatedTokens"]" />
         public virtual void CanAirdropAssociatedTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -57,6 +59,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropNonAssociatedTokens"]" />
         public virtual void CanAirdropNonAssociatedTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -111,6 +114,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropToAlias"]" />
         public virtual void CanAirdropToAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -153,6 +157,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropWithCustomFee"]" />
         public virtual void CanAirdropWithCustomFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -233,6 +238,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropTokensWithReceiverSigRequiredFungible"]" />
         public virtual void CanAirdropTokensWithReceiverSigRequiredFungible()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -259,6 +265,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropTokensWithReceiverSigRequiredNFT"]" />
         public virtual void CanAirdropTokensWithReceiverSigRequiredNFT()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -294,6 +301,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithAllowanceAndWithoutBalanceFungible"]" />
         public virtual void CannotAirdropTokensWithAllowanceAndWithoutBalanceFungible()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -336,6 +344,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithAllowanceAndWithoutBalanceNFT"]" />
         public virtual void CannotAirdropTokensWithAllowanceAndWithoutBalanceNFT()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -387,6 +396,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAirdropTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithInvalidBody"]" />
         public virtual void CannotAirdropTokensWithInvalidBody()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

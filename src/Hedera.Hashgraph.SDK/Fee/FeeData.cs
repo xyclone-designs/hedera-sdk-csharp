@@ -5,10 +5,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="FeeData.cs.xml" path='docs/member[@name="T:FeeData"]/*' />
+    /// <include file="FeeData.cs.xml" path='docs/member[@name="T:FeeData"]' />
     public class FeeData : ICloneable
     {
-		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromProtobuf(Proto.Services.FeeData)"]/*' />
+		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromProtobuf(Proto.Services.FeeData)"]' />
 		public static FeeData FromProtobuf(Proto.Services.FeeData feeData)
         {
             return new FeeData
@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Fee
             };
         }
 
-        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromBytes(System.Byte[])"]/*' />
+        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromBytes(System.Byte[])"]' />
         public static FeeData FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.FeeData.Parser.ParseFrom(bytes));
@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Fee
 		public virtual FeeDataType Type { get; set; } = FeeDataType.Default;
 
 
-		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToProtobuf"]/*' />
+		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToProtobuf"]' />
 		public virtual Proto.Services.FeeData ToProtobuf()
         {
             Proto.Services.FeeData protobuf = new()
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Fee
             return protobuf;
         }
 
-        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToBytes"]/*' />
+        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToBytes"]' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

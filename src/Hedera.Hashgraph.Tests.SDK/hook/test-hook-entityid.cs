@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
+    /// <include file="test-hook-entityid.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest"]" />
     public class HookEntityIdTest
     {
         [Fact]
+        /// <include file="test-hook-entityid.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest.AccountVariantToFromProto"]" />
         public virtual void AccountVariantToFromProto()
         {
             var acct = new AccountId(0, 0, 1234);
@@ -22,6 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(parsed.GetHashCode(), id.GetHashCode());
         }
         [Fact]
+        /// <include file="test-hook-entityid.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest.ContractVariantToFromProto"]" />
         public virtual void ContractVariantToFromProto()
         {
             var contract = new ContractId(0, 0, 5678);

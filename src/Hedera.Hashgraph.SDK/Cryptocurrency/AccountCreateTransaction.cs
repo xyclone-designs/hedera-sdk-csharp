@@ -29,17 +29,17 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
     {
         private List<HookCreationDetails> _HookCreationDetails = [];
 
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction"]' />
 		public AccountCreateTransaction()
         {
             DefaultMaxTransactionFee = Hbar.From(5);
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(Proto.Services.TransactionBody)"]' />
 		internal AccountCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal AccountCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			}
 		}
 
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithAlias(Key)"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithAlias(Key)"]' />
 		public AccountCreateTransaction SetKeyWithAlias(Key key)
         {
             RequireNotFrozen();
@@ -69,14 +69,14 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             Alias = ExtractAlias(key);
             return this;
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithoutAlias(Key)"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithoutAlias(Key)"]' />
 		public AccountCreateTransaction SetKeyWithoutAlias(Key key)
 		{
 			RequireNotFrozen();
 			Key = key;
 			return this;
 		}
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithAlias(Key,Key)"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:SetKeyWithAlias(Key,Key)"]' />
 		public AccountCreateTransaction SetKeyWithAlias(Key key, Key ecdsaKey)
         {
             RequireNotFrozen();
@@ -85,73 +85,73 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             return this;
         }
 
-        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
         public Hbar InitialBalance 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = new(0);
-        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
+        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]' />
         public bool ReceiverSigRequired 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]' />
 		public Key? Key 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]' />
 		public AccountId? ProxyAccountId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_5"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_5"]' />
 		public TimeSpan AutoRenewPeriod 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_6"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_6"]' />
 		public int MaxAutomaticTokenAssociations 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_7"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_7"]' />
 		public string AccountMemo 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = string.Empty;
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_8"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_8"]' />
 		public AccountId? StakedAccountId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_9"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_9"]' />
 		public long? StakedNodeId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_10"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_10"]' />
 		public bool DeclineStakingReward 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_11"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_11"]' />
 		public EvmAddress? Alias 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="T:Unknown"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="T:Unknown"]' />
 		public string Alias_String 
         { 
             set 
@@ -162,7 +162,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			}
         }
 
-        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
+        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]' />
         public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
             init => field = GenerateListGuarded(value);
@@ -170,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         }
 
 
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf_2"]/*' />
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf_2"]' />
 		public Proto.Services.CryptoCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.CryptoCreateTransactionBody
@@ -221,7 +221,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			StakedAccountId?.ValidateChecksum(client);
 		}
 
-        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
+        /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoCreateAccount;

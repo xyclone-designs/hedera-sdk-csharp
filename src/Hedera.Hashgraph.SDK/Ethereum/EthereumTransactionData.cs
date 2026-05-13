@@ -3,7 +3,7 @@ using Nethereum.RLP;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="T:EthereumTransactionData"]/*' />
+    /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="T:EthereumTransactionData"]' />
     public abstract class EthereumTransactionData(byte[] callData)
     {
         public static EthereumTransactionData FromBytes(byte[] bytes)
@@ -16,12 +16,12 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 				return EthereumTransactionDataEip1559.FromBytes(bytes);
 		}
 
-		/// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="P:EthereumTransactionData.CallData"]/*' />
+		/// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="P:EthereumTransactionData.CallData"]' />
 		public byte[] CallData { get; } = callData;
 
-        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToBytes"]/*' />
+        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToBytes"]' />
         public abstract byte[] ToBytes();
-        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToString"]/*' />
+        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToString"]' />
         public new abstract string ToString();
     }
 }

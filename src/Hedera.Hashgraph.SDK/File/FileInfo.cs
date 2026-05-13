@@ -8,7 +8,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileInfo.cs.xml" path='docs/member[@name="T:FileInfo"]/*' />
+    /// <include file="FileInfo.cs.xml" path='docs/member[@name="T:FileInfo"]' />
     public sealed class FileInfo
     {
         private FileInfo(FileId fileId, long size, DateTimeOffset expirationTime, bool isDeleted, KeyList keys, string fileMemo, LedgerId ledgerId)
@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.File
             LedgerId = ledgerId;
         }
 
-        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo)"]/*' />
+        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo)"]' />
         public static FileInfo FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo fileInfo)
         {
             return new FileInfo(
@@ -34,33 +34,33 @@ namespace Hedera.Hashgraph.SDK.File
 				fileInfo.Memo, 
 				LedgerId.FromByteString(fileInfo.LedgerId));
         }
-        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromBytes(System.Byte[])"]/*' />
+        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromBytes(System.Byte[])"]' />
         public static FileInfo FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo.Parser.ParseFrom(bytes));
         }
 
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileId"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileId"]' />
 		public FileId FileId { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Size"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Size"]' />
 		public long Size { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.ExpirationTime"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.ExpirationTime"]' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.IsDeleted"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.IsDeleted"]' />
 		public bool IsDeleted { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Keys"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Keys"]' />
 		public KeyList Keys { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileMemo"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileMemo"]' />
 		public string FileMemo { get; }
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.LedgerId"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.LedgerId"]' />
 		public LedgerId LedgerId { get; }
 
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToBytes"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToBytes"]' />
 		public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToProtobuf"]/*' />
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToProtobuf"]' />
 		public Proto.Services.FileGetInfoResponse.Types.FileInfo ToProtobuf()
         {
             return new Proto.Services.FileGetInfoResponse.Types.FileInfo

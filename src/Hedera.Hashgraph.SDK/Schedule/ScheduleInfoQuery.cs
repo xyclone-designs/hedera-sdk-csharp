@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="T:ScheduleInfoQuery"]/*' />
+    /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="T:ScheduleInfoQuery"]' />
     public class ScheduleInfoQuery : Query<ScheduleInfo, ScheduleInfoQuery>
     {
-        /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="P:ScheduleInfoQuery.ScheduleId"]/*' />
+        /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="P:ScheduleInfoQuery.ScheduleId"]' />
         public virtual ScheduleId? ScheduleId { get; set; }
 
 		public override void ValidateChecksums(Client client)

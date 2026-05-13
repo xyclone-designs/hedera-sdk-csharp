@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
+    /// <include file="test-hook-creationdetails.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest"]" />
     public class HookCreationDetailsTest
     {
         [Fact]
+        /// <include file="test-hook-creationdetails.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.GettersAndHasAdminKeyWork"]" />
         public virtual void GettersAndHasAdminKeyWork()
         {
             var cid = new ContractId(0, 0, 77);
@@ -27,6 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Null(withoutAdmin.AdminKey);
         }
         [Fact]
+        /// <include file="test-hook-creationdetails.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.ProtobufRoundTripPreservesValues"]" />
         public virtual void ProtobufRoundTripPreservesValues()
         {
             var cid = new ContractId(0, 0, 1234);
@@ -43,6 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(details.GetHashCode(), restored.GetHashCode());
         }
         [Fact]
+        /// <include file="test-hook-creationdetails.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.EqualsAndHashCodeVaryByFields"]" />
         public virtual void EqualsAndHashCodeVaryByFields()
         {
             var lambda1 = new EvmHook(new ContractId(0, 0, 1));
@@ -58,6 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotEqual(a, d);
         }
         [Fact]
+        /// <include file="test-hook-creationdetails.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.ToStringContainsKeyFields"]" />
         public virtual void ToStringContainsKeyFields()
         {
             var lambda = new EvmHook(new ContractId(0, 0, 3));

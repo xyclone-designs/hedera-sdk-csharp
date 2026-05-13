@@ -4,19 +4,19 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="T:TokenAllowance"]/*' />
+    /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="T:TokenAllowance"]' />
     public class TokenAllowance
     {
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="F:TokenAllowance.TokenId"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="F:TokenAllowance.TokenId"]' />
         public readonly TokenId TokenId;
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="F:TokenAllowance.OwnerAccountId"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="F:TokenAllowance.OwnerAccountId"]' />
         public readonly AccountId? OwnerAccountId;
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)"]' />
         public readonly AccountId? SpenderAccountId;
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)_2"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)_2"]' />
         public readonly long Amount;
 
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)_3"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.#ctor(TokenId,AccountId,AccountId,System.Int64)_3"]' />
         internal TokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId? spenderAccountId, long amount)
         {
             TokenId = tokenId;
@@ -25,12 +25,12 @@ namespace Hedera.Hashgraph.SDK.Token
             Amount = amount;
         }
 
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromBytes(System.Byte[])"]' />
 		public static TokenAllowance FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TokenAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.TokenAllowance)"]/*' />
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.TokenAllowance)"]' />
 		public static TokenAllowance FromProtobuf(Proto.Services.TokenAllowance allowanceProto)
         {
             return new TokenAllowance(
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 allowanceProto.Spender is null ? null : AccountId.FromProtobuf(allowanceProto.Spender), 
                 allowanceProto.Amount);
         }
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.GrantedTokenAllowance)"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.GrantedTokenAllowance)"]' />
         public static TokenAllowance FromProtobuf(Proto.Services.GrantedTokenAllowance allowanceProto)
         {
             return new TokenAllowance(
@@ -49,19 +49,19 @@ namespace Hedera.Hashgraph.SDK.Token
                 allowanceProto.Amount);
         }
 
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToBytes"]/*' />
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ValidateChecksums(Client)"]/*' />
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ValidateChecksums(Client)"]' />
 		public virtual void ValidateChecksums(Client client)
         {
             TokenId.ValidateChecksum(client);
             OwnerAccountId?.ValidateChecksum(client);
             SpenderAccountId?.ValidateChecksum(client);
         }
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToProtobuf"]/*' />
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToProtobuf"]' />
 		public virtual Proto.Services.TokenAllowance ToProtobuf()
         {
             Proto.Services.TokenAllowance proto = new()
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             return proto;
         }
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToGrantedProtobuf"]/*' />
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToGrantedProtobuf"]' />
         public virtual Proto.Services.GrantedTokenAllowance ToGrantedProtobuf()
         {
 			Proto.Services.GrantedTokenAllowance proto = new()

@@ -8,26 +8,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="T:TokenDissociateTransaction"]/*' />
+    /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="T:TokenDissociateTransaction"]' />
     public class TokenDissociateTransaction : Transaction<TokenDissociateTransaction>
     {
-        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor"]/*' />
+        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor"]' />
         public TokenDissociateTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenDissociateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenDissociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.RequireNotFrozen"]' />
 		public virtual AccountId? AccountId
 		{
 			get;
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				field = value;
 			}
 		}
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.RequireNotFrozen_2"]' />
 		public IList<TokenId> TokenIds 
         { 
             get => [..field]; 
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Token
             } 
         } = [];
 		
-        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenDissociate;
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Token
             foreach (var token in body.Tokens)
                 TokenIds.Add(TokenId.FromProtobuf(token));
         }
-        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenDissociateTransactionBody ToProtobuf()
         {
 			Proto.Services.TokenDissociateTransactionBody builder = new ();

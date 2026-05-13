@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="T:TransactionFeeSchedule"]/*' />
+    /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="T:TransactionFeeSchedule"]' />
     public class TransactionFeeSchedule : ICloneable
     {
         public TransactionFeeSchedule()
@@ -19,12 +19,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Fees = [];
         }
 
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromBytes(System.Byte[])"]' />
 		public static TransactionFeeSchedule FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TransactionFeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.Services.TransactionFeeSchedule)"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.Services.TransactionFeeSchedule)"]' />
 		public static TransactionFeeSchedule FromProtobuf(Proto.Services.TransactionFeeSchedule transactionFeeSchedule)
         {
             return new TransactionFeeSchedule
@@ -35,19 +35,19 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
         }
 
-        /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.RequestType"]/*' />
+        /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.RequestType"]' />
         public virtual RequestType RequestType { get; set; }
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Fees"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Fees"]' />
 		public virtual List<FeeData> Fees { get; internal set; }
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Feedata"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Feedata"]' />
 		public virtual FeeData? Feedata { get; set; }
 
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToBytes"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToProtobuf"]/*' />
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToProtobuf"]' />
 		public virtual Proto.Services.TransactionFeeSchedule ToProtobuf()
         {
 			Proto.Services.TransactionFeeSchedule proto = new ()

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="T:MirrorNetwork"]/*' />
+    /// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="T:MirrorNetwork"]' />
     public class MirrorNetwork : BaseNetwork<MirrorNetwork, BaseNodeAddress, MirrorNode>
     {
 		internal MirrorNetwork(ExecutorService executor, IEnumerable<string> addresses) : base(executor)
@@ -21,28 +21,28 @@ namespace Hedera.Hashgraph.SDK.Networking
             catch (TimeoutException) { }
         }
 
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForMainnet(ExecutorService)"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForMainnet(ExecutorService)"]' />
 		internal static MirrorNetwork ForMainnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "mainnet-public.mirrornode.hedera.com:443" ]);
         }
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForTestnet(ExecutorService)"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForTestnet(ExecutorService)"]' />
 		internal static MirrorNetwork ForTestnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "testnet.mirrornode.hedera.com:443" ]);
         }
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForPreviewnet(ExecutorService)"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForPreviewnet(ExecutorService)"]' />
 		internal static MirrorNetwork ForPreviewnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "previewnet.mirrornode.hedera.com:443" ]);
         }
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForNetwork(ExecutorService,System.Collections.Generic.IEnumerable{System.String})"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForNetwork(ExecutorService,System.Collections.Generic.IEnumerable{System.String})"]' />
 		internal static MirrorNetwork ForNetwork(ExecutorService executor, IEnumerable<string> addresses)
 		{
 			return new MirrorNetwork(executor, addresses);
 		}
 
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.lock(this)"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.lock(this)"]' />
 		public new virtual IList<string> Network
 		{
 			get
@@ -70,12 +70,12 @@ namespace Hedera.Hashgraph.SDK.Networking
             return new MirrorNode(entry.Value, Executor);
         }
 
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetRestBaseUrl"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetRestBaseUrl"]' />
 		public virtual string GetRestBaseUrl()
 		{
 			return GetNextMirrorNode().GetRestBaseUrl();
 		}
-		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetNextMirrorNode"]/*' />
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetNextMirrorNode"]' />
 		public virtual MirrorNode GetNextMirrorNode()
         {
             lock (this)

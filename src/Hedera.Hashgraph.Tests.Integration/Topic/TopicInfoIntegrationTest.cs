@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
@@ -6,9 +6,11 @@ using Hedera.Hashgraph.SDK.Consensus;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest"]" />
     public class TopicInfoIntegrationTest
     {
         [Fact]
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.CanQueryTopicInfo"]" />
         public virtual void CanQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -34,6 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostQueryTopicInfo"]" />
         public virtual void GetCostQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -61,6 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostBigMaxQueryTopicInfo"]" />
         public virtual void GetCostBigMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -89,6 +93,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostSmallMaxQueryTopicInfo"]" />
         public virtual void GetCostSmallMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -120,6 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicInfoIntegrationTest.GetCostInsufficientTxFeeQueryTopicInfo"]" />
         public virtual void GetCostInsufficientTxFeeQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

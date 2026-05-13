@@ -17,20 +17,20 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Utils
 {
-    /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="T:EntityIdHelper"]/*' />
+    /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="T:EntityIdHelper"]' />
     public class EntityIdHelper
     {
 		public delegate R WithIdNums<out R>(long shard, long realm, long num, string? checksum);
 
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN"]' />
 		public static readonly int SOLIDITY_ADDRESS_LEN = 20;
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX"]/*' />
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX"]' />
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
         private static readonly Regex ENTITY_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
         public static readonly TimeSpan MIRROR_NODE_CONNECTION_TIMEOUT = TimeSpan.FromSeconds(30);
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.#ctor"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.#ctor"]' />
 		private EntityIdHelper() { }
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromString``1(System.String,WithIdNums{``0})"]/*' />
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromString``1(System.String,WithIdNums{``0})"]' />
         public static R FromString<R>(string idString, WithIdNums<R> constructObjectWithIdNums)
         {
             Match match = ENTITY_ID_REGEX.Match(idString);
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
             return constructObjectWithIdNums.Invoke(long.Parse(match.Groups[1].Value), long.Parse(match.Groups[2].Value), long.Parse(match.Groups[3].Value), string.IsNullOrWhiteSpace(match.Groups[4]?.Value) ? null : match.Groups[4].Value);
         }
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromSolidityAddress``1(System.String,WithIdNums{``0})"]/*' />
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromSolidityAddress``1(System.String,WithIdNums{``0})"]' />
         public static R FromSolidityAddress<R>(string address, WithIdNums<R> withAddress)
         {
             return FromSolidityAddress(DecodeEvmAddress(address), withAddress);
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Utils
                 null);
         }
 
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Checksum(LedgerId,System.String)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Checksum(LedgerId,System.String)"]' />
 		public static string Checksum(LedgerId ledgerId, string addr)
 		{
 			StringBuilder answer = new();
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return string.Join(string.Empty, answer.ToString().Reverse());
 		}
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.DecodeEvmAddress(System.String)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.DecodeEvmAddress(System.String)"]' />
 		public static byte[] DecodeEvmAddress(string address)
         {
             address = address.StartsWith("0x") ? address[2..] : address;
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Utils
                 throw new ArgumentException("failed to decode Solidity address as hex", e);
             }
         }
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.IsLongZeroAddress(System.Byte[])"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.IsLongZeroAddress(System.Byte[])"]' />
 		public static bool IsLongZeroAddress(byte[] address)
 		{
 			for (int i = 0; i < 12; i++)
@@ -152,12 +152,12 @@ namespace Hedera.Hashgraph.SDK.Utils
 			return true;
 		}
 
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToString(System.Int64,System.Int64,System.Int64)"]/*' />
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToString(System.Int64,System.Int64,System.Int64)"]' />
         public static string ToString(long shard, long realm, long num)
         {
             return "" + shard + "." + realm + "." + num;
         }
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToSolidityAddress(System.Int64,System.Int64,System.Int64)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToSolidityAddress(System.Int64,System.Int64,System.Int64)"]' />
 		public static string ToSolidityAddress(long shard, long realm, long num)
 		{
 			if (shard < 0 || shard > 0xFFFFFFFF)
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return Convert.ToHexStringLower(bytes);
 		}
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToStringWithChecksum(System.Int64,System.Int64,System.Int64,Client,System.String)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToStringWithChecksum(System.Int64,System.Int64,System.Int64,Client,System.String)"]' />
 		public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string? checksum)
         {
             if (client.Network_.LedgerId != null)
@@ -184,7 +184,7 @@ namespace Hedera.Hashgraph.SDK.Utils
             }
         }
 
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Validate(System.Int64,System.Int64,System.Int64,Client,System.String)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Validate(System.Int64,System.Int64,System.Int64,Client,System.String)"]' />
 		public static void Validate(long shard, long realm, long num, Client client, string? checksum)
 		{
 			if (client.Network_.LedgerId == null)
@@ -203,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 			}
 		}
 
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(Client,System.Int64)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(Client,System.Int64)"]' />
 		public static async Task<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
 		{
 			string apiEndpoint = "/accounts/" + num;
@@ -211,7 +211,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return EvmAddress.FromString(ParseStringMirrorNodeResponse(_, "evm_address"));
 		}
-		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetAccountNumFromMirrorNodeAsync(Client,System.String)"]/*' />
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetAccountNumFromMirrorNodeAsync(Client,System.String)"]' />
 		public static async Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string? evmAddress)
         {
             string apiEndpoint = "/accounts/" + evmAddress;
@@ -219,7 +219,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return ParseNumFromMirrorNodeResponse(_, "account");
         }
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetContractNumFromMirrorNodeAsync(Client,System.String)"]/*' />
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetContractNumFromMirrorNodeAsync(Client,System.String)"]' />
         public static async Task<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/contracts/" + evmAddress;

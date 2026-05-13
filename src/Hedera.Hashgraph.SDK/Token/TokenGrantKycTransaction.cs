@@ -8,28 +8,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="T:TokenGrantKycTransaction"]/*' />
+    /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="T:TokenGrantKycTransaction"]' />
     public class TokenGrantKycTransaction : Transaction<TokenGrantKycTransaction>
     {
-        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor"]/*' />
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor"]' />
         public TokenGrantKycTransaction() { }
-		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenGrantKycTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenGrantKycTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen_2"]' />
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenGrantKyc;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 AccountId = AccountId.FromProtobuf(body.Account);
         }
 
-        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenGrantKycTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenGrantKycTransactionBody();

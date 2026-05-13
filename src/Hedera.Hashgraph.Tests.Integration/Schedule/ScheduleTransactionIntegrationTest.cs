@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK;
@@ -10,9 +10,11 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest"]" />
     public class ScheduleTransactionIntegrationTest
     {
         [Fact]
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction"]" />
         public virtual void ShouldChargeHbarsWithLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -85,6 +87,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction"]" />
         public virtual void ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -159,6 +162,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction"]" />
         public virtual void ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

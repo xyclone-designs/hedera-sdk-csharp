@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -6,9 +6,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountRecordsIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest"]" />
     public class AccountRecordsIntegrationTest
     {
         [Fact]
+        /// <include file="AccountRecordsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountRecordsIntegrationTest.CanQueryAccountRecords"]" />
         public virtual void CanQueryAccountRecords()
         {
             using (var testEnv = new IntegrationTestEnv(1))

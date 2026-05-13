@@ -6,7 +6,7 @@ namespace Hedera.Hashgraph.SDK.Fee
     {
         public abstract F DeepCloneSubclass();
 
-        /// <include file="CustomFeeBase.cs.xml" path='docs/member[@name="M:FinishDeepClone(CustomFeeBase{F})"]/*' />
+        /// <include file="CustomFeeBase.cs.xml" path='docs/member[@name="M:FinishDeepClone(CustomFeeBase{F})"]' />
         protected virtual F FinishDeepClone(CustomFeeBase<F> source)
         {
             FeeCollectorAccountId = source.FeeCollectorAccountId;

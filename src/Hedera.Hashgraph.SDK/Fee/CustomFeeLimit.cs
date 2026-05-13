@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="CustomFeeLimit.cs.xml" path='docs/member[@name="T:CustomFeeLimit"]/*' />
+    /// <include file="CustomFeeLimit.cs.xml" path='docs/member[@name="T:CustomFeeLimit"]' />
     public class CustomFeeLimit
     {
         public virtual AccountId? PayerId { get; set; } 

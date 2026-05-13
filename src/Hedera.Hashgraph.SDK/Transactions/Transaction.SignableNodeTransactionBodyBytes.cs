@@ -3,7 +3,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="Transaction.SignableNodeTransactionBodyBytes.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
+    /// <include file="Transaction.SignableNodeTransactionBodyBytes.cs.xml" path='docs/member[@name="T:Transaction"]' />
     public static partial class Transaction
     {
 		public class SignableNodeTransactionBodyBytes(AccountId nodeID, TransactionId transactionID, byte[] body)

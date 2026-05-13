@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,6 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
+    /// <include file="test-fees-custom-assessed.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest"]" />
     public class AssessedCustomFeeTest
     {
         private static readonly int amount = 1;
@@ -29,6 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             return new AssessedCustomFee(201, TokenId.FromString("1.2.3"), AccountId.FromString("4.5.6"), [ AccountId.FromString("0.0.1"), AccountId.FromString("0.0.2"), AccountId.FromString("0.0.3") ]);
         }
         [Fact]
+        /// <include file="test-fees-custom-assessed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalAssessedCustomFee = SpawnAssessedCustomFeeExample();
@@ -50,6 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(AssessedCustomFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
         [Fact]
+        /// <include file="test-fees-custom-assessed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var assessedCustomFee = SpawnAssessedCustomFeeExample();

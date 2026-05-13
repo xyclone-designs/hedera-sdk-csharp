@@ -1,12 +1,14 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TransactionReceiptIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest"]" />
     public class TransactionReceiptIntegrationTest
     {
         [Fact]
+        /// <include file="TransactionReceiptIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionReceiptIntegrationTest.NextExchangeRatePropertyIsNotNullInTransactionReceipt"]" />
         public virtual void NextExchangeRatePropertyIsNotNullInTransactionReceipt()
         {
             using (var testEnv = new IntegrationTestEnv(1))

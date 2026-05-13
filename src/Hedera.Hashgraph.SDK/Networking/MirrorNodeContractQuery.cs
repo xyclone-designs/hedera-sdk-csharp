@@ -42,13 +42,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return jsonObject.ToString();
 		}
 
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown"]' />
 		public virtual ContractId? ContractId
 		{
 			get;
 			set;
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_2"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_2"]' />
 		public virtual string? ContractEvmAddress
 		{
 			get;
@@ -58,13 +58,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 				ContractId = null;
 			}
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_3"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_3"]' />
 		public virtual AccountId? Sender
 		{
 			get;
 			set;
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_4"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_4"]' />
 		public virtual string? SenderEvmAddress
 		{
 			get;
@@ -79,25 +79,25 @@ namespace Hedera.Hashgraph.SDK.Networking
 			get;
 			set;
 		} = [];
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_5"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_5"]' />
 		public virtual long Value
 		{
 			get;
 			set;
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_6"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_6"]' />
 		public virtual long GasLimit
 		{
 			get;
 			set;
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_7"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_7"]' />
 		public virtual long GasPrice
 		{
 			get;
 			set;
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:FillEvmAddresses"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:FillEvmAddresses"]' />
 		public virtual long BlockNumber
 		{
 			get;
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			var blockNum = BlockNumber == 0 ? "latest" : BlockNumber.ToString();
 			return GetContractCallResultFromMirrorNodeAsync(client, blockNum).GetAwaiter().GetResult();
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:Estimate(Client)"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:Estimate(Client)"]' />
 		internal virtual long Estimate(Client client)
 		{
 			FillEvmAddresses();
@@ -179,21 +179,21 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 	}
 
-	/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:MirrorNodeContractQuery"]/*' />
+	/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:MirrorNodeContractQuery"]' />
 	public abstract class MirrorNodeContractQuery<T> : MirrorNodeContractQuery where T : MirrorNodeContractQuery<T>
     {
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String)"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String)"]' />
 		public virtual T SetFunction(string name)
 		{
 			return SetFunction(name, new ContractFunctionParameters());
 		}
-		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String,ContractFunctionParameters @)"]/*' />
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String,ContractFunctionParameters @)"]' />
 		public virtual T SetFunction(string name, ContractFunctionParameters @params)
         {
             ArgumentNullException.ThrowIfNull(@params);
             return SetFunctionParameters(@params.ToBytes(name));
         }
-        /// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunctionParameters(ByteString)"]/*' />
+        /// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunctionParameters(ByteString)"]' />
         public virtual T SetFunctionParameters(ByteString functionParameters)
         {
             ArgumentNullException.ThrowIfNull(functionParameters);

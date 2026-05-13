@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace Hedera.Hashgraph.SDK.Airdrops
 {
-    /// <include file="PendingAirdropId.cs.xml" path='docs/member[@name="T:PendingAirdropId"]/*' />
+    /// <include file="PendingAirdropId.cs.xml" path='docs/member[@name="T:PendingAirdropId"]' />
     public class PendingAirdropId
     {
         public PendingAirdropId(AccountId sender, AccountId receiver, TokenId tokenId)

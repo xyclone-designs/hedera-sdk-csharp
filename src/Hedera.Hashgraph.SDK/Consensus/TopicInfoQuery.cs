@@ -9,7 +9,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicInfoQuery.cs.xml" path='docs/member[@name="T:TopicInfoQuery"]/*' />
+    /// <include file="TopicInfoQuery.cs.xml" path='docs/member[@name="T:TopicInfoQuery"]' />
     public sealed class TopicInfoQuery : Query<TopicInfo, TopicInfoQuery>
     {
         public TopicId? TopicId { get; set; }

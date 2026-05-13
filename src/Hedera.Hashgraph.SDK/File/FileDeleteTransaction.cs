@@ -10,30 +10,30 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="T:FileDeleteTransaction"]/*' />
+    /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="T:FileDeleteTransaction"]' />
     public sealed class FileDeleteTransaction : Transaction<FileDeleteTransaction>
     {
-        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor"]/*' />
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor"]' />
         public FileDeleteTransaction() { }
-		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal FileDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal FileDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.RequireNotFrozen"]/*' />
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.RequireNotFrozen"]' />
         public FileId? FileId 
         {
             get;
             set { RequireNotFrozen(); field = value; } 
         }
 
-        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.FileDelete;
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.SDK.File
             }
         }
 
-        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.ToProtobuf"]/*' />
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.ToProtobuf"]' />
         public Proto.Services.FileDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.FileDeleteTransactionBody();

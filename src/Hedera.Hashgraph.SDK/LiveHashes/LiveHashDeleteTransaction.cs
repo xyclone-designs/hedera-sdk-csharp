@@ -10,23 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
+    /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]' />
     [Obsolete("Obsolete")]
     public sealed class LiveHashDeleteTransaction : Transaction<LiveHashDeleteTransaction>
     {
-        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction"]/*' />
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction"]' />
         public LiveHashDeleteTransaction() { }
-        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
         internal LiveHashDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
         public AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
+		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]' />
 		public byte[] Hash { get; set { RequireNotFrozen(); field = value.CopyArray(); } } = [];
-        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoDeleteLiveHash;
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             Hash = body.LiveHashToDelete.ToByteArray();
         }
 
-		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
+		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]' />
 		public Proto.Services.CryptoDeleteLiveHashTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.CryptoDeleteLiveHashTransactionBody();

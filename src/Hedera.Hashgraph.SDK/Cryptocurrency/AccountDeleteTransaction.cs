@@ -9,28 +9,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-    /// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="T:AccountDeleteTransaction"]/*' />
+    /// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="T:AccountDeleteTransaction"]' />
     public sealed class AccountDeleteTransaction : Transaction<AccountDeleteTransaction>
     {
-        /// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor"]/*' />
+        /// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor"]' />
         public AccountDeleteTransaction() { }
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal AccountDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal AccountDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.RequireNotFrozen"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.RequireNotFrozen"]' />
 		public AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.RequireNotFrozen_2"]' />
 		public AccountId? TransferAccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.CryptoDelete;
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 				TransferAccountId = AccountId.FromProtobuf(body.TransferAccountId);
 		}
 
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.ToProtobuf"]/*' />
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.ToProtobuf"]' />
 		public Proto.Services.CryptoDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.CryptoDeleteTransactionBody();

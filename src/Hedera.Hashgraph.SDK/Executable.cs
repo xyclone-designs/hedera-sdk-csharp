@@ -20,14 +20,14 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable"]/*' />
+	/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable"]' />
 	public abstract partial class Executable : IExecutable
 	{
 		internal static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.GrpcDeadline"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.GrpcDeadline"]' />
         public TimeSpan GrpcDeadline { get; set; }
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_3"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_3"]' />
         public TimeSpan MaxBackoff
         {
             get => field;
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK
             }
 
         } = Client.DEFAULT_MAX_BACKOFF;
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_4"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_4"]' />
         public TimeSpan MinBackoff
         {
             get => field;
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK
             }
 
         } = Client.DEFAULT_MIN_BACKOFF;
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_5"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_5"]' />
         public int MaxAttempts
         {
             get;
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
             get => MaxAttempts;
             set => MaxAttempts = value;
         }
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_6"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_6"]' />
         public ListGuarded<AccountId> NodeAccountIds
         {
             get => field ??= [];
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK
 			};
 		}
 
-		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_2"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_2"]' />
 		protected ListGuarded<Node> Nodes
 		{
 			get => [.. field ??= []];
@@ -122,9 +122,9 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.AttemptedAllNodes"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.AttemptedAllNodes"]' />
 		public bool AttemptedAllNodes { get; protected set; }
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_7"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_7"]' />
         public Func<TProtoRequest, TProtoRequest> RequestListener
 		{
 			set; get => field ??= (request) =>
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.SDK
 				return request;
 			};
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_8"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_8"]' />
         public Func<TProtoResponse, TProtoResponse> ResponseListener
         {
             set; get => field ??= (response) =>
@@ -145,17 +145,17 @@ namespace Hedera.Hashgraph.SDK
 			};
 		}
 
-        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.Logger"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.Logger"]' />
         public virtual Logger? Logger { get; set; }
 		
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetMethod"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetMethod"]' />
 		public abstract Method<TProtoRequest, TProtoResponse> GetMethod();
 		public abstract MethodDescriptor GetMethodDescriptor();
 		public abstract TransactionId TransactionIdInternal { get; }
 
 		public abstract TProtoRequest MakeRequest();
 		public abstract ResponseStatus MapResponseStatus(TProtoResponse response);
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)"]' />
 		public abstract TTransactionResponse MapResponse(TProtoResponse response, AccountId nodeId, TProtoRequest request);
 
 		protected virtual void CheckNodeAccountIds()
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			return new GrpcRequest(this, null, attempt, GrpcDeadline);
 		}
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetNodeForExecute(System.Int32)"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetNodeForExecute(System.Int32)"]' />
 		public virtual Node GetNodeForExecute(int attempt)
 		{
 			Node? node = null;
@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return node!;
 		}
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetExecutionState(ResponseStatus,TProtoResponse)"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetExecutionState(ResponseStatus,TProtoResponse)"]' />
 		public virtual ExecutionState GetExecutionState(ResponseStatus status, TProtoResponse response)
 		{
 			return status switch
@@ -311,12 +311,12 @@ namespace Hedera.Hashgraph.SDK
 			return false;
 		}
 		
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client)"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client)"]' />
         public virtual TTransactionResponse Execute(Client client, Action<TTransactionResponse>? onResponse = null)
         {
             return Execute(client, client.RequestTimeout, onResponse);
         }
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client,System.TimeSpan)"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client,System.TimeSpan)"]' />
 		public virtual TTransactionResponse Execute(Client client, TimeSpan timeout, Action<TTransactionResponse>? onResponse = null)
 		{
 			Exception? lastException = null;
@@ -438,12 +438,12 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client)"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client)"]' />
         public virtual Task<TTransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan)"]' />
         public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, TimeSpan timeout)
         {
 			TaskCompletionSource<TTransactionResponse> retval = new ();
@@ -461,28 +461,28 @@ namespace Hedera.Hashgraph.SDK
 
 			return await retval.Task;
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse,System.Exception})"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse,System.Exception})"]' />
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAsync(client), callback);
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse,System.Exception})"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse,System.Exception})"]' />
         public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAsync(client, timeout), callback);
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse},System.Action{System.Exception})"]' />
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
 		}
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse},System.Action{System.Exception})"]' />
         public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
 		}
 
-        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.LogTransaction(TransactionId,Client,Node,System.Boolean,System.Int32,TProtoResponse,System.Exception)"]/*' />
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.LogTransaction(TransactionId,Client,Node,System.Boolean,System.Int32,TProtoResponse,System.Exception)"]' />
         protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, TProtoResponse? response, Exception? error)
         {
             Logger?.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.Network_, node.AccountId, attempt);
@@ -628,7 +628,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.UpdateNetworkFromAddressBook(Client)"]/*' />
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.UpdateNetworkFromAddressBook(Client)"]' />
 		private void UpdateNetworkFromAddressBook(Client client)
 		{
 			try

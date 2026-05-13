@@ -1,12 +1,14 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
+    /// <include file="test-evm-hook-spec.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest"]" />
     public class EvmHookSpecTest
     {
         [Fact]
+        /// <include file="test-evm-hook-spec.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.GetContractIdReturnsProvidedValue"]" />
         public virtual void GetContractIdReturnsProvidedValue()
         {
             var cid = new ContractId(0, 0, 1234);
@@ -15,6 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(cid, spec.ContractId);
         }
         [Fact]
+        /// <include file="test-evm-hook-spec.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.EqualsAndHashCodeDependOnContractId"]" />
         public virtual void EqualsAndHashCodeDependOnContractId()
         {
             var a = new EvmHook(new ContractId(0, 0, 1));
@@ -26,6 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotEqual(a, c);
         }
         [Fact]
+        /// <include file="test-evm-hook-spec.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.ToStringContainsContractId"]" />
         public virtual void ToStringContainsContractId()
         {
             var cid = new ContractId(0, 0, 42);

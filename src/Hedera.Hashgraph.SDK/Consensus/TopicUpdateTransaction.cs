@@ -12,59 +12,59 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction"]/*' />
+    /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction"]' />
     public sealed class TopicUpdateTransaction : Transaction<TopicUpdateTransaction>
     {
-        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor"]/*' />
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor"]' />
         public TopicUpdateTransaction() { }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TopicUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TopicUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen"]' />
 		public TopicId? TopicId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_2"]' />
 		public string? TopicMemo 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_3"]' />
 		public Key? AdminKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_4"]' />
 		public Key? SubmitKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.AutoRenewPeriod"]/*' />
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.AutoRenewPeriod"]' />
         public TimeSpan? AutoRenewPeriod 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_5"]' />
 		public AccountId? AutoRenewAccountId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]/*' />
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]' />
         public DateTimeOffset? ExpirationTime
         {
             get;
@@ -89,26 +89,26 @@ namespace Hedera.Hashgraph.SDK.Consensus
                     ExpirationTime = null;
             }
         }
-        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]/*' />
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]' />
         public Key? FeeScheduleKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction_2"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction_2"]' />
 		public ListGuarded<Key> FeeExemptKeys
 		{
             init => field = GenerateListGuarded(value);
             get => field ??= GenerateListGuarded<Key>();
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody"]' />
 		public ListGuarded<CustomFixedFee> CustomFees
 		{
             init => field = GenerateListGuarded(value);
             get => field ??= GenerateListGuarded<CustomFixedFee>();
         }
 
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody_2"]/*' />
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody_2"]' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusUpdateTopic;
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 				CustomFees.ClearAndSet(body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
 		}
 
-        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.ToProtobuf"]/*' />
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.ToProtobuf"]' />
         public Proto.Services.ConsensusUpdateTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ConsensusUpdateTopicTransactionBody();

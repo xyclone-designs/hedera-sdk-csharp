@@ -10,23 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="T:NodeDeleteTransaction"]/*' />
+    /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="T:NodeDeleteTransaction"]' />
     public class NodeDeleteTransaction : Transaction<NodeDeleteTransaction>
     {
-        /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor"]/*' />
+        /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor"]' />
         public NodeDeleteTransaction() { }
-		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal NodeDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal NodeDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.RequireNotFrozen"]/*' />
+		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.RequireNotFrozen"]' />
 		public virtual ulong? NodeId
         {
             get;
@@ -37,14 +37,14 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
         }
 
-        /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.NodeDelete;
             
             NodeId = body.NodeId;
         }
-		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.ToProtobuf"]/*' />
+		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.NodeDeleteTransactionBody ToProtobuf()
 		{
 			var builder = new Proto.Services.NodeDeleteTransactionBody();
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             scheduled.NodeDelete = ToProtobuf();
         }
 
-		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.FreezeWith(Client)"]/*' />
+		/// <include file="NodeDeleteTransaction.cs.xml" path='docs/member[@name="M:NodeDeleteTransaction.FreezeWith(Client)"]' />
 		public override NodeDeleteTransaction FreezeWith(Client? client)
 		{
 			if (NodeId == null)

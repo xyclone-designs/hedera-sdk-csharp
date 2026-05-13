@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Fee;
 
@@ -6,9 +6,11 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="FeeSchedulesTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FeeSchedulesTest"]" />
     public class FeeSchedulesTest
     {
         [Fact]
+        /// <include file="FeeSchedulesTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FeeSchedulesTest.CanFetchFeeSchedules"]" />
         public virtual void CanFetchFeeSchedules()
         {
             using (var testEnv = new IntegrationTestEnv(1))

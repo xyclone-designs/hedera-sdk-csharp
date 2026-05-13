@@ -9,42 +9,42 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="T:TokenMintTransaction"]/*' />
+    /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="T:TokenMintTransaction"]' />
     public class TokenMintTransaction : Transaction<TokenMintTransaction>
     {
-        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor"]/*' />
+        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor"]' />
         public TokenMintTransaction() { }
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenMintTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenMintTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_2"]' />
 		public virtual long Amount 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_3"]/*' />
+        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_3"]' />
         public virtual List<byte[]> Metadata 
         { 
             get; 
             set { RequireNotFrozen(); field = [.. value]; } 
         } = [];
 
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenMint;
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenMintTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenMintTransactionBody();

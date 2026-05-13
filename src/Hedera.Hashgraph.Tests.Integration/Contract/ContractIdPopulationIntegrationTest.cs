@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 using System.Threading;
@@ -6,9 +6,11 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest"]" />
     public class ContractIdPopulationIntegrationTest
     {
         [Fact]
+        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumSync"]" />
         public virtual void CanPopulateContractIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -53,6 +55,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumAsync"]" />
         public virtual void CanPopulateContractIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -15,11 +15,13 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest"]" />
     public class ScheduleCreateIntegrationTest
     {
         private readonly int oneDayInSecs = 86400;
         
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateSchedule"]" />
         public virtual void CanCreateSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -49,6 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanGetTransactionSchedule"]" />
         public virtual void CanGetTransactionSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -79,6 +82,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanCreateWithSchedule"]" />
         public virtual void CanCreateWithSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -103,6 +107,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule2"]" />
         public virtual void CanSignSchedule2()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -196,6 +201,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTokenTransfer"]" />
         public virtual void CanScheduleTokenTransfer()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -263,6 +269,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTwoTransactions"]" />
         public virtual void CannotScheduleTwoTransactions()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -305,6 +312,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanScheduleTopicMessage"]" />
         public virtual void CanScheduleTopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -381,6 +389,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignSchedule"]" />
         public virtual void CanSignSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -439,6 +448,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionOneYearIntoTheFuture"]" />
         public virtual void CannotScheduleTransactionOneYearIntoTheFuture()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -471,6 +481,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CannotScheduleTransactionInThePast"]" />
         public virtual void CannotScheduleTransactionInThePast()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -504,6 +515,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignScheduleAndWaitForExpiry"]" />
         public virtual void CanSignScheduleAndWaitForExpiry()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -560,6 +572,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSigAndUpdateSigningRequirements"]" />
         public virtual void CanSignWithMultiSigAndUpdateSigningRequirements()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -656,6 +669,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanSignWithMultiSig"]" />
         public virtual void CanSignWithMultiSig()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -752,6 +766,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ScheduleCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleCreateIntegrationTest.CanExecuteWithShortExpirationTime"]" />
         public virtual void CanExecuteWithShortExpirationTime()
         {
             using (var testEnv = new IntegrationTestEnv(1))

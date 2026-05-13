@@ -13,10 +13,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-    /// <include file="AccountInfo.cs.xml" path='docs/member[@name="T:AccountInfo"]/*' />
+    /// <include file="AccountInfo.cs.xml" path='docs/member[@name="T:AccountInfo"]' />
     public sealed class AccountInfo
     {        
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.#ctor(AccountId,System.String,System.Boolean,AccountId,System.Int64,Key,System.Int64,System.Int64,System.Int64,System.Boolean,DateTimeOffset,System.TimeSpan,System.Collections.Generic.IEnumerable{LiveHash},System.Collections.Generic.Dictionary{TokenId,TokenRelationship},System.String,System.Int64,System.Int32,PublicKey,LedgerId,System.Int64,StakingInfo)"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.#ctor(AccountId,System.String,System.Boolean,AccountId,System.Int64,Key,System.Int64,System.Int64,System.Int64,System.Boolean,DateTimeOffset,System.TimeSpan,System.Collections.Generic.IEnumerable{LiveHash},System.Collections.Generic.Dictionary{TokenId,TokenRelationship},System.String,System.Int64,System.Int32,PublicKey,LedgerId,System.Int64,StakingInfo)"]' />
         private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, IEnumerable<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
         {
             AccountId = accountId;
@@ -45,60 +45,60 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             StakingInfo = stakingInfo;
         }
 
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountId"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountId"]' />
         public AccountId AccountId { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ContractAccountId"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ContractAccountId"]' />
         public string ContractAccountId { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsDeleted"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsDeleted"]' />
         public bool IsDeleted { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyAccountId"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyAccountId"]' />
         public AccountId? ProxyAccountId { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyReceived"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyReceived"]' />
         public Hbar ProxyReceived { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Key"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Key"]' />
         public Key Key { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Balance"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Balance"]' />
         public Hbar Balance { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.SendRecordThreshold"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.SendRecordThreshold"]' />
         public Hbar SendRecordThreshold { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ReceiveRecordThreshold"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ReceiveRecordThreshold"]' />
         public Hbar ReceiveRecordThreshold { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsReceiverSigRequired"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsReceiverSigRequired"]' />
         public bool IsReceiverSigRequired { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ExpirationTime"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ExpirationTime"]' />
         public DateTimeOffset ExpirationTime { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AutoRenewPeriod"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AutoRenewPeriod"]' />
         public TimeSpan AutoRenewPeriod { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LiveHashes"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LiveHashes"]' />
         public List<LiveHash> LiveHashes { get; }
         public Dictionary<TokenId, TokenRelationship> TokenRelationships { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountMemo"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountMemo"]' />
         public string AccountMemo { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.OwnedNfts"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.OwnedNfts"]' />
         public long OwnedNfts { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.MaxAutomaticTokenAssociations"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.MaxAutomaticTokenAssociations"]' />
         public int MaxAutomaticTokenAssociations { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AliasKey"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AliasKey"]' />
         public PublicKey? AliasKey { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LedgerId"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LedgerId"]' />
         public LedgerId LedgerId { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.EthereumNonce"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.EthereumNonce"]' />
         public long EthereumNonce { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.HbarAllowances"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.HbarAllowances"]' />
         public List<HbarAllowance> HbarAllowances { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenAllowances"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenAllowances"]' />
         public List<TokenAllowance> TokenAllowances { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenNftAllowances"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenNftAllowances"]' />
         public List<TokenNftAllowance> TokenNftAllowances { get; }
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.StakingInfo"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.StakingInfo"]' />
         public StakingInfo? StakingInfo { get; }
 
-        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromBytes(System.Byte[])"]/*' />
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromBytes(System.Byte[])"]' />
         public static AccountInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo)"]/*' />
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo)"]' />
 		public static AccountInfo FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
         {
             return new AccountInfo(
@@ -125,12 +125,12 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
                 StakingInfo.FromProtobuf(accountInfo.StakingInfo));
         }
 
-		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToBytes"]/*' />
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToBytes"]' />
 		public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToProtobuf"]/*' />
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToProtobuf"]' />
 		public Proto.Services.CryptoGetInfoResponse.Types.AccountInfo ToProtobuf()
         {
 			Proto.Services.CryptoGetInfoResponse.Types.AccountInfo proto = new ()

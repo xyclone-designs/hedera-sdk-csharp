@@ -10,25 +10,25 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="T:TokenFeeScheduleUpdateTransaction"]/*' />
+    /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="T:TokenFeeScheduleUpdateTransaction"]' />
     public class TokenFeeScheduleUpdateTransaction : Transaction<TokenFeeScheduleUpdateTransaction>
     {
-        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor"]/*' />
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor"]' />
         public TokenFeeScheduleUpdateTransaction() { }
-		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenFeeScheduleUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenFeeScheduleUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.DeepCloneList(field)"]/*' />
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.DeepCloneList(field)"]' />
 		public virtual IList<CustomFee> CustomFees 
         { 
             get => CustomFee.DeepCloneList(field);
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Token
             } 
         } = [];
 
-        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenFeeScheduleUpdate;
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenFeeScheduleUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenFeeScheduleUpdateTransactionBody();

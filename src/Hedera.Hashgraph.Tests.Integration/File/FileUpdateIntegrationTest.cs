@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System.Text;
 
 using Hedera.Hashgraph.SDK.File;
@@ -9,9 +9,11 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest"]" />
     public class FileUpdateIntegrationTest
     {
         [Fact]
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFile"]" />
         public virtual void CanUpdateFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -64,6 +66,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateImmutableFile"]" />
         public virtual void CannotUpdateImmutableFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -100,6 +103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CannotUpdateFileWhenFileIDIsNotSet"]" />
         public virtual void CannotUpdateFileWhenFileIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -116,6 +120,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileUpdateIntegrationTest.CanUpdateFeeScheduleFile"]" />
         public virtual void CanUpdateFeeScheduleFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))

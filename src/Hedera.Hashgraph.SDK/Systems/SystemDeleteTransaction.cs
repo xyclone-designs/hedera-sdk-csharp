@@ -14,24 +14,24 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Systems
 {
-	/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="T:SystemDeleteTransaction"]/*' />
+	/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="T:SystemDeleteTransaction"]' />
 	[Obsolete("Obsolete")]
     public sealed class SystemDeleteTransaction : Transaction<SystemDeleteTransaction>
     {
-        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction"]/*' />
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction"]' />
         public SystemDeleteTransaction() { }
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(Proto.Services.TransactionBody)"]' />
 		internal SystemDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal SystemDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
 		public FileId? FileId
 		{
 			get;
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				ContractId = null; // Reset ContractId
 			}
 		}
-        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]' />
         public ContractId? ContractId
         {
             get;
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				FileId = null; // Reset FileIds
 			}
         }
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]' />
 		public DateTimeOffset? ExpirationTime
 		{
 			get;
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 			}
 		}
 
-        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]' />
         public Proto.Services.SystemDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.SystemDeleteTransactionBody();
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Systems
             return builder;
         }
 
-        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
 			var body = SourceTransactionBody.SystemDelete;

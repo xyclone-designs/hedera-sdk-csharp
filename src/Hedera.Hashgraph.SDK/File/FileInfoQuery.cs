@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="T:FileInfoQuery"]/*' />
+    /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="T:FileInfoQuery"]' />
     public sealed class FileInfoQuery : Query<FileInfo, FileInfoQuery>
     {
-        /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="P:FileInfoQuery.FileId"]/*' />
+        /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="P:FileInfoQuery.FileId"]' />
         public FileId? FileId { get; set; }
 
 		public override void ValidateChecksums(Client client)

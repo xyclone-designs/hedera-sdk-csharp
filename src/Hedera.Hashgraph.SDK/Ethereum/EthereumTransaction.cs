@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="T:EthereumTransaction"]/*' />
+    /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="T:EthereumTransaction"]' />
     public class EthereumTransaction : Transaction<EthereumTransaction>
     {
         public EthereumTransaction() { }
@@ -24,19 +24,19 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             InitFromTransactionBody();
         }
 
-		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen"]/*' />
+		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen"]' />
 		public virtual byte[] EthereumData
         {
             get;
             set { RequireNotFrozen(); field = value.CopyArray(); }
         } = [];
-		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_2"]' />
 		public virtual FileId? CallDataFileId
 		{
 			get;
 			set { RequireNotFrozen(); field = value; }
 		}
-        /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_3"]/*' />
+        /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_3"]' />
         public virtual Hbar MaxGasAllowanceHbar
         {
             get;

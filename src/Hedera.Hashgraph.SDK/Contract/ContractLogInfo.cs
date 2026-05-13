@@ -5,18 +5,18 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="T:ContractLogInfo"]/*' />
+    /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="T:ContractLogInfo"]' />
     public sealed class ContractLogInfo
     {
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.ContractId"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.ContractId"]' />
         public readonly ContractId ContractId;
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.Bloom"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.Bloom"]' />
         public readonly ByteString Bloom;
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)"]' />
         public readonly List<ByteString> Topics;
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_2"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_2"]' />
         public readonly ByteString Data;
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_3"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_3"]' />
         private ContractLogInfo(ContractId contractId, ByteString bloom, IEnumerable<ByteString> topics, ByteString data)
         {
             ContractId = contractId;
@@ -25,23 +25,23 @@ namespace Hedera.Hashgraph.SDK.Contract
             Data = data;
         }
 
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]' />
         public static ContractLogInfo FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.ContractLoginfo.Parser.ParseFrom(bytes));
         }
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.Services.ContractLoginfo)"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.Services.ContractLoginfo)"]' />
         public static ContractLogInfo FromProtobuf(Proto.Services.ContractLoginfo logInfo)
         {
             return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractId), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
 
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToBytes"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToBytes"]' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToProtobuf"]/*' />
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToProtobuf"]' />
         public Proto.Services.ContractLoginfo ToProtobuf()
         {
             Proto.Services.ContractLoginfo proto = new()

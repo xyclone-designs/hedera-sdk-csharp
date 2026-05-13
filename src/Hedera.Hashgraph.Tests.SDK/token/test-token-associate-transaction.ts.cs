@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest"]" />
     public class TokenAssociateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -26,6 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenAssociateTransaction();
@@ -48,6 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -56,6 +59,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -67,6 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.ConstructTokenDeleteTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructTokenDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenAssociateTransactionBody
@@ -87,6 +92,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.GetSetAccountId"]" />
         public virtual void GetSetAccountId()
         {
             var transaction = new TokenAssociateTransaction
@@ -97,6 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.GetSetAccountIdFrozen"]" />
         public virtual void GetSetAccountIdFrozen()
         {
             var transaction = SpawnTestTransaction();
@@ -104,6 +111,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.GetSetTokenIds"]" />
         public virtual void GetSetTokenIds()
         {
             var transaction = new TokenAssociateTransaction
@@ -114,6 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-associate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAssociateTransactionTest.GetSetTokenIdFrozen"]" />
         public virtual void GetSetTokenIdFrozen()
         {
             var transaction = SpawnTestTransaction();

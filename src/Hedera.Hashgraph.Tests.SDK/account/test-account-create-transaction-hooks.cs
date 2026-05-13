@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
@@ -11,9 +11,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
+    /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest"]" />
     public class AccountCreateTransactionHooksTest
     {
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionWithHooks"]" />
         public virtual void TestAccountCreateTransactionWithHooks()
         {
             // Create a test contract ID
@@ -62,6 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.True(secondHook.Hook.StorageUpdates.Count == 0);
         }
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionSetHooks"]" />
         public virtual void TestAccountCreateTransactionSetHooks()
         {
             ContractId contractId = new ContractId(200);
@@ -84,6 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(hookDetails, retrievedHooks[0]);
         }
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionHookValidation"]" />
         public virtual void TestAccountCreateTransactionHookValidation()
         {
             ContractId contractId = new ContractId(300);
@@ -108,6 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, proto.HookCreationDetails[1].HookId);
         }
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionProtobufSerialization"]" />
         public virtual void TestAccountCreateTransactionProtobufSerialization()
         {
             ContractId contractId = new ContractId(400);
@@ -133,6 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.True(protoHookDetails.EvmHook is not null);
         }
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionEmptyHooks"]" />
         public virtual void TestAccountCreateTransactionEmptyHooks()
         {
             // Test transaction without hooks
@@ -152,6 +158,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(0, protoBody.HookCreationDetails.Count);
         }
         [Fact]
+        /// <include file="test-account-create-transaction-hooks.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip"]" />
         public virtual void TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
             // Create contract and hook details

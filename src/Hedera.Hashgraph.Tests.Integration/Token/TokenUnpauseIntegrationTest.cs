@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -9,9 +9,11 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest"]" />
     public class TokenUnpauseIntegrationTest
     {
         [Fact]
+        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CanExecuteTokenUnpauseTransaction"]" />
         public virtual void CanExecuteTokenUnpauseTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,6 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUnpauseIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CannotUnpauseWithNoTokenId"]" />
         public virtual void CannotUnpauseWithNoTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

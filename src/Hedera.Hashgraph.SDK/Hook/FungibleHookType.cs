@@ -2,7 +2,7 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="FungibleHookType.cs.xml" path='docs/member[@name="T:FungibleHookType"]/*' />
+    /// <include file="FungibleHookType.cs.xml" path='docs/member[@name="T:FungibleHookType"]' />
     public enum FungibleHookType
     {
         PreTxAllowanceHook,

@@ -10,23 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="T:TokenRejectTransaction"]/*' />
+    /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="T:TokenRejectTransaction"]' />
     public class TokenRejectTransaction : Transaction<TokenRejectTransaction>
     {
-        /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor"]/*' />
+        /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor"]' />
         public TokenRejectTransaction() { }
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenRejectTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		public TokenRejectTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.RequireNotFrozen"]' />
 		public virtual AccountId? OwnerId
         {
             get;
@@ -40,14 +40,14 @@ namespace Hedera.Hashgraph.SDK.Token
         public IList<TokenId> TokenIds { protected get; init; } = [];
 		public IReadOnlyList<TokenId> TokenIds_Read { get => TokenIds.AsReadOnly(); }
 
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddTokenId(TokenId)"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddTokenId(TokenId)"]' />
 		public virtual TokenRejectTransaction AddTokenId(TokenId tokenId)
 		{
 			RequireNotFrozen();
 			TokenIds.Add(tokenId);
 			return this;
 		}
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetTokenIds(System.Collections.Generic.IList{TokenId})"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetTokenIds(System.Collections.Generic.IList{TokenId})"]' />
 		public virtual TokenRejectTransaction SetTokenIds(IList<TokenId> tokenIds)
         {
             RequireNotFrozen();
@@ -60,14 +60,14 @@ namespace Hedera.Hashgraph.SDK.Token
 		public IList<NftId> NftIds { protected get; init; } = [];
 		public IReadOnlyList<NftId> NftIds_Read { get => NftIds.AsReadOnly(); }
 
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddNftId(NftId)"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddNftId(NftId)"]' />
 		public virtual TokenRejectTransaction AddNftId(NftId nftId)
 		{
 			RequireNotFrozen();
 			NftIds.Add(nftId);
 			return this;
 		}
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetNftIds(System.Collections.Generic.IList{NftId})"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetNftIds(System.Collections.Generic.IList{NftId})"]' />
 		public virtual TokenRejectTransaction SetNftIds(IList<NftId> nftIds)
         {
             RequireNotFrozen();
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			return this;
         }
 
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenReject;
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				}
 			}
 		}
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.ToProtobuf"]/*' />
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.TokenRejectTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenRejectTransactionBody();

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery"]/*' />
+    /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery"]' />
     public sealed class TopicMessageQuery
     {
 		private readonly Proto.Mirror.ConsensusTopicQuery _Proto = new();
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			});
         }
 
-        /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery.when"]/*' />
+        /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery.when"]' />
         // TODO: Refactor into a base class when we add more mirror query types
         public SubscriptionHandle Subscribe(Client client, Action<TopicMessage> onNext)
         {

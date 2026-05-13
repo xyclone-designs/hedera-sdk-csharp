@@ -9,21 +9,21 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="T:ScheduleSignTransaction"]/*' />
+    /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="T:ScheduleSignTransaction"]' />
     public sealed class ScheduleSignTransaction : Transaction<ScheduleSignTransaction>
     {
-        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor"]/*' />
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor"]' />
         public ScheduleSignTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
         internal ScheduleSignTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.RequireNotFrozen"]/*' />
+		/// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.RequireNotFrozen"]' />
 		public ScheduleId? ScheduleId
 		{
 			get;
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
 		}
 
-        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.ToProtobuf"]/*' />
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.ToProtobuf"]' />
         public Proto.Services.ScheduleSignTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ScheduleSignTransactionBody();
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             return builder;
         }
 
-        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ScheduleSign;

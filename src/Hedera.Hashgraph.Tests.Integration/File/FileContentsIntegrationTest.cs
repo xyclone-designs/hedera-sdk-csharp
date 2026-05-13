@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System.Text;
 
 using Hedera.Hashgraph.SDK.File;
@@ -7,9 +7,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest"]" />
 	public class FileContentsIntegrationTest
 	{
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CanQueryFileContents"]" />
         public virtual void CanQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -30,6 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CanQueryEmptyFileContents"]" />
         public virtual void CanQueryEmptyFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -48,6 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CannotQueryFileContentsWhenFileIDIsNotSet"]" />
         public virtual void CannotQueryFileContentsWhenFileIDIsNotSet()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -61,6 +65,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostBigMaxQueryFileContents"]" />
         public virtual void GetCostBigMaxQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -86,6 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostSmallMaxQueryFileContents"]" />
         public virtual void GetCostSmallMaxQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -113,6 +119,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
         [Fact]
+        /// <include file="FileContentsIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostInsufficientTxFeeQueryFileContents"]" />
         public virtual void GetCostInsufficientTxFeeQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))

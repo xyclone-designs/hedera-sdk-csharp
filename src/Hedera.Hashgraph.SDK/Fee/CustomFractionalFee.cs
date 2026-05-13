@@ -2,10 +2,10 @@
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="T:CustomFractionalFee"]/*' />
+    /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="T:CustomFractionalFee"]' />
     public class CustomFractionalFee : CustomFeeBase<CustomFractionalFee>
     {
-        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.FromProtobuf(Proto.Services.FractionalFee)"]/*' />
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.FromProtobuf(Proto.Services.FractionalFee)"]' />
         public static CustomFractionalFee FromProtobuf(Proto.Services.FractionalFee fractionalFee)
         {
 			return new CustomFractionalFee
@@ -18,18 +18,18 @@ namespace Hedera.Hashgraph.SDK.Fee
 			};
         }        
 
-        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Numerator"]/*' />
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Numerator"]' />
         public virtual long Numerator { get; set; } = 0;
-		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Denominator"]/*' />
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Denominator"]' />
 		public virtual long Denominator { get; set; } = 1;
-		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Min"]/*' />
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Min"]' />
 		public virtual long Min { get; set; } = 0;
-		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Max"]/*' />
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Max"]' />
 		public virtual long Max { get; set; } = 0;
-        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.AssessmentMethod"]/*' />
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.AssessmentMethod"]' />
         public virtual FeeAssessmentMethod AssessmentMethod { get; set; } = FeeAssessmentMethod.Inclusive;
 
-		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.ToFractionalFeeProtobuf"]/*' />
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.ToFractionalFeeProtobuf"]' />
 		public virtual Proto.Services.FractionalFee ToFractionalFeeProtobuf()
         {
             return new Proto.Services.FractionalFee

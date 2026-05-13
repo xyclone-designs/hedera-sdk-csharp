@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest"]" />
     public class TokenDissociateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -25,6 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenDissociateTransaction();
@@ -47,6 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -55,6 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -66,6 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenDissociateTransaction>(tx);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ConstructTokenDissociateTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructTokenDissociateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenDissociateTransactionBody
@@ -84,6 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenDissociateTransaction.TokenIds.Count, testTokenIds.Count);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetAccountId"]" />
         public virtual void GetSetAccountId()
         {
             var tokenDissociateTransaction = new TokenDissociateTransaction
@@ -93,12 +99,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenDissociateTransaction.AccountId, testAccountId);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetAccountIdFrozen"]" />
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetTokenIds"]" />
         public virtual void GetSetTokenIds()
         {
             var tokenDissociateTransaction = new TokenDissociateTransaction
@@ -108,6 +116,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenDissociateTransaction.TokenIds, testTokenIds);
         }
         [Fact]
+        /// <include file="test-token-dissociate-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetTokenIdsFrozen"]" />
         public virtual void GetSetTokenIdsFrozen()
         {
             var tx = SpawnTestTransaction();

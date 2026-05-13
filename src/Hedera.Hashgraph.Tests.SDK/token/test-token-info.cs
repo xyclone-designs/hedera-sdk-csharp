@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +15,7 @@ using VerifyXunit;
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     // TODO: update this, test deepClone()
+    /// <include file="test-token-info.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest"]" />
     public class TokenInfoTest
     {
         /*
@@ -109,10 +110,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 testTokenLedgerId);
         }
         [Fact]
+        /// <include file="test-token-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalTokenInfo = SpawnTokenInfoExample();
+            /// <include file="test-token-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ToBytes"]" />
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
+            /// <include file="test-token-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.FromBytes"]" />
             var copyTokenInfo = TokenInfo.FromBytes(tokenInfoBytes);
             
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
@@ -120,8 +124,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(originalTokenInfo.ToString());
         }
         [Fact]
+        /// <include file="test-token-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.FromProtobuf"]" />
         public virtual void FromProtobuf()
         {
+            /// <include file="test-token-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ToProtobuf"]" />
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
             var tokenInfo = TokenInfo.FromProtobuf(tokenInfoProto);
 

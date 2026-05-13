@@ -12,61 +12,61 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="T:TokenCreateTransaction"]/*' />
+    /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="T:TokenCreateTransaction"]' />
     public class TokenCreateTransaction : Transaction<TokenCreateTransaction>
     {
-        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor"]/*' />
+        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor"]' />
         public TokenCreateTransaction()
         {
             AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(40);
         }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen"]' />
         public virtual uint Decimals { get; set { RequireNotFrozen(); field = value; } }
-        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_2"]/*' />
+        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_2"]' />
         public virtual ulong InitialSupply { get; set { RequireNotFrozen(); field = value; } }
-        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_3"]/*' />
+        /// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_3"]' />
         public virtual bool FreezeDefault { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.DeepCloneList(field)"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.DeepCloneList(field)"]' />
 		public virtual IList<CustomFee> CustomFees
 		{
 			get => CustomFee.DeepCloneList(field);
 			set => field = CustomFee.DeepCloneList(value);
 		} = [];
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_4"]' />
 		public virtual string? TokenName { get; set { RequireNotFrozen(); field = value; } } = string.Empty;
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_5"]' />
 		public virtual string? TokenSymbol { get; set { RequireNotFrozen(); field = value; } } = string.Empty;
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_6"]' />
 		public virtual AccountId? TreasuryAccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_7"]' />
 		public virtual Key? AdminKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_8"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_8"]' />
 		public virtual Key? KycKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_9"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_9"]' />
 		public virtual Key? FreezeKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_10"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_10"]' />
 		public virtual Key? WipeKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_11"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_11"]' />
 		public virtual Key? SupplyKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_12"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_12"]' />
 		public virtual Key? FeeScheduleKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_13"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_13"]' />
 		public virtual Key? PauseKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_14"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_14"]' />
 		public virtual Key? MetadataKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_15"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_15"]' />
 		public virtual DateTimeOffset? ExpirationTime
 		{
 			get;
@@ -95,22 +95,22 @@ namespace Hedera.Hashgraph.SDK.Token
 
             }
 		}
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_16"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_16"]' />
 		public virtual AccountId? AutoRenewAccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_17"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_17"]' />
 		public virtual TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_18"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_18"]' />
 		public virtual string? TokenMemo { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_19"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_19"]' />
 		public virtual byte[]? TokenMetadata { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_20"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_20"]' />
 		public virtual TokenType TokenType { get; set { RequireNotFrozen(); field = value; } } = TokenType.FungibleCommon;
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_21"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_21"]' />
 		public virtual TokenSupplyType TokenSupplyType { get; set { RequireNotFrozen(); field = value; } } = TokenSupplyType.Infinite;
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_22"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_22"]' />
 		public virtual long MaxSupply { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenCreation;
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var fee in body.CustomFees)
 				CustomFees.Add(CustomFee.FromProtobuf(fee));
 		}
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.ToProtobuf"]/*' />
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.TokenCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenCreateTransactionBody

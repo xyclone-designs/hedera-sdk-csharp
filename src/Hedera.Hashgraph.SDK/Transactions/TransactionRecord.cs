@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord"]/*' />
+    /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord"]' />
     public sealed class TransactionRecord
     {
         internal TransactionRecord(
@@ -74,17 +74,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
             EvmAddress = evmAddress;
         }
 
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromBytes(System.Byte[])"]' />
 		public static TransactionRecord FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TransactionRecord.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord)"]/*' />
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord)"]' />
 		public static TransactionRecord FromProtobuf(Proto.Services.TransactionRecord transactionRecord)
 		{
 			return FromProtobuf(transactionRecord, [], [], null);
 		}
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)"]/*' />
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)"]' />
 		public static TransactionRecord FromProtobuf(Proto.Services.TransactionRecord transactionRecord, IEnumerable<TransactionRecord> children, IEnumerable<TransactionRecord> duplicates, TransactionId? transactionId)
         {
             var transfers = new List<Transfer>(transactionRecord.TransferList.AccountAmounts.Count);
@@ -174,67 +174,67 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 [.. transactionRecord.NewPendingAirdrops.Select(_ => PendingAirdropRecord.FromProtobuf(_))]);
         }
 
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Receipt"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Receipt"]' />
         public TransactionReceipt Receipt { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionHash"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionHash"]' />
         public ByteString TransactionHash { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ConsensusTimestamp"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ConsensusTimestamp"]' />
         public DateTimeOffset ConsensusTimestamp { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionId"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionId"]' />
         public TransactionId TransactionId { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionMemo"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionMemo"]' />
         public string TransactionMemo { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionFee"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionFee"]' />
         public Hbar TransactionFee { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ContractFunctionResult"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ContractFunctionResult"]' />
         public ContractFunctionResult? ContractFunctionResult { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Transfers"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Transfers"]' />
         public List<Transfer> Transfers { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_2"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_2"]' />
         public Dictionary<TokenId, Dictionary<AccountId, long>> TokenTransfers { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenTransferList"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenTransferList"]' />
         public List<TokenTransfer> TokenTransferList { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_3"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_3"]' />
         public Dictionary<TokenId, List<TokenNftTransfer>> TokenNftTransfers { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ScheduleRef"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ScheduleRef"]' />
         public ScheduleId ScheduleRef { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AssessedCustomFees"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AssessedCustomFees"]' />
         public List<AssessedCustomFee> AssessedCustomFees { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AutomaticTokenAssociations"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AutomaticTokenAssociations"]' />
         public List<TokenAssociation> AutomaticTokenAssociations { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AliasKey"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AliasKey"]' />
         public PublicKey? AliasKey { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Children"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Children"]' />
         public List<TransactionRecord> Children { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Duplicates"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Duplicates"]' />
         public List<TransactionRecord> Duplicates { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ParentConsensusTimestamp"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ParentConsensusTimestamp"]' />
         public DateTimeOffset ParentConsensusTimestamp { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EthereumHash"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EthereumHash"]' />
         public ByteString EthereumHash { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.HbarAllowanceAdjustments"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.HbarAllowanceAdjustments"]' />
         public List<HbarAllowance> HbarAllowanceAdjustments { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenAllowanceAdjustments"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenAllowanceAdjustments"]' />
         public List<TokenAllowance> TokenAllowanceAdjustments { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenNftAllowanceAdjustments"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenNftAllowanceAdjustments"]' />
         public List<TokenNftAllowance> TokenNftAllowanceAdjustments { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PaidStakingRewards"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PaidStakingRewards"]' />
         public List<Transfer> PaidStakingRewards { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngBytes"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngBytes"]' />
         public ByteString PrngBytes { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngNumber"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngNumber"]' />
         public int PrngNumber { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EvmAddress"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EvmAddress"]' />
         public ByteString EvmAddress { get; }
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]' />
         public List<PendingAirdropRecord> PendingAirdropRecords { get; }
 
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToBytes"]/*' />
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToBytes"]' />
         public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToProtobuf"]/*' />
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToProtobuf"]' />
 		public Proto.Services.TransactionRecord ToProtobuf()
         {
 			Proto.Services.TransactionRecord proto = new()
@@ -314,7 +314,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return proto;
         }
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ValidateReceiptStatus(System.Boolean)"]/*' />
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ValidateReceiptStatus(System.Boolean)"]' />
 		public TransactionRecord ValidateReceiptStatus(bool shouldValidate)
 		{
 			Receipt.ValidateStatus(shouldValidate);

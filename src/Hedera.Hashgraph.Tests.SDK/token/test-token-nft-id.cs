@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
@@ -9,6 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
+    /// <include file="test-token-nft-id.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Nfts.NftIdTest"]" />
     public class NftIdTest : BaseTestFixture
     {
 		public virtual void FromBytes()
@@ -41,6 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Verifier.Verify(Hex.ToHexString(new TokenId(0, 0, 5005).Nft(4920).ToBytes()));
         }
         [Fact]
+        /// <include file="test-token-nft-id.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.NftIdTest.ToFromString"]" />
         public virtual void ToFromString()
 		{
 			var id1 = NftId.FromString(TestData.DEFAULT_ENTITY_ID + "@1234");

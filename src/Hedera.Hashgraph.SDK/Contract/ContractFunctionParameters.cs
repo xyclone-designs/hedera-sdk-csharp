@@ -41,12 +41,6 @@ namespace Hedera.Hashgraph.SDK.Contract
 		private static readonly ByteString padding = ByteString.CopyFrom(new byte[31]);
 		private static readonly ByteString? negativePadding;
 
-		//  static {
-		//      byte[] fill = new byte[31];
-		//Array.fill(fill, (byte) 0xFF);
-		//      negativePadding = ByteString.CopyFrom(fill);
-		//  }
-
 		private readonly List<Argument> args = [];
 
 		internal static byte[] DecodeAddress(string address)

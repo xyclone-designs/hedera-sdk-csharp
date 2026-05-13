@@ -2,10 +2,10 @@
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="T:CustomRoyaltyFee"]/*' />
+    /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="T:CustomRoyaltyFee"]' />
     public class CustomRoyaltyFee : CustomFeeBase<CustomRoyaltyFee>
     {
-		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.FromProtobuf(Proto.Services.RoyaltyFee)"]/*' />
+		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.FromProtobuf(Proto.Services.RoyaltyFee)"]' />
 		public static CustomRoyaltyFee FromProtobuf(Proto.Services.RoyaltyFee royaltyFee)
         {
             CustomRoyaltyFee customroyaltyfee = new ()
@@ -32,12 +32,12 @@ namespace Hedera.Hashgraph.SDK.Fee
 			};
         }
 
-        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Numerator"]/*' />
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Numerator"]' />
         public virtual long Numerator { get; set; } = 0;
-        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Denominator"]/*' />
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Denominator"]' />
         public virtual long Denominator { get; set; } = 1;
 
-        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.DeepCloneSubclass"]/*' />
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.DeepCloneSubclass"]' />
         public virtual CustomFixedFee? FallbackFee
         {
 			get => field?.DeepCloneSubclass();
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Fee
 				RoyaltyFee = ToRoyaltyFeeProtobuf()
 			});
 		}
-		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.ToRoyaltyFeeProtobuf"]/*' />
+		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.ToRoyaltyFeeProtobuf"]' />
 		public virtual Proto.Services.RoyaltyFee ToRoyaltyFeeProtobuf()
         {
             Proto.Services.RoyaltyFee proto = new()

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="T:FileContentsQuery"]/*' />
+    /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="T:FileContentsQuery"]' />
     public sealed class FileContentsQuery : Query<ByteString, FileContentsQuery>
     {
-        /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="P:FileContentsQuery.FileId"]/*' />
+        /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="P:FileContentsQuery.FileId"]' />
         public FileId? FileId { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

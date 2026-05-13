@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-fee-schedule-update-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenFeeScheduleUpdateTransactionTest"]" />
     public class TokenFeeScheduleUpdateTransactionTest
     {
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -45,6 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             }.Freeze();
         }
         [Fact]
+        /// <include file="test-token-fee-schedule-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenFeeScheduleUpdateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenFeeScheduleUpdateTransaction();
@@ -53,6 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-token-fee-schedule-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenFeeScheduleUpdateTransactionTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalUpdate = SpawnTestTransaction();
@@ -64,6 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(originalUpdate.ToString());
         }
         [Fact]
+        /// <include file="test-token-fee-schedule-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenFeeScheduleUpdateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

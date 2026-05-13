@@ -15,44 +15,44 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="T:that"]/*' />
+    /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="T:that"]' />
     // Re-use the WithExecute interface that was generated for Executable
     public class ContractCreateFlow
     {
         static readonly int FILE_CREATE_MAX_BYTES = 2048;
 
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.Bytecode"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.Bytecode"]' />
         public virtual string Bytecode { get; set; } = string.Empty;
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ToHexString(value)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ToHexString(value)"]' />
 		public virtual byte[] Bytecode_Bytes { set => Bytecode = Hex.ToHexString(value); }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ToByteArray"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ToByteArray"]' />
 		public virtual ByteString Bytecode_ByteString { set => Bytecode_Bytes = value.ToByteArray(); }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.MaxChunks"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.MaxChunks"]' />
         public virtual int? MaxChunks { get; set; }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AdminKey"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AdminKey"]' />
         public virtual Key? AdminKey { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.Gas"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.Gas"]' />
 		public virtual long Gas { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.InitialBalance"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.InitialBalance"]' />
 		public virtual Hbar InitialBalance { get; set; } = Hbar.ZERO;
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ProxyAccountId"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ProxyAccountId"]' />
 		public virtual AccountId? ProxyAccountId { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.MaxAutomaticTokenAssociations"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.MaxAutomaticTokenAssociations"]' />
 		public virtual int MaxAutomaticTokenAssociations { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AutoRenewPeriod"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AutoRenewPeriod"]' />
 		public virtual TimeSpan? AutoRenewPeriod { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AutoRenewAccountId"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.AutoRenewAccountId"]' />
 		public virtual AccountId? AutoRenewAccountId { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ConstructorParameters"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ConstructorParameters"]' />
 		public virtual byte[] ConstructorParameters { get; set; } = [];
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.CopyFrom(ConstructorParameters)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.CopyFrom(ConstructorParameters)"]' />
 		public virtual ByteString ConstructorParameters_ByteString
 		{
 			get => ByteString.CopyFrom(ConstructorParameters);
 		}
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ContractMemo"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.ContractMemo"]' />
 		public virtual string? ContractMemo { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="T:that_2"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="T:that_2"]' />
 		public virtual List<AccountId> NodeAccountIds
         {
 			set => field = [.. value];
@@ -60,13 +60,13 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 		public virtual string CreateBytecode { get; set; } = string.Empty;
 		public virtual string AppendBytecode { get; set; } = string.Empty;
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.StakedAccountId"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.StakedAccountId"]' />
 		public virtual AccountId? StakedAccountId { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.StakedNodeId"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.StakedNodeId"]' />
 		public virtual long? StakedNodeId { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.DeclineStakingReward"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.DeclineStakingReward"]' />
 		public virtual bool DeclineStakingReward { get; set; }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.FreezeWithClient"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="P:that.FreezeWithClient"]' />
 		public virtual Client? FreezeWithClient { get; set; }
 		public virtual PrivateKey? SignPrivateKey { get; set; }
 		public virtual PublicKey? SignPublicKey { get; set; }
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
   
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.CreateTransactionReceiptQuery(TransactionResponse)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.CreateTransactionReceiptQuery(TransactionResponse)"]' />
 		public virtual TransactionReceiptQuery CreateTransactionReceiptQuery(TransactionResponse response)
         {
             return new TransactionReceiptQuery
@@ -157,12 +157,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 				TransactionId = response.TransactionId,
 			};
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Execute(Client)"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Execute(Client)"]' />
         public virtual TransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Execute(Client,System.TimeSpan)"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Execute(Client,System.TimeSpan)"]' />
         public virtual TransactionResponse Execute(Client client, TimeSpan timeoutPerTransaction)
         {
             try
@@ -187,12 +187,12 @@ namespace Hedera.Hashgraph.SDK.Contract
                 throw new Exception(string.Empty, e);
             }
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client)"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client)"]' />
         public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan)"]' />
         public virtual async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerTransaction)
         {
             SplitBytecode();
@@ -215,41 +215,41 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             return createContractCreateResponse;
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
-        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(System.Byte[])"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(System.Byte[])"]' />
 		public virtual ContractCreateFlow SetConstructorParameters(byte[] constructorParameters)
 		{
 			ConstructorParameters = constructorParameters.CopyArray();
 			
 			return this;
 		}
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(ContractFunctionParameters)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(ContractFunctionParameters)"]' />
 		public virtual ContractCreateFlow SetConstructorParameters(ContractFunctionParameters constructorParameters)
 		{
 			ArgumentNullException.ThrowIfNull(constructorParameters);
 
 			return SetConstructorParameters(constructorParameters.ToBytes(null).ToByteArray());
 		}
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Sign(PrivateKey)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Sign(PrivateKey)"]' />
 		public virtual ContractCreateFlow Sign(PrivateKey privateKey)
 		{
 			SignPrivateKey = privateKey;
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			
 			return this;
 		}
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]' />
 		public virtual ContractCreateFlow SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
 			SignPublicKey = publicKey;
@@ -267,7 +267,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return this;
 		}
-		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWithOperator(Client)"]/*' />
+		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWithOperator(Client)"]' />
 		public virtual ContractCreateFlow SignWithOperator(Client client)
 		{
 			SignPublicKey = client.Operator_.PublicKey;

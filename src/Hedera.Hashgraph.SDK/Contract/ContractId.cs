@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractId.cs.xml" path='docs/member[@name="T:ContractId"]/*' />
+    /// <include file="ContractId.cs.xml" path='docs/member[@name="T:ContractId"]' />
     public class ContractId : Key, IComparable<ContractId>
     {
         public static readonly Regex EVM_ADDRESS_REGEX = new("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.([a-fA-F0-9]{40}$)");
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64)"]' />
         public ContractId(long num) : this(0, 0, num) { }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64)"]' />
         public ContractId(long shard, long realm, long num) : this(shard, realm, num, null) { }
 
         internal ContractId(long shard, long realm, byte[] evmAddress)
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             Num = 0;
             Checksum = null;
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]' />
         internal ContractId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             EvmAddress = null;
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromString(System.String)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromString(System.String)"]' />
         public static ContractId FromString(string id)
         {
             Match match = EVM_ADDRESS_REGEX.Match(id);
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             else
                 return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new ContractId(a, b, c, d));
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromSolidityAddress(System.String)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromSolidityAddress(System.String)"]' />
         public static ContractId FromSolidityAddress(string address)
         {
             if (Utils.EntityIdHelper.IsLongZeroAddress(Utils.EntityIdHelper.DecodeEvmAddress(address)))
@@ -58,14 +58,14 @@ namespace Hedera.Hashgraph.SDK.Contract
             else
                 return FromEvmAddress(0, 0, address);
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromEvmAddress(System.Int64,System.Int64,System.String)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromEvmAddress(System.Int64,System.Int64,System.String)"]' />
         public static ContractId FromEvmAddress(long shard, long realm, string evmAddress)
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
 
             return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress[2..] : evmAddress));
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractId)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractId)"]' />
         public static ContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             if (contractId.HasEvmAddress)
@@ -73,24 +73,24 @@ namespace Hedera.Hashgraph.SDK.Contract
             else
                 return new ContractId(contractId.ShardNum, contractId.RealmNum, contractId.ContractNum);
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromBytes(System.Byte[])"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromBytes(System.Byte[])"]' />
         public new static ContractId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.ContractID.Parser.ParseFrom(bytes));
         }
 
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Shard"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Shard"]' />
 		public long Shard { get; }
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Realm"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Realm"]' />
 		public long Realm { get; }
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Num"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Num"]' />
 		public long Num { get; }
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.EvmAddress"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.EvmAddress"]' />
 		public byte[]? EvmAddress { get; }
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Checksum"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Checksum"]' />
 		public string? Checksum { get; }
 
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToSolidityAddress"]/*' />
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToSolidityAddress"]' />
 		public virtual string ToSolidityAddress()
         {
             if (EvmAddress != null)
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToEvmAddress"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToEvmAddress"]' />
         public virtual string ToEvmAddress()
         {
             if (EvmAddress != null)
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return Utils.EntityIdHelper.ToSolidityAddress(0, 0, Num);
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToProtobuf"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToProtobuf"]' />
         public virtual Proto.Services.ContractID ToProtobuf()
         {
 			Proto.Services.ContractID proto = new ()
@@ -127,13 +127,13 @@ namespace Hedera.Hashgraph.SDK.Contract
             return proto;
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNum(Client)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNum(Client)"]' />
         public virtual ContractId PopulateContractNum(Client client)
         {
             return PopulateContractNumAsync(client).GetAwaiter().GetResult();
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNumAsync(Client)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNumAsync(Client)"]' />
         public virtual async Task<ContractId> PopulateContractNumAsync(Client client)
         {
 			long contractnum = await Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, Ethereum.EvmAddress.FromBytes(EvmAddress).ToString());
@@ -141,13 +141,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 			return new ContractId(Shard, Realm, contractnum, Checksum);
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.Validate(Client)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.Validate(Client)"]' />
         public virtual void Validate(Client client)
         {
             ValidateChecksum(client);
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ValidateChecksum(Client)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ValidateChecksum(Client)"]' />
         public virtual void ValidateChecksum(Client client)
         {
             Utils.EntityIdHelper.Validate(Shard, Realm, Num, client, Checksum);
@@ -174,7 +174,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return Utils.EntityIdHelper.ToString(Shard, Realm, Num);
         }
 
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToStringWithChecksum(Client)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToStringWithChecksum(Client)"]' />
         public virtual string ToStringWithChecksum(Client client)
         {
             if (EvmAddress != null)

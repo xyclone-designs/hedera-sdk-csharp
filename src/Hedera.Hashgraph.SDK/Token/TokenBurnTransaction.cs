@@ -8,17 +8,17 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="T:TokenBurnTransaction"]/*' />
+    /// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="T:TokenBurnTransaction"]' />
     public class TokenBurnTransaction : Transaction<TokenBurnTransaction>
     {
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor"]' />
 		public TokenBurnTransaction() { }
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenBurnTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenBurnTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -26,12 +26,12 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		private List<long> _Serials = [];
 
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.RequireNotFrozen"]' />
 		public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.RequireNotFrozen_2"]' />
 		public virtual ulong Amount { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.ToProtobuf"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.ToProtobuf"]' />
 		public virtual ListGuarded<long> Serials
 		{
 			init; get => field ??= new ListGuarded<long>
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 		}
 
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.ToProtobuf_2"]/*' />
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.ToProtobuf_2"]' />
 		public virtual Proto.Services.TokenBurnTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenBurnTransactionBody
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Token
             return builder;
         }
 
-        /// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenBurn;

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK;
@@ -24,6 +24,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
+    /// <include file="test-transactions-record.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest"]" />
     public class TransactionRecordTest
     {
         static readonly DateTimeOffset time = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -85,6 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             );
         }
         [Fact]
+        /// <include file="test-transactions-record.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalRecord = SpawnRecordExample(ByteString.CopyFromUtf8("very random bytes"), null);
@@ -95,6 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Verifier.Verify(originalRecord.ToString());
         }
         [Fact]
+        /// <include file="test-transactions-record.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest.ShouldSerialize2"]" />
         public virtual void ShouldSerialize2()
         {
             var originalRecord = SpawnRecordExample(null, 4);

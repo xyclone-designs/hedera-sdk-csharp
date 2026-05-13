@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-	/// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="T:AccountRecordsQuery"]/*' />
+	/// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="T:AccountRecordsQuery"]' />
 	public sealed class AccountRecordsQuery : Query<IList<TransactionRecord>, AccountRecordsQuery>
     {
-        /// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="P:AccountRecordsQuery.AccountId"]/*' />
+        /// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="P:AccountRecordsQuery.AccountId"]' />
         public AccountId? AccountId { get; set; }
 
 		public override void ValidateChecksums(Client client)

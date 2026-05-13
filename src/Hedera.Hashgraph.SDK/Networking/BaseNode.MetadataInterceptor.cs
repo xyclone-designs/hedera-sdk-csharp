@@ -6,7 +6,7 @@ namespace Hedera.Hashgraph.SDK
 {
     abstract partial class BaseNode<N, KeyT> 
     {
-		/// <include file="BaseNode.MetadataInterceptor.cs.xml" path='docs/member[@name="T:MetadataInterceptor"]/*' />
+		/// <include file="BaseNode.MetadataInterceptor.cs.xml" path='docs/member[@name="T:MetadataInterceptor"]' />
 		internal sealed class MetadataInterceptor : Interceptor
 		{
 			private readonly Metadata metadata;

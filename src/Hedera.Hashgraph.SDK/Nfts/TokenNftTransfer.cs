@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="T:TokenNftTransfer"]/*' />
+	/// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="T:TokenNftTransfer"]' />
 	public class TokenNftTransfer : IComparable<TokenNftTransfer>
     {
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.#ctor(TokenId,AccountId,AccountId,System.Int64,System.Boolean,NftHookCall,NftHookCall)"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.#ctor(TokenId,AccountId,AccountId,System.Int64,System.Boolean,NftHookCall,NftHookCall)"]' />
         public TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall? senderHookCall, NftHookCall? receiverHookCall)
         {
             TokenId = tokenId;
@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             ReceiverHookCall = receiverHookCall;
         }
 
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.FromBytes(System.Byte[])"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.FromBytes(System.Byte[])"]' />
         public static TokenNftTransfer FromBytes(byte[] bytes)
         {
             Proto.Services.TokenTransferList proto = new()
@@ -67,15 +67,15 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return nftTransfers;
         }
 
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.TokenId"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.TokenId"]' />
         public TokenId TokenId { get; set; }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Sender"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Sender"]' />
         public AccountId Sender { get; set; }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Receiver"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Receiver"]' />
         public AccountId Receiver { get; set; }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Serial"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Serial"]' />
         public long Serial { get; set; }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.IsApproved"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.IsApproved"]' />
         public bool IsApproved { get; set; }
         // Optional typed hook calls for sender/receiver
         public NftHookCall? SenderHookCall { get; }
@@ -97,12 +97,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             return Serial.CompareTo(o?.Serial);
         }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToBytes"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToBytes"]' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToProtobuf"]/*' />
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToProtobuf"]' />
         public virtual Proto.Services.NftTransfer ToProtobuf()
         {
             Proto.Services.NftTransfer proto = new()

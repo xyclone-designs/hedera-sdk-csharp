@@ -1,14 +1,14 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="ReceiptQueryIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest"]" />
     public class ReceiptQueryIntegrationTest
     {
         public virtual void CanGetTransactionReceipt()
@@ -55,6 +55,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ReceiptQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest.GetCostSmallMaxTransactionRecord"]" />
         public virtual void GetCostSmallMaxTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -73,6 +74,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="ReceiptQueryIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest.GetCostInsufficientTxFeeTransactionRecord"]" />
         public virtual void GetCostInsufficientTxFeeTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))

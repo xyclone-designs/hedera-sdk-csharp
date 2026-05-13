@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -11,6 +11,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
+    /// <include file="test-file-create-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.File.FileCreateTransactionTest"]" />
     public class FileCreateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -21,6 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
         [Fact]
+        /// <include file="test-file-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileCreateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileCreateTransaction();
@@ -45,6 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             .Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-file-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileCreateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -53,6 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-file-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.File.FileCreateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

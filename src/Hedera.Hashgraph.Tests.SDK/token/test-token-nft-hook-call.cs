@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -9,9 +9,11 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
+    /// <include file="test-token-nft-hook-call.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Nfts.NftHookCallTest"]" />
     public class NftHookCallTest
     {
         [Fact]
+        /// <include file="test-token-nft-hook-call.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.NftHookCallTest.ConstructorWithNumericIdAndType"]" />
         public virtual void ConstructorWithNumericIdAndType()
         {
             var evm = new EvmHookCall([], 25000);
@@ -20,6 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(NftHookType.PreHookSender, call.Type);
         }
         [Fact]
+        /// <include file="test-token-nft-hook-call.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.NftHookCallTest.NftTransferSerializesSenderAndReceiverHooksByType"]" />
         public virtual void NftTransferSerializesSenderAndReceiverHooksByType()
         {
             var tx = new TransferTransaction();

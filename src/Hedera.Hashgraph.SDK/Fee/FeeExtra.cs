@@ -31,15 +31,15 @@ namespace Hedera.Hashgraph.SDK
                 subtotal: jsonnode["subtotal"]?.GetValue<long>() ?? throw new ArgumentException(null, "subtotal"));
 		}
 
-		/// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Charged"]/*' />
+		/// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Charged"]' />
 		public int Charged { get; }
-        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Count"]/*' />
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Count"]' />
         public int Count { get; }
-        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.FeePerUnit"]/*' />
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.FeePerUnit"]' />
         public long FeePerUnit { get; }
-        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Included"]/*' />
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Included"]' />
         public int Included { get; }
-        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Name"]/*' />
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Name"]' />
         public string? Name { get; }
         public long Subtotal { get; }
 

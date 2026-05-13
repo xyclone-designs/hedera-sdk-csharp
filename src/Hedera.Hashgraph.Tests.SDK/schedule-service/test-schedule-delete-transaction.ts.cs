@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK;
@@ -11,6 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
+    /// <include file="test-schedule-delete-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest"]" />
     public class ScheduleDeleteTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -34,6 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             .Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-schedule-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -41,6 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-schedule-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleDeleteTransaction();
@@ -48,6 +51,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-schedule-delete-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody

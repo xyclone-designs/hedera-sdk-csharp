@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System.Text;
 
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -11,9 +11,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest"]" />
     public class NftAllowancesIntegrationTest
     {
         [Fact]
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferWithoutAllowanceApproval"]" />
         public virtual void CannotTransferWithoutAllowanceApproval()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -83,6 +85,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotTransferAfterAllowanceRemove"]" />
         public virtual void CannotTransferAfterAllowanceRemove()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -190,6 +193,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.CannotRemoveSingleSerialWhenAllowanceIsGivenForAll"]" />
         public virtual void CannotRemoveSingleSerialWhenAllowanceIsGivenForAll()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -279,6 +283,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="NftAllowancesIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.NftAllowancesIntegrationTest.AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle"]" />
         public virtual void AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle()
         {
             using (var testEnv = new IntegrationTestEnv(1))

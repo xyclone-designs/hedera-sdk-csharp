@@ -3,8 +3,8 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]/*' />
-    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.Mirror.ConsensusTopicResponse)"]/*' />
+    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]' />
+    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.Mirror.ConsensusTopicResponse)"]' />
     public sealed class TopicMessageChunk(Proto.Mirror.ConsensusTopicResponse response)
     {
 		public DateTimeOffset ConsensusTimestamp { get; } = response.ConsensusTimestamp.ToDateTimeOffset();

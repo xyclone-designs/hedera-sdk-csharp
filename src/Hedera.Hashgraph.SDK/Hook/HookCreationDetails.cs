@@ -6,10 +6,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="T:HookCreationDetails"]/*' />
+    /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="T:HookCreationDetails"]' />
     public class HookCreationDetails
     {
-        /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook,Key)"]/*' />
+        /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook,Key)"]' />
         public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook, Key? adminKey)
         {
             ExtensionPoint = extensionPoint;
@@ -17,10 +17,10 @@ namespace Hedera.Hashgraph.SDK.Hook
             Hook = hook;
             AdminKey = adminKey;
         }
-		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook)"]/*' />
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook)"]' />
 		public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook) : this(extensionPoint, hookId, hook, null) { }
 
-		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.Services.HookCreationDetails)"]/*' />
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.Services.HookCreationDetails)"]' />
 		public static HookCreationDetails FromProtobuf(Proto.Services.HookCreationDetails proto)
 		{
 			var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public Key? AdminKey { get; }
 		public bool HasAdminKey { get => AdminKey is not null; }
 
-		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.ToProtobuf"]/*' />
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.ToProtobuf"]' />
 		public virtual Proto.Services.HookCreationDetails ToProtobuf()
         {
             Proto.Services.HookCreationDetails proto = new()

@@ -5,27 +5,27 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="T:TokenAssociation"]/*' />
+    /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="T:TokenAssociation"]' />
     public class TokenAssociation
     {
-        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.TokenId"]/*' />
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.TokenId"]' />
         public readonly TokenId TokenId;
-        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.AccountId"]/*' />
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.AccountId"]' />
         public readonly AccountId AccountId;
 
-        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.TokenAssociation(TokenId,AccountId)"]/*' />
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.TokenAssociation(TokenId,AccountId)"]' />
         internal TokenAssociation(TokenId tokenId, AccountId accountId)
         {
             this.TokenId = tokenId;
             this.AccountId = accountId;
         }
 
-		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromBytes(System.Byte[])"]' />
 		public static TokenAssociation FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TokenAssociation.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromProtobuf(Proto.Services.TokenAssociation)"]/*' />
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromProtobuf(Proto.Services.TokenAssociation)"]' />
 		public static TokenAssociation FromProtobuf(Proto.Services.TokenAssociation tokenAssociation)
         {
             return new TokenAssociation(
@@ -37,12 +37,12 @@ namespace Hedera.Hashgraph.SDK.Token
                     : new AccountId(0, 0, 0));
         }
 
-        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToBytes"]/*' />
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToBytes"]' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToProtobuf"]/*' />
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToProtobuf"]' />
 		public virtual Proto.Services.TokenAssociation ToProtobuf()
 		{
 			return new Proto.Services.TokenAssociation

@@ -8,28 +8,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="T:TokenUnfreezeTransaction"]/*' />
+    /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="T:TokenUnfreezeTransaction"]' />
     public class TokenUnfreezeTransaction : Transaction<TokenUnfreezeTransaction>
     {
-        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor"]/*' />
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor"]' />
         public TokenUnfreezeTransaction() { }
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenUnfreezeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenUnfreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen_2"]' />
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUnfreeze;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				AccountId = AccountId.FromProtobuf(body.Account);
 		}
 
-        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenUnfreezeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenUnfreezeAccountTransactionBody();

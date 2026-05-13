@@ -8,10 +8,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery"]/*' />
+    /// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery"]' />
     public sealed class TransactionReceiptQuery : Query<TransactionReceipt, TransactionReceiptQuery>
     {
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.Services.TransactionReceipt})"]/*' />
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.Services.TransactionReceipt})"]' />
 		private static IList<TransactionReceipt> MapReceiptList(IEnumerable<Proto.Services.TransactionReceipt> protoReceiptList)
 		{
 			return [.. protoReceiptList.Select(_ => TransactionReceipt.FromProtobuf(_))];
@@ -21,17 +21,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			get => false;
 		}
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery_2"]/*' />
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery_2"]' />
 		public override TransactionId TransactionIdInternal
         {
             get => TransactionId;
         }
 
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.TransactionId"]/*' />
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.TransactionId"]' />
 		public TransactionId? TransactionId { set; internal get; }
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeChildren"]/*' />
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeChildren"]' />
 		public bool IncludeChildren { get; set; }
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeDuplicates"]/*' />
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeDuplicates"]' />
 		public bool IncludeDuplicates { get; set; }
 
 		public override void ValidateChecksums(Client client)

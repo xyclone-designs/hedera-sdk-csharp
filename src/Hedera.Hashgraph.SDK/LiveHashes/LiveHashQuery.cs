@@ -8,13 +8,13 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
+    /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]' />
     [Obsolete("Obsolete")]
     public sealed class LiveHashQuery : Query<LiveHash, LiveHashQuery>
     {
-        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="P:.AccountId"]/*' />
+        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="P:.AccountId"]' />
         public AccountId? AccountId { get; set; }
-        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:CopyArray"]/*' />
+        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:CopyArray"]' />
         public byte[] Hash 
         { 
             get => field.CopyArray(); 

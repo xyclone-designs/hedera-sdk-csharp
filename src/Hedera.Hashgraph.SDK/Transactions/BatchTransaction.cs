@@ -9,26 +9,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="T:BatchTransaction"]/*' />
+    /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="T:BatchTransaction"]' />
     public sealed class BatchTransaction : Transaction<BatchTransaction>
     {
-        /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.typeof(FreezeTransaction)"]/*' />
+        /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.typeof(FreezeTransaction)"]' />
         private static readonly HashSet<Type> BLACKLISTED_TRANSACTIONS = [typeof(FreezeTransaction), typeof(BatchTransaction)];
 
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor"]' />
 		public BatchTransaction() { }
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal BatchTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal BatchTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody"]' />
 		public ListGuarded<ITransaction> InnerTransactions 
 		{
             init => field = GenerateListGuarded(value);
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return list;
         }
 
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody_2"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody_2"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.AtomicBatch;
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				InnerTransactions.Add(ITransaction.FromBytes(transaction.ToByteArray()));
 			}
 		}
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ValidateInnerTransaction(ITransaction)"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ValidateInnerTransaction(ITransaction)"]' />
 		private void ValidateInnerTransaction(ITransaction transaction) 
 		{
 			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("Batch key needs to be set");
 		}
 
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ToProtobuf"]/*' />
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ToProtobuf"]' />
 		public Proto.Services.AtomicBatchTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.AtomicBatchTransactionBody();

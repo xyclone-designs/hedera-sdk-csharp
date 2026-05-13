@@ -2,7 +2,7 @@
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <include file="NftHookType.cs.xml" path='docs/member[@name="T:NftHookType"]/*' />
+    /// <include file="NftHookType.cs.xml" path='docs/member[@name="T:NftHookType"]' />
     public enum NftHookType
     {
         PreHookSender,

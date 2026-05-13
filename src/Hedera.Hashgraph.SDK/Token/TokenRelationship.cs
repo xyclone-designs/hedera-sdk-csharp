@@ -3,22 +3,22 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="T:TokenRelationship"]/*' />
+    /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="T:TokenRelationship"]' />
     public class TokenRelationship
     {
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.TokenId"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.TokenId"]' />
         public TokenId TokenId { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.Symbol"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.Symbol"]' />
         public string Symbol { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.Balance"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.Balance"]' />
         public ulong Balance { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.KycStatus"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="P:TokenRelationship.KycStatus"]' />
         public bool KycStatus { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)"]' />
         public bool FreezeStatus { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)_2"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)_2"]' />
         public uint Decimals { get; }
-        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)_3"]/*' />
+        /// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.#ctor(TokenId,System.String,System.UInt64,System.Boolean,System.Boolean,System.UInt32,System.Boolean)_3"]' />
         public bool AutomaticAssociation { get; }
 
         internal TokenRelationship(TokenId tokenId, string symbol, ulong balance, bool kycStatus, bool freezeStatus, uint decimals, bool automaticAssociation)
@@ -32,23 +32,23 @@ namespace Hedera.Hashgraph.SDK.Token
             AutomaticAssociation = automaticAssociation;
         }
 
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]' />
 		public static bool KycStatusFromProtobuf(Proto.Services.TokenKycStatus kycStatus)
 		{
 			return kycStatus == Proto.Services.TokenKycStatus.Granted;
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]' />
 		public static bool FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus freezeStatus)
         {
             return freezeStatus == Proto.Services.TokenFreezeStatus.Frozen;
         }
 
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromBytes(System.Byte[])"]' />
 		public static TokenRelationship FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TokenRelationship.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromProtobuf(Proto.Services.TokenRelationship)"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromProtobuf(Proto.Services.TokenRelationship)"]' />
 		public static TokenRelationship FromProtobuf(Proto.Services.TokenRelationship tokenRelationship)
         {
             return new TokenRelationship(
@@ -61,13 +61,13 @@ namespace Hedera.Hashgraph.SDK.Token
                 tokenRelationship.AutomaticAssociation);
         }
 
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.ToBytes"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
 
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.ToProtobuf"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.ToProtobuf"]' />
 		public virtual Proto.Services.TokenRelationship ToProtobuf()
 		{
             return new Proto.Services.TokenRelationship
@@ -81,12 +81,12 @@ namespace Hedera.Hashgraph.SDK.Token
 				AutomaticAssociation = AutomaticAssociation,
 			};
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusToProtobuf(System.Boolean)"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusToProtobuf(System.Boolean)"]' />
 		public static Proto.Services.TokenKycStatus KycStatusToProtobuf(bool? kycStatus)
 		{
 			return kycStatus == null ? Proto.Services.TokenKycStatus.KycNotApplicable : kycStatus.Value ? Proto.Services.TokenKycStatus.Granted : Proto.Services.TokenKycStatus.Revoked;
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusToProtobuf(System.Boolean)"]/*' />
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusToProtobuf(System.Boolean)"]' />
 		public static Proto.Services.TokenFreezeStatus FreezeStatusToProtobuf(bool? freezeStatus)
         {
             return freezeStatus == null ? Proto.Services.TokenFreezeStatus.FreezeNotApplicable : freezeStatus.Value ? Proto.Services.TokenFreezeStatus.Frozen : Proto.Services.TokenFreezeStatus.Unfrozen;

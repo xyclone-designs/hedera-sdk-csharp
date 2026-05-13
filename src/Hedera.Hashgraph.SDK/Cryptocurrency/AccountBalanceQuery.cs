@@ -5,12 +5,12 @@ using Hedera.Hashgraph.SDK.Contract;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-	/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="T:AccountBalanceQuery"]/*' />
+	/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="T:AccountBalanceQuery"]' />
 	public sealed class AccountBalanceQuery : Query<AccountBalance, AccountBalanceQuery>
     {
-        /// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.AccountId"]/*' />
+        /// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.AccountId"]' />
         public AccountId? AccountId { get; set; }
-		/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.ContractId"]/*' />
+		/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.ContractId"]' />
 		public ContractId? ContractId { get; set; }
 
 		public override bool IsPaymentRequired

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -6,9 +6,11 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest"]" />
     public class TokenUpdateIntegrationTest
     {
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateToken"]" />
         public virtual void CanUpdateToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -96,6 +98,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateImmutableToken"]" />
         public virtual void CannotUpdateImmutableToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -126,6 +129,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateFungibleTokenMetadata"]" />
         public virtual void CanUpdateFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -184,6 +188,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateNonFungibleTokenMetadata"]" />
         public virtual void CanUpdateNonFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -245,6 +250,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateImmutableFungibleTokenMetadata"]" />
         public virtual void CanUpdateImmutableFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -301,6 +307,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateImmutableNonFungibleTokenMetadata"]" />
         public virtual void CanUpdateImmutableNonFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -354,6 +361,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateFungibleTokenMetadataWhenItsNotSet"]" />
         public virtual void CannotUpdateFungibleTokenMetadataWhenItsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -396,6 +404,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateNonFungibleTokenMetadataWhenItsNotSet"]" />
         public virtual void CannotUpdateNonFungibleTokenMetadataWhenItsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -437,6 +446,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanEraseFungibleTokenMetadata"]" />
         public virtual void CanEraseFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -484,6 +494,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanEraseNonFungibleTokenMetadata"]" />
         public virtual void CanEraseNonFungibleTokenMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -530,6 +541,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateFungibleTokenMetadataWhenTransactionIsNotSignedWithMetadataKey"]" />
         public virtual void CannotUpdateFungibleTokenMetadataWhenTransactionIsNotSignedWithMetadataKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -580,6 +592,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateNonFungibleTokenMetadataWhenTransactionIsNotSignedWithMetadataKey"]" />
         public virtual void CannotUpdateNonFungibleTokenMetadataWhenTransactionIsNotSignedWithMetadataKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -630,6 +643,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateFungibleTokenMetadataWhenMetadataKeyNotSet"]" />
         public virtual void CannotUpdateFungibleTokenMetadataWhenMetadataKeyNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -677,6 +691,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateNonFungibleTokenMetadataWhenMetadataKeyNotSet"]" />
         public virtual void CannotUpdateNonFungibleTokenMetadataWhenMetadataKeyNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -722,6 +737,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanMakeTokenImmutableWhenUpdatingKeysToEmptyKeyListSigningWithAdminKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CanMakeTokenImmutableWhenUpdatingKeysToEmptyKeyListSigningWithAdminKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -794,6 +810,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanRemoveAllLowerPrivilegeKeysWhenUpdatingKeysToEmptyKeyListSigningWithAdminKeyWithKeyVerificationSetToFullValidation"]" />
         public virtual void CanRemoveAllLowerPrivilegeKeysWhenUpdatingKeysToEmptyKeyListSigningWithAdminKeyWithKeyVerificationSetToFullValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -865,6 +882,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithAdminKeyWithKeyVerificationSetToFullValidationAndThenRevertPreviousKeys"]" />
         public virtual void CanUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithAdminKeyWithKeyVerificationSetToFullValidationAndThenRevertPreviousKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -960,6 +978,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateAllLowerPrivilegeKeysWhenSigningWithAdminKeyAndNewLowerPrivilegeKeyWithKeyVerificationSetToFullValidation"]" />
         public virtual void CanUpdateAllLowerPrivilegeKeysWhenSigningWithAdminKeyAndNewLowerPrivilegeKeyWithKeyVerificationSetToFullValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1040,6 +1059,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotMakeTokenImmutableWhenUpdatingKeysToEmptyKeyListSigningWithDifferentKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotMakeTokenImmutableWhenUpdatingKeysToEmptyKeyListSigningWithDifferentKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1186,6 +1206,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotMakeTokenImmutableWhenUpdatingKeysToUnusableKeySigningWithDifferentKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotMakeTokenImmutableWhenUpdatingKeysToUnusableKeySigningWithDifferentKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1332,6 +1353,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAdminKeyToUnusableKeySigningWithAdminKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotUpdateAdminKeyToUnusableKeySigningWithAdminKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1372,6 +1394,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CanUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1440,6 +1463,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateAllLowerPrivilegeKeysWhenSigningWithOldLowerPrivilegeKeyAndNewLowerPrivilegeKeyWithKeyVerificationSetToFulValidation"]" />
         public virtual void CanUpdateAllLowerPrivilegeKeysWhenSigningWithOldLowerPrivilegeKeyAndNewLowerPrivilegeKeyWithKeyVerificationSetToFulValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1516,6 +1540,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CanUpdateAllLowerPrivilegeKeysWhenSigningOnlyWithOldLowerPrivilegeKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CanUpdateAllLowerPrivilegeKeysWhenSigningOnlyWithOldLowerPrivilegeKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1592,6 +1617,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotRemoveAllLowerPrivilegeKeysWhenUpdatingKeysToEmptyKeyListSigningWithRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotRemoveAllLowerPrivilegeKeysWhenUpdatingKeysToEmptyKeyListSigningWithRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1724,6 +1750,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithDifferentKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithDifferentKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1863,6 +1890,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation"]" />
         public virtual void CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -2014,6 +2042,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithOldRespectiveLowerPrivilegeKeyAndNewRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation"]" />
         public virtual void CannotUpdateAllLowerPrivilegeKeysToUnusableKeyWhenSigningWithOldRespectiveLowerPrivilegeKeyAndNewRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -2181,6 +2210,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAllLowerPrivilegeKeysWhenSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation"]" />
         public virtual void CannotUpdateAllLowerPrivilegeKeysWhenSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToFullValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -2321,6 +2351,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUpdateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUpdateIntegrationTest.CannotUpdateAllLowerPrivilegeKeysWhenUpdatingKeysToStructurallyInvalidKeysSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation"]" />
         public virtual void CannotUpdateAllLowerPrivilegeKeysWhenUpdatingKeysToStructurallyInvalidKeysSigningOnlyWithOldRespectiveLowerPrivilegeKeyWithKeyVerificationSetToNoValidation()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

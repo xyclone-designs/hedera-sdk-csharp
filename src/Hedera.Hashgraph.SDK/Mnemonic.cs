@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]/*' />
+    /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]' />
     public sealed class Mnemonic : IMnemonic<Mnemonic>
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK
         
         private string? AsString = null;
 
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.#ctor(System.String[])"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.#ctor(System.String[])"]' />
 		public IReadOnlyList<string> Words { get; }
 
         private Mnemonic(string[] words)  
@@ -42,27 +42,27 @@ namespace Hedera.Hashgraph.SDK
         }
 		private Mnemonic(IEnumerable<string> words) : this(words.ToList()) { }
 
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate12"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate12"]' />
 		public static Mnemonic Generate12()
 		{
 			var entropy = new byte[16];
 			ThreadLocalSecureRandom.Current().NextBytes(entropy);
 			return new Mnemonic(EntropyToWords(entropy));
 		}
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate24"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate24"]' />
 		public static Mnemonic Generate24()
         {
             var entropy = new byte[32];
             ThreadLocalSecureRandom.Current().NextBytes(entropy);
             return new Mnemonic(EntropyToWords(entropy));
         }
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromString(System.String)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromString(System.String)"]' />
 		public static Mnemonic FromString(string mnemonicString)
 		{
 			string toLowerCase = mnemonicString.ToLower();
 			return Mnemonic.FromWords(toLowerCase.Split(" "));
 		}
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromWords(System.Collections.Generic.IList{System.String})"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromWords(System.Collections.Generic.IList{System.String})"]' />
 		public static Mnemonic FromWords(IEnumerable<string> words)
 		{
 			Mnemonic mnemonic = new(words);
@@ -268,7 +268,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}        
 
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyImpl(System.String,System.Int32[])"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyImpl(System.String,System.Int32[])"]' />
 		private PrivateKey ToStandardECDSAsecp256k1PrivateKeyImpl(string passphrase, int[] derivationPathValues)
 		{
 			var seed = ToSeed(passphrase);
@@ -281,17 +281,17 @@ namespace Hedera.Hashgraph.SDK
 			return derivedKey;
 		}
 
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey"]' />
 		public PrivateKey ToPrivateKey()
 		{
 			return ToPrivateKey("");
 		}
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey(System.String)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey(System.String)"]' />
 		public PrivateKey ToPrivateKey(string passphrase)
         {
             return PrivateKey.FromMnemonic(this, passphrase);
         }
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToLegacyPrivateKey"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToLegacyPrivateKey"]' />
 		public PrivateKey ToLegacyPrivateKey()
 		{
 			if (Words.Count == 22)
@@ -354,7 +354,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToSeed(System.String)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToSeed(System.String)"]' />
 		internal byte[] ToSeed(string passphrase)
         {
             string salt = ("mnemonic" + passphrase).Normalize(NormalizationForm.FormKD);
@@ -495,7 +495,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return [.. buffer];
 		}
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.CalculateDerivationPathValues(System.String)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.CalculateDerivationPathValues(System.String)"]' />
 		internal int[] CalculateDerivationPathValues(string derivationPath)
 		{
 			if (string.IsNullOrWhiteSpace(derivationPath))
@@ -546,7 +546,7 @@ namespace Hedera.Hashgraph.SDK
 			return values;
 		}
 
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardEd25519PrivateKey(System.String,System.Int32)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardEd25519PrivateKey(System.String,System.Int32)"]' />
 		public PrivateKey ToStandardEd25519PrivateKey(string passphrase, int index)
         {
             var seed = ToSeed(passphrase);
@@ -563,7 +563,7 @@ namespace Hedera.Hashgraph.SDK
 
             return derivedKey;
         }
-		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKey(System.String,System.Int32)"]/*' />
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKey(System.String,System.Int32)"]' />
 		public PrivateKey ToStandardECDSAsecp256k1PrivateKey(string passphrase, int index)
 		{
 			// Harden the first 3 indexes
@@ -578,7 +578,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return ToStandardECDSAsecp256k1PrivateKeyImpl(passphrase, derivationPathValues);
 		}
-        /// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(System.String,System.String)"]/*' />
+        /// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(System.String,System.String)"]' />
         public PrivateKey ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(string passphrase, string derivationPath)
         {
             int[] derivationPathValues = CalculateDerivationPathValues(derivationPath);

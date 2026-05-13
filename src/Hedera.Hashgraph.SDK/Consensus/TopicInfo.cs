@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicInfo.cs.xml" path='docs/member[@name="T:TopicInfo"]/*' />
+    /// <include file="TopicInfo.cs.xml" path='docs/member[@name="T:TopicInfo"]' />
     public sealed class TopicInfo
     {
         private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, DateTimeOffset expirationTime, Key? adminKey, Key? submitKey, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IEnumerable<Key> feeExemptKeys, IEnumerable<CustomFixedFee> customFees)
@@ -32,12 +32,12 @@ namespace Hedera.Hashgraph.SDK.Consensus
             CustomFees = [ .. customFees];
         }
 
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromBytes(System.Byte[])"]' />
 		public static TopicInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse)"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse)"]' />
 		public static TopicInfo FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse topicInfoResponse)
         {
             return new TopicInfo(TopicId.FromProtobuf(
@@ -56,36 +56,36 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 [.. topicInfoResponse.TopicInfo.CustomFees.Select(_ => CustomFixedFee.FromProtobuf(_.FixedFee))]);
         }
 
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicId"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicId"]' />
 		public TopicId TopicId { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicMemo"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicMemo"]' />
 		public string TopicMemo { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.RunningHash"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.RunningHash"]' />
 		public ByteString RunningHash { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SequenceNumber"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SequenceNumber"]' />
 		public ulong SequenceNumber { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.ExpirationTime"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.ExpirationTime"]' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AdminKey"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AdminKey"]' />
 		public Key? AdminKey { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SubmitKey"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SubmitKey"]' />
 		public Key? SubmitKey { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewPeriod"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewPeriod"]' />
 		public TimeSpan AutoRenewPeriod { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewAccountId"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewAccountId"]' />
 		public AccountId AutoRenewAccountId { get; }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.LedgerId"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.LedgerId"]' />
 		public LedgerId LedgerId { get; }
 		public Key? FeeScheduleKey { get; }
 		public IList<Key> FeeExemptKeys { get; }
 		public IList<CustomFixedFee> CustomFees { get; }
 
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToBytes"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToBytes"]' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToProtobuf"]/*' />
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToProtobuf"]' />
 		public Proto.Services.ConsensusGetTopicInfoResponse ToProtobuf()
 		{
 			Proto.Services.ConsensusGetTopicInfoResponse proto = new()

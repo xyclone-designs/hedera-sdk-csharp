@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="Executable.GrpcRequest.cs.xml" path='docs/member[@name="T:Executable"]/*' />
+    /// <include file="Executable.GrpcRequest.cs.xml" path='docs/member[@name="T:Executable"]' />
     public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> 
 	{
 		public class GrpcRequest

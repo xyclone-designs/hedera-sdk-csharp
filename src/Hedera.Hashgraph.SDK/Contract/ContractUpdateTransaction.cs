@@ -12,23 +12,23 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction"]/*' />
+    /// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction"]' />
     public sealed class ContractUpdateTransaction : Transaction<ContractUpdateTransaction>
     {
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor"]' />
 		public ContractUpdateTransaction() { }
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal ContractUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal ContractUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen"]' />
 		public ContractId? ContractId
 		{
 			get;
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_2"]' />
 		public DateTimeOffset? ExpirationTime
 		{
 			get;
@@ -61,13 +61,13 @@ namespace Hedera.Hashgraph.SDK.Contract
                     ExpirationTime = null;
             }
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_2"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_2"]' />
 		public Key? AdminKey
 		{
 			get;
 			set;
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_3"]' />
 		public AccountId? ProxyAccountId
 		{
 			get;
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_4"]' />
 		public int? MaxAutomaticTokenAssociations
 		{
 			get;
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_5"]' />
 		public TimeSpan? AutoRenewPeriod
 		{
 			get;
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_6"]' />
 		public FileId? BytecodeFileId
 		{
 			get;
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_7"]' />
 		public string? ContractMemo
 		{
 			get;
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_8"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_8"]' />
 		public AccountId? StakedAccountId
 		{
 			get;
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 StakedAccountId = null;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_9"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_9"]' />
 		public bool? DeclineStakingReward
 		{
 			get;
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_10"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen_10"]' />
 		public AccountId? AutoRenewAccountId
 		{
 			get;
@@ -158,20 +158,20 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_3"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_3"]' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
 			init => field = GenerateListGuarded(value);
 			get => field ??= GenerateListGuarded<HookCreationDetails>();
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody"]' />
 		public ListGuarded<long> HookIdsToDelete
 		{
             init => field = GenerateListGuarded(value);
             get => field ??= GenerateListGuarded<long>();
         }
 
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody_2"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody_2"]' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractUpdateInstance;
@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);
         }
 
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.ToProtobuf"]/*' />
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.ToProtobuf"]' />
 		public Proto.Services.ContractUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ContractUpdateTransactionBody { };

@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-	/// <include file="ContractStateChange.cs.xml" path='docs/member[@name="T:ContractStateChange"]/*' />
+	/// <include file="ContractStateChange.cs.xml" path='docs/member[@name="T:ContractStateChange"]' />
 	[Obsolete("Obsolete")]
     public class ContractStateChange
     {
-        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.ContractId"]/*' />
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.ContractId"]' />
         public readonly ContractId ContractId;
-        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.StorageChanges"]/*' />
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.StorageChanges"]' />
         public readonly List<StorageChange> StorageChanges;
-        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="M:ContractStateChange(ContractId,System.Collections.Generic.IEnumerable{StorageChange})"]/*' />
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="M:ContractStateChange(ContractId,System.Collections.Generic.IEnumerable{StorageChange})"]' />
         ContractStateChange(ContractId contractId, IEnumerable<StorageChange> storageChanges)
         {
             ContractId = contractId;

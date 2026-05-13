@@ -12,22 +12,22 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="T:TokenRejectFlow"]/*' />
+    /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="T:TokenRejectFlow"]' />
     public class TokenRejectFlow
     {        
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.OwnerId"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.OwnerId"]' />
 		public virtual AccountId? OwnerId { get; set; }
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.NftIds"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.NftIds"]' />
 		public virtual List<NftId> NftIds { get; set; } = [];
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.TokenIds"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.TokenIds"]' />
 		public virtual List<TokenId> TokenIds { get; set; } = [];
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.NodeAccountIds"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.NodeAccountIds"]' />
 		public virtual List<AccountId>? NodeAccountIds { get; set; }
 
 
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.FreezeWithClient"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="P:TokenRejectFlow.FreezeWithClient"]' />
 		public Client? FreezeWithClient { get; set; }
-		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="T:TokenRejectFlow_2"]/*' />
+		/// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="T:TokenRejectFlow_2"]' />
 		public PrivateKey? SignPrivateKey 
         { 
             get;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		private PublicKey? SignPublicKey { get; set; }
 		private Func<byte[], byte[]>? TransactionSigner { get; set; }
 
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]' />
         public virtual TokenRejectFlow SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
         {
             SignPublicKey = publicKey;
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Token
             SignPrivateKey = null;
             return this;
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.SignWithOperator(Client)"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.SignWithOperator(Client)"]' />
         public virtual TokenRejectFlow SignWithOperator(Client client)
         {
             SignPublicKey = client.Operator_.PublicKey;
@@ -106,12 +106,12 @@ namespace Hedera.Hashgraph.SDK.Token
             return tokenDissociateTransaction;
         }
 
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.Execute(Client)"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.Execute(Client)"]' />
         public virtual TransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.Execute(Client,System.TimeSpan)"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.Execute(Client,System.TimeSpan)"]' />
         public virtual TransactionResponse Execute(Client client, TimeSpan timeoutPerTransaction)
         {
             try
@@ -127,12 +127,12 @@ namespace Hedera.Hashgraph.SDK.Token
                 throw new Exception(string.Empty, e);
             }
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client)"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client)"]' />
         public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan)"]' />
         public virtual async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerTransaction)
         {
             TransactionResponse transactionresponse = await CreateTokenRejectTransaction().ExecuteAsync(client, timeoutPerTransaction);
@@ -140,22 +140,22 @@ namespace Hedera.Hashgraph.SDK.Token
 
             return await CreateTokenDissociateTransaction().ExecuteAsync(client, timeoutPerTransaction);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
-        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="TokenRejectFlow.cs.xml" path='docs/member[@name="M:TokenRejectFlow.ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);

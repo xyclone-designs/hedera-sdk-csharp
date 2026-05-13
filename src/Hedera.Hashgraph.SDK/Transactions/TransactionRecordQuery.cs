@@ -8,19 +8,19 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="T:TransactionRecordQuery"]/*' />
+    /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="T:TransactionRecordQuery"]' />
     public sealed class TransactionRecordQuery : Query<TransactionRecord, TransactionRecordQuery>
     {
-        /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.#ctor"]/*' />
+        /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.#ctor"]' />
         public TransactionRecordQuery() { }
 		
-		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeChildren"]/*' />
+		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeChildren"]' />
 		public bool IncludeChildren { get; set; }
-		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeDuplicates"]/*' />
+		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeDuplicates"]' />
 		public bool IncludeDuplicates { get; set; }
-		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.TransactionId"]/*' />
+		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.TransactionId"]' />
 		public TransactionId? TransactionId { get; set; }
-		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.ValidateChecksums(Client)"]/*' />
+		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.ValidateChecksums(Client)"]' />
 		public override TransactionId TransactionIdInternal
 		{
 			get => TransactionId;

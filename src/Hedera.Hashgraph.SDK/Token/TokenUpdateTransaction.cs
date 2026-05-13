@@ -12,95 +12,95 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateTransaction"]/*' />
+    /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateTransaction"]' />
     public class TokenUpdateTransaction : Transaction<TokenUpdateTransaction>
     {
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor"]' />
         public TokenUpdateTransaction() { }
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_2"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_2"]' />
         public virtual string? TokenName 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = string.Empty;
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_3"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_3"]' />
         public virtual string? TokenSymbol 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = string.Empty;
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_4"]' />
 		public virtual AccountId? TreasuryAccountId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_5"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_5"]' />
         public virtual Key? AdminKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_6"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_6"]' />
         public virtual Key? KycKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_7"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_7"]' />
         public virtual Key? FreezeKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_8"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_8"]' />
         public virtual Key? WipeKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_9"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_9"]' />
         public virtual Key? SupplyKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_10"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_10"]' />
         public virtual Key? FeeScheduleKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_11"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_11"]' />
         public virtual Key? PauseKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_12"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_12"]' />
         public virtual Key? MetadataKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_13"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_13"]' />
         public virtual DateTimeOffset? ExpirationTime
 		{
             get; 
@@ -127,38 +127,38 @@ namespace Hedera.Hashgraph.SDK.Token
 
             } 
         }
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_14"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_14"]' />
 		public virtual AccountId? AutoRenewAccountId 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_15"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_15"]' />
         public virtual TimeSpan? AutoRenewPeriod 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_16"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_16"]' />
 		public virtual string? TokenMemo 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_17"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_17"]' />
         public virtual byte[]? TokenMetadata 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_18"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.RequireNotFrozen_18"]' />
         public virtual TokenKeyValidation TokenKeyVerificationMode 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
         } = TokenKeyValidation.FullValidation;
 
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUpdate;
@@ -215,7 +215,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		}
 
-        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenUpdateTransactionBody

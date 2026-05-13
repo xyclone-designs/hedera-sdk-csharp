@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -10,9 +10,11 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenRejectFlowIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest"]" />
     public class TokenRejectFlowIntegrationTest
     {
         [Fact]
+        /// <include file="TokenRejectFlowIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForFungibleToken"]" />
         public virtual void CanExecuteTokenRejectFlowForFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -76,6 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectFlowIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForFungibleTokenAsync"]" />
         public virtual void CanExecuteTokenRejectFlowForFungibleTokenAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -142,6 +145,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectFlowIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForNft"]" />
         public virtual void CanExecuteTokenRejectFlowForNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -214,6 +218,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectFlowIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForNftWhenRejectingOnlyPartOfOwnedNFTs"]" />
         public virtual void CanExecuteTokenRejectFlowForNftWhenRejectingOnlyPartOfOwnedNFTs()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

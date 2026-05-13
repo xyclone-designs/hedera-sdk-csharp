@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Consensus;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TopicDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest"]" />
     public class TopicDeleteIntegrationTest
     {
         [Fact]
+        /// <include file="TopicDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest.CanDeleteTopic"]" />
         public virtual void CanDeleteTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -29,6 +31,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest.CannotDeleteImmutableTopic"]" />
         public virtual void CannotDeleteImmutableTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))

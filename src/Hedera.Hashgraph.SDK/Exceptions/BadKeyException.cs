@@ -4,7 +4,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <include file="BadKeyException.cs.xml" path='docs/member[@name="T:BadKeyException"]/*' />
+    /// <include file="BadKeyException.cs.xml" path='docs/member[@name="T:BadKeyException"]' />
     public class BadKeyException : Exception, IBadKey 
     {
         public BadKeyException(string message) : base(message) { }

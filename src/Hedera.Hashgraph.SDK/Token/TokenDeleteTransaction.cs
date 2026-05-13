@@ -8,26 +8,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="T:TokenDeleteTransaction"]/*' />
+    /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="T:TokenDeleteTransaction"]' />
     public class TokenDeleteTransaction : Transaction<TokenDeleteTransaction>
     {
-        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor"]/*' />
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor"]' />
         public TokenDeleteTransaction() { }
-		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenDeletion;
@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenId = TokenId.FromProtobuf(body.Token);
 		}
 
-        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenDeleteTransactionBody();

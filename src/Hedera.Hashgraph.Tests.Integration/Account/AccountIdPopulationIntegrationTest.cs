@@ -1,17 +1,17 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Queries;
-using Hedera.Hashgraph.SDK;
 
 using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest"]" />
     public class AccountIdPopulationIntegrationTest
     {
         [Fact]
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumSync"]" />
         public virtual void CanPopulateAccountIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -42,6 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdNumAsync"]" />
         public virtual void CanPopulateAccountIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -73,6 +74,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressSync"]" />
         public virtual void CanPopulateAccountIdEvmAddressSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -102,6 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountIdPopulationIntegrationTest.CanPopulateAccountIdEvmAddressAsync"]" />
         public virtual void CanPopulateAccountIdEvmAddressAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))

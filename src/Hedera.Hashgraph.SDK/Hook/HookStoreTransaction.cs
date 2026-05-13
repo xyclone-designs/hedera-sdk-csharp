@@ -10,16 +10,16 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="T:HookStoreTransaction"]/*' />
+    /// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="T:HookStoreTransaction"]' />
     public class HookStoreTransaction : Transaction<HookStoreTransaction>
     {
 		public HookStoreTransaction() { }
-		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal HookStoreTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal HookStoreTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			};
 		}
 
-		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.ToProtobuf"]/*' />
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.ToProtobuf"]' />
 		public Proto.Services.HookStoreTransactionBody ToProtobuf()
 		{
 			Proto.Services.HookStoreTransactionBody builder = new ();

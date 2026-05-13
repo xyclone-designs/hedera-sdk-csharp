@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Token;
@@ -10,9 +10,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest"]" />
     public class TokenRejectIntegrationTest
     {
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFungibleToken"]" />
         public virtual void CanExecuteTokenRejectTransactionForFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -78,6 +80,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForNft"]" />
         public virtual void CanExecuteTokenRejectTransactionForNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -164,6 +167,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftInOneTx"]" />
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftInOneTx()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -282,6 +286,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTreasuryReceiverSigRequiredIsEnabled"]" />
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTreasuryReceiverSigRequiredIsEnabled()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -442,6 +447,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsFrozen"]" />
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -536,6 +542,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsPaused"]" />
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -616,6 +623,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft"]" />
         public virtual void CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -763,6 +771,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectNftWhenUsingAddOrSetTokenId"]" />
         public virtual void CannotRejectNftWhenUsingAddOrSetTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -827,6 +836,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenExecutingTokenRejectAndDuplicatingTokenReference"]" />
         public virtual void CannotRejectTokenWhenExecutingTokenRejectAndDuplicatingTokenReference()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -907,6 +917,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenOwnerHasEmptyBalance"]" />
         public virtual void CannotRejectTokenWhenOwnerHasEmptyBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -996,6 +1007,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTreasuryRejects"]" />
         public virtual void CannotRejectTokenWhenTreasuryRejects()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1044,6 +1056,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWithInvalidSignature"]" />
         public virtual void CannotRejectTokenWithInvalidSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1085,6 +1098,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTokenOrNFTIdIsNotSet"]" />
         public virtual void CannotRejectTokenWhenTokenOrNFTIdIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1104,6 +1118,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRejectIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTokenReferenceListSizeExceeded"]" />
         public virtual void CannotRejectTokenWhenTokenReferenceListSizeExceeded()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

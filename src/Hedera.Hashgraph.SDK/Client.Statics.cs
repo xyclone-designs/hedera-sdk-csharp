@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK
 			DEFAULT_NETWORK_UPDATE_PERIOD = TimeSpan.FromHours(24),
 			NETWORK_UPDATE_INITIAL_DELAY = TimeSpan.FromSeconds(10); // Initial delay of 10 seconds before we update the Network for the first time, so that this doesn't happen in unit tests.
 
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForName(System.String)"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForName(System.String)"]' />
 		public static Client ForName(string name)
 		{
 			return name switch
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.SDK
 				_ => throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")
 			};
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},ExecutorService,System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},ExecutorService,System.Action{Client})"]' />
 		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForNetwork(executor, networkMap);
@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},System.Action{Client})"]' />
 		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, Action<Client>? onCreate = null)
 		{
 			ExecutorService executor = new ();
@@ -95,12 +95,12 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String})"]' />
 		public static Client ForMirrorNetwork(IList<string> mirrorNetworkList)
 		{
 			return ForMirrorNetwork(mirrorNetworkList, 0, 0);
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String},System.Int64,System.Int64)"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String},System.Int64,System.Int64)"]' />
 		public static Client ForMirrorNetwork(IList<string> mirrorNetworkList, long shard, long realm)
 		{
 			var executor = new ExecutorService();
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.SDK
 			return client;
 		}
 
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(System.Action{Client})"]' />
 		public static Client ForMainnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(ExecutorService,System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(ExecutorService,System.Action{Client})"]' />
 		public static Client ForMainnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForMainnet(executor);
@@ -142,7 +142,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(System.Action{Client})"]' />
 		public static Client ForTestnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(ExecutorService,System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(ExecutorService,System.Action{Client})"]' />
 		public static Client ForTestnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForTestnet(executor);
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(System.Action{Client})"]' />
 		public static Client ForPreviewnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(ExecutorService,System.Action{Client})"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(ExecutorService,System.Action{Client})"]' />
 		public static Client ForPreviewnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForPreviewnet(executor);
@@ -193,17 +193,17 @@ namespace Hedera.Hashgraph.SDK
 			return client;
 		}
 
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfig(System.String)"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfig(System.String)"]' />
 		public static Client FromConfig(string json)
 		{
 			return Config.FromString(json).ToClient();
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(IOFileInfo)"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(IOFileInfo)"]' />
 		public static Client FromConfigFile(IOFileInfo file)
 		{
 			return FromConfig(IOFile.ReadAllText(file.FullName, Encoding.UTF8));
 		}
-		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(System.String)"]/*' />
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(System.String)"]' />
 		public static Client FromConfigFile(string fileName)
 		{
 			return FromConfigFile(new IOFileInfo(fileName));

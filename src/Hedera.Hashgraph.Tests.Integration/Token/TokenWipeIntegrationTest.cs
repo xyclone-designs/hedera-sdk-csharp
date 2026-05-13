@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -8,9 +8,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest"]" />
     public class TokenWipeIntegrationTest
     {
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalance"]" />
         public virtual void CanWipeAccountsBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -64,6 +66,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsNfts"]" />
         public virtual void CanWipeAccountsNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -128,6 +131,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsNftsIfNotOwned"]" />
         public virtual void CannotWipeAccountsNftsIfNotOwned()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -193,6 +197,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenAccountIDIsNotSet"]" />
         public virtual void CannotWipeAccountsBalanceWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -255,6 +260,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CannotWipeAccountsBalanceWhenTokenIDIsNotSet"]" />
         public virtual void CannotWipeAccountsBalanceWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -323,6 +329,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenWipeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenWipeIntegrationTest.CanWipeAccountsBalanceWhenAmountIsNotSet"]" />
         public virtual void CanWipeAccountsBalanceWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

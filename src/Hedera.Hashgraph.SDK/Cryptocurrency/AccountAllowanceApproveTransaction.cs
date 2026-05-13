@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-    /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="T:AccountAllowanceApproveTransaction"]/*' />
+    /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="T:AccountAllowanceApproveTransaction"]' />
     public class AccountAllowanceApproveTransaction : Transaction<AccountAllowanceApproveTransaction>
     {
 		// key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
@@ -20,20 +20,20 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         private readonly List<TokenAllowance> TokenAllowances = [];
         private readonly List<TokenNftAllowance> NftAllowances = [];
 
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor"]' />
 		public AccountAllowanceApproveTransaction() { }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal AccountAllowanceApproveTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal AccountAllowanceApproveTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.OwnerToString(AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.OwnerToString(AccountId)"]' />
 		private static string OwnerToString(AccountId? ownerAccountId)
 		{
 			return ownerAccountId?.ToString() ?? "FEE_PAYER";
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             }
         }
 
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetNftSerials(AccountId,AccountId,AccountId,TokenId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetNftSerials(AccountId,AccountId,AccountId,TokenId)"]' />
 		private List<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId)
 		{
 			var key = OwnerToString(ownerAccountId) + ":" + spenderAccountId;
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 				return NewNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, tokenId, innerMap);
 			}
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.NewNftSerials(AccountId,AccountId,AccountId,TokenId,System.Collections.Generic.Dictionary{TokenId,System.Int32})"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.NewNftSerials(AccountId,AccountId,AccountId,TokenId,System.Collections.Generic.Dictionary{TokenId,System.Int32})"]' />
 		private List<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
 		{
 			innerMap.Add(tokenId, NftAllowances.Count);
@@ -103,27 +103,27 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			return newAllowance.SerialNumbers;
 		}
 
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetHbarAllowances"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetHbarAllowances"]' />
 		public virtual List<HbarAllowance> GetHbarAllowances()
         {
             return GetHbarApprovals();
         }
-        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetHbarApprovals"]/*' />
+        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetHbarApprovals"]' />
         public virtual List<HbarAllowance> GetHbarApprovals()
         {
             return [.. HbarAllowances];
         }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenApprovals"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenApprovals"]' />
 		public virtual List<TokenAllowance> GetTokenApprovals()
 		{
 			return [.. TokenAllowances];
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenAllowances"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenAllowances"]' />
 		public virtual List<TokenAllowance> GetTokenAllowances()
         {
             return GetTokenApprovals();
         }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenNftApprovals"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenNftApprovals"]' />
 		public virtual List<TokenNftAllowance> GetTokenNftApprovals()
 		{
 			List<TokenNftAllowance> retval = new (NftAllowances.Count);
@@ -134,37 +134,37 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 
 			return retval;
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenNftAllowances"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.GetTokenNftAllowances"]' />
 		public virtual List<TokenNftAllowance> GetTokenNftAllowances()
 		{
 			return GetTokenNftApprovals();
 		}
 
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddTokenAllowance(TokenId,AccountId,System.Int64)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddTokenAllowance(TokenId,AccountId,System.Int64)"]' />
 		public virtual AccountAllowanceApproveTransaction AddTokenAllowance(TokenId tokenId, AccountId spenderAccountId, long amount)
 		{
 			return ApproveTokenAllowance(tokenId, null, spenderAccountId, amount);
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddTokenNftAllowance(NftId,AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddTokenNftAllowance(NftId,AccountId)"]' />
 		public virtual AccountAllowanceApproveTransaction AddTokenNftAllowance(NftId nftId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
             GetNftSerials(null, spenderAccountId, null, nftId.TokenId).Add(nftId.Serial);
             return this;
         }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddHbarAllowance(AccountId,Hbar)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddHbarAllowance(AccountId,Hbar)"]' />
 		public virtual AccountAllowanceApproveTransaction AddHbarAllowance(AccountId spenderAccountId, Hbar amount)
 		{
 			return ApproveHbarAllowance(null, spenderAccountId, amount);
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddAllTokenNftAllowance(TokenId,AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.AddAllTokenNftAllowance(TokenId,AccountId)"]' />
 		public virtual AccountAllowanceApproveTransaction AddAllTokenNftAllowance(TokenId tokenId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
             NftAllowances.Add(new TokenNftAllowance(tokenId, null, spenderAccountId, null, [], true));
             return this;
         }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveHbarAllowance(AccountId,AccountId,Hbar)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveHbarAllowance(AccountId,AccountId,Hbar)"]' />
 		public virtual AccountAllowanceApproveTransaction ApproveHbarAllowance(AccountId? ownerAccountId, AccountId spenderAccountId, Hbar amount)
 		{
 			RequireNotFrozen();
@@ -172,14 +172,14 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			HbarAllowances.Add(new HbarAllowance(ownerAccountId, spenderAccountId, amount));
 			return this;
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenAllowance(TokenId,AccountId,AccountId,System.Int64)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenAllowance(TokenId,AccountId,AccountId,System.Int64)"]' />
 		public virtual AccountAllowanceApproveTransaction ApproveTokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId spenderAccountId, long amount)
 		{
 			RequireNotFrozen();
 			TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
 			return this;
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId)"]' />
 		public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             GetNftSerials(ownerAccountId, spenderAccountId, null, nftId.TokenId).Add(nftId.Serial);
             return this;
         }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId,AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId,AccountId)"]' />
 		public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender)
 		{
 			RequireNotFrozen();
@@ -195,14 +195,14 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			GetNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, nftId.TokenId).Add(nftId.Serial);
 			return this;
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]/*' />
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]' />
 		public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
             NftAllowances.Add(new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, [], true));
             return this;
         }
-        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.DeleteTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]/*' />
+        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.DeleteTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]' />
         public virtual AccountAllowanceApproveTransaction DeleteTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
@@ -210,7 +210,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             return this;
         }
 
-        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ToProtobuf"]/*' />
+        /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ToProtobuf"]' />
         public virtual Proto.Services.CryptoApproveAllowanceTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.CryptoApproveAllowanceTransactionBody();

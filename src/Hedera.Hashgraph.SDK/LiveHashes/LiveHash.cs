@@ -8,10 +8,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <include file="LiveHash.cs.xml" path='docs/member[@name="T:LiveHash"]/*' />
+    /// <include file="LiveHash.cs.xml" path='docs/member[@name="T:LiveHash"]' />
     public class LiveHash
     {
-        /// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.#ctor(AccountId,ByteString,KeyList,System.TimeSpan)"]/*' />
+        /// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.#ctor(AccountId,ByteString,KeyList,System.TimeSpan)"]' />
         internal LiveHash(AccountId accountId, ByteString hash, KeyList keys, TimeSpan duration)
         {
             AccountId = accountId;
@@ -20,12 +20,12 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             Duration = duration;
         }
 
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromBytes(System.Byte[])"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromBytes(System.Byte[])"]' />
 		public static LiveHash FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.LiveHash.Parser.ParseFrom(bytes));
 		}
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromProtobuf(Proto.Services.LiveHash)"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromProtobuf(Proto.Services.LiveHash)"]' />
 		public static LiveHash FromProtobuf(Proto.Services.LiveHash liveHash)
         {
             return new LiveHash(
@@ -35,21 +35,21 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
                 liveHash.Duration.ToTimeSpan());
         }
 
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.AccountId"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.AccountId"]' />
 		public AccountId AccountId { get; }
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Hash"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Hash"]' />
 		public ByteString Hash { get; }
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Keys"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Keys"]' />
 		public KeyList Keys { get; }
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Duration"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Duration"]' />
 		public TimeSpan Duration { get; }
 
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToBytes"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToBytes"]' />
 		public virtual ByteString ToBytes()
 		{
 			return ToProtobuf().ToByteString();
 		}
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToProtobuf"]/*' />
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToProtobuf"]' />
 		public virtual Proto.Services.LiveHash ToProtobuf()
         {
 			return new Proto.Services.LiveHash

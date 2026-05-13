@@ -5,22 +5,22 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="T:EvmHookCall"]/*' />
+    /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="T:EvmHookCall"]' />
     public class EvmHookCall
     {
-        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.#ctor(System.Byte[],System.UInt64)"]/*' />
+        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.#ctor(System.Byte[],System.UInt64)"]' />
         public EvmHookCall(byte[] data, ulong gasLimit)
         {
             Data = data;
             GasLimit = gasLimit;
         }
 
-		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.Clone"]/*' />
+		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.Clone"]' />
 		public virtual byte[] Data { get => (byte[])field.Clone(); } // Return a copy to prevent external modification
-		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="P:EvmHookCall.GasLimit"]/*' />
+		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="P:EvmHookCall.GasLimit"]' />
 		public virtual ulong GasLimit { get => field; }
 
-		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.ToProtobuf"]/*' />
+		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.ToProtobuf"]' />
 		public virtual Proto.Services.EvmHookCall ToProtobuf()
         {
             return new Proto.Services.EvmHookCall
@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 				GasLimit = GasLimit,
 			};
         }
-        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall)"]/*' />
+        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall)"]' />
         public static EvmHookCall FromProtobuf(Proto.Services.EvmHookCall proto)
         {
             return new EvmHookCall(proto.Data.ToByteArray(), proto.GasLimit);

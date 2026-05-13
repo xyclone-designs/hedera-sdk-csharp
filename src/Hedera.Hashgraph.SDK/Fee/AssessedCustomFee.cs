@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="T:AssessedCustomFee"]/*' />
+    /// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="T:AssessedCustomFee"]' />
     public class AssessedCustomFee
     {
         public AssessedCustomFee(long amount, TokenId tokenId, AccountId feeCollectorAccountId, IEnumerable<AccountId> payerAccountIdList)
@@ -20,12 +20,12 @@ namespace Hedera.Hashgraph.SDK.Fee
             PayerAccountIdList = [.. payerAccountIdList];
         }
 
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromBytes(System.Byte[])"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromBytes(System.Byte[])"]' />
 		public static AssessedCustomFee FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.AssessedCustomFee.Parser.ParseFrom(bytes));
 		}
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromProtobuf(Proto.Services.AssessedCustomFee)"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromProtobuf(Proto.Services.AssessedCustomFee)"]' />
 		public static AssessedCustomFee FromProtobuf(Proto.Services.AssessedCustomFee assessedCustomFee)
         {
             return new AssessedCustomFee(
@@ -35,21 +35,21 @@ namespace Hedera.Hashgraph.SDK.Fee
 				[.. assessedCustomFee.EffectivePayerAccountId.Select(_ => AccountId.FromProtobuf(_))]);
         }
 
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.Amount"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.Amount"]' />
 		public long Amount { get; }
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.TokenId"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.TokenId"]' />
 		public TokenId TokenId { get; }
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.FeeCollectorAccountId"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.FeeCollectorAccountId"]' />
 		public AccountId FeeCollectorAccountId { get; }
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.PayerAccountIdList"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.PayerAccountIdList"]' />
 		public IList<AccountId> PayerAccountIdList { get; }
 
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToBytes"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToProtobuf"]/*' />
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToProtobuf"]' />
 		public virtual Proto.Services.AssessedCustomFee ToProtobuf()
         {
             Proto.Services.AssessedCustomFee proto = new()

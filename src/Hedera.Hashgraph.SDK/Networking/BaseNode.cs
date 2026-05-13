@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="BaseNode.cs.xml" path='docs/member[@name="T:BaseNode"]/*' />
+	/// <include file="BaseNode.cs.xml" path='docs/member[@name="T:BaseNode"]' />
 	public abstract partial class BaseNode<N, KeyT>: IDisposable where N : BaseNode<N, KeyT>
     {
         private static readonly int GET_STATE_INTERVAL_MILLIS = 50;
@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         
 		protected ExecutorService Executor;
 
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(N,BaseNodeAddress)"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(N,BaseNodeAddress)"]' />
 		internal BaseNode(N node, BaseNodeAddress address)
 		{
 			Address = address;
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			CurrentBackoff = node.CurrentBackoff;
 			BadGrpcStatusCount = node.BadGrpcStatusCount;
 		}
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(BaseNodeAddress,ExecutorService)"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(BaseNodeAddress,ExecutorService)"]' />
 		internal BaseNode(BaseNodeAddress address, ExecutorService executor)
         {
             Executor = executor;
@@ -42,15 +42,15 @@ namespace Hedera.Hashgraph.SDK.Networking
         }
 
 
-        /// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Key"]/*' />
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Key"]' />
         public abstract KeyT Key { get; }
 
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)"]' />
 		public virtual string? Authority
 		{
 			get => "127.0.0.1";
 		}
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_2"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_2"]' />
 		public virtual Channel Channel
 		{
 			get
@@ -75,12 +75,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.ReadmitTime"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.ReadmitTime"]' />
 		public DateTimeOffset ReadmitTime { get; set; }
 
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.CurrentBackoff"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.CurrentBackoff"]' />
 		public TimeSpan CurrentBackoff { get; set; }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_3"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_3"]' />
 		public virtual TimeSpan MinBackoff 
         {
             get
@@ -101,11 +101,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
         }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.MaxBackoff"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.MaxBackoff"]' />
 		public virtual TimeSpan MaxBackoff { get; set; }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Address"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Address"]' />
 		public virtual BaseNodeAddress Address { get; protected set; }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.BadGrpcStatusCount"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.BadGrpcStatusCount"]' />
 		public virtual long BadGrpcStatusCount { get; protected set; }
 		
 		private async Task<bool> ChannelFailedToConnectAsync(int i, ChannelState state)
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				.DelayAsync(TimeSpan.FromMilliseconds(GET_STATE_INTERVAL_MILLIS), () => ChannelFailedToConnectAsync(i + 1, Channel.State));
 		}
 
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnect"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnect"]' />
 		public virtual bool ChannelFailedToConnect()
 		{
 			return ChannelFailedToConnect(DateTime.MaxValue);
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return !hasConnected;
 		}
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnectAsync"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnectAsync"]' />
 		public virtual Task<bool> ChannelFailedToConnectAsync()
 		{
 			if (hasConnected)
@@ -165,12 +165,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return ChannelFailedToConnectAsync(0, Channel.State);
 		}
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IsHealthy"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IsHealthy"]' />
 		public virtual bool IsHealthy()
         {
             return ReadmitTime.ToUnixTimeMilliseconds() < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
-        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IncreaseBackoff"]/*' />
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IncreaseBackoff"]' />
         public virtual void IncreaseBackoff()
         {
             lock (this)
@@ -184,7 +184,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 					CurrentBackoff = MaxBackoff;
 			}
         }
-        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.DecreaseBackoff"]/*' />
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.DecreaseBackoff"]' />
         public virtual void DecreaseBackoff()
         {
             lock (this)
@@ -195,22 +195,22 @@ namespace Hedera.Hashgraph.SDK.Networking
 					CurrentBackoff = MinBackoff;
             }
         }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetRemainingTimeForBackoff"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetRemainingTimeForBackoff"]' />
 		public virtual long GetRemainingTimeForBackoff()
         {
             return ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
-        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetChannelCredentials"]/*' />
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetChannelCredentials"]' />
         public virtual ChannelCredentials GetChannelCredentials()
         {
             return new SslCredentials();
         }
-		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.UnhealthyBackoffRemaining"]/*' />
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.UnhealthyBackoffRemaining"]' />
 		public virtual long UnhealthyBackoffRemaining()
 		{
 			return Math.Max(0, ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 		}
-        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.Dispose(System.TimeSpan)"]/*' />
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.Dispose(System.TimeSpan)"]' />
         public virtual void Dispose(TimeSpan timeout)
         {
             lock (this)

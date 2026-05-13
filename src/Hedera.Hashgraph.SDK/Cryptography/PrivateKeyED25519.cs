@@ -18,19 +18,19 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="T:PrivateKeyED25519"]/*' />
+    /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="T:PrivateKeyED25519"]' />
     public class PrivateKeyED25519 : PrivateKey
     {
         private readonly byte[] KeyData;
         private readonly KeyParameter? ChainCode;
-        /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.#ctor(System.Byte[],KeyParameter)"]/*' />
+        /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.#ctor(System.Byte[],KeyParameter)"]' />
         internal PrivateKeyED25519(byte[] keyData, KeyParameter? chainCode)
         {
             KeyData = keyData;
             ChainCode = chainCode;
         }
 
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromSeed(System.Byte[])"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromSeed(System.Byte[])"]' />
 		public static PrivateKey FromSeed(byte[] seed)
 		{
 			var hmacSha512 = new HMac(new Sha512Digest());
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 
 			return PrivateKeyED25519.DerivableKeyED25519(derivedState);
 		}
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromBytesInternal(System.Byte[])"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromBytesInternal(System.Byte[])"]' />
 		public static PrivateKey FromBytesInternal(byte[] privateKey)
 		{
 			if ((privateKey.Length == Ed25519.SecretKeySize) || (privateKey.Length == Ed25519.SecretKeySize + Ed25519.PublicKeySize))
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			// Assume a DER-encoded private key descriptor
 			return FromPrivateKeyInfoInternal(PrivateKeyInfo.GetInstance(privateKey));
 		}
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]' />
 		public static PrivateKeyED25519 FromPrivateKeyInfoInternal(PrivateKeyInfo privateKeyInfo)
         {
             try
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             }
         }
 
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.GenerateInternal"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.GenerateInternal"]' />
 		public static PrivateKeyED25519 GenerateInternal()
 		{
 			// extra 32 bytes for chain code
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			ThreadLocalSecureRandom.Current().NextBytes(data);
 			return DerivableKeyED25519(data);
 		}
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.DerivableKeyED25519(System.Byte[])"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.DerivableKeyED25519(System.Byte[])"]' />
 		public static PrivateKeyED25519 DerivableKeyED25519(byte[] deriveData)
 		{
 			var keyData = deriveData[0..32];
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			return new PrivateKeyED25519(keyData, chainCode);
 		}
 
-		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.LegacyDeriveChildKey(System.Byte[],System.Int64)"]' />
 		public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
             byte[] seed = new byte[entropy.Length + 8];

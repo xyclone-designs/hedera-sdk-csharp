@@ -9,23 +9,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="T:ContractDeleteTransaction"]/*' />
+    /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="T:ContractDeleteTransaction"]' />
     public sealed class ContractDeleteTransaction : Transaction<ContractDeleteTransaction>
     {
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor"]/*' />
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor"]' />
         public ContractDeleteTransaction() { }
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		public ContractDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
         internal ContractDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen"]/*' />
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen"]' />
 		public ContractId? ContractId
 		{
 			get;
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_2"]' />
 		public AccountId? TransferAccountId
 		{
 			get;
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_3"]' />
 		public ContractId? TransferContractId
 		{
 			get;
@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_4"]/*' />
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_4"]' />
         public bool? PermanentRemoval
         {
             get;
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
         }
 
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractDeleteInstance;
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				PermanentRemoval = true;
 		}
 
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ToProtobuf"]/*' />
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ToProtobuf"]' />
         public Proto.Services.ContractDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ContractDeleteTransactionBody();
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return builder;
         }
 
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ValidateChecksums(Client)"]/*' />
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ValidateChecksums(Client)"]' />
 		public override void ValidateChecksums(Client client)
 		{
 			ContractId?.ValidateChecksum(client);

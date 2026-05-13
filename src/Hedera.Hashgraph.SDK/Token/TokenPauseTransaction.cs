@@ -8,23 +8,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="T:TokenPauseTransaction"]/*' />
+    /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="T:TokenPauseTransaction"]' />
     public class TokenPauseTransaction : Transaction<TokenPauseTransaction>
     {
-		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor"]/*' />
+		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor"]' />
 		public TokenPauseTransaction() { }
-		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenPauseTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenPauseTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
 		private void InitFromTransactionBody()
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenId = TokenId.FromProtobuf(body.Token);
 		}
 
-        /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenPauseTransaction.cs.xml" path='docs/member[@name="M:TokenPauseTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenPauseTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenPauseTransactionBody();

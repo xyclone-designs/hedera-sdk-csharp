@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="T:TokenInfoQuery"]/*' />
+    /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="T:TokenInfoQuery"]' />
     public class TokenInfoQuery : Query<TokenInfo, TokenInfoQuery>
     {
-        /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="P:TokenInfoQuery.TokenId"]/*' />
+        /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="P:TokenInfoQuery.TokenId"]' />
         public virtual TokenId? TokenId { get; set; }
 
 		public override void ValidateChecksums(Client client)

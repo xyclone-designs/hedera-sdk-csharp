@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="KeyList.cs.xml" path='docs/member[@name="T:KeyList"]/*' />
+    /// <include file="KeyList.cs.xml" path='docs/member[@name="T:KeyList"]' />
     public sealed class KeyList : Key, IList<Key>
     {
         public List<Key> Keys { get; init; } = [];
 
-        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.Of(System.UInt32,Key[])"]/*' />
+        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.Of(System.UInt32,Key[])"]' />
         public static KeyList Of(uint? threshold = null, params Key[] Keys) 
         {
 			return new KeyList
@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 				Keys = [.. Keys]
 			};
 		}
-        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.FromProtobuf(Proto.Services.KeyList,System.UInt32)"]/*' />
+        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.FromProtobuf(Proto.Services.KeyList,System.UInt32)"]' />
         public static KeyList FromProtobuf(Proto.Services.KeyList keyList, uint? threshold)
         {
             return new KeyList
@@ -36,12 +36,12 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			set => Keys[index] = value;
 		}
 
-		/// <include file="KeyList.cs.xml" path='docs/member[@name="P:KeyList.Threshold"]/*' />
+		/// <include file="KeyList.cs.xml" path='docs/member[@name="P:KeyList.Threshold"]' />
 		public uint? Threshold { get; set; }
         public int Count { get => Keys.Count; }
         public bool IsReadOnly { get => false; }
 
-		/// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.ToProtobuf"]/*' />
+		/// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.ToProtobuf"]' />
 		public Proto.Services.KeyList ToProtobuf()
         {
 			Proto.Services.KeyList proto = new ();

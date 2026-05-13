@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Text;
 
@@ -12,6 +12,7 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest"]" />
     public class LargeTransactionSystemAccountIntegrationTest
     {
         private static readonly int LARGE_CONTENT_SIZE_BYTES = 100 * 1024;
@@ -19,6 +20,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         private static readonly int EXTENDED_SIZE_LIMIT_BYTES = 130 * 1024;
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateLargeFile"]" />
         public virtual void PrivilegedSystemAccountCanCreateLargeFile()
         {
             using (var testEnv = CreateSystemAccountTestEnv())
@@ -46,6 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanUpdateLargeFile"]" />
         public virtual void PrivilegedSystemAccountCanUpdateLargeFile()
         {
             using (var testEnv = CreateSystemAccountTestEnv())
@@ -80,6 +83,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanAppendLargeFile"]" />
         public virtual void PrivilegedSystemAccountCanAppendLargeFile()
         {
             using (var testEnv = CreateSystemAccountTestEnv())
@@ -115,6 +119,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateLargeFile"]" />
         public virtual void NonPrivilegedAccountCannotCreateLargeFile()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount(new Hbar(50)))
@@ -141,6 +146,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCannotCreateAccountWithLargeKeyList"]" />
         public virtual void NonPrivilegedAccountCannotCreateAccountWithLargeKeyList()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount(new Hbar(50)))
@@ -182,6 +188,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedAccountAtNear130KBLimit"]" />
         public virtual void PrivilegedAccountAtNear130KBLimit()
         {
             using (var testEnv = CreateSystemAccountTestEnv())
@@ -215,6 +222,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.NonPrivilegedAccountCanCreateSmallFile"]" />
         public virtual void NonPrivilegedAccountCanCreateSmallFile()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount(new Hbar(50)))
@@ -246,6 +254,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.TreasuryAccountCanCreateLargeFile"]" />
         public virtual void TreasuryAccountCanCreateLargeFile()
         {
             using (var testEnv = CreateSystemAccountTestEnv())
@@ -277,6 +286,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="LargeTransactionSystemAccountIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LargeTransactionSystemAccountIntegrationTest.PrivilegedSystemAccountCanCreateAccountWithLargeKeyList"]" />
         public virtual void PrivilegedSystemAccountCanCreateAccountWithLargeKeyList()
         {
             using (var testEnv = CreateSystemAccountTestEnv())

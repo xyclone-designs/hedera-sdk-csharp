@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Fee
 				jsonnode["subtotal"]?.GetValue<long>() ?? throw new ArgumentException(null, "subtotal"));
         }
 
-        /// <include file="NetworkFee.cs.xml" path='docs/member[@name="P:.Multiplier"]/*' />
+        /// <include file="NetworkFee.cs.xml" path='docs/member[@name="P:.Multiplier"]' />
         public int Multiplier { get; }
         public long Subtotal { get; }
     }

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -8,9 +8,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest"]" />
     public class TokenBurnIntegrationTest
     {
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokens"]" />
         public virtual void CanBurnTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -43,6 +45,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenTokenIDIsNotSet"]" />
         public virtual void CannotBurnTokensWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -59,6 +62,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokensWhenAmountIsNotSet"]" />
         public virtual void CanBurnTokensWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -90,6 +94,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction"]" />
         public virtual void CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -125,6 +130,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnNfts"]" />
         public virtual void CanBurnNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -161,6 +167,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenBurnIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnNftsWhenNftIsNotOwned"]" />
         public virtual void CannotBurnNftsWhenNftIsNotOwned()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

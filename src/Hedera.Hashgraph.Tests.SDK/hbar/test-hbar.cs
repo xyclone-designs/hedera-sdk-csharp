@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.Reference;
 using Hedera.Hashgraph.SDK;
 using System;
@@ -7,6 +7,7 @@ using System.Numerics;
 
 namespace Hedera.Hashgraph.Tests.SDK.HBar
 {
+    /// <include file="test-hbar.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest"]" />
     public class HbarTest
     {
         private static readonly long fiftyGTinybar = 5000000000;
@@ -24,6 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         }
 
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldConstruct"]" />
         public virtual void ShouldConstruct()
         {
             Assert.Equal(fiftyHbar.ToTinybars(), fiftyGTinybar);
@@ -32,11 +34,13 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.Equal(Hbar.FromTinybars(fiftyGTinybar).ToTinybars(), fiftyGTinybar);
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldNotConstruct"]" />
         public virtual void ShouldNotConstruct()
         {
             Exception exception = Assert.Throws<Exception>(() => new Hbar(BigDecimal.Parse("0.1"), HbarUnit.TINYBAR));
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldDisplay"]" />
         public virtual void ShouldDisplay()
         {
             Assert.Equal(fiftyHbar.ToString(), "50 ℏ");
@@ -48,14 +52,17 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         }
         [Theory]
         [MemberData(nameof(ShouldConvert_Data))]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldConvert(BigDecimal,HbarUnit)"]" />
         public virtual void ShouldConvert(BigDecimal value, HbarUnit unit)
         {
+            /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.From"]" />
             Assert.Equal(Hbar.From(value, unit), fiftyHbar);
             Assert.Equal(fiftyHbar.To(unit), value);
         }
         public static IEnumerable<object?[]> ShouldConvert_Data() { yield return [BigDecimal.ValueOf(0), HbarUnit.HBAR]; }
 
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldCompare"]" />
         public virtual void ShouldCompare()
         {
             Assert.Equal(fiftyHbar, fiftyHbar);
@@ -66,11 +73,13 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.True(fiftyHbar.CompareTo(negativeFiftyHbar) > 0);
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ConstructorWorks"]" />
         public virtual void ConstructorWorks()
         {
             new Hbar(1);
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromString"]" />
         public virtual void FromString()
         {
             Assert.Equal(Hbar.FromString("1").ToTinybars(), 100000000);
@@ -90,6 +99,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             });
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromStringUnit"]" />
         public virtual void FromStringUnit()
         {
             Assert.Equal(Hbar.FromString("1", HbarUnit.TINYBAR).ToTinybars(), 1);
@@ -100,16 +110,19 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.Equal(Hbar.From(1).ToTinybars(), 100000000);
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromUnit"]" />
         public virtual void FromUnit()
         {
             Assert.Equal(Hbar.From(1, HbarUnit.TINYBAR).ToTinybars(), 1);
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.GetValue"]" />
         public virtual void GetValue()
         {
             Assert.Equal(new Hbar(1).GetValue(), BigDecimal.ValueOf(1));
         }
         [Fact]
+        /// <include file="test-hbar.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.HasHashCode"]" />
         public virtual void HasHashCode()
         {
             Assert.Equal(new Hbar(1).GetHashCode(), 100000031);

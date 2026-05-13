@@ -7,14 +7,14 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="T:PrecheckStatusException"]/*' />
+    /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="T:PrecheckStatusException"]' />
     public class PrecheckStatusException : Exception
     {
-        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)"]/*' />
+        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)"]' />
         public readonly ResponseStatus Status;
-        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_2"]/*' />
+        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_2"]' />
         public readonly TransactionId TransactionId;
-		/// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_3"]/*' />
+		/// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_3"]' />
 		internal PrecheckStatusException(ResponseStatus status, TransactionId transactionId)
         {
             Status = status;

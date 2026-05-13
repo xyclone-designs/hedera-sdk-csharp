@@ -20,20 +20,20 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="T:PrivateKeyECDSA"]/*' />
+    /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="T:PrivateKeyECDSA"]' />
     public class PrivateKeyECDSA : PrivateKey
     {
         private readonly BigInteger KeyData;
         private readonly KeyParameter? ChainCode;
 
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.PrivateKeyECDSA(BigInteger,KeyParameter)"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.PrivateKeyECDSA(BigInteger,KeyParameter)"]' />
         private PrivateKeyECDSA(BigInteger keyData, KeyParameter? chainCode)
         {
             KeyData = keyData;
             ChainCode = chainCode;
         }
 
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.BigIntTo32Bytes(BigInteger)"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.BigIntTo32Bytes(BigInteger)"]' />
         private static byte[] BigIntTo32Bytes(BigInteger n)
         {
             byte[] bytes = n.ToByteArray();
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             Array.Copy(bytes, Math.Max(0, bytes.Length - 32), bytes32, Math.Max(0, 32 - bytes.Length), Math.Min(32, bytes.Length));
             return bytes32;
         }
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.DerivableKeyECDSA(System.Byte[])"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.DerivableKeyECDSA(System.Byte[])"]' />
         private static PrivateKeyECDSA DerivableKeyECDSA(byte[] deriveData)
         {
             var keyData = deriveData.CopyArray(0, 32);
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             return new PrivateKeyECDSA(new BigInteger(1, keyData), chainCode);
         }
 
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.GenerateInternal"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.GenerateInternal"]' />
         internal static PrivateKeyECDSA GenerateInternal()
         {
             var generator = new ECKeyPairGenerator();
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             var privParams = (ECPrivateKeyParameters)keypair.Private;
             return new PrivateKeyECDSA(privParams.D, null);
         }
-		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]/*' />
+		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]' />
 		internal static PrivateKey FromPrivateKeyInfoInternal(PrivateKeyInfo privateKeyInfo)
         {
             try
@@ -85,12 +85,12 @@ namespace Hedera.Hashgraph.SDK.Cryptography
                 throw new BadKeyException(e);
             }
         }
-		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKeyStructure)"]/*' />
+		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKeyStructure)"]' />
 		internal static PrivateKey FromECPrivateKeyInternal(ECPrivateKeyStructure privateKey)
         {
             return new PrivateKeyECDSA(privateKey.GetKey(), null);
         }
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromBytesInternal(System.Byte[])"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromBytesInternal(System.Byte[])"]' />
         internal static PrivateKey FromBytesInternal(byte[] privateKey)
         {
             if (privateKey.Length == 32)
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             return FromECPrivateKeyInternal(ECPrivateKeyStructure.GetInstance(privateKey));
         }
 
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromSeed(System.Byte[])"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromSeed(System.Byte[])"]' />
         public static PrivateKey FromSeed(byte[] seed)
         {
             var hmacSha512 = new HMac(new Sha512Digest());
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             hmacSha512.DoFinal(derivedState, 0);
             return DerivableKeyECDSA(derivedState);
         }
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.LegacyDeriveChildKey(System.Byte[],System.Int64)"]' />
         public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
             throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");

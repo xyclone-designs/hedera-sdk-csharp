@@ -12,24 +12,24 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Systems
 {
-	/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="T:SystemUndeleteTransaction"]/*' />
+	/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="T:SystemUndeleteTransaction"]' />
 	[Obsolete("Obsolete")]
     public sealed class SystemUndeleteTransaction : Transaction<SystemUndeleteTransaction>
     {
-        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction"]/*' />
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction"]' />
         public SystemUndeleteTransaction() { }
-		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(Proto.Services.TransactionBody)"]' />
 		internal SystemUndeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal SystemUndeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
 		public FileId? FileId
 		{
 			get;
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				field = value;
 			}
 		}
-        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]' />
         public ContractId? ContractId 
         {
             get;
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 			}
         }
 
-        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.SystemUndelete;
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Systems
             ContractId = ContractId.FromProtobuf(body.ContractId);
         }
 
-        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]' />
         public Proto.Services.SystemUndeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.SystemUndeleteTransactionBody();

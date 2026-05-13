@@ -11,23 +11,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="T:FileUpdateTransaction"]/*' />
+    /// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="T:FileUpdateTransaction"]' />
     public sealed class FileUpdateTransaction : Transaction<FileUpdateTransaction>
     {
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor"]' />
 		public FileUpdateTransaction() { }
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal FileUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal FileUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen"]' />
 		public FileId? FileId
 		{
 			get => field;
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_2"]' />
 		public string? FileMemo
 		{
 			get => field;
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_3"]' />
 		public KeyList? Keys
 		{
 			private get;
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.File
 		}
 		public IReadOnlyList<Key>? Keys_Read { get => Keys?.AsReadOnly(); }
 
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_4"]' />
 		public ByteString? Contents
 		{
 			get => field;
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = ByteString.CopyFrom(value?.ToByteArray());
 			}
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_5"]' />
 		public byte[]? Contents_Bytes
 		{
 			set
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.File
 				Contents = ByteString.CopyFrom(value);
 			}
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_6"]' />
 		public string? Contents_String
 		{
 			set
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 		}
 
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_7"]' />
 		public DateTimeOffset? ExpirationTime
 		{
 			get => field;
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.File
             }
 		}
 
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.ToProtobuf"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.ToProtobuf"]' />
 		public Proto.Services.FileUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.FileUpdateTransactionBody
@@ -162,7 +162,7 @@ namespace Hedera.Hashgraph.SDK.File
             throw new NotImplementedException();
         }
 
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.FileUpdate;

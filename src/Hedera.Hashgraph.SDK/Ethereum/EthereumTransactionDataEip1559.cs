@@ -5,7 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="T:EthereumTransactionDataEip1559"]/*' />
+    /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="T:EthereumTransactionDataEip1559"]' />
     public class EthereumTransactionDataEip1559 : EthereumTransactionData
     {        
         private EthereumTransactionDataEip1559(byte[] chainId, byte[] nonce, byte[] maxPriorityGas, byte[] maxGas, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] accessList, byte[] recoveryId, byte[] r, byte[] s) : base(callData)
@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             S = s;
         }
 
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="M:EthereumTransactionDataEip1559.FromBytes(System.Byte[])"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="M:EthereumTransactionDataEip1559.FromBytes(System.Byte[])"]' />
         public new static EthereumTransactionDataEip1559 FromBytes(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -62,27 +62,27 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             );
         }
 
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.ChainId"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.ChainId"]' />
         public byte[] ChainId { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Nonce"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Nonce"]' />
         public byte[] Nonce { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxPriorityGas"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxPriorityGas"]' />
         public byte[] MaxPriorityGas { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxGas"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxGas"]' />
         public byte[] MaxGas { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.GasLimit"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.GasLimit"]' />
         public byte[] GasLimit { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.To"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.To"]' />
         public byte[] To { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Value"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Value"]' />
         public byte[] Value { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.AccessList"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.AccessList"]' />
         public byte[] AccessList { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.RecoveryId"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.RecoveryId"]' />
         public byte[] RecoveryId { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.R"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.R"]' />
         public byte[] R { get; }
-        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.S"]/*' />
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.S"]' />
         public byte[] S { get; }
 
         public override byte[] ToBytes()

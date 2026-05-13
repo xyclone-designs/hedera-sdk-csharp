@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="T:NodeAddressBook"]/*' />
+	/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="T:NodeAddressBook"]' />
 	public class NodeAddressBook
     {
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromBytes(ByteString)"]/*' />
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromBytes(ByteString)"]' />
 		public static NodeAddressBook FromBytes(ByteString bytes)
 		{
 			return FromProtobuf(Proto.Services.NodeAddressBook.Parser.ParseFrom(bytes));
 		}
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromProtobuf(Proto.Services.NodeAddressBook)"]/*' />
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromProtobuf(Proto.Services.NodeAddressBook)"]' />
 		public static NodeAddressBook FromProtobuf(Proto.Services.NodeAddressBook book)
 		{
 			var addresses = new List<NodeAddress>(book.NodeAddress.Count);
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return cloneAddresses;
 		}
 
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.CloneNodeAddresses(field)"]/*' />
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.CloneNodeAddresses(field)"]' />
 		public virtual List<NodeAddress> NodeAddresses
         {
             get => CloneNodeAddresses(field);
@@ -45,12 +45,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 
         } = [];
 
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToBytes"]/*' />
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToBytes"]' />
 		public virtual ByteString ToBytes()
 		{
 			return ToProtobuf().ToByteString();
 		}
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToProtobuf"]/*' />
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToProtobuf"]' />
 		public virtual Proto.Services.NodeAddressBook ToProtobuf()
         {
 			Proto.Services.NodeAddressBook proto = new ();

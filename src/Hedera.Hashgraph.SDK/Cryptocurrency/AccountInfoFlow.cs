@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-    /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="T:AccountInfoFlow"]/*' />
+    /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="T:AccountInfoFlow"]' />
     public class AccountInfoFlow
     {
 		private static PublicKey RequirePublicKey(AccountId accountId, Key key)
@@ -35,24 +35,24 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			return RequirePublicKey(accountId, accountinfo.Key);
         }
 
-        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifySignature(Client,AccountId,System.Byte[],System.Byte[])"]/*' />
+        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifySignature(Client,AccountId,System.Byte[],System.Byte[])"]' />
         public static bool VerifySignature(Client client, AccountId accountId, byte[] message, byte[] signature)
         {
             return GetAccountPublicKey(client, accountId).Verify(message, signature);
         }
-        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifyTransactionSignature``1(Client,AccountId,Transaction{``0})"]/*' />
+        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifyTransactionSignature``1(Client,AccountId,Transaction{``0})"]' />
         public static bool VerifyTransactionSignature<T>(Client client, AccountId accountId, Transaction<T> transaction) where T : Transaction<T>
 		{
             return GetAccountPublicKey(client, accountId).VerifyTransaction(transaction);
         }
-        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifySignatureAsync(Client,AccountId,System.Byte[],System.Byte[])"]/*' />
+        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifySignatureAsync(Client,AccountId,System.Byte[],System.Byte[])"]' />
         public static async Task<bool> VerifySignatureAsync(Client client, AccountId accountId, byte[] message, byte[] signature)
         {
             PublicKey publickey = await GetAccountPublicKeyAsync(client, accountId);
 
 			return publickey.Verify(message, signature);
         }
-        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifyTransactionSignatureAsync``1(Client,AccountId,Transaction{``0})"]/*' />
+        /// <include file="AccountInfoFlow.cs.xml" path='docs/member[@name="M:AccountInfoFlow.VerifyTransactionSignatureAsync``1(Client,AccountId,Transaction{``0})"]' />
         public static async Task<bool> VerifyTransactionSignatureAsync<T>(Client client, AccountId accountId, Transaction<T> transaction) where T : Transaction<T>
         {
 			PublicKey publickey = await GetAccountPublicKeyAsync(client, accountId);

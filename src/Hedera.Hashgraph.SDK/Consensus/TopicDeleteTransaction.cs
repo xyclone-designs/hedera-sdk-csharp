@@ -9,29 +9,29 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="T:TopicDeleteTransaction"]/*' />
+    /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="T:TopicDeleteTransaction"]' />
     public sealed class TopicDeleteTransaction : Transaction<TopicDeleteTransaction>
     {
-		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor"]/*' />
+		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor"]' />
 		public TopicDeleteTransaction() { }
-		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TopicDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TopicDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.RequireNotFrozen"]' />
         public TopicId? TopicId
         {
             get; set { RequireNotFrozen(); field = value; }
         }
 
-        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusDeleteTopic;
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			TopicId = TopicId.FromProtobuf(body.TopicId);
 		}
 
-        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.ToProtobuf"]/*' />
+        /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.ToProtobuf"]' />
         public Proto.Services.ConsensusDeleteTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ConsensusDeleteTopicTransactionBody();

@@ -13,19 +13,19 @@ using Hedera.Hashgraph.SDK.Ethereum;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="T:PublicKeyECDSA"]/*' />
+    /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="T:PublicKeyECDSA"]' />
     public class PublicKeyECDSA : PublicKey
     {
         // Compressed 33 byte form
         private readonly byte[] KeyData;
 
-        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.#ctor(System.Byte[])"]/*' />
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.#ctor(System.Byte[])"]' />
         private PublicKeyECDSA(byte[] keyData)
         {
             KeyData = keyData;
         }
 
-        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromBytesInternal(System.Byte[])"]/*' />
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromBytesInternal(System.Byte[])"]' />
         public static PublicKeyECDSA FromBytesInternal(byte[] publicKey)
         {
             // Validate the key if it's not all zero public key, see HIP-540
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			// Assume a DER-encoded public key descriptor
 			return FromSubjectKeyInfoInternal(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]/*' />
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]' />
         public static PublicKeyECDSA FromSubjectKeyInfoInternal(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             return FromBytesInternal(subjectPublicKeyInfo.PublicKeyData.GetBytes());

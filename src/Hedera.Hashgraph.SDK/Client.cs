@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="Client.cs.xml" path='docs/member[@name="T:Client"]/*' />
+	/// <include file="Client.cs.xml" path='docs/member[@name="T:Client"]' />
 	public sealed partial class Client : IDisposable
     {
 		private readonly bool ShouldShutdownExecutor;
@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK
         private Task? NetworkUpdateFuture;
         private CancellationTokenSource? NetworkUpdateFutureCancellationTokenSource;
         
-        /// <include file="Client.cs.xml" path='docs/member[@name="M:Client.#ctor(ExecutorService,Network,MirrorNetwork,System.TimeSpan,System.Boolean,System.TimeSpan,System.Int64,System.Int64)"]/*' />
+        /// <include file="Client.cs.xml" path='docs/member[@name="M:Client.#ctor(ExecutorService,Network,MirrorNetwork,System.TimeSpan,System.Boolean,System.TimeSpan,System.Int64,System.Int64)"]' />
         internal Client(ExecutorService executor, Network network, MirrorNetwork mirrorNetwork, TimeSpan? networkUpdateInitialDelay, bool shouldShutdownExecutor, TimeSpan? networkUpdatePeriod, long shard, long realm)
         {
             Executor = executor;
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK
 		public Network Network_ { get; internal set; }
 		public MirrorNetwork MirrorNetwork_ { get; internal set; }
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_2"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_2"]' />
 		public NodeAddressBook NetworkFromAddressBook
 		{
 			set
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_3"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_3"]' />
 		public bool AutoValidateChecksums
 		{
 			get { lock (this) return field; }
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_4"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_4"]' />
 		public bool DefaultRegenerateTransactionId
 		{
 			get { lock (this) return field; }
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		} = true;
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.GetRestBaseUrl"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.GetRestBaseUrl"]' />
 		public string MirrorRestBaseUrl
 		{
 			get
@@ -98,36 +98,36 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_2"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_2"]' />
 		public bool MirrorTransportSecurity
 		{
 			// No-op setter preserved for API compatibility
 			set { /* intentionally ignored */ }
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_3"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_3"]' />
 		public bool MirrorTransportSecurityEnabled
 		{
 			get => MirrorNetwork_.TransportSecurity;
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_4"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_4"]' />
 		public bool TransportSecurity
 		{
 			get => Network_.TransportSecurity;
 			set => Network_.TransportSecurity = value;
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_5"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_5"]' />
 		public bool VerifyCertificates
 		{
 			get => Network_.VerifyCertificates;
 			set => Network_.VerifyCertificates = value;
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="P:Client.Realm"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="P:Client.Realm"]' />
 		public long Realm { get; private set; }
-		/// <include file="Client.cs.xml" path='docs/member[@name="P:Client.Shard"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="P:Client.Shard"]' />
 		public long Shard { get; private set; }
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_5"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_5"]' />
 		public int MaxAttempts
 		{
 			get { lock (this) return field; }
@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		} = DEFAULT_MAX_ATTEMPTS;
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_6"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_6"]' />
 		public int MaxNodeAttempts
 		{
 			get
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK
 				lock (this) Network_.MaxNodeAttempts = value;
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.FromTicks(Volatile.Read(ref)"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.FromTicks(Volatile.Read(ref)"]' />
 		public TimeSpan MinBackoff
 		{
 			get => TimeSpan.FromTicks(Volatile.Read(ref _MinBackoff));
@@ -179,7 +179,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 		} private long _MinBackoff = DEFAULT_MIN_BACKOFF.Ticks;
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.FromTicks(Volatile.Read(ref)_2"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.FromTicks(Volatile.Read(ref)_2"]' />
 		public TimeSpan MaxBackoff
 		{
 			get => TimeSpan.FromTicks(Volatile.Read(ref _MaxBackoff));
@@ -199,7 +199,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 		} private long _MaxBackoff = DEFAULT_MAX_BACKOFF.Ticks;
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_7"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_7"]' />
 		public TimeSpan NodeMinBackoff
 		{
 			get
@@ -214,7 +214,7 @@ namespace Hedera.Hashgraph.SDK
 				lock (this) Network_.MinNodeBackoff = value;
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_8"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_8"]' />
 		public TimeSpan NodeMaxBackoff
 		{
 			get
@@ -229,20 +229,20 @@ namespace Hedera.Hashgraph.SDK
 				lock (this) Network_.MaxNodeBackoff = value;
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_6"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_6"]' />
 		public TimeSpan MinNodeReadmitTime
 		{
 			get => Network_.MinNodeReadmitTime;
 			set => Network_.MinNodeReadmitTime = value;
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_9"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_9"]' />
 		public TimeSpan MaxNodeReadmitTime
 		{
 			get => Network_.MaxNodeReadmitTime;
 			set => Network_.MaxNodeReadmitTime = value;
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_10"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_10"]' />
 		public Operator Operator_
 		{
 			private set;
@@ -254,7 +254,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_11"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_11"]' />
 		public AccountId OperatorAccountId
 		{
 			get { lock (this) return Operator_.AccountId; }
@@ -266,7 +266,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_12"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_12"]' />
 		public PublicKey OperatorPublicKey
 		{
 			get { lock (this) return Operator_.PublicKey; }
@@ -279,14 +279,14 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.OperatorSet(AccountId,PrivateKey)"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.OperatorSet(AccountId,PrivateKey)"]' />
 		public Client OperatorSet(AccountId accountId, PrivateKey privateKey)
 		{
 			lock (this) OperatorSetWith(accountId, privateKey.GetPublicKey(), privateKey.Sign);
 
 			return this;
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.OperatorSetWith(AccountId,PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.OperatorSetWith(AccountId,PublicKey,System.Func{System.Byte[],System.Byte[]})"]' />
 		public Client OperatorSetWith(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
 			lock (this)
@@ -307,7 +307,7 @@ namespace Hedera.Hashgraph.SDK
 			return this;
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_13"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_13"]' />
 		public Hbar? DefaultMaxTransactionFee
 		{
 			get { lock (this) return field; }
@@ -326,7 +326,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_14"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_14"]' />
 		public Hbar DefaultMaxQueryPayment
 		{
 			get { lock (this) return field; }
@@ -347,13 +347,13 @@ namespace Hedera.Hashgraph.SDK
 
 		} = DEFAULT_MAX_QUERY_PAYMENT;
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_15"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_15"]' />
 		public TimeSpan RequestTimeout
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_7"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="T:Client_7"]' />
 		public TimeSpan CloseTimeout
 		{
 			get => field;
@@ -364,13 +364,13 @@ namespace Hedera.Hashgraph.SDK
 				MirrorNetwork_.CloseTimeout = value;
 			}
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Write(_GrpcDeadline_Ticks@,value.)"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Write(_GrpcDeadline_Ticks@,value.)"]' />
 		public TimeSpan GrpcDeadline
 		{
 			set => Volatile.Write(ref _GrpcDeadline_Ticks, value.Ticks);
 			get => TimeSpan.FromTicks(Volatile.Read(ref _GrpcDeadline_Ticks));
 		}
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_16"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_16"]' />
 		public TimeSpan? NetworkUpdatePeriod
 		{
 			get { lock (this) return field; }
@@ -450,7 +450,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.UpdateNetworkFromAddressBook"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.UpdateNetworkFromAddressBook"]' />
 		public Client UpdateNetworkFromAddressBook()
 		{
 			lock (this)
@@ -482,7 +482,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Dispose"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Dispose"]' />
 		public void Dispose()
         {
             lock (this)
@@ -490,7 +490,7 @@ namespace Hedera.Hashgraph.SDK
                 Dispose(CloseTimeout);
             }
         }
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Dispose(System.TimeSpan)"]/*' />
+		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.Dispose(System.TimeSpan)"]' />
 		public void Dispose(TimeSpan timeout)
         {
             lock (this)

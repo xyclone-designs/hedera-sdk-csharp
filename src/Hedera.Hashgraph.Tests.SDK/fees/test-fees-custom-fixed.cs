@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
@@ -8,6 +8,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
+    /// <include file="test-fees-custom-fixed.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest"]" />
     public class CustomFixedFeeTest
     {
         private static readonly bool allCollectorsAreExempt = true;
@@ -25,6 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToString());
         }
         [Fact]
+        /// <include file="test-fees-custom-fixed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.DeepCloneSubclass"]" />
         public virtual void DeepCloneSubclass()
         {
             var customFixedFee = new CustomFixedFee
@@ -48,6 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToFixedFeeProtobuf().ToString());
         }
         [Fact]
+        /// <include file="test-fees-custom-fixed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.GetSetAmount"]" />
         public virtual void GetSetAmount()
         {
             var customFixedFee1 = new CustomFixedFee { Amount = amount };
@@ -58,6 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFixedFee1.AmountHbar.ToTinybars(), customFixedFee2.Amount);
         }
         [Fact]
+        /// <include file="test-fees-custom-fixed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.GetSetDenominatingToken"]" />
         public virtual void GetSetDenominatingToken()
         {
             var customFixedFee = new CustomFixedFee
@@ -68,6 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFixedFee.DenominatingTokenId, tokenId);
         }
         [Fact]
+        /// <include file="test-fees-custom-fixed.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.SetSentinelValueToken"]" />
         public virtual void SetSentinelValueToken()
         {
             var customFixedFee = new CustomFixedFee().SetDenominatingTokenToSameToken();

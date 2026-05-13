@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]/*' />
-    /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
+    /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]' />
+    /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]' />
     public sealed class TransactionId(AccountId? accountId, DateTimeOffset? validStart) : IComparable<TransactionId>
     {
 		private static readonly long NANOSECONDS_PER_MILLISECOND = 1000000;
@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		private static readonly long NANOSECONDS_TO_REMOVE = 10000000000;
 		private static long monotonicTime = -1;
 
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.Generate(AccountId)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.Generate(AccountId)"]' />
         public static TransactionId Generate(AccountId accountId)
 		{
 			long currentTime;
@@ -49,13 +49,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return new TransactionId(accountId, DateTimeOffset.UtcNow.AddNanoseconds((int)(currentTime + Random.Shared.NextInt64(1000))));
 		}
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.WithValidStart(AccountId,DateTimeOffset)"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.WithValidStart(AccountId,DateTimeOffset)"]' />
 		public static TransactionId WithValidStart(AccountId accountId, DateTimeOffset validStart)
         {
 			return new TransactionId(accountId, validStart);
         }
 
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromString(System.String)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromString(System.String)"]' />
         public static TransactionId FromString(string s)
         {
             var parts = s.Split("/", 2);
@@ -86,12 +86,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Nonce = nonce
 			};
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromBytes(System.Byte[])"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromBytes(System.Byte[])"]' />
         public static TransactionId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.TransactionID.Parser.ParseFrom(bytes));
         }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.Services.TransactionId)"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.Services.TransactionId)"]' />
 		public static TransactionId FromProtobuf(Proto.Services.TransactionID transactionId)
 		{
 			return new TransactionId(AccountId.FromProtobuf(transactionId.AccountId), transactionId.TransactionValidStart.ToDateTimeOffset())
@@ -101,13 +101,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 		}
 
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Nonce"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Nonce"]' />
 		public int? Nonce { get; set; }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]' />
         public bool Scheduled { get; set; } = false;
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]' />
         public AccountId? AccountId { get; } = accountId;
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]' />
         public DateTimeOffset ValidStart { get; } = validStart ?? DateTimeOffset.UtcNow;
 
         private string ToStringPostfix()
@@ -115,12 +115,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return "@" + ValidStart.ToUnixTimeSeconds() + "." + ValidStart.Nanosecond + (Scheduled ? "?scheduled" : "") + (Nonce != null ? "/" + Nonce : "");
 		}
 
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client)"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client)"]' />
 		public TransactionReceipt GetReceipt(Client client)
         {
             return GetReceipt(client, client.RequestTimeout);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client,System.TimeSpan)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client,System.TimeSpan)"]' />
         public TransactionReceipt GetReceipt(Client client, TimeSpan timeout)
         {
             var receipt = new TransactionReceiptQuery
@@ -134,12 +134,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return receipt;
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client)"]' />
         public Task<TransactionReceipt> GetReceiptAsync(Client client)
         {
             return GetReceiptAsync(client, client.RequestTimeout);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan)"]' />
         public async Task<TransactionReceipt> GetReceiptAsync(Client client, TimeSpan timeout)
         {
             TransactionReceipt transactionreceipt = await new TransactionReceiptQuery
@@ -153,33 +153,33 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return transactionreceipt;
 		}
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt,System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt,System.Exception})"]' />
         public void GetReceiptAsync(Client client, Action<TransactionReceipt?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetReceiptAsync(client), callback);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt,System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt,System.Exception})"]' />
         public void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetReceiptAsync(client, timeout), callback);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt},System.Action{System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt},System.Action{System.Exception})"]' />
         public void GetReceiptAsync(Client client, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetReceiptAsync(client), onSuccess, onFailure);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt},System.Action{System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt},System.Action{System.Exception})"]' />
         public void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetReceiptAsync(client, timeout), onSuccess, onFailure);
         }
 
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client)"]' />
         public TransactionRecord GetRecord(Client client)
         {
             return GetRecord(client, client.RequestTimeout);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client,System.TimeSpan)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client,System.TimeSpan)"]' />
         public TransactionRecord GetRecord(Client client, TimeSpan timeout)
         {
             GetReceipt(client, timeout);
@@ -190,12 +190,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			}.Execute(client, timeout);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client)"]' />
         public Task<TransactionRecord> GetRecordAsync(Client client)
         {
             return GetRecordAsync(client, client.RequestTimeout);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan)"]' />
         public async Task<TransactionRecord> GetRecordAsync(Client client, TimeSpan timeout)
         {
             // note: we get the receipt first to ensure consensus has been reached
@@ -207,22 +207,22 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			}.ExecuteAsync(client, timeout);
 		}
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord,System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord,System.Exception})"]' />
         public void GetRecordAsync(Client client, Action<TransactionRecord?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetRecordAsync(client), callback);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord,System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord,System.Exception})"]' />
         public void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetRecordAsync(client, timeout), callback);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord},System.Action{System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord},System.Action{System.Exception})"]' />
         public void GetRecordAsync(Client client, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetRecordAsync(client), onSuccess, onFailure);
         }
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord},System.Action{System.Exception})"]/*' />
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord},System.Action{System.Exception})"]' />
         public void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetRecordAsync(client, timeout), onSuccess, onFailure);
@@ -243,12 +243,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return ValidStart.CompareTo(o.ValidStart);
 		}
 
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToBytes"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToBytes"]' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToProtobuf"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToProtobuf"]' />
 		public Proto.Services.TransactionID ToProtobuf()
 		{
 			return new Proto.Services.TransactionID
@@ -259,7 +259,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 TransactionValidStart = ValidStart.ToProtoTimestamp()
             };
         }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToStringWithChecksum(Client)"]/*' />
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToStringWithChecksum(Client)"]' />
 		public string ToStringWithChecksum(Client client)
 		{
             return "" + AccountId.ToStringWithChecksum(client) + ToStringPostfix();

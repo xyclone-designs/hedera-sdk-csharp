@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -12,6 +12,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
+    /// <include file="test-token-nft-info.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Nfts.TokenNftInfoTest"]" />
     public class TokenNftInfoTest
     {
         static readonly DateTimeOffset creationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -21,6 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             return new TokenNftInfo(TokenId.FromString("1.2.3").Nft(4), AccountId.FromString("5.6.7"), creationTime, Hex.Decode("deadbeef"), LedgerId.MAINNET, spenderAccountId);
         }
         [Fact]
+        /// <include file="test-token-nft-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenNftInfoTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(AccountId.FromString("8.9.10"));
@@ -31,6 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Verifier.Verify(originalTokenInfo.ToString());
         }
         [Fact]
+        /// <include file="test-token-nft-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenNftInfoTest.ShouldSerializeNullSpender"]" />
         public virtual void ShouldSerializeNullSpender()
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(null);

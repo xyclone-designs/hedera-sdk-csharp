@@ -2,13 +2,13 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="HookId.cs.xml" path='docs/member[@name="T:HookId"]/*' />
+    /// <include file="HookId.cs.xml" path='docs/member[@name="T:HookId"]' />
     public class HookId(HookEntityId entityId, long hookId)
     {
         public HookEntityId EntityId { get; } = entityId;
         public long HookId_ { get; } = hookId;
 
-        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.ToProtobuf"]/*' />
+        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.ToProtobuf"]' />
         public virtual Proto.Services.HookID ToProtobuf()
         {
             return new Proto.Services.HookID
@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.Hook
             };
         }
 
-        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.Services.HookId)"]/*' />
+        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.Services.HookId)"]' />
         public static HookId FromProtobuf(Proto.Services.HookID proto)
         {
             return new HookId(HookEntityId.FromProtobuf(proto.EntityId), proto.HookId);

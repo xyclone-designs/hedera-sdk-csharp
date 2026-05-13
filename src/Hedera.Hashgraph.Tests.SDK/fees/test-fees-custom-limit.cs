@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
+    /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest"]" />
     public class CustomFeeLimitTest
     {
         private static readonly AccountId TEST_PAYER_ID = new AccountId(0, 0, 1234);
@@ -46,11 +47,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             return CustomFeeLimit.FromProtobuf(proto);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestGetPayerId"]" />
         public virtual void TestGetPayerId()
         {
             Assert.Equal(TEST_PAYER_ID, TEST_CUSTOM_FEE_LIMIT.PayerId);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestSetPayerId"]" />
         public virtual void TestSetPayerId()
         {
             AccountId newPayerId = new (0, 0, 5678);
@@ -65,11 +68,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(newPayerId, updatedFeeLimit.PayerId);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestGetCustomFees"]" />
         public virtual void TestGetCustomFees()
         {
             Assert.Same(TEST_FEES, TEST_CUSTOM_FEE_LIMIT.CustomFees);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestSetCustomFees"]" />
         public virtual void TestSetCustomFees()
         {
             IList<CustomFixedFee> newFees = [];
@@ -84,6 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(newFees, updatedFeeLimit.CustomFees);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestToProtobuf"]" />
         public virtual void TestToProtobuf()
         {
             // Create a protobuf representation manually
@@ -94,6 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.False(proto.CustomFees.Count == 0);
         }
         [Fact]
+        /// <include file="test-fees-custom-limit.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestFromProtobuf"]" />
         public virtual void TestFromProtobuf()
         {
             var proto = new Proto.Services.CustomFeeLimit

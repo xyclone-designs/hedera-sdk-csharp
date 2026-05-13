@@ -10,23 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="T:ContractExecuteTransaction"]/*' />
+    /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="T:ContractExecuteTransaction"]' />
     public sealed class ContractExecuteTransaction : Transaction<ContractExecuteTransaction>
     {
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor"]' />
         public ContractExecuteTransaction() { }
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal ContractExecuteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal ContractExecuteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen"]' />
         public long Gas
         {
             get;
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
         }
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_2"]' />
 		public Hbar PayableAmount
         {
             get;
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
         } = new Hbar(0);
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_3"]' />
 		public ContractId? ContractId
 		{
 			get;
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_4"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_4"]' />
         public ByteString FunctionParameters
         {
             get;
@@ -71,12 +71,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         } = ByteString.CopyFrom([]);
 
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String)"]/*' />
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String)"]' />
 		public ContractExecuteTransaction SetFunction(string name)
         {
             return SetFunction(name, new ContractFunctionParameters());
         }
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String,ContractFunctionParameters @)"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String,ContractFunctionParameters @)"]' />
         public ContractExecuteTransaction SetFunction(string name, ContractFunctionParameters @params)
         {
             FunctionParameters = ByteString.CopyFrom(@params.ToBytes(name).ToByteArray());
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return this;
         }
 
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.InitFromTransactionBody"]' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractCall;
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             FunctionParameters = body.FunctionParameters;
         }
 
-        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.ToProtobuf"]/*' />
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.ToProtobuf"]' />
         public Proto.Services.ContractCallTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ContractCallTransactionBody

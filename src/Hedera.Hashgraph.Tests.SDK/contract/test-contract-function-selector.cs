@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -7,9 +7,11 @@ using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
+    /// <include file="test-contract-function-selector.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest"]" />
     public class ContractFunctionSelectorTest
     {
         [Fact]
+        /// <include file="test-contract-function-selector.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest.Selector"]" />
         public virtual void Selector()
         {
             var signature = new ContractFunctionSelector("testFunction")
@@ -44,6 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(Hex.ToHexString(signature), "4438e4ce");
         }
         [Fact]
+        /// <include file="test-contract-function-selector.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest.SelectorError"]" />
         public virtual void SelectorError()
         {
             var signature = new ContractFunctionSelector("testFunction").AddAddress();

@@ -13,7 +13,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="Key.cs.xml" path='docs/member[@name="T:Key"]/*' />
+    /// <include file="Key.cs.xml" path='docs/member[@name="T:Key"]' />
     public abstract class Key : IKey
     {
         internal static readonly DerObjectIdentifier ID_ED25519 = new ("1.3.101.112");
@@ -22,12 +22,12 @@ namespace Hedera.Hashgraph.SDK.Cryptography
         internal static readonly X9ECParameters ECDSA_SECP256K1_CURVE = SecNamedCurves.GetByName("secp256k1");
         internal static readonly ECDomainParameters ECDSA_SECP256K1_DOMAIN = new (ECDSA_SECP256K1_CURVE.Curve, ECDSA_SECP256K1_CURVE.G, ECDSA_SECP256K1_CURVE.N, ECDSA_SECP256K1_CURVE.H);
 
-		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromBytes(System.Byte[])"]/*' />
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromBytes(System.Byte[])"]' />
 		public static Key? FromBytes(byte[] bytes)
 		{
 			return FromProtobufKey(Proto.Services.Key.Parser.ParseFrom(bytes));
 		}
-		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Services.Key)"]/*' />
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Services.Key)"]' />
 		public static Key? FromProtobufKey(Proto.Services.Key key)
         {
             if (key is null) return null; 
@@ -49,10 +49,10 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             };
         }
 
-        /// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToProtobufKey"]/*' />
+        /// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToProtobufKey"]' />
         public abstract Proto.Services.Key ToProtobufKey();
 
-		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToBytes"]/*' />
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToBytes"]' />
 		public virtual byte[] ToBytes()
         {
             return ToProtobufKey().ToByteArray();

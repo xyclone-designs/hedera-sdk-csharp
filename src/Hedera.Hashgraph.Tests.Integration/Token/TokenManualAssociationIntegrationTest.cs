@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Contract;
@@ -9,9 +9,11 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest"]" />
     public class TokenManualAssociationIntegrationTest
     {
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithFungibleToken"]" />
         public virtual void CanManuallyAssociateAccountWithFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -49,6 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateAccountWithNft"]" />
         public virtual void CanManuallyAssociateAccountWithNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -82,6 +85,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithFungibleToken"]" />
         public virtual void CanManuallyAssociateContractWithFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -120,6 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanManuallyAssociateContractWithNft"]" />
         public virtual void CanManuallyAssociateContractWithNft()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -157,6 +162,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet"]" />
         public virtual void CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -172,6 +178,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWithTokensWhenAccountIDIsNotSet"]" />
         public virtual void CannotAssociateAccountWithTokensWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -187,6 +194,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenManualAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenManualAssociationIntegrationTest.CannotAssociateAccountWhenAccountDoesNotSignTransaction"]" />
         public virtual void CannotAssociateAccountWhenAccountDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

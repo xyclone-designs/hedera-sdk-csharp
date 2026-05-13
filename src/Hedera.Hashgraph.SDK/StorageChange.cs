@@ -4,17 +4,17 @@ using System.Numerics;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="StorageChange.cs.xml" path='docs/member[@name="T:StorageChange"]/*' />
+	/// <include file="StorageChange.cs.xml" path='docs/member[@name="T:StorageChange"]' />
 	[Obsolete("Obsolete")]
     public class StorageChange
     {
-        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.Slot"]/*' />
+        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.Slot"]' />
         public readonly BigInteger Slot;
-        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.ValueRead"]/*' />
+        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.ValueRead"]' />
         public readonly BigInteger ValueRead;
-        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.ValueWritten"]/*' />
+        /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.ValueWritten"]' />
         public readonly BigInteger ValueWritten;
-        /// <include file="StorageChange.cs.xml" path='docs/member[@name="M:StorageChange(BigInteger,BigInteger,BigInteger)"]/*' />
+        /// <include file="StorageChange.cs.xml" path='docs/member[@name="M:StorageChange(BigInteger,BigInteger,BigInteger)"]' />
         StorageChange(BigInteger slot, BigInteger valueRead, BigInteger valueWritten)
         {
             Slot = slot;

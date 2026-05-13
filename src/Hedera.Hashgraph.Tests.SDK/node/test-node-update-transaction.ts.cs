@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Node
 {
+    /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest"]" />
     public class NodeUpdateTransactionTest
     {
         private static readonly PrivateKey TEST_PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -40,6 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         private static readonly PublicKey TEST_ADMIN_KEY = PrivateKey.FromString("302e020100300506032b65700422042062c4b69e9f45a554e5424fb5a6fe5e6ac1f19ead31dc7718c2d980fd1f998d4b").GetPublicKey();
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
@@ -85,6 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             .Sign(TEST_PRIVATE_KEY);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -93,6 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeUpdateTransaction();
@@ -101,6 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.TestUnrecognizedServicePort"]" />
         public virtual void TestUnrecognizedServicePort()
         {
             var tx = new NodeUpdateTransaction
@@ -117,6 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.TestEmptyCertificates"]" />
         public virtual void TestEmptyCertificates()
         {
             // Empty gRPC certificate hash is allowed (network validates it)
@@ -132,6 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(deserializedTx.GrpcCertificateHash, new byte[] { });
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.TestSetNull"]" />
         public virtual void TestSetNull()
         {
             _ = new NodeUpdateTransaction
@@ -143,6 +150,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			};
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -154,6 +162,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.IsType<NodeUpdateTransaction>(tx);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ConstructNodeUpdateTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructNodeUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.Services.NodeUpdateTransactionBody
@@ -190,6 +199,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.DeclineReward, true);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetNodeId"]" />
         public virtual void GetSetNodeId()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -199,12 +209,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.NodeId, TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetNodeIdFrozen"]" />
         public virtual void GetSetNodeIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.NodeId = TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetAccountId"]" />
         public virtual void GetSetAccountId()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -214,12 +226,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.AccountId, TEST_ACCOUNT_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetAccountIdFrozen"]" />
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = TEST_ACCOUNT_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetDescription"]" />
         public virtual void GetSetDescription()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -229,12 +243,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.Description, TEST_DESCRIPTION);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetDescriptionFrozen"]" />
         public virtual void GetSetDescriptionFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Description = TEST_DESCRIPTION);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetGossipEndpoints"]" />
         public virtual void GetSetGossipEndpoints()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -244,12 +260,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.GossipEndpoints, TEST_GOSSIP_ENDPOINTS);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.SetTestGossipEndpointsFrozen"]" />
         public virtual void SetTestGossipEndpointsFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GossipEndpoints = TEST_GOSSIP_ENDPOINTS);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetServiceEndpoints"]" />
         public virtual void GetSetServiceEndpoints()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -259,12 +277,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.ServiceEndpoints, TEST_SERVICE_ENDPOINTS);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetServiceEndpointsFrozen"]" />
         public virtual void GetSetServiceEndpointsFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ServiceEndpoints = TEST_SERVICE_ENDPOINTS);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetGossipCaCertificate"]" />
         public virtual void GetSetGossipCaCertificate()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -274,12 +294,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.GossipCaCertificate, TEST_GOSSIP_CA_CERTIFICATE);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetGossipCaCertificateFrozen"]" />
         public virtual void GetSetGossipCaCertificateFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GossipCaCertificate = TEST_GOSSIP_CA_CERTIFICATE);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetGrpcCertificateHash"]" />
         public virtual void GetSetGrpcCertificateHash()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -289,12 +311,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.GrpcCertificateHash, TEST_GRPC_CERTIFICATE_HASH);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetGrpcCertificateHashFrozen"]" />
         public virtual void GetSetGrpcCertificateHashFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GrpcCertificateHash = TEST_GRPC_CERTIFICATE_HASH);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetAdminKey"]" />
         public virtual void GetSetAdminKey()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -304,12 +328,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.AdminKey, TEST_ADMIN_KEY);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetAdminKeyFrozen"]" />
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AdminKey = TEST_ADMIN_KEY);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetDeclineReward"]" />
         public virtual void GetSetDeclineReward()
         {
             var tx = new NodeUpdateTransaction
@@ -319,12 +345,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx.DeclineReward, true);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetSetDeclineRewardFrozen"]" />
         public virtual void GetSetDeclineRewardFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.DeclineReward = false);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.GetGrpcWebProxyEndpoint"]" />
         public virtual void GetGrpcWebProxyEndpoint()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -334,12 +362,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeUpdateTransaction.GrpcWebProxyEndpoint, TEST_GRPC_WEB_PROXY_ENDPOINT);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.SetGrpcWebProxyEndpointRequiresFrozen"]" />
         public virtual void SetGrpcWebProxyEndpointRequiresFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GrpcWebProxyEndpoint = TEST_GRPC_WEB_PROXY_ENDPOINT);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldFreezeSuccessfullyWhenNodeIdIsSet"]" />
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSet()
         {
             var transaction = new NodeUpdateTransaction
@@ -354,6 +384,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(transaction.NodeId, TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenFreezingWithoutSettingNodeId"]" />
         public virtual void ShouldThrowErrorWhenFreezingWithoutSettingNodeId()
         {
             var transaction = new NodeUpdateTransaction
@@ -367,6 +398,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "NodeUpdateTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenFreezingWithZeroNodeId"]" />
         public virtual void ShouldThrowErrorWhenFreezingWithZeroNodeId()
         {
             var transaction = new NodeUpdateTransaction
@@ -379,6 +411,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "NodeUpdateTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet"]" />
         public virtual void ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet()
         {
 			var transaction = new NodeUpdateTransaction
@@ -394,6 +427,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(transaction.NodeId, TEST_NODE_ID);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldFreezeSuccessfullyWhenNodeIdIsSetWithAdditionalFields"]" />
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSetWithAdditionalFields()
         {
             var transaction = new NodeUpdateTransaction
@@ -414,6 +448,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(transaction.DeclineReward, false);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt"]" />
         public virtual void ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt()
         {
             var transaction = new NodeUpdateTransaction();
@@ -423,6 +458,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         }
 
         [Fact]// ===== Validation Tests =====
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowSettingNodeIdToZero"]" />
         public virtual void ShouldAllowSettingNodeIdToZero()
         {
             var transaction = new NodeUpdateTransaction
@@ -432,6 +468,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(transaction.NodeId, (ulong)0);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenDescriptionExceeds100Bytes"]" />
         public virtual void ShouldThrowErrorWhenDescriptionExceeds100Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -443,6 +480,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Description must not exceed 100 bytes when encoded as UTF-8");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowDescriptionWith100Bytes"]" />
         public virtual void ShouldAllowDescriptionWith100Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -452,12 +490,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(transaction.Description, description);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowNullDescription"]" />
         public virtual void ShouldAllowNullDescription()
         {
             var transaction = new NodeUpdateTransaction();
             transaction.Description = null;
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingEmptyGossipEndpointsList"]" />
         public virtual void ShouldThrowErrorWhenSettingEmptyGossipEndpointsList()
         {
             var transaction = new NodeUpdateTransaction();
@@ -466,6 +506,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Gossip endpoints list must not be empty");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingMoreThan10GossipEndpoints"]" />
         public virtual void ShouldThrowErrorWhenSettingMoreThan10GossipEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -486,6 +527,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Gossip endpoints list must not contain more than 10 entries");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowExactly10GossipEndpoints"]" />
         public virtual void ShouldAllowExactly10GossipEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -504,6 +546,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             transaction.GossipEndpoints = endpoints;
 		}
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenGossipEndpointHasBothIpAndDomain"]" />
         public virtual void ShouldThrowErrorWhenGossipEndpointHasBothIpAndDomain()
         {
             var transaction = new NodeUpdateTransaction();
@@ -517,6 +560,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Endpoint must not contain both ipAddressV4 and domainName");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingEmptyServiceEndpointsList"]" />
         public virtual void ShouldThrowErrorWhenSettingEmptyServiceEndpointsList()
         {
             var transaction = new NodeUpdateTransaction();
@@ -525,6 +569,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Service endpoints list must not be empty");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingMoreThan8ServiceEndpoints"]" />
         public virtual void ShouldThrowErrorWhenSettingMoreThan8ServiceEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -545,6 +590,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Service endpoints list must not contain more than 8 entries");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowExactly8ServiceEndpoints"]" />
         public virtual void ShouldAllowExactly8ServiceEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -563,6 +609,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 
 		}
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenServiceEndpointHasBothIpAndDomain"]" />
         public virtual void ShouldThrowErrorWhenServiceEndpointHasBothIpAndDomain()
         {
             var transaction = new NodeUpdateTransaction();
@@ -577,6 +624,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Endpoint must not contain both ipAddressV4 and domainName");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingNullGossipCaCertificate"]" />
         public virtual void ShouldThrowErrorWhenSettingNullGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -585,6 +633,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Gossip CA certificate must not be null or empty");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingEmptyGossipCaCertificate"]" />
         public virtual void ShouldThrowErrorWhenSettingEmptyGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -593,6 +642,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "Gossip CA certificate must not be null or empty");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowValidGossipCaCertificate"]" />
         public virtual void ShouldAllowValidGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -610,6 +660,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(transaction.GossipCaCertificate, cert);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldThrowErrorWhenSettingGrpcCertificateHashWithWrongSize"]" />
         public virtual void ShouldThrowErrorWhenSettingGrpcCertificateHashWithWrongSize()
         {
             var transaction = new NodeUpdateTransaction();
@@ -619,6 +670,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(exception.Message, "gRPC certificate hash must be exactly 48 bytes (SHA-384)");
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowGrpcCertificateHashWith48Bytes"]" />
         public virtual void ShouldAllowGrpcCertificateHashWith48Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -628,12 +680,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(transaction.GrpcCertificateHash, validHash);
         }
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowNullGrpcCertificateHash"]" />
         public virtual void ShouldAllowNullGrpcCertificateHash()
         {
             var transaction = new NodeUpdateTransaction();
             transaction.GrpcCertificateHash = null;
 		}
         [Fact]
+        /// <include file="test-node-update-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeUpdateTransactionTest.ShouldAllowEmptyGrpcCertificateHash"]" />
         public virtual void ShouldAllowEmptyGrpcCertificateHash()
         {
             var transaction = new NodeUpdateTransaction();

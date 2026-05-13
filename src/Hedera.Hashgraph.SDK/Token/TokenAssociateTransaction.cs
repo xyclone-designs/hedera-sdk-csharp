@@ -9,31 +9,31 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="T:TokenAssociateTransaction"]/*' />
+    /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="T:TokenAssociateTransaction"]' />
     public class TokenAssociateTransaction : Transaction<TokenAssociateTransaction>
     {
-        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor"]/*' />
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor"]' />
         public TokenAssociateTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenAssociateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenAssociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen"]' />
         public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen_2"]/*' />
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen_2"]' />
         public virtual List<TokenId> TokenIds { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
 
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenAssociate;
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenIds.Add(TokenId.FromProtobuf(token));
 			}
 		}
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.ToProtobuf"]/*' />
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.TokenAssociateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenAssociateTransactionBody();

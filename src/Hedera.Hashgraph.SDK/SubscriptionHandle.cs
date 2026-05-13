@@ -3,20 +3,20 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="T:SubscriptionHandle"]/*' />
+    /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="T:SubscriptionHandle"]' />
     public sealed class SubscriptionHandle
     {
         public Action? OnUnsubscribe;
-        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.#ctor"]/*' />
+        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.#ctor"]' />
         public SubscriptionHandle() { }
 
-        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.SetOnUnsubscribe(System.Action)"]/*' />
+        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.SetOnUnsubscribe(System.Action)"]' />
         public void SetOnUnsubscribe(Action onUnsubscribe)
         {
             OnUnsubscribe = onUnsubscribe;
         }
 
-        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.Unsubscribe"]/*' />
+        /// <include file="SubscriptionHandle.cs.xml" path='docs/member[@name="M:SubscriptionHandle.Unsubscribe"]' />
         public void Unsubscribe()
         {
             var unsubscribe = OnUnsubscribe;

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
@@ -8,9 +8,11 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest"]" />
     public class AccountDeleteIntegrationTest
     {
         [Fact]
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CanDeleteAccount"]" />
         public virtual void CanDeleteAccount()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -40,6 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotCreateAccountWithNoKey"]" />
         public virtual void CannotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -57,6 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountDeleteIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotDeleteAccountThatHasNotSignedTransaction"]" />
         public virtual void CannotDeleteAccountThatHasNotSignedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

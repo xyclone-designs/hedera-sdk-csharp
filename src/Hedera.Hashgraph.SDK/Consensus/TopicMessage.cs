@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="T:TopicMessage"]/*' />
-    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)"]/*' />
+    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="T:TopicMessage"]' />
+    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)"]' />
     public sealed class TopicMessage(DateTimeOffset lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
     {
-        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.Mirror.ConsensusTopicResponse)"]/*' />
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.Mirror.ConsensusTopicResponse)"]' />
         public static TopicMessage OfSingle(Proto.Mirror.ConsensusTopicResponse response)
         {
             return new TopicMessage(
@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 [new(response)], 
                 TransactionId.FromProtobuf(response.ChunkInfo.InitialTransactionId));
         }
-        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.Mirror.ConsensusTopicResponse})"]/*' />
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.Mirror.ConsensusTopicResponse})"]' />
         public static TopicMessage OfMany(IList<Proto.Mirror.ConsensusTopicResponse> responses)
         {
             // response should be in the order of oldest to newest (not chunk order)
@@ -55,17 +55,17 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 transactionId);
         }
 
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.ConsensusTimestamp"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.ConsensusTimestamp"]' />
 		public DateTimeOffset ConsensusTimestamp { get; } = lastConsensusTimestamp;
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Contents"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Contents"]' />
 		public byte[] Contents { get; } = message;
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.RunningHash"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.RunningHash"]' />
 		public byte[] RunningHash { get; } = lastRunningHash;
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.SequenceNumber"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.SequenceNumber"]' />
 		public ulong SequenceNumber { get; } = lastSequenceNumber;
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Chunks"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Chunks"]' />
 		public TopicMessageChunk[] Chunks { get; } = chunks;
-		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.TransactionId"]/*' />
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.TransactionId"]' />
 		public TransactionId? TransactionId { get; } = transactionId;
     }
 }

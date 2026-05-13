@@ -11,48 +11,48 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-    /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="T:AccountUpdateTransaction"]/*' />
+    /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="T:AccountUpdateTransaction"]' />
     public sealed class AccountUpdateTransaction : Transaction<AccountUpdateTransaction>
     {
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor"]' />
 		public AccountUpdateTransaction() { }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal AccountUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal AccountUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen"]' />
         public AccountId? AccountId 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_2"]' />
 		public Key? Key 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_3"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_3"]' />
         [Obsolete]
 		public Key? AliasKey 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_4"]' />
 		public AccountId? ProxyAccountId 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_5"]' />
 		public DateTimeOffset? ExpirationTime
         {
             get;
@@ -77,60 +77,60 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
                     ExpirationTime = null;
             } 
         }
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_6"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_6"]' />
         public TimeSpan? AutoRenewPeriod 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_7"]' />
 		public bool? ReceiverSigRequired 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_8"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_8"]' />
 		public int? MaxAutomaticTokenAssociations 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_9"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_9"]' />
 		public string? AccountMemo 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         } 
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_10"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_10"]' />
         public AccountId? StakedAccountId 
         {
             get; 
             set { RequireNotFrozen(); field = value; StakedNodeId = null; ; } }
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_11"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_11"]' />
         public long? StakedNodeId 
         {
             get; 
             set { RequireNotFrozen(); field = value; StakedAccountId = null; } }
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_12"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_12"]' />
         public bool? DeclineStakingReward 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="T:AccountUpdateTransaction_2"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="T:AccountUpdateTransaction_2"]' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
             init => field = GenerateListGuarded(value);
             get => field ??= GenerateListGuarded<HookCreationDetails>();
         }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody"]' />
 		public ListGuarded<long> HookIdsToDelete
         {
             init => field = GenerateListGuarded(value);
             get => field ??= GenerateListGuarded<long>();
         }
 
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody_2"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody_2"]' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoUpdateAccount;
@@ -172,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);
         }
 
-        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.ToProtobuf"]/*' />
+        /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.ToProtobuf"]' />
         public Proto.Services.CryptoUpdateTransactionBody ToProtobuf()
         {
 			Proto.Services.CryptoUpdateTransactionBody proto = new ()

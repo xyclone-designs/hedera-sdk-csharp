@@ -9,18 +9,18 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <include file="EvmAddress.cs.xml" path='docs/member[@name="T:EvmAddress"]/*' />
+    /// <include file="EvmAddress.cs.xml" path='docs/member[@name="T:EvmAddress"]' />
     public sealed class EvmAddress : Key
     {
         private readonly byte[] bytes = [];
 
-        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.#ctor(System.Byte[])"]/*' />
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.#ctor(System.Byte[])"]' />
         public EvmAddress(byte[] bytes)
         {
             Array.Copy(bytes, bytes, bytes.Length);
         }
 
-        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromString(System.String)"]/*' />
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromString(System.String)"]' />
         public static EvmAddress FromString(string evmAddress)
         {
             string address = evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress;
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
 			return null;
         }
-        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromBytes(System.Byte[])"]/*' />
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromBytes(System.Byte[])"]' />
         public new static EvmAddress FromBytes(byte[] bytes)
         {
             return new EvmAddress(bytes);

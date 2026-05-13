@@ -15,7 +15,7 @@ using System.IO;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem"]/*' />
+	/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem"]' />
 	internal sealed class Pem
 	{
 		private static readonly string TYPE_PRIVATE_KEY = "PRIVATE KEY";
@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK
 
 		private Pem() { }
 
-		/// <include file="Pem.cs.xml" path='docs/member[@name="M:Pem.ReadPrivateKey(TextReader,System.String)"]/*' />
+		/// <include file="Pem.cs.xml" path='docs/member[@name="M:Pem.ReadPrivateKey(TextReader,System.String)"]' />
 		public static PrivateKeyInfo ReadPrivateKey(TextReader input, string? passphrase)
 		{
 			try
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK
 			@out.WriteObject(new Org.BouncyCastle.Utilities.IO.Pem.PemObject(TYPE_ENCRYPTED_PRIVATE_KEY, encryptedPrivateKeyInfo.GetEncoded()));
 		}
 
-		/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem.PasswordFinder"]/*' />
+		/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem.PasswordFinder"]' />
 		private sealed class PasswordFinder : IPasswordFinder
 		{
 			private readonly char[] _password;

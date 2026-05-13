@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Text;
 
@@ -11,6 +11,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
+    /// <include file="tets-keys-privatekey.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.PrivateKeyTest"]" />
     public class PrivateKeyTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -36,6 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         }
 
         [Fact]
+        /// <include file="tets-keys-privatekey.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.PrivateKeyTest.Ecdsa"]" />
         public virtual void Ecdsa()
         {
             var message = Encoding.UTF8.GetBytes("hello world");

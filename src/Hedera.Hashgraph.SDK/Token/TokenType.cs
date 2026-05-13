@@ -2,13 +2,13 @@
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType"]/*' />
+    /// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType"]' />
     public enum TokenType
     {
-        /// <include file="TokenType.cs.xml" path='docs/member[@name="M:TokenType.properties(e.g. serial)"]/*' />
+        /// <include file="TokenType.cs.xml" path='docs/member[@name="M:TokenType.properties(e.g. serial)"]' />
         FungibleCommon = Proto.Services.TokenType.FungibleCommon,
 
-		/// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType_2"]/*' />
+		/// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType_2"]' />
 		NonFungibleUnique = Proto.Services.TokenType.NonFungibleUnique,
     }
 }

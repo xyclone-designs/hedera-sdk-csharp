@@ -9,26 +9,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="T:ScheduleDeleteTransaction"]/*' />
+    /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="T:ScheduleDeleteTransaction"]' />
     public sealed class ScheduleDeleteTransaction : Transaction<ScheduleDeleteTransaction>
     {
-        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor"]/*' />
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor"]' />
         public ScheduleDeleteTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal ScheduleDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal ScheduleDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.RequireNotFrozen"]/*' />
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.RequireNotFrozen"]' />
         public ScheduleId? ScheduleId
 		{
             get;
@@ -39,14 +39,14 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
         }
 
-        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.InitFromTransactionBody"]' />
         private void InitFromTransactionBody()
         {
             if (SourceTransactionBody.ScheduleDelete.ScheduleId is not null)
 				ScheduleId = ScheduleId.FromProtobuf(SourceTransactionBody.ScheduleDelete.ScheduleId);
 		}
 
-        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.ToProtobuf"]/*' />
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.ToProtobuf"]' />
         public Proto.Services.ScheduleDeleteTransactionBody ToProtobuf()
         {
 			Proto.Services.ScheduleDeleteTransactionBody proto =  new ();

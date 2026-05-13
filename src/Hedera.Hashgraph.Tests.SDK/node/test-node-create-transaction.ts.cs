@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK;
@@ -15,6 +15,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Node
 {
+    /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest"]" />
     public class NodeCreateTransactionTest
     {
         private static readonly PrivateKey TEST_PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -66,6 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             .Sign(TEST_PRIVATE_KEY);
         }
         [Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -74,6 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -85,6 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.IsType<NodeCreateTransaction>(tx);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeCreateTransaction();
@@ -93,6 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.TestUnrecognizedServicePort"]" />
         public virtual void TestUnrecognizedServicePort()
         {
             var tx = new NodeCreateTransaction
@@ -108,6 +113,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.TestSetNull"]" />
         public virtual void TestSetNull()
         {
             new NodeCreateTransaction
@@ -120,6 +126,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             };
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetDescriptionRejectsOver100Utf8Bytes"]" />
         public virtual void SetDescriptionRejectsOver100Utf8Bytes()
         {
             var tx = new NodeCreateTransaction();
@@ -127,6 +134,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Throws<ArgumentException>(() => tx.Description = tooLong);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetDescriptionAcceptsExactly100Utf8Bytes"]" />
         public virtual void SetDescriptionAcceptsExactly100Utf8Bytes()
         {
             var tx = new NodeCreateTransaction();
@@ -136,6 +144,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(tx.Description, exact);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipEndpointsRejectsMoreThan10"]" />
         public virtual void SetGossipEndpointsRejectsMoreThan10()
         {
             var tx = new NodeCreateTransaction();
@@ -151,6 +160,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Throws<ArgumentException>(() => tx.GossipEndpoints = endpoints);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.AddGossipEndpointRejectsMoreThan10"]" />
         public virtual void AddGossipEndpointRejectsMoreThan10()
         {
             var tx = new NodeCreateTransaction();
@@ -169,6 +179,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			}));
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipEndpointsRejectsIpAndDomainTogether"]" />
         public virtual void SetGossipEndpointsRejectsIpAndDomainTogether()
         {
             var tx = new NodeCreateTransaction();
@@ -182,6 +193,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Throws<ArgumentException>(() => tx.GossipEndpoints = [invalid]);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetServiceEndpointsRejectsMoreThan8"]" />
         public virtual void SetServiceEndpointsRejectsMoreThan8()
         {
             var tx = new NodeCreateTransaction();
@@ -196,6 +208,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Throws<ArgumentException>(() => tx.ServiceEndpoints = endpoints);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.AddServiceEndpointRejectsMoreThan8"]" />
         public virtual void AddServiceEndpointRejectsMoreThan8()
         {
             var tx = new NodeCreateTransaction();
@@ -213,6 +226,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			}));
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetServiceEndpointsRejectsIpAndDomainTogether"]" />
         public virtual void SetServiceEndpointsRejectsIpAndDomainTogether()
         {
             var tx = new NodeCreateTransaction();
@@ -226,6 +240,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Throws<ArgumentException>(() => tx.ServiceEndpoints = [invalid]);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipCaCertificateRejectsEmpty"]" />
         public virtual void SetGossipCaCertificateRejectsEmpty()
         {
             var tx = new NodeCreateTransaction();
@@ -233,6 +248,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Throws<ArgumentException>(() => tx.GossipCaCertificate = new byte[] { });
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildRewritesGossipFqdnWithServiceIpFallback"]" />
         public virtual void BuildRewritesGossipFqdnWithServiceIpFallback()
         {
             byte[] serviceIp = new byte[]
@@ -266,6 +282,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(rewritten.Port, 50211);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildDoesNotRewriteGossipWhenIpPresent"]" />
         public virtual void BuildDoesNotRewriteGossipWhenIpPresent()
         {
             byte[] originalIp = new byte[]
@@ -304,6 +321,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(ge.Port, 50212);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildDoesNotRewriteWhenNoServiceIpAvailable"]" />
         public virtual void BuildDoesNotRewriteWhenNoServiceIpAvailable()
         {
             Endpoint gossipFqdnOnly = new ()
@@ -328,6 +346,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(ge.Port, 50213);
         }
 		[Fact]
+        /// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ConstructNodeCreateTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructNodeCreateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.Services.NodeCreateTransactionBody
@@ -361,6 +380,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             Assert.Equal(nodeCreateTransaction.AdminKey, TEST_ADMIN_KEY);
         }
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAccountId"]" />
 		public virtual void GetSetAccountId()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -370,6 +390,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.AccountId, TEST_ACCOUNT_ID);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAccountIdFrozen"]" />
 		public virtual void GetSetAccountIdFrozen()
 		{
 			var tx = SpawnTestTransaction();
@@ -377,6 +398,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Throws<InvalidOperationException>(() => tx.AccountId = TEST_ACCOUNT_ID);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDescription"]" />
 		public virtual void GetSetDescription()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -386,12 +408,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.Description, TEST_DESCRIPTION);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDescriptionFrozen"]" />
 		public virtual void GetSetDescriptionFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.Description = TEST_DESCRIPTION);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipEndpoints"]" />
 		public virtual void GetSetGossipEndpoints()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -401,12 +425,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.GossipEndpoints, TEST_GOSSIP_ENDPOINTS);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetTestGossipEndpointsFrozen"]" />
 		public virtual void SetTestGossipEndpointsFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.GossipEndpoints = TEST_GOSSIP_ENDPOINTS);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetServiceEndpoints"]" />
 		public virtual void GetSetServiceEndpoints()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -416,12 +442,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.ServiceEndpoints, TEST_SERVICE_ENDPOINTS);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetServiceEndpointsFrozen"]" />
 		public virtual void GetSetServiceEndpointsFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.ServiceEndpoints = TEST_SERVICE_ENDPOINTS);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipCaCertificate"]" />
 		public virtual void GetSetGossipCaCertificate()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -431,12 +459,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.GossipCaCertificate, TEST_GOSSIP_CA_CERTIFICATE);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipCaCertificateFrozen"]" />
 		public virtual void GetSetGossipCaCertificateFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.GossipCaCertificate = TEST_GOSSIP_CA_CERTIFICATE);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGrpcCertificateHash"]" />
 		public virtual void GetSetGrpcCertificateHash()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -446,12 +476,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.GrpcCertificateHash, TEST_GRPC_CERTIFICATE_HASH);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGrpcCertificateHashFrozen"]" />
 		public virtual void GetSetGrpcCertificateHashFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.GrpcCertificateHash = TEST_GRPC_CERTIFICATE_HASH);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAdminKey"]" />
 		public virtual void GetSetAdminKey()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -461,12 +493,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.AdminKey, TEST_ADMIN_KEY);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAdminKeyFrozen"]" />
 		public virtual void GetSetAdminKeyFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.AdminKey = TEST_ADMIN_KEY);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDeclineReward"]" />
 		public virtual void GetSetDeclineReward()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -476,12 +510,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.True(nodeCreateTransaction.DeclineReward);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDeclineRewardFrozen"]" />
 		public virtual void GetSetDeclineRewardFrozen()
 		{
 			var tx = SpawnTestTransaction();
 			Assert.Throws<InvalidOperationException>(() => tx.DeclineReward = false);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetGrpcWebProxyEndpoint"]" />
 		public virtual void GetGrpcWebProxyEndpoint()
 		{
 			var nodeCreateTransaction = new NodeCreateTransaction
@@ -491,6 +527,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			Assert.Equal(nodeCreateTransaction.GrpcWebProxyEndpoint, TEST_GRPC_WEB_PROXY_ENDPOINT);
 		}
 		[Fact]
+		/// <include file="test-node-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGrpcWebProxyEndpointRequiresFrozen"]" />
 		public virtual void SetGrpcWebProxyEndpointRequiresFrozen()
 		{
 			var tx = SpawnTestTransaction();

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="T:TokenTransfer"]/*' />
+    /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="T:TokenTransfer"]' />
     public class TokenTransfer
     {
         public TokenId TokenId { get; }
@@ -17,10 +17,10 @@ namespace Hedera.Hashgraph.SDK.Token
         public bool IsApproved { get; set; }
         public FungibleHookCall? HookCall { get; set; }
 
-		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.Boolean)"]/*' />
+		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.Boolean)"]' />
 		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved) : this(tokenId, accountId, amount, null, isApproved) { }
 
-		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.UInt32,System.Boolean)"]/*' />
+		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.UInt32,System.Boolean)"]' />
 		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, uint? expectedDecimals, bool isApproved)
         {
             TokenId = tokenId;
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Token
             return tokenTransfers;
         }
 
-        /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.ToProtobuf"]/*' />
+        /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.ToProtobuf"]' />
         public virtual Proto.Services.AccountAmount ToProtobuf()
         {
 			Proto.Services.AccountAmount proto = new()

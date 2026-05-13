@@ -2,12 +2,12 @@
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="T:FeeAssessmentMethod"]/*' />
+    /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="T:FeeAssessmentMethod"]' />
     public enum FeeAssessmentMethod
     {
-        /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)"]/*' />
+        /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)"]' />
         Inclusive = 0,
-        /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)_2"]/*' />
+        /// <include file="FeeAssessmentMethod.cs.xml" path='docs/member[@name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)_2"]' />
         Exclusive = 1,
     }
 

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -13,11 +13,13 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="LiveHashAddIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashAddIntegrationTest"]" />
     public class LiveHashAddIntegrationTest
     {
         private static readonly byte[] HASH = Hex.Decode("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002");
 
         [Fact]
+        /// <include file="LiveHashAddIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashAddIntegrationTest.CannotCreateLiveHashBecauseItsNotSupported"]" />
         public virtual void CannotCreateLiveHashBecauseItsNotSupported()
         {
             using (var testEnv = new IntegrationTestEnv(1))

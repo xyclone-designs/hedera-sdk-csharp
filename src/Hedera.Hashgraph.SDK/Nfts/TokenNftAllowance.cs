@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="T:TokenNftAllowance"]/*' />
+	/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="T:TokenNftAllowance"]' />
 	public class TokenNftAllowance
     {
-        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.#ctor(TokenId,AccountId,AccountId,AccountId,System.Collections.Generic.IEnumerable{System.Int64},System.Boolean)"]/*' />
+        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.#ctor(TokenId,AccountId,AccountId,AccountId,System.Collections.Generic.IEnumerable{System.Int64},System.Boolean)"]' />
         internal TokenNftAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId? spenderAccountId, AccountId? delegatingSpender, IEnumerable<long> serialNumbers, bool? allSerials)
         {
             TokenId = tokenId;
@@ -22,30 +22,30 @@ namespace Hedera.Hashgraph.SDK.Nfts
             AllSerials = allSerials;
         }
 
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.TokenId"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.TokenId"]' />
 		public TokenId TokenId { get; }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.OwnerAccountId"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.OwnerAccountId"]' />
 		public AccountId? OwnerAccountId { get; }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SpenderAccountId"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SpenderAccountId"]' />
 		public AccountId? SpenderAccountId { get; }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.DelegatingSpender"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.DelegatingSpender"]' />
 		public AccountId? DelegatingSpender { get; }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SerialNumbers"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SerialNumbers"]' />
 		public List<long> SerialNumbers { get; }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.AllSerials"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.AllSerials"]' />
 		public bool? AllSerials { get; }
 
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.CopyFrom(TokenNftAllowance)"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.CopyFrom(TokenNftAllowance)"]' />
 		public static TokenNftAllowance CopyFrom(TokenNftAllowance allowance)
         {
             return new TokenNftAllowance(allowance.TokenId, allowance.OwnerAccountId, allowance.SpenderAccountId, allowance.DelegatingSpender, allowance.SerialNumbers, allowance.AllSerials);
         }
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromBytes(System.Byte[])"]' />
 		public static TokenNftAllowance FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.NftAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromProtobuf(Proto.Services.NftAllowance)"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromProtobuf(Proto.Services.NftAllowance)"]' />
 		public static TokenNftAllowance FromProtobuf(Proto.Services.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(
@@ -57,12 +57,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 allowanceProto.ApprovedForAll);
         }
 
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToBytes"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToProtobuf"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToProtobuf"]' />
 		public virtual Proto.Services.NftAllowance ToProtobuf()
         {
             Proto.Services.NftAllowance proto = new()
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             return proto;
         }
-        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToRemoveProtobuf"]/*' />
+        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToRemoveProtobuf"]' />
         public virtual Proto.Services.NftRemoveAllowance ToRemoveProtobuf()
         {
 			Proto.Services.NftRemoveAllowance proto = new()
@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return proto;
         }
 
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ValidateChecksums(Client)"]/*' />
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ValidateChecksums(Client)"]' />
 		public virtual void ValidateChecksums(Client client)
 		{
 			TokenId.ValidateChecksum(client);

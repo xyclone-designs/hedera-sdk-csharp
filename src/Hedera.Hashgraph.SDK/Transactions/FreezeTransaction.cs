@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="T:FreezeTransaction"]/*' />
+    /// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="T:FreezeTransaction"]' />
     public sealed class FreezeTransaction : Transaction<FreezeTransaction>
     {
-		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.#ctor"]/*' />
+		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.#ctor"]' />
 		public FreezeTransaction() { }
 		internal FreezeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
-		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.CopyArray"]/*' />
+		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.CopyArray"]' />
 		public byte[] FileHash
 		{
 			get => field.CopyArray();
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value.CopyArray();
 			}
 		} = [];
-		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.RequireNotFrozen"]/*' />
+		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.RequireNotFrozen"]' />
 		public FreezeType FreezeType
 		{
 			get => field;

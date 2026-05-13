@@ -3,18 +3,18 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="T:FeeSchedules"]/*' />
+    /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="T:FeeSchedules"]' />
     public class FeeSchedules
     {
-        /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.#ctor"]/*' />
+        /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.#ctor"]' />
         public FeeSchedules() { }
 
-		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromBytes(System.Byte[])"]/*' />
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromBytes(System.Byte[])"]' />
 		public static FeeSchedules FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.CurrentAndNextFeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromProtobuf(Proto.Services.CurrentAndNextFeeSchedule)"]/*' />
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromProtobuf(Proto.Services.CurrentAndNextFeeSchedule)"]' />
 		public static FeeSchedules FromProtobuf(Proto.Services.CurrentAndNextFeeSchedule feeSchedules)
         {
             return new FeeSchedules
@@ -35,12 +35,12 @@ namespace Hedera.Hashgraph.SDK.Fee
 			set => field = value?.Clone() as FeeSchedule;
 		}
 
-		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToBytes"]/*' />
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToProtobuf"]/*' />
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToProtobuf"]' />
 		public virtual Proto.Services.CurrentAndNextFeeSchedule ToProtobuf()
         {
 			Proto.Services.CurrentAndNextFeeSchedule protobuf = new ();

@@ -8,10 +8,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <include file="NodeAddress.cs.xml" path='docs/member[@name="T:NodeAddress"]/*' />
+    /// <include file="NodeAddress.cs.xml" path='docs/member[@name="T:NodeAddress"]' />
     public class NodeAddress : ICloneable
     {
-        /// <include file="NodeAddress.cs.xml" path='docs/member[@name="M:NodeAddress.FromProtobuf(Proto.Services.NodeAddress)"]/*' />
+        /// <include file="NodeAddress.cs.xml" path='docs/member[@name="M:NodeAddress.FromProtobuf(Proto.Services.NodeAddress)"]' />
         public static NodeAddress FromProtobuf(Proto.Services.NodeAddress nodeAddress)
         {
 			return new NodeAddress
@@ -36,19 +36,19 @@ namespace Hedera.Hashgraph.SDK.Networking
 			};
         }
 
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.PublicKey"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.PublicKey"]' />
 		public virtual string? PublicKey { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Description"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Description"]' />
 		public virtual string? Description { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.AccountId"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.AccountId"]' />
 		public virtual AccountId? AccountId { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Stake"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Stake"]' />
 		public virtual long Stake { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.NodeId"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.NodeId"]' />
 		public virtual long NodeId { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.CertHash"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.CertHash"]' />
 		public virtual ByteString? CertHash { set; get; }
-		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Addresses"]/*' />
+		/// <include file="NodeAddress.cs.xml" path='docs/member[@name="P:NodeAddress.Addresses"]' />
 		public virtual List<Endpoint> Addresses { set; get; } = [];
 
 		public virtual object Clone()

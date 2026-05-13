@@ -12,18 +12,18 @@ using System.IO;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="T:PublicKeyED25519"]/*' />
+    /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="T:PublicKeyED25519"]' />
     public class PublicKeyED25519 : PublicKey
     {
         private readonly byte[] KeyData;
 
-        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.#ctor(System.Byte[])"]/*' />
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.#ctor(System.Byte[])"]' />
         private PublicKeyED25519(byte[] keyData)
         {
             KeyData = keyData;
         }
 
-        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromBytesInternal(System.Byte[])"]/*' />
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromBytesInternal(System.Byte[])"]' />
         public static PublicKeyED25519 FromBytesInternal(byte[] publicKey)
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             // Assume a DER-encoded public key descriptor
             return FromSubjectKeyInfoInternal(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]/*' />
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]' />
         public static PublicKeyED25519 FromSubjectKeyInfoInternal(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             return new PublicKeyED25519(subjectPublicKeyInfo.PublicKey.GetBytes());

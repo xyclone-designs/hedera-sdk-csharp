@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK;
@@ -11,6 +11,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest"]" />
     public class TokenRevokeKycTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -37,6 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenRevokeKycTransaction();
@@ -45,6 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -53,6 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -63,6 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenRevokeKycTransaction>(tx);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.ConstructTokenRevokeKycTransactionFromTransactionBodyProtobuf"]" />
         public virtual void ConstructTokenRevokeKycTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.Services.TokenRevokeKycTransactionBody
@@ -76,24 +81,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.GetSetAccountId"]" />
         public virtual void GetSetAccountId()
         {
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { AccountId = testAccountId };
             Assert.Equal(tokenRevokeKycTransaction.AccountId, testAccountId);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.GetSetAccountIdFrozen"]" />
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.GetSetTokenId"]" />
         public virtual void GetSetTokenId()
         {
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { TokenId = testTokenId };
             Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
         [Fact]
+        /// <include file="test-token-revoke-kyc-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRevokeKycTransactionTest.GetSetTokenIdFrozen"]" />
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();

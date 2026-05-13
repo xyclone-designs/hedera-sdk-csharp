@@ -11,29 +11,29 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction"]/*' />
+    /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction"]' />
     public sealed class FileAppendTransaction : ChunkedTransaction<FileAppendTransaction>
     {
         public static readonly int DEFAULT_CHUNK_SIZE = 4096;
 
-        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor"]/*' />
+        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor"]' />
         public FileAppendTransaction() : base()
         {
             DefaultMaxTransactionFee = new Hbar(5);
             ChunkSize = 2048;
         }
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal FileAppendTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal FileAppendTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.RequireNotFrozen"]/*' />
+        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.RequireNotFrozen"]' />
         public FileId? FileId
         {
             get;
@@ -43,24 +43,24 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
         }
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction_2"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction_2"]' />
 		public ByteString Contents
         {
             get => Data;
             set => Data = value;
 		}
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFrom(value)"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFrom(value)"]' />
 		public byte[] Contents_Bytes
 		{
 			set => Data = ByteString.CopyFrom(value);
 		}
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFromUtf8(value)"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFromUtf8(value)"]' />
 		public string Contents_String
 		{
 			set => Data = ByteString.CopyFromUtf8(value);
 		}
 
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.FileAppend;
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 		}
 
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.ToProtobuf"]/*' />
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.ToProtobuf"]' />
 		public Proto.Services.FileAppendTransactionBody ToProtobuf()
 		{
 			var builder = new Proto.Services.FileAppendTransactionBody

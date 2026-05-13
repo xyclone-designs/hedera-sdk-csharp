@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -8,9 +8,11 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest"]" />
     public class AccountInfoIntegrationTest
     {
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.CanQueryAccountInfoForClientOperator"]" />
         public virtual void CanQueryAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -30,6 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostAccountInfoForClientOperator"]" />
         public virtual void GetCostAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -47,6 +50,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostBigMaxAccountInfoForClientOperator"]" />
         public virtual void GetCostBigMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -64,6 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostSmallMaxAccountInfoForClientOperator"]" />
         public virtual void GetCostSmallMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -84,6 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.GetCostInsufficientTxFeeAccountInfoForClientOperator"]" />
         public virtual void GetCostInsufficientTxFeeAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -104,6 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountInfoIntegrationTest.AccountInfoFlowVerifyFunctions"]" />
         public virtual void AccountInfoFlowVerifyFunctions()
         {
             using (var testEnv = new IntegrationTestEnv(1))

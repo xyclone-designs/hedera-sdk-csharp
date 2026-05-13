@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-	/// <include file="EthereumFlow.cs.xml" path='docs/member[@name="T:EthereumFlow"]/*' />
+	/// <include file="EthereumFlow.cs.xml" path='docs/member[@name="T:EthereumFlow"]' />
 	[Obsolete("Obsolete")]
     public class EthereumFlow
     {
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="F:.MAX_ETHEREUM_DATA_SIZE"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="F:.MAX_ETHEREUM_DATA_SIZE"]' />
         static int MAX_ETHEREUM_DATA_SIZE = 128000;
 
 		private static FileId CreateFile<T>(byte[] callData, Client client, TimeSpan timeoutPerTransaction, Transaction<T> ethereumTransaction) where T : Transaction<T>
@@ -96,18 +96,18 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 			}
         }
 
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.EthereumData"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.EthereumData"]' />
         public virtual EthereumTransactionData? EthereumData { get; set; }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.MaxGasAllowance"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.MaxGasAllowance"]' />
         public virtual Hbar? MaxGasAllowance { get; set; }
         public virtual FileId? CallDataFileId { get; set; }
 
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client)"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client)"]' />
         public virtual TransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client,System.TimeSpan)"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client,System.TimeSpan)"]' />
         public virtual TransactionResponse Execute(Client client, TimeSpan timeoutPerTransaction)
         {
             if (EthereumData == null)
@@ -132,12 +132,12 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
             return ethereumTransaction.Execute(client, timeoutPerTransaction);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client)"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client)"]' />
         public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan)"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan)"]' />
         public virtual async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerTransaction)
         {
             if (EthereumData == null)
@@ -169,22 +169,22 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             }
         }
 
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
-        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);

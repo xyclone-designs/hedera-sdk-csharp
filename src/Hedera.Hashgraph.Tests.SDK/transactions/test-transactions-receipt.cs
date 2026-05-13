@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
@@ -17,6 +17,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
+    /// <include file="test-transactions-receipt.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionReceiptTest"]" />
     public class TransactionReceiptTest
     {
         private static readonly DateTimeOffset time = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -43,6 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 []);
         }
         [Fact]
+        /// <include file="test-transactions-receipt.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionReceiptTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalTransactionReceipt = SpawnReceiptExample();

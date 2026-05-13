@@ -8,10 +8,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="T:TokenNftInfo"]/*' />
+	/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="T:TokenNftInfo"]' />
 	public class TokenNftInfo
     {
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.#ctor(NftId,AccountId,DateTimeOffset,System.Byte[],LedgerId,AccountId)"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.#ctor(NftId,AccountId,DateTimeOffset,System.Byte[],LedgerId,AccountId)"]' />
         internal TokenNftInfo(NftId nftId, AccountId accountId, DateTimeOffset creationTime, byte[] metadata, LedgerId ledgerId, AccountId? spenderId)
         {
             NftId = nftId;
@@ -22,12 +22,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
             SpenderId = spenderId;
         }
 
-		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromBytes(System.Byte[])"]' />
 		public static TokenNftInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TokenNftInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromProtobuf(Proto.Services.TokenNftInfo)"]/*' />
+		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromProtobuf(Proto.Services.TokenNftInfo)"]' />
 		public static TokenNftInfo FromProtobuf(Proto.Services.TokenNftInfo info)
         {
             return new TokenNftInfo(
@@ -39,25 +39,25 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 info.SpenderId is null ? null : AccountId.FromProtobuf(info.SpenderId));
         }
 
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.NftId"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.NftId"]' />
         public NftId NftId { get; }
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.AccountId"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.AccountId"]' />
         public AccountId AccountId { get; }
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.CreationTime"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.CreationTime"]' />
         public DateTimeOffset CreationTime { get; }
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.Metadata"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.Metadata"]' />
         public byte[] Metadata { get; }
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.LedgerId"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.LedgerId"]' />
         public LedgerId LedgerId { get; }
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.SpenderId"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.SpenderId"]' />
         public AccountId? SpenderId { get; }
 
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToBytes"]/*' />
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToBytes"]' />
         public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToProtobuf"]/*' />
+		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToProtobuf"]' />
 		public virtual Proto.Services.TokenNftInfo ToProtobuf()
         {
             Proto.Services.TokenNftInfo proto = new()

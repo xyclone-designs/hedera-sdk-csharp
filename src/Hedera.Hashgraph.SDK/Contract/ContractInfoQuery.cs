@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="T:ContractInfoQuery"]/*' />
+    /// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="T:ContractInfoQuery"]' />
     public sealed class ContractInfoQuery : Query<ContractInfo, ContractInfoQuery>
     {
-		/// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="P:ContractInfoQuery.ContractId"]/*' />
+		/// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="P:ContractInfoQuery.ContractId"]' />
 		public ContractId? ContractId { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

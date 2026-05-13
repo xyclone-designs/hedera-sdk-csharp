@@ -5,17 +5,17 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="Endpoint.cs.xml" path='docs/member[@name="T:Endpoint"]/*' />
+    /// <include file="Endpoint.cs.xml" path='docs/member[@name="T:Endpoint"]' />
     public class Endpoint : ICloneable
     {
-		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Port"]/*' />
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Port"]' />
 		public virtual int Port { get; set; }
-		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Address"]/*' />
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Address"]' />
 		public virtual byte[]? Address { get; set; }
-        /// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.DomainName"]/*' />
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.DomainName"]' />
         public virtual string DomainName { get; set; } = string.Empty; 
 
-		/// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.FromProtobuf(Proto.Services.ServiceEndpoint)"]/*' />
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.FromProtobuf(Proto.Services.ServiceEndpoint)"]' />
 		public static Endpoint FromProtobuf(Proto.Services.ServiceEndpoint serviceEndpoint)
         {
             return new Endpoint
@@ -26,14 +26,14 @@ namespace Hedera.Hashgraph.SDK
             };
         }
 
-        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ValidateNoIpAndDomain(Endpoint)"]/*' />
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ValidateNoIpAndDomain(Endpoint)"]' />
         public static void ValidateNoIpAndDomain(Endpoint endpoint)
         {
             if (endpoint.Address is not null && string.IsNullOrWhiteSpace(endpoint.DomainName) is false)
                 throw new ArgumentException("Endpoint must not contain both ipAddressV4 and domainName");
         }
 
-        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ToProtobuf"]/*' />
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ToProtobuf"]' />
         public virtual Proto.Services.ServiceEndpoint ToProtobuf()
         {
             Proto.Services.ServiceEndpoint proto = new()

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 
@@ -11,9 +11,11 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest"]" />
     public class FileAppendIntegrationTest
     {
         [Fact]
+        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendToFile"]" />
         public virtual void CanAppendToFile()
         {
 
@@ -65,6 +67,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFile"]" />
         public virtual void CanAppendLargeContentsToFile()
         {
 
@@ -124,6 +127,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFileDespiteExpiration"]" />
         public virtual void CanAppendLargeContentsToFileDespiteExpiration()
         {
 
@@ -186,6 +190,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="FileAppendIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanFileAppendSignForMultipleNodes"]" />
         public virtual void CanFileAppendSignForMultipleNodes()
         {
             using (var testEnv = new IntegrationTestEnv(1))

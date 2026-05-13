@@ -8,26 +8,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="T:TokenRevokeKycTransaction"]/*' />
+    /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="T:TokenRevokeKycTransaction"]' />
     public class TokenRevokeKycTransaction : Transaction<TokenRevokeKycTransaction>
     {
-        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor"]/*' />
+        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor"]' />
         public TokenRevokeKycTransaction() { }
-		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenRevokeKycTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenRevokeKycTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.RequireNotFrozen"]' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.RequireNotFrozen_2"]' />
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
 		private void InitFromTransactionBody()
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 AccountId = AccountId.FromProtobuf(body.Account);
         }
 
-        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenRevokeKycTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenRevokeKycTransactionBody();

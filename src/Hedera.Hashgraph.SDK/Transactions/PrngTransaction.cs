@@ -5,10 +5,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="PrngTransaction.cs.xml" path='docs/member[@name="T:PrngTransaction"]/*' />
+    /// <include file="PrngTransaction.cs.xml" path='docs/member[@name="T:PrngTransaction"]' />
     public class PrngTransaction : Transaction<PrngTransaction>
     {
-		/// <include file="PrngTransaction.cs.xml" path='docs/member[@name="P:PrngTransaction.Range"]/*' />
+		/// <include file="PrngTransaction.cs.xml" path='docs/member[@name="P:PrngTransaction.Range"]' />
 		public virtual int? Range { get; set; }
 
         public virtual Proto.Services.UtilPrngTransactionBody ToProtobuf()

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Linq;
 
@@ -9,9 +9,11 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest"]" />
     public class TokenInfoIntegrationTest
     {
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenAllKeysAreDifferent"]" />
         public virtual void CanQueryTokenInfoWhenAllKeysAreDifferent()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,6 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties"]" />
         public virtual void CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -126,6 +129,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.CanQueryNfts"]" />
         public virtual void CanQueryNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -182,6 +186,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostQueryTokenInfo"]" />
         public virtual void GetCostQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -207,6 +212,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostBigMaxQueryTokenInfo"]" />
         public virtual void GetCostBigMaxQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -233,6 +239,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostSmallMaxTokenInfo"]" />
         public virtual void GetCostSmallMaxTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -260,6 +267,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenInfoIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenInfoIntegrationTest.GetCostInsufficientTxFeeQueryTokenInfo"]" />
         public virtual void GetCostInsufficientTxFeeQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

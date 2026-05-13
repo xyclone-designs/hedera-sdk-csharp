@@ -12,10 +12,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-    /// <include file="PublicKey.cs.xml" path='docs/member[@name="T:PublicKey"]/*' />
+    /// <include file="PublicKey.cs.xml" path='docs/member[@name="T:PublicKey"]' />
     public abstract class PublicKey : Key
     {
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytes(System.Byte[])"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytes(System.Byte[])"]' />
         public new static PublicKey FromBytes(byte[] publicKey)
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
@@ -39,42 +39,42 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             return FromBytesDER(publicKey);
         }
 
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesDER(System.Byte[])"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesDER(System.Byte[])"]' />
         public static PublicKey FromBytesDER(byte[] publicKey)
         {
             return FromSubjectKeyInfo(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesED25519(System.Byte[])"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesED25519(System.Byte[])"]' />
         public static PublicKey FromBytesED25519(byte[] publicKey)
         {
             return PublicKeyED25519.FromBytesInternal(publicKey);
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesECDSA(System.Byte[])"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesECDSA(System.Byte[])"]' />
         public static PublicKey FromBytesECDSA(byte[] publicKey)
         {
             return PublicKeyECDSA.FromBytesInternal(publicKey);
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromString(System.String)"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromString(System.String)"]' />
         public static PublicKey FromString(string publicKey)
         {
             return PublicKey.FromBytes(Hex.Decode(publicKey));
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringED25519(System.String)"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringED25519(System.String)"]' />
         public static PublicKey FromStringED25519(string publicKey)
         {
             return FromBytesED25519(Hex.Decode(publicKey));
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringECDSA(System.String)"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringECDSA(System.String)"]' />
         public static PublicKey FromStringECDSA(string publicKey)
         {
             return FromBytesECDSA(Hex.Decode(publicKey));
         }
-        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringDER(System.String)"]/*' />
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringDER(System.String)"]' />
         public static PublicKey FromStringDER(string publicKey)
         {
             return FromBytesDER(Hex.Decode(publicKey));
         }
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromAliasBytes(ByteString)"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromAliasBytes(ByteString)"]' />
 		public static PublicKey? FromAliasBytes(ByteString aliasBytes)
 		{
 			if (aliasBytes.Length != 0)
@@ -88,13 +88,13 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 
 			return null;
 		}
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.UnusableKey"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.UnusableKey"]' />
 		public static PublicKey UnusableKey()
 		{
 			return FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
 		}
 
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo)"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo)"]' />
 		private static PublicKey FromSubjectKeyInfo(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             if (subjectPublicKeyInfo.Algorithm.Equals(new AlgorithmIdentifier(ID_ED25519)))
@@ -108,39 +108,39 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             }
         }
 
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsECDSA"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsECDSA"]' />
 		public abstract bool IsECDSA();
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsED25519"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsED25519"]' />
 		public abstract bool IsED25519();
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesDER"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesDER"]' />
 		public abstract byte[] ToBytesDER();
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesRaw"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesRaw"]' />
 		public abstract byte[] ToBytesRaw();
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToEvmAddress"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToEvmAddress"]' />
 		public abstract EvmAddress ToEvmAddress();
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.Verify(System.Byte[],System.Byte[])"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.Verify(System.Byte[],System.Byte[])"]' />
 		public abstract bool Verify(byte[] message, byte[] signature);
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToSignaturePairProtobuf(System.Byte[])"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToSignaturePairProtobuf(System.Byte[])"]' />
 		public abstract Proto.Services.SignaturePair ToSignaturePairProtobuf(byte[] signature);
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.Services.SignaturePair)"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.Services.SignaturePair)"]' />
 		public abstract ByteString ExtractSignatureFromProtobuf(Proto.Services.SignaturePair pair);
 
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringDER"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringDER"]' />
 		public virtual string ToStringDER()
 		{
 			return Hex.ToHexString(ToBytesDER());
 		}
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringRaw"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringRaw"]' />
 		public virtual string ToStringRaw()
 		{
 			return Hex.ToHexString(ToBytesRaw());
 		}
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToAccountId(System.Int64,System.Int64)"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToAccountId(System.Int64,System.Int64)"]' />
 		public virtual AccountId ToAccountId(long shard, long realm)
 		{
 			return new AccountId(shard, realm, 0, null, this, null);
 		}
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.VerifyTransaction``1(Transaction{``0})"]/*' />
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.VerifyTransaction``1(Transaction{``0})"]' />
 		public virtual bool VerifyTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
             if (!transaction.IsFrozen())

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -16,6 +16,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
+    /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest"]" />
     public class ContractCreateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -31,6 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Verifier.Verify(SpawnTestTransaction2().ToString());
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractCreateTransaction();
@@ -82,6 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             .Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -90,6 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytes2"]" />
         public virtual void ShouldBytes2()
         {
             var tx = SpawnTestTransaction2();
@@ -98,6 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(tx2.ToString(), tx2.ToString());
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -108,6 +113,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.IsType<ContractCreateTransaction>(tx);
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.SetGasShouldRejectNegativeValues"]" />
         public virtual void SetGasShouldRejectNegativeValues()
         {
             var tx = new ContractCreateTransaction();
@@ -116,6 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(ex.Message, "Gas must be non-negative");
         }
         [Fact]
+        /// <include file="test-contract-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.SetGasShouldAcceptZeroAndPositiveValues"]" />
         public virtual void SetGasShouldAcceptZeroAndPositiveValues()
         {
             var tx = new ContractCreateTransaction();

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-	/// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="T:AccountInfoQuery"]/*' />
+	/// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="T:AccountInfoQuery"]' />
 	public sealed class AccountInfoQuery : Query<AccountInfo, AccountInfoQuery>
     {
-        /// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="P:AccountInfoQuery.AccountId"]/*' />
+        /// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="P:AccountInfoQuery.AccountId"]' />
         public AccountId? AccountId { get; set; }
 
         public override void ValidateChecksums(Client client)

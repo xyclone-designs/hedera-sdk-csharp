@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK;
@@ -7,9 +7,11 @@ using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenUnfreezeIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnfreezeIntegrationTest"]" />
     public class TokenUnfreezeIntegrationTest
     {
         [Fact]
+        /// <include file="TokenUnfreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnfreezeIntegrationTest.CanUnfreezeAccountWithToken"]" />
         public virtual void CanUnfreezeAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -61,6 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUnfreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnfreezeIntegrationTest.CannotUnfreezeAccountOnTokenWhenTokenIDIsNotSet"]" />
         public virtual void CannotUnfreezeAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -88,6 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUnfreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnfreezeIntegrationTest.CannotUnfreezeAccountOnTokenWhenAccountIDIsNotSet"]" />
         public virtual void CannotUnfreezeAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -124,6 +128,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenUnfreezeIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnfreezeIntegrationTest.CannotUnfreezeAccountOnTokenWhenAccountWasNotAssociatedWith"]" />
         public virtual void CannotUnfreezeAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

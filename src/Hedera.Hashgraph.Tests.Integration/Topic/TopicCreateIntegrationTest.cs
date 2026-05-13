@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,11 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest"]" />
     public class TopicCreateIntegrationTest
     {
         [Fact] 
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanCreateTopic"]" />
 		public virtual void CanCreateTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -42,6 +44,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanCreateTopicWithNoFieldsSet"]" />
 		public virtual void CanCreateTopicWithNoFieldsSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -52,6 +55,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreatesAndUpdatesRevenueGeneratingTopic"]" />
 		public virtual void CreatesAndUpdatesRevenueGeneratingTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -172,6 +176,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey"]" />
 		public virtual void FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -220,6 +225,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToUpdateFeeScheduleKeyWithoutPermissions"]" />
 		public virtual void FailsToUpdateFeeScheduleKeyWithoutPermissions()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -245,6 +251,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToUpdateCustomFeesWithoutFeeScheduleKey"]" />
 		public virtual void FailsToUpdateCustomFeesWithoutFeeScheduleKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -286,6 +293,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.ChargesHbarFeesWithLimitsApplied"]" />
 		public virtual void ChargesHbarFeesWithLimitsApplied()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -326,6 +334,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.ExemptsFeeExemptKeysFromHbarFees"]" />
 		public virtual void ExemptsFeeExemptKeysFromHbarFees()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -370,6 +379,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId"]" />
 		public virtual void CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -388,6 +398,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId"]" />
 		public virtual void CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -419,6 +430,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 		[Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanClearCustomFeesListAndFeeExemptKeysList"]" />
 		public virtual void CanClearCustomFeesListAndFeeExemptKeysList()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -503,6 +515,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
 		}
 		[Fact]
+		/// <include file="TopicCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanUpdateTopicWithoutSpecifyingAnythingTopicShouldHaveTheSameValues"]" />
 		public virtual void CanUpdateTopicWithoutSpecifyingAnythingTopicShouldHaveTheSameValues()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))

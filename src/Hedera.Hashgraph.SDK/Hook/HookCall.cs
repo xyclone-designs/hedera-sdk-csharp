@@ -2,23 +2,23 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="HookCall.cs.xml" path='docs/member[@name="T:HookCall"]/*' />
+    /// <include file="HookCall.cs.xml" path='docs/member[@name="T:HookCall"]' />
     public abstract class HookCall
     {
-        /// <include file="HookCall.cs.xml" path='docs/member[@name="M:HookCall.#ctor(System.Int64,EvmHookCall)"]/*' />
+        /// <include file="HookCall.cs.xml" path='docs/member[@name="M:HookCall.#ctor(System.Int64,EvmHookCall)"]' />
         protected HookCall(long hookId, EvmHookCall evmHookCall)
         {
             HookId = hookId;
             EvmHookCall = evmHookCall;
         }
 
-        /// <include file="HookCall.cs.xml" path='docs/member[@name="P:HookCall.HookId"]/*' />
+        /// <include file="HookCall.cs.xml" path='docs/member[@name="P:HookCall.HookId"]' />
         public virtual long HookId { get; }
 
-        /// <include file="HookCall.cs.xml" path='docs/member[@name="P:HookCall.EvmHookCall"]/*' />
+        /// <include file="HookCall.cs.xml" path='docs/member[@name="P:HookCall.EvmHookCall"]' />
         public virtual EvmHookCall EvmHookCall { get; }
 
-        /// <include file="HookCall.cs.xml" path='docs/member[@name="M:HookCall.ToProtobuf"]/*' />
+        /// <include file="HookCall.cs.xml" path='docs/member[@name="M:HookCall.ToProtobuf"]' />
         public virtual Proto.Services.HookCall ToProtobuf()
         {
             return new Proto.Services.HookCall

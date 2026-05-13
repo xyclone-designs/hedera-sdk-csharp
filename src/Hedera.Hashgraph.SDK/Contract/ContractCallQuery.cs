@@ -9,30 +9,30 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="T:ContractCallQuery"]/*' />
+    /// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="T:ContractCallQuery"]' />
     public sealed class ContractCallQuery : Query<ContractFunctionResult, ContractCallQuery>
     {
 		public ContractId? ContractId { get; set; }
-		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.Gas"]/*' />
+		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.Gas"]' />
 		public long Gas { get; set; }
-        /// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.CopyArray"]/*' />
+        /// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.CopyArray"]' />
         public byte[] FunctionParameters
         {
             get => field.CopyArray();
             set => field = value.CopyArray();
 
         } = [];
-		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.MaXResultSize"]/*' />
+		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.MaXResultSize"]' />
 		public long MaxResultSize { get; set; }
-		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.SenderAccountId"]/*' />
+		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.SenderAccountId"]' />
 		public AccountId? SenderAccountId { get; set; }
 
-		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.SetFunction(System.String)"]/*' />
+		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.SetFunction(System.String)"]' />
 		public ContractCallQuery SetFunction(string name)
 		{
 			return SetFunction(name, new ContractFunctionParameters());
 		}
-		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.SetFunction(System.String,ContractFunctionParameters @)"]/*' />
+		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="M:ContractCallQuery.SetFunction(System.String,ContractFunctionParameters @)"]' />
 		public ContractCallQuery SetFunction(string name, ContractFunctionParameters @params)
 		{
 			FunctionParameters = @params.ToBytes(name).ToByteArray();

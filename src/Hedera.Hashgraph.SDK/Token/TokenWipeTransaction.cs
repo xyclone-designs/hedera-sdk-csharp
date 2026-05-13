@@ -8,41 +8,41 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="T:TokenWipeTransaction"]/*' />
+    /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="T:TokenWipeTransaction"]' />
     public class TokenWipeTransaction : Transaction<TokenWipeTransaction>
     {
-        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor"]/*' />
+        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor"]' />
         public TokenWipeTransaction() { }
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TokenWipeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenWipeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen"]' />
 		public virtual TokenId? TokenId 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_2"]/*' />
+        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_2"]' />
         public virtual AccountId? AccountId 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_3"]' />
 		public virtual ulong Amount 
         {
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.InitFromTransactionBody"]/*' />
+        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.InitFromTransactionBody"]' />
         public virtual ListGuarded<long> Serials
 		{
 			init; get => field ??= new ListGuarded<long>
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 		}
 
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.InitFromTransactionBody_2"]/*' />
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.InitFromTransactionBody_2"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenWipe;
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Token
             Serials.ClearAndSet(body.SerialNumbers);
         }
 
-        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenWipeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenWipeAccountTransactionBody

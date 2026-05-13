@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest"]" />
     public class TokenAirdropTransactionTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -29,6 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenAirdropTransaction();
@@ -61,6 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -69,6 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.DecimalsMustBeConsistent"]" />
         public virtual void DecimalsMustBeConsistent()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -80,6 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.CanGetDecimals"]" />
         public virtual void CanGetDecimals()
         {
             var tx = new TokenAirdropTransaction();
@@ -96,6 +101,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.FromScheduledTransaction"]" />
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.Services.SchedulableTransactionBody
@@ -108,6 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestDefaultMaxTransactionFeeIsSet"]" />
         public virtual void TestDefaultMaxTransactionFeeIsSet()
         {
             Assert.Equal(new Hbar(1), transaction.DefaultMaxTransactionFee);
@@ -115,6 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddTokenTransfer"]" />
         public virtual void TestAddTokenTransfer()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -130,6 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddApprovedTokenTransfer"]" />
         public virtual void TestAddApprovedTokenTransfer()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -145,6 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddNftTransfer"]" />
         public virtual void TestAddNftTransfer()
         {
             NftId nftId = new (new TokenId(0, 0, 123), 1);
@@ -161,6 +171,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddApprovedNftTransfer"]" />
         public virtual void TestAddApprovedNftTransfer()
         {
             NftId nftId = new (new TokenId(0, 0, 123), 1);
@@ -177,6 +188,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestGetTokenIdDecimals"]" />
         public virtual void TestGetTokenIdDecimals()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -190,6 +202,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestBuildTransactionBody"]" />
         public virtual void TestBuildTransactionBody()
         {
             Proto.Services.TokenAirdropTransactionBody builder = SpawnTestTransaction().ToProtobuf();
@@ -197,6 +210,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         }
 
         [Fact]
+        /// <include file="test-token-airdrop-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestGetMethodDescriptor"]" />
         public virtual void TestGetMethodDescriptor()
         {
             //Assert.Equal(Proto.Services.TokenService.Descriptor.GetAirdropTokensMethod(), transaction.GetMethodDescriptor());

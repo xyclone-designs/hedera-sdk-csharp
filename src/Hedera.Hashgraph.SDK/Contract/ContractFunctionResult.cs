@@ -16,7 +16,7 @@ using System.Numerics;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="T:ContractFunctionResult"]/*' />
+    /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="T:ContractFunctionResult"]' />
     public sealed class ContractFunctionResult
     {
 		private static string[] SplitTopLevelTypes(string input)
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             0xA0  // -96 in Java
         ]);
 
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.Services.ContractFunctionResult)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.Services.ContractFunctionResult)"]' />
 		internal ContractFunctionResult(Proto.Services.ContractFunctionResult inner)
 		{
 			ContractId = ContractId.FromProtobuf(inner.ContractId);
@@ -83,96 +83,96 @@ namespace Hedera.Hashgraph.SDK.Contract
 			SignerNonce = inner.SignerNonce.Value;
 		}
 
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractId"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractId"]' />
 		public ContractId ContractId { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.EvmAddress"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.EvmAddress"]' />
         public ContractId EvmAddress { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ErrorMessage"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ErrorMessage"]' />
         public string? ErrorMessage { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Bloom"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Bloom"]' />
         public ByteString Bloom { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.GasUsed"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.GasUsed"]' />
         public ulong GasUsed { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.logs"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.logs"]' />
         public List<ContractLogInfo> Logs { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.CreatedContractIds"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.CreatedContractIds"]' />
         public List<ContractId> CreatedContractIds { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.StateChanges"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.StateChanges"]' />
         public List<ContractStateChange> StateChanges { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Gas"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Gas"]' />
         public long Gas { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.HbarAmount"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.HbarAmount"]' />
         public Hbar HbarAmount { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractFunctionParametersBytes"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractFunctionParametersBytes"]' />
         public byte[] ContractFunctionParametersBytes { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SenderAccountId"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SenderAccountId"]' />
         public AccountId SenderAccountId { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractNonces"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractNonces"]' />
         public List<ContractNonceInfo> ContractNonces { get; }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SignerNonce"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SignerNonce"]' />
         public long SignerNonce { get; }
         private readonly ByteString RawResult;
 
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.AsBytes"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.AsBytes"]' />
         public byte[] AsBytes()
         {
             return RawResult.ToByteArray();
         }
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBytes(System.Int32)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBytes(System.Int32)"]' />
 		public byte[] GetBytes(int valIndex)
 		{
 			return GetDynamicBytes(valIndex).ToByteArray();
 		}
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBytes32(System.Int32)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBytes32(System.Int32)"]' />
 		public byte[] GetBytes32(int valIndex)
 		{
 			return GetByteString(valIndex * 32, (valIndex + 1) * 32).ToByteArray();
 		}
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBool(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetBool(System.Int32)"]' />
         public bool GetBool(int valIndex)
         {
             return GetInt8(valIndex) != 0;
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt8(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt8(System.Int32)"]' />
         public byte GetInt8(int valIndex)
         {
             return GetByteBuffer(valIndex * 32).Span[31];
 		}
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt32(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt32(System.Int32)"]' />
         public int GetInt32(int valIndex)
         {
 
             // int will be the last 4 bytes in the "value"
             return GetIntValueAt(valIndex * 32);
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt64(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt64(System.Int32)"]' />
         public long GetInt64(int valIndex)
         {
             ReadOnlySpan<byte> bytes = GetByteBuffer(valIndex * 32 + 24).Span;
 			
             return BinaryPrimitives.ReadInt64BigEndian(bytes);
 		}
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt256(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetInt256(System.Int32)"]' />
         public BigInteger GetInt256(int valIndex)
         {
             return new BigInteger(GetBytes32(valIndex));
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint8(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint8(System.Int32)"]' />
         public byte GetUint8(int valIndex)
         {
             return GetInt8(valIndex);
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint32(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint32(System.Int32)"]' />
         public uint GetUint32(int valIndex)
         {
             return (uint)GetInt32(valIndex);
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint64(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint64(System.Int32)"]' />
         public ulong GetUint64(int valIndex)
         {
             return (ulong)GetInt64(valIndex);
         }
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint256(System.Int32)"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetUint256(System.Int32)"]' />
         public BigInteger GetUint256(int valIndex)
         {
 
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             // prepending a sign bit
             return new BigInteger(bytes);
 		}
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetAddress(System.Int32)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetAddress(System.Int32)"]' />
 		public string GetAddress(int valIndex)
 		{
 			int offset = valIndex * 32;
@@ -194,12 +194,12 @@ namespace Hedera.Hashgraph.SDK.Contract
 			// address is a uint160
 			return Hex.ToHexString(GetByteString(offset + 12, offset + 32).ToByteArray());
 		}
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetString(System.Int32)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetString(System.Int32)"]' />
 		public string GetString(int valIndex)
 		{
 			return GetDynamicBytes(valIndex).ToStringUtf8();
 		}
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetStringArray(System.Int32)"]/*' />
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.GetStringArray(System.Int32)"]' />
 		public IList<string> GetStringArray(int index)
 		{
 			var offset = GetInt32(index);
@@ -273,7 +273,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return ByteString.CopyFrom(RawResult.ToByteArray(), startIndex, endIndex);
         }
 
-        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.ToProtobuf"]/*' />
+        /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.ToProtobuf"]' />
         public Proto.Services.ContractFunctionResult ToProtobuf()
         {
 			Proto.Services.ContractFunctionResult proto = new()

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -13,9 +13,11 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest"]" />
     public class AccountCreateIntegrationTest
     {
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateAccountWithOnlyInitialBalanceAndKey"]" />
         public virtual void CanCreateAccountWithOnlyInitialBalanceAndKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -43,6 +45,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateAccountWithNoInitialBalance"]" />
         public virtual void CanCreateAccountWithNoInitialBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -65,6 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanNotCreateAccountWithNoKey"]" />
         public virtual void CanNotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -83,6 +87,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateWithAliasKey"]" />
         public virtual void CanCreateWithAliasKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -105,6 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.ManagesExpiration"]" />
         public virtual void ManagesExpiration()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -136,6 +142,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasFromAdminKey"]" />
         public virtual void CreateAccountWithAliasFromAdminKey()
         {
 
@@ -174,6 +181,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired"]" />
         public virtual void CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired()
         {
 
@@ -214,6 +222,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature"]" />
         public virtual void CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -246,6 +255,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAlias"]" />
         public virtual void CreateAccountWithAlias()
         {
 
@@ -287,6 +297,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithoutSignature"]" />
         public virtual void CannotCreateAccountWithAliasWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -317,6 +328,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasWithReceiverSigRequired"]" />
         public virtual void CreateAccountWithAliasWithReceiverSigRequired()
         {
 
@@ -353,6 +365,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature"]" />
         public virtual void CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -383,6 +396,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithoutBothKeySignatures"]" />
         public virtual void CannotCreateAccountWithAliasWithoutBothKeySignatures()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -413,6 +427,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias"]" />
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -436,6 +451,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias"]" />
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -460,6 +476,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias"]" />
         public virtual void CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -483,6 +500,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException"]" />
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -512,6 +530,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias"]" />
         public virtual void CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -533,6 +552,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias"]" />
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))

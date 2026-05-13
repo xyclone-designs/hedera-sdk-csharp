@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {
-	/// <include file="AccountId.cs.xml" path='docs/member[@name="T:AccountId"]/*' />
+	/// <include file="AccountId.cs.xml" path='docs/member[@name="T:AccountId"]' />
 	public sealed class AccountId : IComparable<AccountId>, ICloneable
     {
         private static readonly Regex ALIAS_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.((?:[0-9a-fA-F][0-9a-fA-F])+)$");
 
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64)"]' />
 		public AccountId(long num) : this(0, 0, num) { }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64)"]' />
 		public AccountId(long shard, long realm, long num) : this(shard, realm, num, null) { }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]' />
 		public AccountId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             AliasKey = null;
             EvmAddress = null;
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String,PublicKey,EvmAddress)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String,PublicKey,EvmAddress)"]' />
 		public AccountId(long shard, long realm, long num, string? checksum, PublicKey? aliasKey, EvmAddress? evmAddress)
         {
             Shard = shard;
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             EvmAddress = evmAddress;
         }
 
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromString(System.String)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromString(System.String)"]' />
         public static AccountId FromString(string id)
         {
             if ((id.StartsWith("0x") && id.Length == 42) || id.Length == 40)
@@ -71,29 +71,29 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
                     isEvmAddress ? EvmAddress.FromBytes(aliasBytes) : null);
 			}
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String)"]' />
         public static AccountId FromEvmAddress(string evmAddress)
         {
             return FromEvmAddress(evmAddress, 0, 0);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String,System.Int64,System.Int64)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String,System.Int64,System.Int64)"]' />
         public static AccountId FromEvmAddress(string evmAddress, long shard, long realm)
         {
             return FromEvmAddress(EvmAddress.FromString(evmAddress), shard, realm);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress)"]' />
         public static AccountId FromEvmAddress(EvmAddress evmAddress)
         {
             return FromEvmAddress(evmAddress, 0, 0);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress,System.Int64,System.Int64)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress,System.Int64,System.Int64)"]' />
         public static AccountId FromEvmAddress(EvmAddress evmAddress, long shard, long realm)
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress.ToString());
 
             return new AccountId(shard, realm, 0, null, null, evmAddress);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromSolidityAddress(System.String)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromSolidityAddress(System.String)"]' />
         public static AccountId FromSolidityAddress(string address)
         {
             if (Utils.EntityIdHelper.IsLongZeroAddress(Utils.EntityIdHelper.DecodeEvmAddress(address)))
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
                 return FromEvmAddress(address, 0, 0);
             }
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.Services.AccountId)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.Services.AccountId)"]' />
 		public static AccountId FromProtobuf(Proto.Services.AccountID accountId)
         {
             PublicKey? aliasKey = null;
@@ -120,30 +120,30 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 
             return new AccountId(accountId.ShardNum, accountId.RealmNum, accountId.AccountNum, null, aliasKey, evmAddress);
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromBytes(System.Byte[])"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromBytes(System.Byte[])"]' />
 		public static AccountId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.Services.AccountID.Parser.ParseFrom(bytes));
         }
 
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Shard"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Shard"]' />
 		public long Shard { get; }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Realm"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Realm"]' />
 		public long Realm { get; }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Num"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Num"]' />
 		public long Num { get; }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.AliasKey"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.AliasKey"]' />
 		public PublicKey? AliasKey { get; }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.EvmAddress"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.EvmAddress"]' />
 		public EvmAddress? EvmAddress { get; }
 		private string? Checksum { get; }
 
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToSolidityAddress"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToSolidityAddress"]' />
 		public string ToSolidityAddress()
         {
             return Utils.EntityIdHelper.ToSolidityAddress(Shard, Realm, Num);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToEvmAddress"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToEvmAddress"]' />
         public string ToEvmAddress()
         {
             if (EvmAddress != null)
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             }
         }
 
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToProtobuf"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToProtobuf"]' />
 		public Proto.Services.AccountID ToProtobuf()
         {
             Proto.Services.AccountID proto = new()
@@ -174,22 +174,22 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			return proto;
         }
 
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNum(Client)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNum(Client)"]' />
         public AccountId PopulateAccountNum(Client client)
         {
             return PopulateAccountNumAsync(client).GetAwaiter().GetResult();
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNumAsync(Client)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNumAsync(Client)"]' />
         public async Task<AccountId> PopulateAccountNumAsync(Client client)
         {
             return new AccountId(Shard, Realm, await Utils.EntityIdHelper.GetAccountNumFromMirrorNodeAsync(client, EvmAddress?.ToString()), Checksum, AliasKey, EvmAddress);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddress(Client)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddress(Client)"]' />
         public AccountId PopulateAccountEvmAddress(Client client)
         {
             return PopulateAccountEvmAddressAsync(client).GetAwaiter().GetResult();
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddressAsync(Client)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddressAsync(Client)"]' />
         public async Task<AccountId> PopulateAccountEvmAddressAsync(Client client)
         {
             return new AccountId(Shard, Realm, Num, Checksum, AliasKey, await Utils.EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(client, Num));
@@ -242,12 +242,12 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			return EvmAddress.ToString().CompareTo(o?.EvmAddress?.ToString());
 		}
 
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.Validate(Client)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.Validate(Client)"]' />
 		public void Validate(Client client)
         {
             ValidateChecksum(client);
         }
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ValidateChecksum(Client)"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ValidateChecksum(Client)"]' />
         public void ValidateChecksum(Client client)
         {
             if (AliasKey == null && EvmAddress == null)
@@ -256,12 +256,12 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             }
         }
 
-        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToBytes"]/*' />
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToBytes"]' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToStringWithChecksum(Client)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToStringWithChecksum(Client)"]' />
 		public string ToStringWithChecksum(Client client)
         {
             if (AliasKey != null || EvmAddress != null)

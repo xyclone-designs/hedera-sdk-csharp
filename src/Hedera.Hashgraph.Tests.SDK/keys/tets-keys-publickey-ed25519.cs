@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -9,12 +9,14 @@ using Hedera.Hashgraph.Reference;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
+    /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest"]" />
     public class Ed25519PublicKeyTest
     {
         private static readonly string TEST_KEY_STR = "302a300506032b6570032100e0c8ec2758a5879ffac226a13c0c516b799e72e35141a0dd828f94d37988a4b7";
         private static readonly string TEST_KEY_STR_RAW = "e0c8ec2758a5879ffac226a13c0c516b799e72e35141a0dd828f94d37988a4b7";
 
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.VerifyTransaction"]" />
         public virtual void VerifyTransaction()
         {
             var transaction = new TransferTransaction
@@ -28,6 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(key.GetPublicKey().VerifyTransaction(transaction));
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteValidation"]" />
         public virtual void KeyByteValidation()
         {
             byte[] invalidKeyED25519 = new byte[32];
@@ -83,6 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             _ = PublicKey.FromBytesED25519(validDERKey);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization"]" />
         public virtual void KeyByteSerialization()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -92,6 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(key2Bytes, key1Bytes);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization2"]" />
         public virtual void KeyByteSerialization2()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -104,6 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(key3Bytes, key1Bytes);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization3"]" />
         public virtual void KeyByteSerialization3()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -116,6 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(key3Bytes, key1Bytes);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerializationThroughTransaction"]" />
         public virtual void KeyByteSerializationThroughTransaction()
         {
             var senderAccount = AccountId.FromString("0.0.1337");
@@ -132,6 +139,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.NotEmpty(tx.GetSignatures());
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization"]" />
         public virtual void KeyStringSerialization()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -145,6 +153,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key3Str, key1Str);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization2"]" />
         public virtual void KeyStringSerialization2()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -158,6 +167,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key3Str, key1Str);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization3"]" />
         public virtual void KeyStringSerialization3()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -183,6 +193,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToStringRaw(), TEST_KEY_STR_RAW);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyToString"]" />
         public virtual void KeyToString()
         {
             PublicKey key = PublicKey.FromString(TEST_KEY_STR);
@@ -190,18 +201,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToString(), TEST_KEY_STR);
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyIsECDSA"]" />
         public virtual void KeyIsECDSA()
         {
             PublicKey key = PrivateKey.GenerateED25519().GetPublicKey();
             Assert.True(key.IsED25519());
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyIsNotEd25519"]" />
         public virtual void KeyIsNotEd25519()
         {
             PublicKey key = PrivateKey.GenerateED25519().GetPublicKey();
             Assert.False(key.IsECDSA());
         }
         [Fact]
+        /// <include file="tets-keys-publickey-ed25519.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.DERImportTestVectors"]" />
         public virtual void DERImportTestVectors()
         {
 

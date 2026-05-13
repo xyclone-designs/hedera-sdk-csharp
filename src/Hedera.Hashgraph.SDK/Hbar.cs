@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="Hbar.cs.xml" path='docs/member[@name="T:Hbar"]/*' />
+    /// <include file="Hbar.cs.xml" path='docs/member[@name="T:Hbar"]' />
     public sealed class Hbar : IHbar<Hbar>
     {
         private static readonly Regex FROM_STRING_PATTERN = new("^((?:\\+|\\-)?\\d+(?:\\.\\d+)?)(\\ (tℏ|μℏ|mℏ|ℏ|kℏ|Mℏ|Gℏ))?$");

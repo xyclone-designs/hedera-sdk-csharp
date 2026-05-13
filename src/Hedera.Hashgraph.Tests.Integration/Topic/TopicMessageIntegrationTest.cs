@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
@@ -10,9 +10,11 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TopicMessageIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest"]" />
     public class TopicMessageIntegrationTest
     {
         [Fact]
+        /// <include file="TopicMessageIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.CanReceiveATopicMessage"]" />
         public virtual void CanReceiveATopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -69,6 +71,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicMessageIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.CanReceiveALargeTopicMessage"]" />
         public virtual void CanReceiveALargeTopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -133,6 +136,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TopicMessageIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageIntegrationTest.UnsubscribingDoesNotLogRetryWarnings"]" />
         public virtual void UnsubscribingDoesNotLogRetryWarnings()
         {
             using (var testEnv = new IntegrationTestEnv(1))

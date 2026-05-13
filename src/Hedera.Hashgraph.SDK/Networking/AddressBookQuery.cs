@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery"]/*' />
+	/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery"]' />
 	public class AddressBookQuery
 	{
 		private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(AddressBookQuery));
@@ -35,9 +35,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return false;
 		}
 
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.FileId"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.FileId"]' />
 		public virtual FileId? FileId { get; set; }
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery_2"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery_2"]' />
 		public virtual TimeSpan MaxBackoff
 		{
 			get;
@@ -52,12 +52,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 
 		} = TimeSpan.FromSeconds(8);
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.Limit"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.Limit"]' />
 		public virtual int? Limit { get; set; }
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.MaxAttempts"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.MaxAttempts"]' />
 		public virtual int MaxAttempts { get; set; } = 10;
 
-        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]/*' />
+        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]' />
         public virtual Proto.Mirror.AddressBookQuery BuildProtoQuery()
         {
             var builder = new Proto.Mirror.AddressBookQuery();
@@ -70,12 +70,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 
             return builder;
         }
-        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client)"]/*' />
+        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client)"]' />
         public virtual NodeAddressBook Execute(Client client)
 		{
 			return Execute(client, client.RequestTimeout);
 		}
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client,System.TimeSpan)"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client,System.TimeSpan)"]' />
 		public virtual NodeAddressBook Execute(Client client, TimeSpan timeout)
 		{
 			var deadline = DateTime.UtcNow.Add(timeout);
@@ -108,12 +108,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client)"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client)"]' />
 		public virtual Task<NodeAddressBook> ExecuteAsync(Client client)
 		{
 			return ExecuteAsync(client, client.RequestTimeout);
 		}
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client,System.TimeSpan)"]/*' />
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client,System.TimeSpan)"]' />
 		public virtual Task<NodeAddressBook> ExecuteAsync(Client client, TimeSpan timeout)
 		{
 			var deadline = DateTime.UtcNow.Add(timeout);

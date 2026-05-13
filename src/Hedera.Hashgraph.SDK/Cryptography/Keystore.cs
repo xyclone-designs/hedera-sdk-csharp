@@ -11,7 +11,7 @@ using System.Text.Json;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
-	/// <include file="Keystore.cs.xml" path='docs/member[@name="T:Keystore"]/*' />
+	/// <include file="Keystore.cs.xml" path='docs/member[@name="T:Keystore"]' />
 
 	sealed class Keystore
 	{

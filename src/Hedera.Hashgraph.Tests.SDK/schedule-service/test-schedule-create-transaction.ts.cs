@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Google.Protobuf.WellKnownTypes;
@@ -13,6 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
+    /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest"]" />
     public class ScheduleCreateTransactionTest
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -42,6 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             }).Freeze().Sign(unusedPrivateKey);
         }
         [Fact]
+        /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldBytes"]" />
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -50,6 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldBytesNoSetters"]" />
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleCreateTransaction();
@@ -58,6 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         [Fact]
+        /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldSupportExpirationTimeDurationBytesRoundTrip"]" />
         public virtual void ShouldSupportExpirationTimeDurationBytesRoundTrip()
         {
             var tx = new TransferTransaction()
@@ -83,12 +87,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234));
         }
         [Fact]
+        /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.SetExpirationTimeDurationOnFrozenTransactionShouldThrow"]" />
         public virtual void SetExpirationTimeDurationOnFrozenTransactionShouldThrow()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = DateTimeOffset.FromUnixTimeSeconds(1));
         }
         [Fact]
+        /// <include file="test-schedule-create-transaction.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.GetSetExpirationTimeDateTime"]" />
         public virtual void GetSetExpirationTimeDateTime()
         {
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567).ToTimestamp();

@@ -12,64 +12,64 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <include file="TokenInfo.cs.xml" path='docs/member[@name="T:TokenInfo"]/*' />
+    /// <include file="TokenInfo.cs.xml" path='docs/member[@name="T:TokenInfo"]' />
     public class TokenInfo
     {
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenId"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenId"]' />
         public TokenId TokenId { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Name"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Name"]' />
         public string Name { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Symbol"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Symbol"]' />
         public string Symbol { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Decimals"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Decimals"]' />
         public uint Decimals { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TotalSupply"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TotalSupply"]' />
         public ulong TotalSupply { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TreasuryAccountId"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TreasuryAccountId"]' />
         public AccountId TreasuryAccountId { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AdminKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AdminKey"]' />
         public Key? AdminKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.KycKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.KycKey"]' />
         public Key? KycKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FreezeKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FreezeKey"]' />
         public Key? FreezeKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.WipeKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.WipeKey"]' />
         public Key? WipeKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyKey"]' />
         public Key? SupplyKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FeeScheduleKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FeeScheduleKey"]' />
         public Key? FeeScheduleKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultFreezeStatus"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultFreezeStatus"]' />
         public bool DefaultFreezeStatus { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultKycStatus"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultKycStatus"]' />
         public bool DefaultKycStatus { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.IsDeleted"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.IsDeleted"]' />
         public bool IsDeleted { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewAccount"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewAccount"]' />
         public AccountId AutoRenewAccount { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewPeriod"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewPeriod"]' />
         public TimeSpan AutoRenewPeriod { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.ExpirationTime"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.ExpirationTime"]' />
         public DateTimeOffset ExpirationTime { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenMemo"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenMemo"]' />
         public string TokenMemo { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.CustomFees"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.CustomFees"]' />
         public IList<CustomFee> CustomFees { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenType"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenType"]' />
         public TokenType TokenType { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyType"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyType"]' />
         public TokenSupplyType SupplyType { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MaxSupply"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MaxSupply"]' />
         public long MaxSupply { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseKey"]' />
         public Key? PauseKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseStatus"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseStatus"]' />
         public bool PauseStatus;
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Metadata"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Metadata"]' />
         public byte[] Metadata { get; } = []; 
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MetadataKey"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MetadataKey"]' />
         public Key? MetadataKey { get; }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.LedgerId"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.LedgerId"]' />
         public LedgerId LedgerId { get; }
 
         internal TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, DateTimeOffset expirationTime, string tokenMemo, IEnumerable<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
@@ -104,28 +104,28 @@ namespace Hedera.Hashgraph.SDK.Token
             LedgerId = ledgerId;
         }
 
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]' />
 		public static bool KycStatusFromProtobuf(Proto.Services.TokenKycStatus kycStatus)
         {
             return kycStatus == Proto.Services.TokenKycStatus.Granted;
         }
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusFromProtobuf(Proto.Services.TokenPauseStatus)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusFromProtobuf(Proto.Services.TokenPauseStatus)"]' />
 		public static bool PauseStatusFromProtobuf(Proto.Services.TokenPauseStatus pauseStatus)
 		{
 			return pauseStatus == Proto.Services.TokenPauseStatus.Paused;
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]' />
 		public static bool FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus freezeStatus)
 		{
 			return freezeStatus == Proto.Services.TokenFreezeStatus.Frozen;
 		}
 
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromBytes(System.Byte[])"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromBytes(System.Byte[])"]' />
 		public static TokenInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.TokenGetInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromProtobuf(Proto.Services.TokenGetInfoResponse)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromProtobuf(Proto.Services.TokenGetInfoResponse)"]' />
 		public static TokenInfo FromProtobuf(Proto.Services.TokenGetInfoResponse response)
         {
 			return new TokenInfo(
@@ -159,18 +159,18 @@ namespace Hedera.Hashgraph.SDK.Token
                 LedgerId.FromByteString(response.TokenInfo.LedgerId));
 		}
 
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.CustomFeesFromProto(Proto.Services.TokenInfo)"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.CustomFeesFromProto(Proto.Services.TokenInfo)"]' />
         private static IList<CustomFee> CustomFeesFromProto(Proto.Services.TokenInfo info)
         {
             return [.. info.CustomFees.Select(_ => CustomFee.FromProtobuf(_))];
         }
 
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.ToBytes"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.ToBytes"]' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.ToProtobuf"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.ToProtobuf"]' />
 		public virtual Proto.Services.TokenGetInfoResponse ToProtobuf()
 		{
             Proto.Services.TokenInfo proto = new()
@@ -220,17 +220,17 @@ namespace Hedera.Hashgraph.SDK.Token
                 TokenInfo = proto
             };
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusToProtobuf(System.Boolean)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusToProtobuf(System.Boolean)"]' />
 		public static Proto.Services.TokenKycStatus KycStatusToProtobuf(bool kycStatus)
         {
             return kycStatus ? Proto.Services.TokenKycStatus.Granted : Proto.Services.TokenKycStatus.Revoked;
         }
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusToProtobuf(System.Boolean)"]/*' />
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusToProtobuf(System.Boolean)"]' />
         public static Proto.Services.TokenPauseStatus PauseStatusToProtobuf(bool pauseStatus)
         {
             return pauseStatus ? Proto.Services.TokenPauseStatus.Paused : Proto.Services.TokenPauseStatus.Unpaused;
         }
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusToProtobuf(System.Boolean)"]/*' />
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusToProtobuf(System.Boolean)"]' />
 		public static Proto.Services.TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
 		{
 			return freezeStatus ? Proto.Services.TokenFreezeStatus.Frozen : Proto.Services.TokenFreezeStatus.Unfrozen;

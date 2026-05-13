@@ -12,26 +12,26 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="T:NodeUpdateTransaction"]/*' />
+	/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="T:NodeUpdateTransaction"]' />
 	public class NodeUpdateTransaction : Transaction<NodeUpdateTransaction>
     {
         private List<Endpoint> _GossipEndpoints = [];
         private List<Endpoint> _ServiceEndpoints = [];
 
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor"]' />
 		public NodeUpdateTransaction() { }
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal NodeUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal NodeUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen"]' />
 		public ulong? NodeId
 		{
 			get;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_2"]' />
 		public AccountId? AccountId
 		{
 			get;
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_3"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_3"]' />
 		public string? Description
 		{
 			get;
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_4"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_4"]' />
 		public IList<Endpoint> GossipEndpoints
 		{
 			get { RequireNotFrozen(); return _GossipEndpoints; }
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 		public IReadOnlyList<Endpoint> GossipEndpoints_Read => _GossipEndpoints.AsReadOnly();
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_5"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_5"]' />
 		public IList<Endpoint> ServiceEndpoints
 		{
 			get { RequireNotFrozen(); return _ServiceEndpoints; }
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 		public IReadOnlyList<Endpoint> ServiceEndpoints_Read => ServiceEndpoints.AsReadOnly();
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_6"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_6"]' />
 		public byte[]? GossipCaCertificate
 		{
 			get;
@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_7"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_7"]' />
 		public byte[]? GrpcCertificateHash
 		{
 			get;
@@ -141,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_8"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_8"]' />
 		public Key? AdminKey
 		{
 			get;
@@ -151,7 +151,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_9"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_9"]' />
 		public bool? DeclineReward
 		{
 			get;
@@ -161,7 +161,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				field = value;
 			}
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_10"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.RequireNotFrozen_10"]' />
 		public Endpoint? GrpcWebProxyEndpoint
 		{
 			get;
@@ -172,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.NodeUpdate;
@@ -206,7 +206,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			if (body.GrpcProxyEndpoint is not null)
 			    GrpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
 		}
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.ToProtobuf"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.NodeUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.NodeUpdateTransactionBody
@@ -243,7 +243,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return builder;
         }
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.DeleteGrpcWebProxyEndpoint"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.DeleteGrpcWebProxyEndpoint"]' />
 		public virtual NodeUpdateTransaction DeleteGrpcWebProxyEndpoint()
 		{
 			RequireNotFrozen();
@@ -251,7 +251,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return this;
 		} // validation moved to Endpoint.validateNoIpAndDomain
 
-		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.FreezeWith(Client)"]/*' />
+		/// <include file="NodeUpdateTransaction.cs.xml" path='docs/member[@name="M:NodeUpdateTransaction.FreezeWith(Client)"]' />
 		public override NodeUpdateTransaction FreezeWith(Client? client)
 		{
 			if (NodeId == null)

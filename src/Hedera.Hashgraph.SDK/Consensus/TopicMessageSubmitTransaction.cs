@@ -12,34 +12,34 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {
-    /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="T:TopicMessageSubmitTransaction"]/*' />
+    /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="T:TopicMessageSubmitTransaction"]' />
     public sealed class TopicMessageSubmitTransaction : ChunkedTransaction<TopicMessageSubmitTransaction>
     {
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor"]/*' />
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor"]' />
 		public TopicMessageSubmitTransaction() { }
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TopicMessageSubmitTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TopicMessageSubmitTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen"]/*' />
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen"]' />
         public TopicId? TopicId
         {
             get; set { RequireNotFrozen(); field = value; }
         }
-        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen_2"]/*' />
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen_2"]' />
         public ByteString Message
         {
             get; set { RequireNotFrozen(); field = value; }
 
         } = ByteString.Empty;
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody"]' />
 		public IList<CustomFeeLimit> CustomFeeLimits
 		{
 			init; get => field ??= new ListGuarded<CustomFeeLimit>
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			};
 		}
 
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody_2"]/*' />
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody_2"]' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusSubmitMessage;
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             }
         }
 
-        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.ToProtobuf"]/*' />
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.ToProtobuf"]' />
         public Proto.Services.ConsensusSubmitMessageTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.ConsensusSubmitMessageTransactionBody();

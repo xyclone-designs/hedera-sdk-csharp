@@ -11,16 +11,16 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction"]/*' />
+	/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction"]' />
 	public class TokenUpdateNftsTransaction : Transaction<TokenUpdateNftsTransaction>
     {
-        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor"]/*' />
+        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor"]' />
         public TokenUpdateNftsTransaction() { }
 		internal TokenUpdateNftsTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TokenUpdateNftsTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -28,18 +28,18 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
 		private List<long> _Serials = [];
 
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen"]/*' />
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen"]' />
 		public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction_2"]/*' />
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction_2"]' />
 		public virtual ListGuarded<long> Serials
 		{
 			init => field = GenerateListGuarded(value); 
 			get => field ??= GenerateListGuarded<long>();
 		}
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen_2"]/*' />
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen_2"]' />
 		public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
 
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUpdateNfts;
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 Metadata = body.Metadata.ToByteArray();
         }
 
-        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.ToProtobuf"]/*' />
+        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.ToProtobuf"]' />
         public virtual Proto.Services.TokenUpdateNftsTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.TokenUpdateNftsTransactionBody();

@@ -5,7 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <include file="BadKeyException.cs.xml" path='docs/member[@name="T:BadKeyException"]/*' />
+    /// <include file="BadKeyException.cs.xml" path='docs/member[@name="T:BadKeyException"]' />
     public class BadMnemonicException : Exception, IBadMnemonic
     {
         internal BadMnemonicException(IMnemonic mnemonic, BadMnemonicReason reason, params long[] unknownWordIndicies)

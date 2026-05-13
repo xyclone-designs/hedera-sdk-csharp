@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -7,9 +7,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenRevokeKycIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest"]" />
     public class TokenRevokeKycIntegrationTest
     {
         [Fact]
+        /// <include file="TokenRevokeKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CanRevokeKycAccountWithToken"]" />
         public virtual void CanRevokeKycAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -62,6 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRevokeKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenTokenIDIsNotSet"]" />
         public virtual void CannotRevokeKycToAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -89,6 +92,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRevokeKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenAccountIDIsNotSet"]" />
         public virtual void CannotRevokeKycToAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -125,6 +129,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenRevokeKycIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenAccountWasNotAssociatedWith"]" />
         public virtual void CannotRevokeKycToAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

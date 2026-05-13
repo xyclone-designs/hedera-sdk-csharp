@@ -9,12 +9,12 @@ namespace Hedera.Hashgraph.SDK.Airdrops
     public abstract class PendingAirdropLogic<T> : Transaction<T> where T : PendingAirdropLogic<T>
     {
         protected PendingAirdropLogic() { }
-		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(Proto.Services.TransactionBody)"]' />
 		internal PendingAirdropLogic(Proto.Services.TransactionBody txBody) : base(txBody) { }
-		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs) { }
 
-        /// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+        /// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
         public virtual ListGuarded<PendingAirdropId> PendingAirdropIds
         {
             init; get => field ??= new ListGuarded<PendingAirdropId>

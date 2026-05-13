@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Transactions;
@@ -7,9 +7,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Exceptions
 {
+    /// <include file="test-exception-receiptstatus.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Exceptions.ReceiptStatusExceptionTest"]" />
     public class ReceiptStatusExceptionTest
     {
         [Fact]
+        /// <include file="test-exception-receiptstatus.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Exceptions.ReceiptStatusExceptionTest.ShouldHaveMessage"]" />
         public virtual void ShouldHaveMessage()
         {
             var validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);

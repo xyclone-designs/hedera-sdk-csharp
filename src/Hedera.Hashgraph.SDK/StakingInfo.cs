@@ -7,10 +7,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="StakingInfo.cs.xml" path='docs/member[@name="T:StakingInfo"]/*' />
+    /// <include file="StakingInfo.cs.xml" path='docs/member[@name="T:StakingInfo"]' />
     public class StakingInfo(bool declineStakingReward, DateTimeOffset stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId? stakedAccountId, long? stakedNodeId)
     {
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.FromBytes(System.Byte[])"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.FromBytes(System.Byte[])"]' />
         public static StakingInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.StakingInfo.Parser.ParseFrom(bytes));
@@ -26,20 +26,20 @@ namespace Hedera.Hashgraph.SDK
                 info.StakedNodeId);
         }
 
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.DeclineStakingReward"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.DeclineStakingReward"]' />
         public bool DeclineStakingReward { get; } = declineStakingReward;
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakePeriodStart"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakePeriodStart"]' />
         public DateTimeOffset StakePeriodStart { get; } = stakePeriodStart;
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.PendingReward"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.PendingReward"]' />
         public Hbar PendingReward { get; } = pendingReward;
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedToMe"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedToMe"]' />
         public Hbar StakedToMe { get; } = stakedToMe;
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedAccountId"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedAccountId"]' />
         public AccountId? StakedAccountId { get; } = stakedAccountId;
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedNodeId"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedNodeId"]' />
         public long? StakedNodeId { get; } = stakedNodeId;
 
-        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.ToBytes"]/*' />
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.ToBytes"]' />
         public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();

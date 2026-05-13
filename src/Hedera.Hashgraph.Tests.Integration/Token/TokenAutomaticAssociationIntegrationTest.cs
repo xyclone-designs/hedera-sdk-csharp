@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Transactions;
@@ -8,9 +8,11 @@ using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest"]" />
     public class TokenAutomaticAssociationIntegrationTest
     {
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations"]" />
         public virtual void CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -60,6 +62,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithLimitedMaxAutoAssociations"]" />
         public virtual void CanTransferNftsToAccountsWithLimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -118,6 +121,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanSetUnlimitedMaxAutoAssociationsForAccount"]" />
         public virtual void CanSetUnlimitedMaxAutoAssociationsForAccount()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -142,6 +146,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations"]" />
         public virtual void CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -191,6 +196,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations"]" />
         public virtual void CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -221,6 +227,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations"]" />
         public virtual void CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -260,6 +267,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations"]" />
         public virtual void CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -310,6 +318,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations"]" />
         public virtual void CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -353,6 +362,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CannotSetInvalidMaxAutoAssociationsValues"]" />
         public virtual void CannotSetInvalidMaxAutoAssociationsValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

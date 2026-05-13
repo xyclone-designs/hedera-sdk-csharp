@@ -6,16 +6,16 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <include file="HookEntityId.cs.xml" path='docs/member[@name="T:HookEntityId"]/*' />
+    /// <include file="HookEntityId.cs.xml" path='docs/member[@name="T:HookEntityId"]' />
     public class HookEntityId
     {
-        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(AccountId)"]/*' />
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(AccountId)"]' />
         public HookEntityId(AccountId accountId)
         {
             AccountId = accountId;
             ContractId = null;
         }
-        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(ContractId)"]/*' />
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(ContractId)"]' />
         public HookEntityId(ContractId contractId)
         {
             AccountId = null;
@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         public virtual bool IsAccount { get => AccountId is not null; }
         public virtual bool IsContract { get => ContractId is not null; }
 
-		/// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.ToProtobuf"]/*' />
+		/// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.ToProtobuf"]' />
 		public virtual Proto.Services.HookEntityID ToProtobuf()
         {
 			Proto.Services.HookEntityID proto = new ();
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Hook
             return proto;
         }
 
-        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.FromProtobuf(Proto.Services.HookEntityId)"]/*' />
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.FromProtobuf(Proto.Services.HookEntityId)"]' />
         public static HookEntityId FromProtobuf(Proto.Services.HookEntityID proto)
         {
             if (proto.AccountId is not null)

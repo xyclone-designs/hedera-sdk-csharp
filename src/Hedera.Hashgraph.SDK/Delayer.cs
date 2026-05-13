@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="Delayer.cs.xml" path='docs/member[@name="T:Delayer"]/*' />
+	/// <include file="Delayer.cs.xml" path='docs/member[@name="T:Delayer"]' />
 	public class Delayer
 	{
 		private readonly ExecutorService _executor;
@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.SDK
 			_executor = executor ?? throw new ArgumentNullException(nameof(executor));
 		}
 
-		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan)"]/*' />
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan)"]' />
 		public Task DelayAsync(TimeSpan delay)
 		{
 			return _executor.Submit(async () =>
@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK
 			});
 		}
 		
-		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan,System.Action)"]/*' />
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan,System.Action)"]' />
 		public Task DelayAsync(TimeSpan delay, Action action)
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK
 			});
 		}
 
-		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync``1(System.TimeSpan,System.Func{``0})"]/*' />
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync``1(System.TimeSpan,System.Func{``0})"]' />
 		public Task<T> DelayAsync<T>(TimeSpan delay, Func<T> func)
 		{
 			if (func == null) throw new ArgumentNullException(nameof(func));

@@ -5,7 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-	/// <include file="HederaReceiptStatusException.cs.xml" path='docs/member[@name="T:HederaReceiptStatusException"]/*' />
+	/// <include file="HederaReceiptStatusException.cs.xml" path='docs/member[@name="T:HederaReceiptStatusException"]' />
 	[Obsolete("Obsolete")]
     public class HederaReceiptStatusException : ReceiptStatusException
     {

@@ -13,22 +13,22 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="T:TransferTransaction"]/*' />
+    /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="T:TransferTransaction"]' />
     public partial class TransferTransaction : AbstractTokenTransferTransaction<TransferTransaction>
     {
         private readonly List<HbarTransfer> hbarTransfers = [];
         
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor"]' />
         public TransferTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(1);
         }
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(Proto.Services.TransactionBody)"]' />
 		internal TransferTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
 		internal TransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return new FungibleHookCall(proto.HookId, EvmHookCall.FromProtobuf(proto.EvmHookCall), type);
 		}
 
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.InitFromTransactionBody"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.InitFromTransactionBody"]' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.CryptoTransfer;
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return this;
 		}
 
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.GetHbarTransfers"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.GetHbarTransfers"]' />
 		public virtual Dictionary<AccountId, Hbar> GetHbarTransfers()
         {
             Dictionary<AccountId, Hbar> transfers = [];
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return transfers;
         }
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.ToProtobuf"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.ToProtobuf"]' />
 		public virtual Proto.Services.CryptoTransferTransactionBody ToProtobuf()
 		{
 			var transfers = SortTransfersAndBuild();
@@ -111,45 +111,45 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return builder;
 		}
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransfer(AccountId,Hbar)"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransfer(AccountId,Hbar)"]' />
 		public virtual TransferTransaction AddHbarTransfer(AccountId accountId, Hbar value)
 		{
 			return DoAddHbarTransfer(accountId, value, false, null);
 		}
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransfer(EvmAddress,Hbar)"]/*' />
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransfer(EvmAddress,Hbar)"]' />
 		public virtual TransferTransaction AddHbarTransfer(EvmAddress evmAddress, Hbar value)
         {
             AccountId accountId = AccountId.FromEvmAddress(evmAddress, 0, 0);
             return DoAddHbarTransfer(accountId, value, false, null);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddApprovedHbarTransfer(AccountId,Hbar)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddApprovedHbarTransfer(AccountId,Hbar)"]' />
         public virtual TransferTransaction AddApprovedHbarTransfer(AccountId accountId, Hbar value)
         {
             return DoAddHbarTransfer(accountId, value, true, null);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddApprovedHbarTransfer(EvmAddress,Hbar)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddApprovedHbarTransfer(EvmAddress,Hbar)"]' />
         public virtual TransferTransaction AddApprovedHbarTransfer(EvmAddress evmAddress, Hbar value)
         {
             AccountId accountId = AccountId.FromEvmAddress(evmAddress, 0, 0);
             return DoAddHbarTransfer(accountId, value, true, null);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddTokenTransferWithHook(TokenId,AccountId,System.Int64,FungibleHookCall)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddTokenTransferWithHook(TokenId,AccountId,System.Int64,FungibleHookCall)"]' />
         public virtual TransferTransaction AddTokenTransferWithHook(TokenId tokenId, AccountId accountId, long value, FungibleHookCall? hookCall)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, false, null, hookCall);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddNftTransferWithHook(NftId,AccountId,AccountId,NftHookCall,NftHookCall)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddNftTransferWithHook(NftId,AccountId,AccountId,NftHookCall,NftHookCall)"]' />
         public virtual TransferTransaction AddNftTransferWithHook(NftId nftId, AccountId senderAccountId, AccountId receiverAccountId, NftHookCall senderHookCall, NftHookCall receiverHookCall)
         {
             return DoAddNftTransfer(nftId, senderAccountId, receiverAccountId, false, senderHookCall, receiverHookCall);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransferWithHook(AccountId,Hbar,FungibleHookCall)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddHbarTransferWithHook(AccountId,Hbar,FungibleHookCall)"]' />
         public virtual TransferTransaction AddHbarTransferWithHook(AccountId accountId, Hbar amount, FungibleHookCall hookCall)
         {
             RequireNotFrozen();
             return DoAddHbarTransfer(accountId, amount, false, hookCall);
         }
-        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.SetHbarTransferApproval(AccountId,System.Boolean)"]/*' />
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.SetHbarTransferApproval(AccountId,System.Boolean)"]' />
         public virtual TransferTransaction SetHbarTransferApproval(AccountId accountId, bool isApproved)
         {
             RequireNotFrozen();

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 
 using Hedera.Hashgraph.SDK.Transactions;
@@ -9,6 +9,7 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
+    /// <include file="test-topic-message-chunk.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageChunkTest"]" />
     public class TopicMessageChunkTest
     {
         private static readonly DateTimeOffset testTimestamp = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -28,6 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly TransactionId testTransactionId = new TransactionId(new AccountId(0, 0, 1), testTimestamp);
 
         [Fact]
+        /// <include file="test-topic-message-chunk.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageChunkTest.ConstructWithArgs"]" />
         public virtual void ConstructWithArgs()
         {
             var consensusTopicResponse = new Proto.Mirror.ConsensusTopicResponse

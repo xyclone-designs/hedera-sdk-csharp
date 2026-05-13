@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK;
@@ -8,9 +8,11 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="AccountCreateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest"]" />
     public class AccountCreateTransactionHooksIntegrationTest
     {
         [Fact]
+        /// <include file="AccountCreateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithBasicLambdaHookSucceeds"]" />
         public virtual void AccountCreateWithBasicLambdaHookSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -37,6 +39,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithLambdaHookAndStorageUpdatesSucceeds"]" />
         public virtual void AccountCreateWithLambdaHookAndStorageUpdatesSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -61,6 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithDuplicateHookIdsFailsPrecheck"]" />
         public virtual void AccountCreateWithDuplicateHookIdsFailsPrecheck()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -85,6 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="AccountCreateTransactionHooksIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithLambdaHookAndAdminKeySucceeds"]" />
         public virtual void AccountCreateWithLambdaHookAndAdminKeySucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))

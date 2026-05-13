@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Text.RegularExpressions;
 
@@ -12,6 +12,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
+    /// <include file="test-schedule-info.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest"]" />
     public class ScheduleInfoTest
     {
         private static readonly PublicKey unusedPublicKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10").GetPublicKey();
@@ -65,6 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
                 true);
         }
         [Fact]
+        /// <include file="test-schedule-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest.ShouldSerialize"]" />
         public virtual void ShouldSerialize()
         {
             var originalScheduleInfo = SpawnScheduleInfoExample();
@@ -76,6 +78,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Verifier.Verify(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
         }
         [Fact]
+        /// <include file="test-schedule-info.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest.ShouldSerializeDeleted"]" />
         public virtual void ShouldSerializeDeleted()
         {
             var originalScheduleInfo = SpawnScheduleInfoDeletedExample();

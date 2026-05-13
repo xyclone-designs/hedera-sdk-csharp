@@ -35,33 +35,33 @@ namespace Hedera.Hashgraph.SDK.Transactions
 {
 	public interface ITransaction : IExecutable
 	{
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]' />
 		List<Proto.Services.Transaction> OuterTransactions { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.InnerSignedTransactions"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.InnerSignedTransactions"]' />
 		List<Proto.Services.SignedTransaction> InnerSignedTransactions { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SigPairLists"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SigPairLists"]' />
 		List<Proto.Services.SignatureMap> SigPairLists { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionIds"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionIds"]' />
 		ListGuarded<TransactionId> TransactionIds { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.PublicKeys"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.PublicKeys"]' />
 		IList<PublicKey> PublicKeys { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="M:operator(paying)"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="M:operator(paying)"]' />
 		List<Func<byte[], byte[]>?> Signers { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.MaxTransactionFee"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.MaxTransactionFee"]' />
 		Hbar? MaxTransactionFee { get; set; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionMemo"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionMemo"]' />
 		string TransactionMemo { get; set; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionValidDuration"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionValidDuration"]' />
 		TimeSpan TransactionValidDuration { get; set; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SourceTransactionBody"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SourceTransactionBody"]' />
 		Proto.Services.TransactionBody SourceTransactionBody { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.FrozenBodyBuilder"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.FrozenBodyBuilder"]' />
 		Proto.Services.TransactionBody? FrozenBodyBuilder { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.BatchKey"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.BatchKey"]' />
 		Key? BatchKey { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]' />
 		bool ShouldRegenerateTransactionId { get; }
-		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionId"]/*' />
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionId"]' />
 		TransactionId TransactionId { get; set; }
 
 		bool IsFrozen();

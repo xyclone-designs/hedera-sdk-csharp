@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Hook;
 
 using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
+    /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest"]" />
     public class EvmHookMappingEntryTest
     {
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.OfKeyBuildsEntryAndCopiesArrays"]" />
         public virtual void OfKeyBuildsEntryAndCopiesArrays()
         {
             byte[] key = new byte[]
@@ -34,6 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x03, 0x04 }, entry.Value);
         }
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.WithPreimageBuildsEntryAndCopiesArrays"]" />
         public virtual void WithPreimageBuildsEntryAndCopiesArrays()
         {
             byte[] preimage = new byte[]
@@ -60,6 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x33, 0x44 }, entry.Value);
         }
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.BuildersRejectNullInputs"]" />
         public virtual void BuildersRejectNullInputs()
         {
             Assert.Throws<NullReferenceException>(() => EvmHookMappingEntry.OfKey(null, new byte[] { 0x01 }));
@@ -68,6 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Throws<NullReferenceException>(() => EvmHookMappingEntry.WithPreimage(new byte[] { 0x01 }, null));
         }
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.ProtobufRoundTripForKeyAndPreimage"]" />
         public virtual void ProtobufRoundTripForKeyAndPreimage()
         {
             var keyEntry = EvmHookMappingEntry.OfKey(new byte[] { 0x01 }, new byte[] { 0x02 });
@@ -78,6 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(preimageEntry, preimageRoundTrip);
         }
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.FromProtobufWithoutKeyThrows"]" />
         public virtual void FromProtobufWithoutKeyThrows()
         {
             var emptyProto = new Proto.Services.EvmHookMappingEntry();
@@ -85,6 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Throws<ArgumentException>(() => EvmHookMappingEntry.FromProtobuf(emptyProto));
         }
         [Fact]
+        /// <include file="test-evm-hook-mappingentry.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.EqualsHashCodeAndToString"]" />
         public virtual void EqualsHashCodeAndToString()
         {
             var a = EvmHookMappingEntry.OfKey(new byte[] { 0x01 }, new byte[] { 0x02 });

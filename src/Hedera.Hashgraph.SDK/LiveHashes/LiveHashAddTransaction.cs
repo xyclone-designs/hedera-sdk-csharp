@@ -11,28 +11,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-	/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="T:LiveHashAddTransaction"]/*' />
+	/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="T:LiveHashAddTransaction"]' />
 	[Obsolete("Obsolete")]
     public sealed class LiveHashAddTransaction : Transaction<LiveHashAddTransaction>
     {
-        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction"]/*' />
+        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction"]' />
         public LiveHashAddTransaction() { }
-        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]' />
         internal LiveHashAddTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]' />
 		public AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]' />
 		public byte[] Hash { get; set { RequireNotFrozen(); field = value; } } = [];
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]' />
 		public KeyList? Keys { get; set { RequireNotFrozen(); field = value; } }
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]' />
 		public TimeSpan? Timespan { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoAddLiveHash;
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             }
         }
 
-		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]' />
 		public Proto.Services.CryptoAddLiveHashTransactionBody ToProtobuf()
         {
             var builder = new Proto.Services.CryptoAddLiveHashTransactionBody();

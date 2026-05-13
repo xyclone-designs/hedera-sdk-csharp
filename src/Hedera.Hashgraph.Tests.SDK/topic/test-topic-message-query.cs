@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
+    /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest"]" />
     public class TopicMessageQueryTest
     {
         private static readonly DateTimeOffset START_TIME = DateTimeOffset.UtcNow;
@@ -56,6 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             server?.ShutdownAsync().Wait();
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.Subscribe"]" />
         public virtual void Subscribe()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -70,6 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)2, received[1].SequenceNumber);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.SubscribeChunked"]" />
         public virtual void SubscribeChunked()
         {
             Proto.Mirror.ConsensusTopicResponse response1 = Response(1, 2);
@@ -96,6 +99,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)2, first.Chunks[1].SequenceNumber);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.SubscribeNoResponse"]" />
         public virtual void SubscribeNoResponse()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -106,6 +110,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(received);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ErrorDuringOnNext"]" />
         public virtual void ErrorDuringOnNext()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -159,6 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(code, rpcEx.StatusCode);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.CustomRetry"]" />
         public virtual void CustomRetry()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -174,6 +180,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(errors);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.RetryWithLimit"]" />
         public virtual void RetryWithLimit()
         {
             Proto.Mirror.ConsensusTopicResponse response = Response(1);
@@ -203,6 +210,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(errors);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.RetriesExhausted"]" />
         public virtual void RetriesExhausted()
         {
             topicMessageQuery.MaxAttempts = 1;
@@ -219,6 +227,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(StatusCode.ResourceExhausted, rpcEx.StatusCode);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ErrorWhenCallIsCancelled"]" />
         public virtual void ErrorWhenCallIsCancelled()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -232,6 +241,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(received);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.UnsubscribeDoesNotInvokeErrorOrRetry"]" />
         public virtual void UnsubscribeDoesNotInvokeErrorOrRetry()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -242,6 +252,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(received);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ServerCancelledRetriesWhenCustomRetryAllows"]" />
         public virtual void ServerCancelledRetriesWhenCustomRetryAllows()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -265,6 +276,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(errors);
         }
         [Fact]
+        /// <include file="test-topic-message-query.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled"]" />
         public virtual void UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled()
         {
             consensusServiceStub.requests.Enqueue(Request());

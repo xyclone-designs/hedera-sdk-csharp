@@ -5,18 +5,18 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Fee
 {
-    /// <include file="FeeComponents.cs.xml" path='docs/member[@name="T:FeeComponents"]/*' />
+    /// <include file="FeeComponents.cs.xml" path='docs/member[@name="T:FeeComponents"]' />
     public class FeeComponents : ICloneable
     {
-        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.#ctor"]/*' />
+        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.#ctor"]' />
         public FeeComponents() { }
 
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromBytes(System.Byte[])"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromBytes(System.Byte[])"]' />
 		public static FeeComponents FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.Services.FeeComponents.Parser.ParseFrom(bytes));
 		}
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromProtobuf(Proto.Services.FeeComponents)"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromProtobuf(Proto.Services.FeeComponents)"]' />
 		public static FeeComponents FromProtobuf(Proto.Services.FeeComponents feeComponents)
         {
             return new FeeComponents
@@ -35,30 +35,30 @@ namespace Hedera.Hashgraph.SDK.Fee
             };
         }
 
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Min"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Min"]' />
 		public long Min { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Max"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Max"]' />
 		public long Max { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Constant"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Constant"]' />
 		public long Constant { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionBandwidthByte"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionBandwidthByte"]' />
 		public long TransactionBandwidthByte { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionVerification"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionVerification"]' />
 		public long TransactionVerification { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionRamByteHour"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionRamByteHour"]' />
 		public long TransactionRamByteHour { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionStorageByteHour"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionStorageByteHour"]' />
 		public long TransactionStorageByteHour { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ContractTransactionGas"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ContractTransactionGas"]' />
 		public long ContractTransactionGas { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransferVolumeHbar"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransferVolumeHbar"]' />
 		public long TransferVolumeHbar { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseMemoryByte"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseMemoryByte"]' />
 		public long ResponseMemoryByte { get; set; }
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseDiskByte"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseDiskByte"]' />
 		public long ResponseDiskByte { get; set; }
 
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToProtobuf"]/*' />
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToProtobuf"]' />
 		public virtual Proto.Services.FeeComponents ToProtobuf()
         {
             return new Proto.Services.FeeComponents
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Fee
 			};
         }
 
-        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToBytes"]/*' />
+        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToBytes"]' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

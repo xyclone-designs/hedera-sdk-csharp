@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
+    /// <include file="test-token-nft-info-query.ts.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenNftInfoQueryTest"]" />
     public class TokenNftInfoQueryTest
     {
         public virtual void ShouldSerialize()
@@ -25,6 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
         [Fact]
+        /// <include file="test-token-nft-info-query.ts.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenNftInfoQueryTest.PropertiesTest"]" />
         public virtual void PropertiesTest()
         {
             var tokenId = TokenId.FromString("0.0.5005");

@@ -1,26 +1,25 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Linq;
 
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
-using Google.Protobuf.WellKnownTypes;
 using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
+    /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest"]" />
     public class BatchTransactionIntegrationTest
     {
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanCreateBatchTransaction"]" />
         public virtual void CanCreateBatchTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -44,6 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteFromToBytes"]" />
         public virtual void CanExecuteFromToBytes()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -70,6 +70,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteLargeBatchTransactionUpToMaximumRequestSize"]" />
         public virtual void CanExecuteLargeBatchTransactionUpToMaximumRequestSize()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -105,6 +106,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithoutInnerTransactionsShouldThrowAnError"]" />
         public virtual void BatchTransactionWithoutInnerTransactionsShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -115,6 +117,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError"]" />
         public virtual void BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -151,6 +154,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError"]" />
         public virtual void BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -176,6 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.ChunkedInnerTransactionsShouldBeExecutedSuccessfully"]" />
         public virtual void ChunkedInnerTransactionsShouldBeExecutedSuccessfully()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -213,6 +218,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.CanExecuteWithDifferentBatchKeys"]" />
         public virtual void CanExecuteWithDifferentBatchKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -297,6 +303,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed"]" />
         public virtual void SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -355,6 +362,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
         [Fact]
+        /// <include file="BatchTransactionIntegrationTest.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.SDK.Tests.Integration.BatchTransactionIntegrationTest.TransactionShouldFailWhenBatchified"]" />
         public virtual void TransactionShouldFailWhenBatchified()
         {
             using (var testEnv = new IntegrationTestEnv(1))

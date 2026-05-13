@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <include file="ExecutorService.cs.xml" path='docs/member[@name="T:ExecutorService"]/*' />
+	/// <include file="ExecutorService.cs.xml" path='docs/member[@name="T:ExecutorService"]' />
 	public sealed class ExecutorService : IDisposable
 	{
 		private readonly BlockingCollection<Action> _queue;
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Execute(System.Action)"]/*' />
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Execute(System.Action)"]' />
 		public void Execute(Action action)
 		{
 			if (!_queue.TryAdd(action))
@@ -46,13 +46,13 @@ namespace Hedera.Hashgraph.SDK
 				action(); // caller runs policy
 			}
 		}
-		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.ForceShutdown"]/*' />
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.ForceShutdown"]' />
 		public void ForceShutdown()
 		{
 			while (_queue.TryTake(out _)) { }
 			_queue.CompleteAdding();
 		}
-		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Submit(System.Action)"]/*' />
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Submit(System.Action)"]' />
 		public Task Submit(Action action)
 		{
 			var tcs = new TaskCompletionSource<bool>();
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK
 			return true;
 		}
 
-		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Dispose"]/*' />
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Dispose"]' />
 		public void Dispose()
 		{
 			_queue.CompleteAdding();

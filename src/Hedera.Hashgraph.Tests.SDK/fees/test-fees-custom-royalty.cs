@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
@@ -6,6 +6,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
+    /// <include file="test-fees-custom-royalty.cs.xml" path="docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest"]" />
     public class CustomRoyaltyFeeTest
     {
         private static readonly bool allCollectorsAreExempt = true;
@@ -28,6 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToString());
         }
         [Fact]
+        /// <include file="test-fees-custom-royalty.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.DeepCloneSubclass"]" />
         public virtual void DeepCloneSubclass()
         {
             var customRoyaltyFee = new CustomRoyaltyFee
@@ -46,6 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
         [Fact]
+        /// <include file="test-fees-custom-royalty.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetNumerator"]" />
         public virtual void GetSetNumerator()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { Numerator = numerator };
@@ -53,6 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customRoyaltyFee.Numerator, numerator);
         }
         [Fact]
+        /// <include file="test-fees-custom-royalty.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetDenominator"]" />
         public virtual void GetSetDenominator()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { Denominator = denominator };
@@ -60,6 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customRoyaltyFee.Denominator, denominator);
         }
         [Fact]
+        /// <include file="test-fees-custom-royalty.cs.xml" path="docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetFallbackFee"]" />
         public virtual void GetSetFallbackFee()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { FallbackFee = fallbackFee };
