@@ -1,9 +1,9 @@
 [submodule "src/forks.hedera-sdk-reference"]
-	path = src/forks.hashgraph.hedera-sdk-reference
+	path = sdk/forks.hashgraph.hedera-sdk-reference
 	url = https://github.com/xyclone-designs/forks.hedera-sdk-reference
 [submodule "src/forks.hiero-ledger.hiero-consensus-node"]
-	path = src/forks.hiero-ledger.hiero-consensus-node
+	path = sdk/forks.hiero-ledger.hiero-consensus-node
 	url = https://github.com/xyclone-designs/forks.hiero-ledger.hiero-consensus-node
 [submodule "src/forks.hiero-ledger.hiero-sdk-tck"]
-	path = src/forks.hiero-ledger.hiero-sdk-tck
+	path = sdk/forks.hiero-ledger.hiero-sdk-tck
 	url = https://github.com/xyclone-designs/forks.hiero-ledger.hiero-sdk-tck

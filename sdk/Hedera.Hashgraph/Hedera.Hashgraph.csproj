@@ -1,13 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <LangVersion>14</LangVersion>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <LangVersion>14</LangVersion>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup>
+	    <Authors>Xyclone Designs</Authors>
+	    <Copyright>Copyright © $(Authors) $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
+	    <Description>Unofficial SDK Base for the Hedera Hashgraph network</Description>
+	    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	    <IncludeSymbols>False</IncludeSymbols>
+	    <PackageId>Hedera.Hashgraph</PackageId>
+	    <PackageOutputPath>../../sdk-package</PackageOutputPath>
+	    <PackageReleaseNotes>Unofficial and to be used for internal purposes</PackageReleaseNotes>
+	    <PackageTags>hiero;ledger;c#;hedera;hashgraph;sdk</PackageTags>
+	    <RepositoryUrl>https://github.com/xyclone-designs/hedera-sdk-csharp</RepositoryUrl>
+	    <Title>$(AssemblyName)</Title>
+	    <Version>0.0.0</Version>
+    </PropertyGroup>
+
+	<ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.34.1" />
     <PackageReference Include="Grpc" Version="2.46.6" />
     <PackageReference Include="Grpc.Tools" Version="2.80.0">
