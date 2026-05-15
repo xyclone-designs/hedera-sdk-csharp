@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Ethereum;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples

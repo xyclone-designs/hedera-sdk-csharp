@@ -2,8 +2,8 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -58,44 +58,47 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Creating three accounts and preparing batched transfers...");
             var aliceKey = PrivateKey.GenerateECDSA();
-            var alice = new AccountCreateTransaction()
+            var alice = new AccountCreateTransaction { InitialBalance = new Hbar(2) }
                 .SetKeyWithoutAlias(aliceKey)
-                .SetInitialBalance(new Hbar(2))
                 .Execute(client)
                 .GetReceipt(client).AccountId;
-            var aliceBatchedTransfer = new TransferTransaction()
-                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
-                .AddHbarTransfer(alice, Hbar.From(1).Negated())
-                .SetTransactionId(TransactionId.Generate(alice))
-                .SetBatchKey(batchKey1)
+            var aliceBatchedTransfer = new TransferTransaction
+            {
+                BatchKey = batchKey1,
+                TransactionId = TransactionId.Generate(alice)
+            }
+            .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
+            .AddHbarTransfer(alice, Hbar.From(1).Negated())
             .FreezeWith(client)
             .Sign(aliceKey);
             Console.WriteLine("Created first account (Alice): " + alice);
             var bobKey = PrivateKey.GenerateECDSA();
-            var bob = new AccountCreateTransaction()
+            var bob = new AccountCreateTransaction { InitialBalance = new Hbar(2) }
                 .SetKeyWithoutAlias(bobKey)
-                .SetInitialBalance(new Hbar(2))
                 .Execute(client)
                 .GetReceipt(client).AccountId;
-            var bobBatchedTransfer = new TransferTransaction()
-                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
-                .AddHbarTransfer(bob, Hbar.From(1).Negated())
-                .SetTransactionId(TransactionId.Generate(bob))
-                .SetBatchKey(batchKey2)
+            var bobBatchedTransfer = new TransferTransaction
+            {
+                BatchKey = batchKey2,
+                TransactionId = TransactionId.Generate(bob)
+            }
+            .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
+            .AddHbarTransfer(bob, Hbar.From(1).Negated())
             .FreezeWith(client)
             .Sign(bobKey);
             Console.WriteLine("Created second account (Bob): " + bob);
             var carolKey = PrivateKey.GenerateECDSA();
-            var carol = new AccountCreateTransaction()
+            var carol = new AccountCreateTransaction { InitialBalance = new Hbar(2) }
                 .SetKeyWithoutAlias(carolKey)
-                .SetInitialBalance(new Hbar(2))
                 .Execute(client)
                 .GetReceipt(client).AccountId;
-            var carolBatchedTransfer = new TransferTransaction()
-                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
-                .AddHbarTransfer(carol, Hbar.From(1).Negated())
-                .SetTransactionId(TransactionId.Generate(carol))
-                .SetBatchKey(batchKey3)
+            var carolBatchedTransfer = new TransferTransaction 
+            {
+                BatchKey = batchKey3, 
+                TransactionId = TransactionId.Generate(carol) 
+            }
+            .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
+            .AddHbarTransfer(carol, Hbar.From(1).Negated())
             .FreezeWith(client)
             .Sign(carolKey);
             Console.WriteLine("Created third account (Carol): " + carol);
@@ -118,17 +121,24 @@ namespace Hedera.Hashgraph.Examples
                 AccountId = carol 
 
             }.Execute(client);
-            var operatorBalanceBefore = new AccountBalanceQuery()
-                .SetAccountId(client.GetOperatorAccountId())
-                .Execute(client);
+            var operatorBalanceBefore = new AccountBalanceQuery
+            {
+                AccountId = client.OperatorAccountId
+
+            }.Execute(client);
             /// <summary>
             /// Step 4:
             /// Execute the batch
             /// </summary>
             Console.WriteLine("Executing batch transaction...");
             var receipt = new BatchTransaction()
-                .AddInnerTransaction(aliceBatchedTransfer).InnerTransactio(bobBatchedTransfer).AddInnerTransaction(carolBatchedTransfer).
-                FreezeWith(client).Sign(batchKey1).Sign(batchKey2).Sign(batchKey3)
+                .AddInnerTransaction(aliceBatchedTransfer)
+                .InnerTransaction(bobBatchedTransfer)
+                .AddInnerTransaction(carolBatchedTransfer)
+                .FreezeWith(client)
+                .Sign(batchKey1)
+                .Sign(batchKey2)
+                .Sign(batchKey3)
                 .Execute(client)
                 .GetReceipt(client);
             Console.WriteLine("Batch transaction executed with status: " + receipt.Status);
@@ -152,9 +162,11 @@ namespace Hedera.Hashgraph.Examples
                 AccountId = carol 
 
             }.Execute(client);
-            var operatorBalanceAfter = new AccountBalanceQuery()
-                .SetAccountId(client.GetOperatorAccountId())
-                .Execute(client);
+            var operatorBalanceAfter = new AccountBalanceQuery
+            {
+                AccountId = client.OperatorAccountId
+
+            }.Execute(client);
             Console.WriteLine("Alice's initial balance: " + aliceBalanceBefore.Hbars + ", after: " + aliceBalanceAfter.Hbars);
             Console.WriteLine("Bob's initial balance: " + bobBalanceBefore.Hbars + ", after: " + bobBalanceAfter.Hbars);
             Console.WriteLine("Carol's initial balance: " + carolBalanceBefore.Hbars + ", after: " + carolBalanceAfter.Hbars);
@@ -174,19 +186,17 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Creating three accounts and preparing batched transfers...");
             var aliceKey = PrivateKey.GenerateECDSA();
-            var alice = new AccountCreateTransaction()
+            var alice = new AccountCreateTransaction { InitialBalance = new Hbar(2) }
                 .SetKeyWithoutAlias(aliceKey)
-                .SetInitialBalance(new Hbar(2))
-                .Execute(client)
-                .GetReceipt(client).AccountId;
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             Console.WriteLine("Created Alice: " + alice);
             /// <summary>
             /// Step 3:
             /// Create client for alice
             /// </summary>
             var aliceClient = ClientHelper.ForName(HEDERA_NETWORK);
-            aliceClient
-                .SetOperator(alice, aliceKey);
+            aliceClient.OperatorSet(alice, aliceKey);
             /// <summary>
             /// Step 4:
             /// Batchify a transfer transaction
@@ -203,9 +213,11 @@ namespace Hedera.Hashgraph.Examples
                 AccountId = alice 
 
             }.Execute(client);
-            var operatorBalanceBefore = new AccountBalanceQuery()
-                .SetAccountId(client.GetOperatorAccountId())
-                .Execute(client);
+            var operatorBalanceBefore = new AccountBalanceQuery
+            {
+                AccountId = client.OperatorAccountId
+
+            }.Execute(client);
             /// <summary>
             /// Step 6:
             /// Execute the batch
@@ -213,8 +225,8 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Executing batch transaction...");
             var receipt = new BatchTransaction()
                 .AddInnerTransaction(aliceBatchedTransfer)
-            .FreezeWithClient().
-            Sign(batchKey).
+                .FreezeWithClient()
+                .Sign(batchKey).
                 Execute(client).GetReceipt(client);
             Console.WriteLine("Batch transaction executed with status: " + receipt.Status);
             /// <summary>
@@ -227,9 +239,11 @@ namespace Hedera.Hashgraph.Examples
                 AccountId = alice 
 
             }.Execute(client);
-            var operatorBalanceAfter = new AccountBalanceQuery()
-                .SetAccountId(client.GetOperatorAccountId())
-                .Execute(client);
+            var operatorBalanceAfter = new AccountBalanceQuery
+            {
+                AccountId = client.OperatorAccountId
+
+            }.Execute(client);
             Console.WriteLine("Alice's initial balance: " + aliceBalanceBefore.Hbars + ", after: " + aliceBalanceAfter.Hbars);
             Console.WriteLine("Operator's initial balance: " + operatorBalanceBefore.Hbars + ", after: " + operatorBalanceAfter.Hbars);
         }

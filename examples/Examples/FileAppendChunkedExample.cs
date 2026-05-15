@@ -2,9 +2,11 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -48,25 +50,31 @@ namespace Hedera.Hashgraph.Examples
             // you can easily use the bytes of a file instead.
             string fileContents = "Hedera hashgraph is great!";
             Console.WriteLine("Creating new file...");
-            TransactionResponse fileCreateTxResponse = new FileCreateTransaction().SetKeys(operatorPublicKey).SetContents(fileContents).SetMaxTransactionFee(Hbar.From(2)).Execute(client);
+            TransactionResponse fileCreateTxResponse = new FileCreateTransaction
+            {
+                Keys = operatorPublicKey,
+                Contents = fileContents,
+                MaxTransactionFee = Hbar.From(2),
+
+            }.Execute(client);
             TransactionReceipt fileCreateTxReceipt = fileCreateTxResponse.GetReceipt(client);
             FileId newFileId = fileCreateTxReceipt.FileId;
-            newFileId;
+
             Console.WriteLine("Created new file with ID: " + newFileId);
             /// <summary>
             /// Step 2:
             /// Query file info to check its size after creation.
             /// </summary>
             FileInfo fileInfoAfterCreate = new FileInfoQuery { FileId = newFileId }.Execute(client);
-            Console.WriteLine("Created file size after create (according to `FileInfoQuery`): " + fileInfoAfterCreate.size + " bytes.");
+            Console.WriteLine("Created file size after create (according to `FileInfoQuery`): " + fileInfoAfterCreate.Size + " bytes.");
             /// <summary>
             /// Step 3:
             /// Create new file contents that will be appended to a file.
             /// </summary>
-            StringBuilder contents = new StringBuilder();
-            for (int i = 0; i <= 4096/// 9; i++)
+            StringBuilder contents = new ();
+            for (int i = 0; i <= 4096 / 9; i++)
             {
-                contents.Append("1");
+                contents.Append('1');
             }
 
             /// <summary>
@@ -74,15 +82,25 @@ namespace Hedera.Hashgraph.Examples
             /// Append new file contents to a file.
             /// </summary>
             Console.WriteLine("Appending new contents to the created file...");
-            new FileAppendTransaction().SetNodeAccountIds([fileCreateTxResponse.nodeId]).SetFileId(newFileId).SetContents(contents.ToString()).SetMaxChunks(40).SetMaxTransactionFee(Hbar.From(100)).FreezeWith(client).Execute(client).GetReceipt(client);
+            new FileAppendTransaction
+            {
+                NodeAccountIds = [fileCreateTxResponse.NodeId],
+                FileId = newFileId,
+                Contents = contents.ToString(),
+                MaxChunks = 40,
+                MaxTransactionFee = Hbar.From(100),
+            }
+            .FreezeWith(client)
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 5:
             /// Query file info to check its size after append.
             /// </summary>
             FileInfo fileInfoAfterAppend = new FileInfoQuery { FileId = newFileId }.Execute(client);
-            if (fileInfoAfterCreate.size < fileInfoAfterAppend.size)
+            if (fileInfoAfterCreate.Size < fileInfoAfterAppend.Size)
             {
-                Console.WriteLine("File size after append (according to `FileInfoQuery`): " + fileInfoAfterAppend.size + " bytes.");
+                Console.WriteLine("File size after append (according to `FileInfoQuery`): " + fileInfoAfterAppend.Size + " bytes.");
             }
             else
             {

@@ -2,9 +2,12 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Fee;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -47,16 +50,16 @@ namespace Hedera.Hashgraph.Examples
             Hbar initialBalance = Hbar.From(1);
             PrivateKey alicePrivateKey = PrivateKey.GenerateED25519();
             PublicKey alicePublicKey = alicePrivateKey.GetPublicKey();
-            AccountId aliceAccountId = new AccountCreateTransaction().SetInitialBalance(initialBalance).SetKeyWithoutAlias(alicePublicKey).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client).AccountId;
-            aliceAccountId;
+            AccountId aliceAccountId = new AccountCreateTransaction { InitialBalance = initialBalance }.SetKeyWithoutAlias(alicePublicKey).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client).AccountId;
+            
             PrivateKey bobPrivateKey = PrivateKey.GenerateED25519();
             PublicKey bobPublicKey = bobPrivateKey.GetPublicKey();
-            AccountId bobAccountId = new AccountCreateTransaction().SetInitialBalance(initialBalance).SetKeyWithoutAlias(bobPublicKey).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client).AccountId;
-            bobAccountId;
+            AccountId bobAccountId = new AccountCreateTransaction { InitialBalance = initialBalance }.SetKeyWithoutAlias(bobPublicKey).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client).AccountId;
+
             PrivateKey charilePrivateKey = PrivateKey.GenerateED25519();
             PublicKey charilePublicKey = charilePrivateKey.GetPublicKey();
-            AccountId charlieAccountId = new AccountCreateTransaction().SetInitialBalance(initialBalance).SetKeyWithoutAlias(charilePublicKey).FreezeWith(client).Sign(charilePrivateKey).Execute(client).GetReceipt(client).AccountId;
-            charlieAccountId;
+            AccountId charlieAccountId = new AccountCreateTransaction { InitialBalance = initialBalance }.SetKeyWithoutAlias(charilePublicKey).FreezeWith(client).Sign(charilePrivateKey).Execute(client).GetReceipt(client).AccountId;
+
             /// <summary>
             /// Step 2:
             /// Create a fungible token that has three fractional fees:
@@ -64,12 +67,31 @@ namespace Hedera.Hashgraph.Examples
             /// - bobFee sends 2/100 of the transferred value to Bob's account;
             /// - charlieFee sends 3/100 of the transferred value to Charlie's account.
             /// </summary>
-            CustomFractionalFee aliceFee = new CustomFractionalFee().SetFeeCollectorAccountId(aliceAccountId).SetNumerator(1).SetDenominator(100).SetAllCollectorsAreExempt(true);
-            CustomFractionalFee bobFee = new CustomFractionalFee().SetFeeCollectorAccountId(bobAccountId).SetNumerator(2).SetDenominator(100).SetAllCollectorsAreExempt(true);
-            CustomFractionalFee charlieFee = new CustomFractionalFee().SetFeeCollectorAccountId(charlieAccountId).SetNumerator(3).SetDenominator(100).SetAllCollectorsAreExempt(true);
+            CustomFractionalFee aliceFee = new () { FeeCollectorAccountId = aliceAccountId, Numerator = 1, Denominator = 100, AllCollectorsAreExempt = true };
+            CustomFractionalFee bobFee = new () { FeeCollectorAccountId = bobAccountId, Numerator = 2, Denominator = 100, AllCollectorsAreExempt = true };
+            CustomFractionalFee charlieFee = new () { FeeCollectorAccountId = charlieAccountId, Numerator = 3, Denominator = 100, AllCollectorsAreExempt = true };
             Console.WriteLine("Creating new Fungible Token using the Hedera Token Service...");
-            TokenId fungibleTokenId = new TokenCreateTransaction().SetTokenName("HIP-573 Fungible Token").SetTokenSymbol("HIP573FT").SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(OPERATOR_ID).SetAutoRenewAccountId(OPERATOR_ID).SetAdminKey(operatorPublicKey).SetFreezeKey(operatorPublicKey).SetWipeKey(operatorPublicKey).SetInitialSupply(100000000).SetDecimals(2).SetCustomFees(List.Of(aliceFee, bobFee, charlieFee)).FreezeWith(client).Sign(alicePrivateKey).Sign(bobPrivateKey).Sign(charilePrivateKey).Execute(client).GetReceipt(client).TokenId;
-            fungibleTokenId;
+            TokenId fungibleTokenId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-573 Fungible Token",
+                TokenSymbol = "HIP573FT",
+                TokenType = TokenType.FungibleCommon,
+                TreasuryAccountId = OPERATOR_ID,
+                AutoRenewAccountId = OPERATOR_ID,
+                AdminKey = operatorPublicKey,
+                FreezeKey = operatorPublicKey,
+                WipeKey = operatorPublicKey,
+                InitialSupply = 100000000,
+                Decimals = 2,
+                CustomFees = [aliceFee, bobFee, charlieFee],
+            }
+            .FreezeWith(client)
+            .Sign(alicePrivateKey)
+            .Sign(bobPrivateKey)
+            .Sign(charilePrivateKey)
+            .Execute(client)
+            .GetReceipt(client).TokenId;
+
             Console.WriteLine("Created new fungible token with ID: " + fungibleTokenId);
             /// <summary>
             /// Step 3:
@@ -85,16 +107,16 @@ namespace Hedera.Hashgraph.Examples
             /// Step 4:
             /// Get the transaction fee for that transfer transaction.
             /// </summary>
-            Hbar transactionFee = transferTxResponse.GetRecord(client).transactionFee;
+            Hbar transactionFee = transferTxResponse.GetRecord(client).TransactionFee;
             Console.WriteLine("Transaction fee for the transfer above: " + transactionFee);
             /// <summary>
             /// Step 5:
             /// Show that the fee collector accounts in the custom fee list
             /// of the token that was created was not charged a custom fee in the transfer.
             /// </summary>
-            long aliceAccountBalanceAfter = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).tokens[fungibleTokenId];
-            long bobAccountBalanceAfter = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).tokens[fungibleTokenId];
-            long charlieAccountBalanceAfter = new AccountBalanceQuery { AccountId = charlieAccountId }.Execute(client).tokens[fungibleTokenId];
+            long aliceAccountBalanceAfter = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens[fungibleTokenId];
+            long bobAccountBalanceAfter = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).Tokens[fungibleTokenId];
+            long charlieAccountBalanceAfter = new AccountBalanceQuery { AccountId = charlieAccountId }.Execute(client).Tokens[fungibleTokenId];
             Console.WriteLine("Alice's balance after transferring the fungible token: " + aliceAccountBalanceAfter);
             Console.WriteLine("Bob's account balance after transferring the fungible token: " + bobAccountBalanceAfter);
             Console.WriteLine("Charlie's account balance after transferring the fungible token: " + charlieAccountBalanceAfter);
@@ -102,11 +124,32 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts and token.
             /// </summary>
-            Dictionary<TokenId, long> alicesTokens = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).tokens;
-            new TokenWipeTransaction().SetTokenId(fungibleTokenId).SetAmount(alicesTokens[fungibleTokenId]).SetAccountId(aliceAccountId).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(aliceAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(bobAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(charlieAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(charilePrivateKey).Execute(client).GetReceipt(client);
+            Dictionary<TokenId, long> alicesTokens = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens;
+            new TokenWipeTransaction
+            {
+                TokenId = fungibleTokenId,
+                Amount = alicesTokens[fungibleTokenId],
+                AccountId = aliceAccountId,
+
+            }.FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = aliceAccountId,
+                TransferAccountId = OPERATOR_ID 
+            
+            }.FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = bobAccountId,
+                TransferAccountId = OPERATOR_ID 
+            
+            }.FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = charlieAccountId,
+                TransferAccountId = OPERATOR_ID 
+            
+            }.FreezeWith(client).Sign(charilePrivateKey).Execute(client).GetReceipt(client);
             new TokenDeleteTransaction { TokenId = fungibleTokenId }.Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Exempt Custom Fees Example Complete!");

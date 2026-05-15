@@ -2,9 +2,8 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -54,14 +53,16 @@ namespace Hedera.Hashgraph.Examples
             /// Create NFT and check its keys.
             /// </summary>
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
-            var nftTokenId = new TokenCreateTransaction()
-                .SetTokenName("HIP-540 NFT")
-                .SetTokenSymbol("HIP540NFT")
-                .SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE)
-                .SetTreasuryAccountId(OPERATOR_ID)
-                .SetAdminKey(adminPublicKey)
-                .SetWipeKey(wipePublicKey)
-                .SetSupplyKey(supplyPublicKey)
+            var nftTokenId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-540 NFT",
+                TokenSymbol = "HIP540NFT",
+                TokenType = TokenType.NonFungibleUnique,
+                TreasuryAccountId = OPERATOR_ID,
+                AdminKey = adminPublicKey,
+                WipeKey = wipePublicKey,
+                SupplyKey = supplyPublicKey,
+            }
             .FreezeWith(client)
             .Sign(adminPrivateKey)
             .Execute(client)
@@ -88,10 +89,12 @@ namespace Hedera.Hashgraph.Examples
             // (Wipe, KYC, Freeze, Pause, Supply, Fee Schedule, Metadata) from a Token
             // using an update with the empty KeyList.
             var emptyKeyList = new KeyList();
-            new TokenUpdateTransaction()
-                .SetTokenId(nftTokenId)
-                .SetWipeKey(emptyKeyList)
-                .SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION)
+            new TokenUpdateTransaction
+            {
+                TokenId = nftTokenId,
+                WipeKey = emptyKeyList,
+                KeyVerificationMode = TokenKeyValidation.FullValidation,
+            }
             .FreezeWith(client)
             .Sign(adminPrivateKey)
             .Execute(client)
@@ -111,10 +114,12 @@ namespace Hedera.Hashgraph.Examples
             /// Remove Admin Key from a token (by updating it to an empty Key List) and check that its removed.
             /// </summary>
             Console.WriteLine("Removing the Admin Key...(updating to an empty Key List).");
-            new TokenUpdateTransaction()
-                .SetTokenId(nftTokenId)
-                .SetAdminKey(emptyKeyList)
-                .SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION)
+            new TokenUpdateTransaction
+            {
+                TokenId = nftTokenId,
+                AdminKey = emptyKeyList,
+                KeyVerificationMode = TokenKeyValidation.NoValidation,
+            }
             .FreezeWith(client)
             .Sign(adminPrivateKey)
             .Execute(client)
@@ -134,10 +139,12 @@ namespace Hedera.Hashgraph.Examples
             /// Update Supply Key and check that its updated.
             /// </summary>
             Console.WriteLine("Updating the Supply Key...(to the new key).");
-            new TokenUpdateTransaction()
-                .SetTokenId(nftTokenId)
-                .SetSupplyKey(newSupplyPublicKey)
-                .SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION)
+            new TokenUpdateTransaction
+            {
+                TokenId = nftTokenId,
+                SupplyKey = newSupplyPublicKey,
+                KeyVerificationMode = TokenKeyValidation.FullValidation,
+            }
             .FreezeWith(client)
             .Sign(supplyPrivateKey)
             .Sign(newSupplyPrivateKey)
@@ -157,10 +164,12 @@ namespace Hedera.Hashgraph.Examples
             /// Remove Supply Key (update to the unusable key).
             /// </summary>
             Console.WriteLine("Removing the Supply Key...(updating to the unusable key).");
-            new TokenUpdateTransaction()
-                .SetTokenId(nftTokenId)
-                .SetSupplyKey(PublicKey.UnusableKey())
-                .SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION)
+            new TokenUpdateTransaction
+            {
+                TokenId = nftTokenId,
+                SupplyKey = PublicKey.UnusableKey(),
+                KeyVerificationMode = TokenKeyValidation.NoValidation,
+            }
             .FreezeWith(client)
             .Sign(newSupplyPrivateKey)
             .Execute(client)

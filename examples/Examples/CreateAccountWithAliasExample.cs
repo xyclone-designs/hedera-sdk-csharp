@@ -2,8 +2,10 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Ethereum;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -50,8 +52,8 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = accountId }.Execute(client);
             Console.WriteLine("Created account ID: " + accountId);
-            Console.WriteLine("Account key: " + info.key);
-            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.contractAccountId);
+            Console.WriteLine("Account key: " + info.Key);
+            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.ContractAccountId);
         }
 
         public static void CreateAccountWithBothKeys(Client client)
@@ -84,8 +86,8 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = accountId }.Execute(client);
             Console.WriteLine("Created account ID: " + accountId);
-            Console.WriteLine("Account's key: " + info.key + " is the same as " + ed25519Key.GetPublicKey());
-            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.contractAccountId);
+            Console.WriteLine("Account's key: " + info.Key + " is the same as " + ed25519Key.GetPublicKey());
+            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.ContractAccountId);
         }
 
         public static void CreateAccountWithoutAlias(Client client)
@@ -109,8 +111,8 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = accountId }.Execute(client);
             Console.WriteLine("Created account ID: " + accountId);
-            Console.WriteLine("Account's key: " + info.key + " is the same as " + privateKey.GetPublicKey());
-            Console.WriteLine("Account has no alias: " + IsZeroAddress(Hex.Decode(info.contractAccountId)));
+            Console.WriteLine("Account's key: " + info.Key + " is the same as " + privateKey.GetPublicKey());
+            Console.WriteLine("Account has no alias: " + IsZeroAddress(Hex.Decode(info.ContractAccountId)));
         }
 
         public static void CreateAccountWithPublicKeyAlias(Client client)
@@ -142,8 +144,8 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = accountId }.Execute(client);
             Console.WriteLine("Created account ID: " + accountId);
-            Console.WriteLine("Account key: " + info.key);
-            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.contractAccountId);
+            Console.WriteLine("Account key: " + info.Key);
+            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.ContractAccountId);
         }
 
         public static void CreateAccountWithSeparatePublicKeyAlias(Client client)
@@ -177,8 +179,8 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = accountId }.Execute(client);
             Console.WriteLine("Created account ID: " + accountId);
-            Console.WriteLine("Account's key: " + info.key + " is the same as " + accountKey.GetPublicKey());
-            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.contractAccountId);
+            Console.WriteLine("Account's key: " + info.Key + " is the same as " + accountKey.GetPublicKey());
+            Console.WriteLine("Initial EVM address: " + evmAddress + " is the same as " + info.ContractAccountId);
         }
 
         private static bool IsZeroAddress(byte[] address)

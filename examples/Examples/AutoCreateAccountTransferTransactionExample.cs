@@ -79,11 +79,13 @@ namespace Hedera.Hashgraph.Examples
             /// Get the new account ID ask for the child receipts or child records for the parent transaction ID of the TransferTransaction
             /// (the AccountCreateTransaction is executed as a child transaction triggered by the TransferTransaction).
             /// </summary>
-            TransactionReceipt transferTxReceipt = new TransactionReceiptQuery()
-                .SetTransactionId(transferTxResponse.TransactionId)
-                .SetIncludeChildren(true)
-                .Execute(client);
-            AccountId aliceAccountId = transferTxReceipt.children[0].AccountId;
+            TransactionReceipt transferTxReceipt = new TransactionReceiptQuery
+            {
+                TransactionId = transferTxResponse.TransactionId,
+                IncludeChildren = true,
+
+            }.Execute(client);
+            AccountId aliceAccountId = transferTxReceipt.Children[0].AccountId;
             
             Console.WriteLine("The \"normal\" account ID of the given alias: " + aliceAccountId);
             /// <summary>
@@ -97,7 +99,7 @@ namespace Hedera.Hashgraph.Examples
             ///  - referred to as a hollow account.
             /// </summary>
             AccountInfo aliceAccountInfo_BeforeEnhancing = new AccountInfoQuery { AccountId = aliceAccountId }.Execute(client);
-            if (((KeyList)aliceAccountInfo_BeforeEnhancing.key).IsEmpty())
+            if (((KeyList)aliceAccountInfo_BeforeEnhancing.Key).Count == 0)
             {
                 Console.WriteLine("The newly created account is a hollow account! (Success)");
             }
@@ -114,10 +116,12 @@ namespace Hedera.Hashgraph.Examples
             /// (to enhance the hollow account to have a public key the hollow account needs to be specified as a transaction fee payer in a HAPI transaction).
             /// </summary>
             Console.WriteLine("Creating new topic...");
-            TransactionReceipt topicCreateTxReceipt = new TopicCreateTransaction()
-                .SetAdminKey(publicKey)
-                .SetTransactionId(TransactionId.Generate(aliceAccountId))
-                .SetTopicMemo("Memo")
+            TransactionReceipt topicCreateTxReceipt = new TopicCreateTransaction
+            {
+                AdminKey = publicKey,
+                TransactionId = TransactionId.Generate(aliceAccountId),
+                TopicMemo = "Memo",
+            }
             .FreezeWith(client)
             .Sign(privateKey)
             .Execute(client)
@@ -128,20 +132,21 @@ namespace Hedera.Hashgraph.Examples
             /// Get the account info and return public key to show its complete account.
             /// </summary>
             AccountInfo aliceAccountInfo_AfterEnhancing = new AccountInfoQuery { AccountId = aliceAccountId }.Execute(client);
-            Console.WriteLine("The public key of the newly created and now complete account: " + aliceAccountInfo_AfterEnhancing.key);
+            Console.WriteLine("The public key of the newly created and now complete account: " + aliceAccountInfo_AfterEnhancing.Key);
             /// <summary>
             /// Clean up:
             /// Delete created account and topic.
             /// </summary>
-            new AccountDeleteTransaction()
-                .SetTransferAccountId(OPERATOR_ID)
-                .SetAccountId(aliceAccountId)
+            new AccountDeleteTransaction
+            {
+                TransferAccountId = OPERATOR_ID,
+                AccountId = aliceAccountId,
+            }
             .FreezeWith(client)
             .Sign(privateKey)
             .Execute(client)
             .GetReceipt(client);
-            new TopicDeleteTransaction()
-                .SetTopicId(topicCreateTxReceipt.TopicId)
+            new TopicDeleteTransaction { TopicId = topicCreateTxReceipt.TopicId }
             .FreezeWith(client)
             .Sign(privateKey)
             .Execute(client)

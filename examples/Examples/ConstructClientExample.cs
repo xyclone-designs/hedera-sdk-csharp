@@ -2,9 +2,9 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Examples
         /// <summary>
         /// Path to .json config file. See resources/client-config.json
         /// </summary>
-        private static readonly string CONFIG_FILE = Dotenv.Load()["CONFIG_FILE"];
+        private static readonly string CONFIG_FILE = Environment.GetEnvironmentVariable("CONFIG_FILE");
         private static readonly string HEDERA_NETWORK = "testnet";
         public static void Main(string[] args)
         {
@@ -39,10 +39,10 @@ namespace Hedera.Hashgraph.Examples
 
             // Let's set the operator on testnetClient.
             // (The AccountId and PrivateKey here are fake, this is just an example.)
-            testnetClient.SetOperator(AccountId.FromString("0.0.3"), PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10"));
+            testnetClient.OperatorSet(AccountId.FromString("0.0.3"), PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10"));
 
             // Let's create a client with a custom network.
-            Dictionary<string, AccountId> customNetwork = new HashMap();
+            Dictionary<string, AccountId> customNetwork = [];
             customNetwork.Add("2.testnet.hedera.com:50211", new AccountId(0, 0, 5));
             customNetwork.Add("3.testnet.hedera.com:50211", new AccountId(0, 0, 6));
             Client customClient = Client.ForNetwork(customNetwork);

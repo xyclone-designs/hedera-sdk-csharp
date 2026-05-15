@@ -2,8 +2,10 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Fee;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -40,10 +42,10 @@ namespace Hedera.Hashgraph.Examples
             Client client = ClientHelper.ForName(HEDERA_NETWORK);
             if ("localhost".Equals(HEDERA_NETWORK))
             {
-                client.SetMirrorNetwork(List.Of("127.0.0.1:8084"));
+                client.MirrorNetwork_.Network = ["127.0.0.1:8084"];
             }
 
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
             //_client.Logger = new Logger(Enum.Parse<LogLevel>(SDK_LOG_LEVEL)));
             return client;
         }
@@ -52,7 +54,8 @@ namespace Hedera.Hashgraph.Examples
         {
             Console.WriteLine("\n=== Creating Transfer Transaction ===");
             Hbar transferAmount = Hbar.From(1);
-            TransferTransaction tx = new TransferTransaction().AddHbarTransfer(OPERATOR_ID, transferAmount.Negated()).AddHbarTransfer(recipientId, transferAmount).SetTransactionMemo("Fee estimate example").FreezeWith(client);
+            TransferTransaction tx = new TransferTransaction().AddHbarTransfer(OPERATOR_ID, transferAmount.Negated()).AddHbarTransfer(recipientId, transferAmount)
+                .SetTransactionMemo("Fee estimate example").FreezeWith(client);
             tx.SignWithOperator(client);
             Console.WriteLine("Transaction created: Transfer " + transferAmount + " from " + OPERATOR_ID + " to " + recipientId);
             return tx;
@@ -61,7 +64,9 @@ namespace Hedera.Hashgraph.Examples
         private static FeeEstimateResponse EstimateWithStateMode(Client client, TransferTransaction tx)
         {
             Console.WriteLine("\n=== Estimating Fees with STATE Mode ===");
-            FeeEstimateResponse stateEstimate = new FeeEstimateQuery().SetMode(FeeEstimateMode.STATE).SetTransaction(tx).Execute(client);
+            FeeEstimateResponse stateEstimate = new FeeEstimateQuery()
+                .SetMode(FeeEstimateMode.STATE)
+                .SetTransaction(tx).Execute(client);
             PrintNetworkFee(stateEstimate);
             PrintNodeFee(stateEstimate);
             PrintServiceFee(stateEstimate);
@@ -107,38 +112,48 @@ namespace Hedera.Hashgraph.Examples
 
         private static void PrintTotalFee(FeeEstimateResponse estimate)
         {
-            Console.WriteLine("\nTotal Estimated Fee: " + estimate.GetTotal() + " tinycents");
-            Console.WriteLine("Total Estimated Fee: " + Hbar.FromTinybars(estimate.GetTotal() / 100));
+            Console.WriteLine("\nTotal Estimated Fee: " + estimate.Total + " tinycents");
+            Console.WriteLine("Total Estimated Fee: " + Hbar.FromTinybars(estimate.Total / 100));
         }
 
         private static FeeEstimateResponse EstimateWithIntrinsicMode(Client client, TransferTransaction tx)
         {
             Console.WriteLine("\n=== Estimating Fees with INTRINSIC Mode ===");
-            FeeEstimateResponse intrinsicEstimate = new FeeEstimateQuery().SetMode(FeeEstimateMode.INTRINSIC).SetTransaction(tx).Execute(client);
+            FeeEstimateResponse intrinsicEstimate = new FeeEstimateQuery()
+                .SetMode(FeeEstimateMode.INTRINSIC)
+                .SetTransaction(tx).Execute(client);
             Console.WriteLine("Network Fee Subtotal: " + intrinsicEstimate.GetNetwork().GetSubtotal() + " tinycents");
             Console.WriteLine("Node Fee Base: " + intrinsicEstimate.GetNode().GetBase() + " tinycents");
             Console.WriteLine("Service Fee Base: " + intrinsicEstimate.GetService().GetBase() + " tinycents");
-            Console.WriteLine("Total Estimated Fee: " + intrinsicEstimate.GetTotal() + " tinycents");
-            Console.WriteLine("Total Estimated Fee: " + Hbar.FromTinybars(intrinsicEstimate.GetTotal() / 100));
+            Console.WriteLine("Total Estimated Fee: " + intrinsicEstimate.Total + " tinycents");
+            Console.WriteLine("Total Estimated Fee: " + Hbar.FromTinybars(intrinsicEstimate.Total / 100));
             return intrinsicEstimate;
         }
 
         private static void CompareEstimates(FeeEstimateResponse stateEstimate, FeeEstimateResponse intrinsicEstimate)
         {
             Console.WriteLine("\n=== Comparison ===");
-            Console.WriteLine("STATE mode total:  " + stateEstimate.GetTotal() + " tinycents");
-            Console.WriteLine("INTRINSIC mode total: " + intrinsicEstimate.GetTotal() + " tinycents");
-            long difference = Math.Abs(stateEstimate.GetTotal() - intrinsicEstimate.GetTotal());
+            Console.WriteLine("STATE mode total:  " + stateEstimate.Total + " tinycents");
+            Console.WriteLine("INTRINSIC mode total: " + intrinsicEstimate.Total + " tinycents");
+            long difference = Math.Abs(stateEstimate.Total - intrinsicEstimate.Total);
             Console.WriteLine("Difference: " + difference + " tinycents");
         }
 
         private static void DemonstrateTokenCreationEstimate(Client client)
         {
             Console.WriteLine("\n=== Estimating Token Creation Fees ===");
-            TokenCreateTransaction tokenTx = new TokenCreateTransaction().SetTokenName("Example Token").SetTokenSymbol("EXT").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(OPERATOR_ID).SetAdminKey(OPERATOR_KEY).FreezeWith(client).SignWithOperator(client);
-            FeeEstimateResponse tokenEstimate = new FeeEstimateQuery().SetMode(FeeEstimateMode.STATE).SetTransaction(tokenTx).Execute(client);
-            Console.WriteLine("Token Creation Estimated Fee:  " + tokenEstimate.GetTotal() + " tinycents");
-            Console.WriteLine("Token Creation Estimated Fee: " + Hbar.FromTinybars(tokenEstimate.GetTotal() / 100));
+            TokenCreateTransaction tokenTx = new TokenCreateTransaction()
+                .SetTokenName("Example Token")
+                .SetTokenSymbol("EXT")
+                .SetDecimals(3)
+                .SetInitialSupply(1000000)
+                .SetTreasuryAccountId(OPERATOR_ID)
+                .SetAdminKey(OPERATOR_KEY).FreezeWith(client).SignWithOperator(client);
+            FeeEstimateResponse tokenEstimate = new FeeEstimateQuery()
+                .SetMode(FeeEstimateMode.STATE)
+                .SetTransaction(tokenTx).Execute(client);
+            Console.WriteLine("Token Creation Estimated Fee:  " + tokenEstimate.Total + " tinycents");
+            Console.WriteLine("Token Creation Estimated Fee: " + Hbar.FromTinybars(tokenEstimate.Total / 100));
         }
     }
 }

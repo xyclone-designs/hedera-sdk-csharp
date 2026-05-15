@@ -2,8 +2,7 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -42,10 +41,15 @@ namespace Hedera.Hashgraph.Examples
             /// Step 1:
             /// Execute AccountBalanceQuery and output operator's account info.
             /// </summary>
-            AccountInfo operatorsAccountInfo = new AccountInfoQuery().SetAccountId(OPERATOR_ID).SetMaxQueryPayment(Hbar.From(1)).Execute(client);
-            Console.WriteLine("Operator's account public key: " + operatorsAccountInfo.key);
-            Console.WriteLine("Operator's account require receiver signature: " + operatorsAccountInfo.isReceiverSignatureRequired);
-            Console.WriteLine("Operator's account expiration time: " + operatorsAccountInfo.expirationTime);
+            AccountInfo operatorsAccountInfo = new AccountInfoQuery
+            {
+                AccountId = OPERATOR_ID,
+                MaxQueryPayment = Hbar.From(1),
+
+            }.Execute(client);
+            Console.WriteLine("Operator's account public key: " + operatorsAccountInfo.Key);
+            Console.WriteLine("Operator's account require receiver signature: " + operatorsAccountInfo.IsReceiverSigRequired);
+            Console.WriteLine("Operator's account expiration time: " + operatorsAccountInfo.ExpirationTime);
             /// <summary>
             /// Clean up:
             /// </summary>

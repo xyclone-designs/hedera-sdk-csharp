@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -68,8 +71,15 @@ namespace Hedera.Hashgraph.Examples
 
             // Build a basic lambda EVM hook (no admin key, no storage updates) - like the integration test
             var lambdaHook = new EvmHook(hookContractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
-            var response = new ContractCreateTransaction().SetAdminKey(OPERATOR_KEY).SetGas(400000).SetBytecodeFileId(CreateBytecodeFile(client)).AddHook(hookDetails).Execute(client);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            var response = new ContractCreateTransaction
+            {
+                AdminKey = OPERATOR_KEY,
+                Gas = 400000,
+                BytecodeFileId = CreateBytecodeFile(client),
+                HookCreationDetails_ = [hookDetails]
+            
+            }.Execute(client);
             var receipt = response.GetReceipt(client);
             ContractId contractId = receipt.ContractId;
             contractId;
@@ -88,10 +98,15 @@ namespace Hedera.Hashgraph.Examples
 
             // Hook 3: Basic lambda hook with no storage updates (using ID 3 to avoid conflict with existing hook 1)
             EvmHook basicHook = new EvmHook(hookContractId);
-            HookCreationDetails hook3 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 3, basicHook, adminKey);
+            HookCreationDetails hook3 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, basicHook, adminKey);
             try
             {
-                TransactionResponse contractUpdateResponse = new ContractUpdateTransaction().SetContractId(targetContractId).AddHookToCreate(hook3).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
+                TransactionResponse contractUpdateResponse = new ContractUpdateTransaction 
+                {
+                    ContractId = targetContractId,
+                    HookCreationDetails_ = [hook3]
+
+                }.FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
                 contractUpdateResponse.GetReceipt(client);
 
                 // Throws on failure; success if we reached here
@@ -113,7 +128,12 @@ namespace Hedera.Hashgraph.Examples
             // Delete both hooks we created
             try
             {
-                TransactionResponse deleteHookResponse = new ContractUpdateTransaction().SetContractId(contractId).AddHookToDelete(1).AddHookToDelete(3).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
+                TransactionResponse deleteHookResponse = new ContractUpdateTransaction
+                {
+                    ContractId = contractId,
+                    HookIdsToDelete = [1, 3]
+                
+                }.FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
                 deleteHookResponse.GetReceipt(client);
 
                 // Throws on failure; success if we reached here

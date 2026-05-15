@@ -3,10 +3,12 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -56,7 +58,7 @@ namespace Hedera.Hashgraph.Examples
             catch (Exception e)
             {
                 Console.Error.WriteLine("Example failed: " + e.Message);
-                e.PrintStackTrace();
+                Console.Error.WriteLine(e.StackTrace);
             }
 
             Console.WriteLine("HSM Signing Example Complete!");
@@ -67,17 +69,18 @@ namespace Hedera.Hashgraph.Examples
         /// </summary>
         private class AccountSetup
         {
-            readonly AccountId senderId;
-            readonly AccountId receiverId;
-            readonly PrivateKey senderKey;
-            readonly PrivateKey receiverKey;
-            AccountSetup(AccountId senderId, AccountId receiverId, PrivateKey senderKey, PrivateKey receiverKey)
+            public AccountSetup(AccountId senderId, AccountId receiverId, PrivateKey senderKey, PrivateKey receiverKey)
             {
-                this.senderId = senderId;
-                this.receiverId = receiverId;
-                this.senderKey = senderKey;
-                this.receiverKey = receiverKey;
+                SenderId = senderId;
+                ReceiverId = receiverId;
+                SenderKey = senderKey;
+                ReceiverKey = receiverKey;
             }
+
+            public readonly AccountId SenderId;
+            public readonly AccountId ReceiverId;
+            public readonly PrivateKey SenderKey;
+            public readonly PrivateKey ReceiverKey;
         }
 
         private static AccountSetup SetupTestAccounts(Client client)
@@ -89,12 +92,18 @@ namespace Hedera.Hashgraph.Examples
             PrivateKey receiverKey = PrivateKey.GenerateED25519();
 
             // Create sender account
-            TransactionResponse senderAccountResponse = new AccountCreateTransaction().SetKeyWithoutAlias(senderKey.GetPublicKey()).SetInitialBalance(Hbar.From(10)).Execute(client);
+            TransactionResponse senderAccountResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(10) }
+                
+            .SetKeyWithoutAlias(senderKey.GetPublicKey())
+                .Execute(client);
             TransactionReceipt senderAccountReceipt = senderAccountResponse.GetReceipt(client);
             AccountId senderId = senderAccountReceipt.AccountId;
 
             // Create receiver account
-            TransactionResponse receiverAccountResponse = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey.GetPublicKey()).SetInitialBalance(Hbar.From(1)).Execute(client);
+            TransactionResponse receiverAccountResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(1) }
+                
+            .SetKeyWithoutAlias(receiverKey.GetPublicKey())
+                .Execute(client);
             TransactionReceipt receiverAccountReceipt = receiverAccountResponse.GetReceipt(client);
             AccountId receiverId = receiverAccountReceipt.AccountId;
             Console.WriteLine("Created sender account: " + senderId);
@@ -109,12 +118,19 @@ namespace Hedera.Hashgraph.Examples
 
             // Step 1 - Create and prepare transfer transaction
             // Get first node from network
-            Dictionary<string, AccountId> network = client.GetNetwork();
-            AccountId nodeAccountId = network.Values().Iterator().Next();
+            Dictionary<string, AccountId> network = client.Network_.GetNetwork();
+            AccountId nodeAccountId = network.Values.First();
 
             // Create transfer transaction
-            TransferTransaction transferTx = new TransferTransaction().AddHbarTransfer(senderId, Hbar.From(-1)).AddHbarTransfer(receiverId, Hbar.From(1)).SetNodeAccountIds(Arrays.AsList(nodeAccountId)).SetTransactionId(TransactionId.Generate(senderId)).FreezeWith(client);
-            Console.WriteLine("Transaction frozen. Node IDs: " + transferTx.GetNodeAccountIds());
+            TransferTransaction transferTx = new TransferTransaction
+            {
+                TransactionId = TransactionId.Generate(senderId)
+            }
+            .AddHbarTransfer(senderId, Hbar.From(-1))
+            .AddHbarTransfer(receiverId, Hbar.From(1))
+                .SetNodeAccountIds([nodeAccountId])
+                .FreezeWith(client);
+            Console.WriteLine("Transaction frozen. Node IDs: " + transferTx.NodeAccountIds);
 
             // Step 2 - Get signable bytes and sign with HSM
             List<Transaction.SignableNodeTransactionBodyBytes> signableList = transferTx.GetSignableNodeBodyBytesList();
@@ -124,9 +140,9 @@ namespace Hedera.Hashgraph.Examples
             for (int i = 0; i < signableList.Count; i++)
             {
                 Transaction.SignableNodeTransactionBodyBytes signable = signableList[i];
-                Console.WriteLine("Signing entry " + i + " for node " + signable.GetNodeID() + " and transaction " + signable.GetTransactionID());
-                byte[] signature = HsmSign(senderKey, signable.GetBody());
-                transferTx = transferTx.AddSignature(senderKey.GetPublicKey(), signature, signable.GetTransactionID(), signable.GetNodeID());
+                Console.WriteLine("Signing entry " + i + " for node " + signable.NodeID + " and transaction " + signable.TransactionID);
+                byte[] signature = HsmSign(senderKey, signable.Body);
+                transferTx = transferTx.AddSignature(senderKey.GetPublicKey(), signature, signable.TransactionID, signable.NodeID);
             }
 
 
@@ -146,7 +162,14 @@ namespace Hedera.Hashgraph.Examples
             string smallContents = "Test file content for HSM signing example.";
 
             // Create file transaction
-            FileCreateTransaction fileCreateTx = new FileCreateTransaction().SetKeys(senderKey.GetPublicKey()).SetContents(smallContents.GetBytes()).SetMaxTransactionFee(Hbar.From(5)).FreezeWith(client).Sign(senderKey);
+            FileCreateTransaction fileCreateTx = new FileCreateTransaction
+            {
+                Keys = senderKey.GetPublicKey(),
+                Contents = smallContents.GetBytes(),
+                MaxTransactionFee = Hbar.From(5),
+            }
+            .FreezeWith(client)
+            .Sign(senderKey);
             TransactionResponse fileCreateResponse = fileCreateTx.Execute(client);
             TransactionReceipt fileCreateReceipt = fileCreateResponse.GetReceipt(client);
             FileId fileId = fileCreateReceipt.FileId;
@@ -154,8 +177,15 @@ namespace Hedera.Hashgraph.Examples
 
             // Step 2 - Prepare file append transaction (using smaller content to avoid chunking for now)
             string appendContent = "Additional content added via HSM signing.";
-            FileAppendTransaction fileAppendTx = new FileAppendTransaction().SetFileId(fileId).SetContents(appendContent.GetBytes()).SetMaxTransactionFee(Hbar.From(5)).SetTransactionId(TransactionId.Generate(senderId)).FreezeWith(client);
-            Console.WriteLine("File append transaction frozen. Node IDs: " + fileAppendTx.GetNodeAccountIds());
+            FileAppendTransaction fileAppendTx = new FileAppendTransaction
+            {
+                FileId = fileId,
+                Contents = appendContent.GetBytes(),
+                MaxTransactionFee = Hbar.From(5),
+                TransactionId = TransactionId.Generate(senderId),
+
+            }.FreezeWith(client);
+            Console.WriteLine("File append transaction frozen. Node IDs: " + fileAppendTx.NodeAccountIds);
 
             // Step 3 - Get signable bytes and sign with HSM for each node
             List<Transaction.SignableNodeTransactionBodyBytes> multiNodeSignableList = fileAppendTx.GetSignableNodeBodyBytesList();
@@ -165,9 +195,9 @@ namespace Hedera.Hashgraph.Examples
             for (int i = 0; i < multiNodeSignableList.Count; i++)
             {
                 Transaction.SignableNodeTransactionBodyBytes signable = multiNodeSignableList[i];
-                Console.WriteLine("Signing entry " + i + " for node " + signable.GetNodeID() + " and transaction " + signable.GetTransactionID());
-                byte[] signature = HsmSign(senderKey, signable.GetBody());
-                fileAppendTx = fileAppendTx.AddSignature(senderKey.GetPublicKey(), signature, signable.GetTransactionID(), signable.GetNodeID());
+                Console.WriteLine("Signing entry " + i + " for node " + signable.NodeID + " and transaction " + signable.TransactionID);
+                byte[] signature = HsmSign(senderKey, signable.Body);
+                fileAppendTx = fileAppendTx.AddSignature(senderKey.GetPublicKey(), signature, signable.TransactionID, signable.NodeID);
             }
 
 
@@ -180,7 +210,7 @@ namespace Hedera.Hashgraph.Examples
             // Step 5 - Verify file contents
             byte[] contents = new FileContentsQuery { FileId = fileId }.Execute(client).ToByteArray();
             Console.WriteLine("File content length according to FileContentsQuery: " + contents.Length);
-            Console.WriteLine("File contents: " + new string (contents));
+            Console.WriteLine("File contents: " + Encoding.UTF8.GetString(contents));
         }
 
         private static byte[] HsmSign(PrivateKey key, byte[] bodyBytes)

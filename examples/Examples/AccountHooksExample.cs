@@ -5,9 +5,10 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -97,10 +98,15 @@ namespace Hedera.Hashgraph.Examples
             PublicKey accountPublicKey = accountKey.GetPublicKey();
             try
             {
-                TransactionResponse accountCreateResponse = new AccountCreateTransaction().SetKeyWithoutAlias(accountPublicKey).SetInitialBalance(Hbar.From(1)).AddHook(hookDetails).FreezeWith(client).Sign(accountKey).Execute(client);
+                TransactionResponse accountCreateResponse = new AccountCreateTransaction
+                {
+                    InitialBalance = Hbar.From(1),
+                    HookCreationDetails = [hookDetails],
+
+                }.SetKeyWithoutAlias(accountPublicKey).FreezeWith(client).Sign(accountKey).Execute(client);
                 TransactionReceipt accountCreateReceipt = accountCreateResponse.GetReceipt(client);
                 AccountId accountId = accountCreateReceipt.AccountId;
-                accountId;
+
                 Console.WriteLine("Created account with ID: " + accountId);
                 Console.WriteLine("Successfully created account with lambda hook!");
                 return new AccountWithKey(accountId, accountKey);
@@ -168,10 +174,11 @@ namespace Hedera.Hashgraph.Examples
             // Delete the basic hooks (no storage)
             try
             {
-                TransactionResponse deleteHookResponse = new AccountUpdateTransaction()
-                    .SetAccountId(accountId)
-                    .AddHookToDelete(1)
-                    .AddHookToDelete(2)
+                TransactionResponse deleteHookResponse = new AccountUpdateTransaction
+                {
+                    AccountId = accountId,
+                    HookIdsToDelete = [1, 2]
+                }
                 .FreezeWith(client)
                 .Sign(accountKey)
                 .Execute(client);
@@ -189,7 +196,13 @@ namespace Hedera.Hashgraph.Examples
         private static FileId CreateBytecodeFile(Client client)
         {
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hiero_hook/hiero_hook.json");
-            var response = new FileCreateTransaction().SetKeys(OPERATOR_KEY).SetContents(contractBytecodeHex.GetBytes(StandardCharsets.UTF_8)).SetMaxTransactionFee(Hbar.From(2)).Execute(client);
+            var response = new FileCreateTransaction
+            {
+                Keys = OPERATOR_KEY,
+                Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
+                MaxTransactionFee = Hbar.From(2)
+
+            }.Execute(client);
             return response.GetReceipt(client).FileId;
         }
 

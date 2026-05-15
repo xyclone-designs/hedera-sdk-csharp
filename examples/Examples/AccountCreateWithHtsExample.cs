@@ -2,7 +2,6 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -72,7 +71,22 @@ namespace Hedera.Hashgraph.Examples
                 "QmWgkKz3ozgqtnvbCLeh7EaR1H8u5Sshx3ZJzxkcrT3jbw"
             };
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
-            TokenCreateTransaction nftCreateTx = new TokenCreateTransaction().SetTokenName("HIP-542 Example Collection").SetTokenSymbol("HIP-542").SetTokenName("HIP-542 NFT").SetTokenSymbol("HIP542NFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetDecimals(0).SetInitialSupply(0).SetMaxSupply(CIDs.Length).SetTreasuryAccountId(OPERATOR_ID).SetSupplyType(TokenSupplyType.FINITE).SetAdminKey(operatorPublicKey).SetFreezeKey(freezePublicKey).SetWipeKey(wipePublicKey).SetSupplyKey(supplyPublicKey).FreezeWith(client);
+            TokenCreateTransaction nftCreateTx = new TokenCreateTransaction
+            {
+                TokenName = "HIP-542 NFT",
+                TokenSymbol = "HIP542NFT",
+                TokenType = TokenType.NonFungibleUnique,
+                Decimals = 0,
+                InitialSupply = 0,
+                MaxSupply = CIDs.Length,
+                TreasuryAccountId = OPERATOR_ID,
+                TokenSupplyType = TokenSupplyType.Finite,
+                AdminKey = operatorPublicKey,
+                FreezeKey = freezePublicKey,
+                WipeKey = wipePublicKey,
+                SupplyKey = supplyPublicKey,
+
+            }.FreezeWith(client);
 
             // Sign the transaction with the operator key.
             TokenCreateTransaction nftCreateTxSigned = nftCreateTx.Sign(OPERATOR_KEY);
@@ -94,14 +108,19 @@ namespace Hedera.Hashgraph.Examples
             for (int i = 0; i < CIDs.Length; i++)
             {
                 byte[] nftMetadata = CIDs[i].GetBytes();
-                TokenMintTransaction nftMintTx = new TokenMintTransaction().SetTokenId(nftTokenId).SetMetadata(List.Of(nftMetadata)).FreezeWith(client);
+                TokenMintTransaction nftMintTx = new TokenMintTransaction
+                {
+                    TokenId = nftTokenId,
+                    Metadata = [nftMetadata]
+                
+                }.FreezeWith(client);
                 TokenMintTransaction nftMintTxSigned = nftMintTx.Sign(supplyPrivateKey);
                 TransactionResponse nftMintTxResponse = nftMintTxSigned.Execute(client);
                 nftMintTxReceipts[i] = nftMintTxResponse.GetReceipt(client);
-                Console.WriteLine("Minted NFT (token ID: " + nftTokenId + ") with serial: " + nftMintTxReceipts[i].serials[0]);
+                Console.WriteLine("Minted NFT (token ID: " + nftTokenId + ") with serial: " + nftMintTxReceipts[i].Serials[0]);
             }
 
-            long exampleNftId = nftMintTxReceipts[0].serials[0];
+            long exampleNftId = nftMintTxReceipts[0].Serials[0];
             /// <summary>
             /// Step 4:
             /// Create an ECDSA public key alias.
@@ -120,7 +139,9 @@ namespace Hedera.Hashgraph.Examples
             /// Transfer the NFT to Alice's public key alias using the transfer transaction.
             /// </summary>
             Console.WriteLine("Transferring NFT to Alice's account...");
-            TransferTransaction nftTransferTx = new TransferTransaction().AddNftTransfer(nftTokenId.Nft(exampleNftId), OPERATOR_ID, aliceAliasAccountId).FreezeWith(client);
+            TransferTransaction nftTransferTx = new TransferTransaction()
+                .AddNftTransfer(nftTokenId.Nft(exampleNftId), OPERATOR_ID, aliceAliasAccountId)
+                .FreezeWith(client);
 
             // Sign the transaction with the operator key.
             TransferTransaction nftTransferTxSigned = nftTransferTx.Sign(OPERATOR_KEY);
@@ -134,7 +155,11 @@ namespace Hedera.Hashgraph.Examples
             /// Step 6:
             /// Get the new account ID from the child record.
             /// </summary>
-            IList<TokenNftInfo> nftsInfo = new TokenNftInfoQuery().SetNftId(nftTokenId.Nft(exampleNftId)).Execute(client);
+            IList<TokenNftInfo> nftsInfo = new TokenNftInfoQuery
+            {
+                NftId = nftTokenId.Nft(exampleNftId)
+
+            }.Execute(client);
             string nftOwnerAccountId_FromChildRecord = nftsInfo[0].AccountId.ToString();
             Console.WriteLine("Current owner account ID: " + nftOwnerAccountId_FromChildRecord);
             /// <summary>
@@ -163,7 +188,19 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("The beginning of the second example (with Fungible Token).");
             Console.WriteLine("Creating Fungible Token using the Hedera Token Service...");
-            TokenCreateTransaction ftCreateTx = new TokenCreateTransaction().SetTokenName("HIP-542 Fungible Token").SetTokenSymbol("HIP542FT").SetInitialSupply(10000).SetDecimals(2).SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(OPERATOR_ID).SetAutoRenewAccountId(OPERATOR_ID).SetAdminKey(operatorPublicKey).SetWipeKey(wipePrivateKey).FreezeWith(client);
+            TokenCreateTransaction ftCreateTx = new TokenCreateTransaction
+            {
+                TokenName = "HIP-542 Fungible Token",
+                TokenSymbol = "HIP542FT",
+                InitialSupply = 10000,
+                Decimals = 2,
+                TokenType = TokenType.FungibleCommon,
+                TreasuryAccountId = OPERATOR_ID,
+                AutoRenewAccountId = OPERATOR_ID,
+                AdminKey = operatorPublicKey,
+                WipeKey = wipePrivateKey
+
+            }.FreezeWith(client);
 
             // Sign the transaction with the operator key.
             TokenCreateTransaction ftCreateTxSigned = ftCreateTx.Sign(OPERATOR_KEY);
@@ -174,7 +211,6 @@ namespace Hedera.Hashgraph.Examples
             // Get transaction receipt information.
             TransactionReceipt ftCreateReceipt = ftCreateResponse.GetReceipt(client);
             TokenId fungibleTokenId = ftCreateReceipt.TokenId;
-            fungibleTokenId;
             Console.WriteLine("Created fungible token with ID: " + fungibleTokenId);
             /// <summary>
             /// Step 10:
@@ -219,7 +255,7 @@ namespace Hedera.Hashgraph.Examples
             /// Step 14:
             /// Validate token balance of newly created account.
             /// </summary>
-            int bobFtBalance = bobAccountBalances.tokens[fungibleTokenId].IntValue();
+            int bobFtBalance = (int)bobAccountBalances.Tokens[fungibleTokenId];
             if (bobFtBalance == 10)
             {
                 Console.WriteLine("New account was created using HTS TransferTransaction! (Success)");
@@ -234,14 +270,62 @@ namespace Hedera.Hashgraph.Examples
             /// Delete created accounts and tokens.
             /// </summary>
             AccountId nftOwnerAccountId = AccountId.FromString(nftOwnerAccountId_FromQuery);
-            new TokenWipeTransaction().SetTokenId(nftTokenId).AddSerial(exampleNftId).SetAccountId(nftOwnerAccountId).FreezeWith(client).Sign(wipePrivateKey).Execute(client).GetReceipt(client);
+            new TokenWipeTransaction
+            {
+                TokenId = nftTokenId,
+                AccountId = nftOwnerAccountId,
+                Serials = [exampleNftId]
+            }
+            .FreezeWith(client)
+            .Sign(wipePrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+
             AccountId bobAccountId = AccountId.FromString(bobAccountInfo);
-            Dictionary<TokenId, long> bobsTokens = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).tokens;
-            new TokenWipeTransaction().SetTokenId(fungibleTokenId).SetAmount(bobsTokens[fungibleTokenId]).SetAccountId(bobAccountId).FreezeWith(client).Sign(wipePrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(nftOwnerAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(bobAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
-            new TokenDeleteTransaction().SetTokenId(nftTokenId).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
-            new TokenDeleteTransaction().SetTokenId(fungibleTokenId).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
+            Dictionary<TokenId, ulong> bobsTokens = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).Tokens;
+            new TokenWipeTransaction
+            {
+                TokenId = fungibleTokenId,
+                Amount = bobsTokens[fungibleTokenId],
+                AccountId = bobAccountId,
+            }
+            .FreezeWith(client)
+            .Sign(wipePrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+
+            new AccountDeleteTransaction
+            {
+                AccountId = nftOwnerAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(alicePrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+
+            new AccountDeleteTransaction
+            {
+                AccountId = bobAccountId,
+                TransferAccountId = OPERATOR_ID
+            }
+            .FreezeWith(client)
+            .Sign(bobPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+
+            new TokenDeleteTransaction { TokenId = nftTokenId }
+            .FreezeWith(client)
+            .Sign(OPERATOR_KEY)
+            .Execute(client)
+            .GetReceipt(client);
+
+            new TokenDeleteTransaction { TokenId = fungibleTokenId }
+            .FreezeWith(client)
+            .Sign(OPERATOR_KEY)
+            .Execute(client)
+            .GetReceipt(client);
+
             client.Dispose();
             Console.WriteLine("Account Auto-Creation Via HTS Assets (HIP-542) Example Complete!");
         }

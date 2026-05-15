@@ -2,8 +2,7 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -29,10 +28,10 @@ namespace Hedera.Hashgraph.Examples
             /// Step 0:
             /// Create and configure the SDK Client.
             /// </summary>
-            Client client = Client.ForMirrorNetwork(List.Of("testnet.mirrornode.hedera.com:443"), 0, 0);
+            Client client = Client.ForMirrorNetwork(["testnet.mirrornode.hedera.com:443"], 0, 0);
 
             // All generated transactions will be paid by this account and signed by this key.
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
 
             // Attach logger to the SDK Client.
             //_client.Logger = new Logger(Enum.Parse<LogLevel>(SDK_LOG_LEVEL)));
@@ -46,8 +45,13 @@ namespace Hedera.Hashgraph.Examples
             /// Step 2:
             /// Create account
             /// </summary>
-            AccountId aliceId = new AccountCreateTransaction().SetKeyWithoutAlias(privateKey).SetInitialBalance(Hbar.From(5)).Execute(client).GetReceipt(client).AccountId;
-            aliceId;
+            AccountId aliceId = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(5)
+            }
+                .SetKeyWithoutAlias(privateKey)
+                .Execute(client)
+                .GetReceipt(client).AccountId;
             Console.WriteLine("Alice's account ID: " + aliceId);
         }
     }

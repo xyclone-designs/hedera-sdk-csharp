@@ -3,7 +3,6 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -84,7 +83,7 @@ namespace Hedera.Hashgraph.Examples
             string largeMessage = ReadResources("util/large_message.txt");
 
             // Prepare a message send transaction that requires a submit key from "somewhere else".
-            Transaction<TWildcardTodo> topicMessageSubmitTx = new TopicMessageSubmitTransaction 
+            TopicMessageSubmitTransaction topicMessageSubmitTx = new TopicMessageSubmitTransaction 
             {
                 MaxChunks = 15,
                 TopicId = hederaTopicID,
@@ -97,11 +96,11 @@ namespace Hedera.Hashgraph.Examples
 
             // Now pretend we sent those bytes across the network.
             // Parse them into a transaction, so we can sign as the submit key.
-            topicMessageSubmitTx = Transaction.FromBytes(transactionBytes);
+            topicMessageSubmitTx = Transaction.FromBytes<TopicMessageSubmitTransaction>(transactionBytes);
 
             // View out the message size from the parsed transaction.
             // This can be useful to display what we are about to sign.
-            long transactionMessageSize = ((TopicMessageSubmitTransaction)topicMessageSubmitTx).Message.Count;
+            long transactionMessageSize = topicMessageSubmitTx.Message.Length;
             Console.WriteLine("Preparing to submit a message to the created topic (size of the message: " + transactionMessageSize + " bytes)...");
 
             // Sign with that Submit Key.

@@ -67,17 +67,20 @@ namespace Hedera.Hashgraph.Examples
             ///
             /// Require 2 of the 3 keys we generated to sign on anything modifying this account.
             /// </summary>
-            KeyList thresholdKey = KeyList.WithThreshold(2);
-            Collections.AddAll(thresholdKey, publicKeys);
+            KeyList thresholdKey = KeyList.Of(2, publicKeys);
             /// <summary>
             /// Step 2:
             /// Create a new account setting a Key List from a previous step as an account's key.
             /// </summary>
             Console.WriteLine("Creating new account...");
-            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetKeyWithoutAlias(thresholdKey).SetInitialBalance(Hbar.From(1)).Execute(client);
+            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(1),
+            }
+                .SetKeyWithoutAlias(thresholdKey)
+                .Execute(client);
             TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
             AccountId newAccountId = accountCreateTxReceipt.AccountId;
-            newAccountId;
             Console.WriteLine("Created account with ID: " + newAccountId);
             /// <summary>
             /// Step 2:
@@ -94,7 +97,12 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetTransferAccountId(OPERATOR_ID).SetAccountId(newAccountId).FreezeWith(client).Sign(privateKeys[0]).Sign(privateKeys[1]).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                TransferAccountId = OPERATOR_ID,
+                AccountId = newAccountId,
+
+            }.FreezeWith(client).Sign(privateKeys[0]).Sign(privateKeys[1]).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Create Account With Threshold Key Example Complete!");
         }

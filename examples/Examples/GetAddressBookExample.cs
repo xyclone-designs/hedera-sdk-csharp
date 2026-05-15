@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Networking;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -37,14 +36,13 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Getting address book for " + HEDERA_NETWORK + "...");
             NodeAddressBook addressBook = new AddressBookQuery { FileId = FileId.ADDRESS_BOOK }.Execute(client);
-            addressBook;
             Console.WriteLine("Address book for " + HEDERA_NETWORK + ": " + addressBook);
             /// <summary>
             /// Clean up:
             /// </summary>
             Files.DeleteIfExists(FileSystems.GetDefault().GetPath("address-book.proto.bin"));
             client.Dispose();
-            Files.Copy(new ByteArrayInputStream(addressBook.ToBytes().ToByteArray()), FileSystems.GetDefault().GetPath("address-book.proto.bin"));
+            Files.Copy(new ByteArrayInputStre am(addressBook.ToBytes().ToByteArray()), FileSystems.GetDefault().GetPath("address-book.proto.bin"));
             Console.WriteLine("Get Address Book Example Complete!");
         }
     }

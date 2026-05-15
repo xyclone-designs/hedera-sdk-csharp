@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -42,20 +46,24 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
 
             // Content to be stored in the file.
-            byte[] fileContents = "Hedera is great!".GetBytes(StandardCharsets.UTF_8);
+            byte[] fileContents = Encoding.UTF8.GetBytes("Hedera is great!");
 
             // Create the new file and set its properties.
             Console.WriteLine("Creating new file...");
-            TransactionResponse fileCreateTxResponse = new FileCreateTransaction().SetKeys(operatorPublicKey).SetContents(fileContents).SetMaxTransactionFee(Hbar.From(2)).Execute(client);
+            TransactionResponse fileCreateTxResponse = new FileCreateTransaction
+            {
+                Keys = operatorPublicKey,
+                Contents = fileContents,
+                MaxTransactionFee = Hbar.From(2)
+
+            }.Execute(client);
             FileId newFileId = fileCreateTxResponse.GetReceipt(client).FileId;
-            newFileId;
             Console.WriteLine("Created new file with ID: " + newFileId);
             /// <summary>
             /// Step 2:
             /// Get file contents and print them.
             /// </summary>
             ByteString contents = new FileContentsQuery { FileId = newFileId }.Execute(client);
-            contents;
 
             // Prints query results to console.
             Console.WriteLine("File contents: " + contents.ToStringUtf8());

@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -42,31 +45,51 @@ namespace Hedera.Hashgraph.Examples
             /// Create a file with smart contract bytecode.
             /// </summary>
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/parent_deploys_child/parent_deploys_child.json");
-            TransactionResponse bytecodeFileCreateTxResponse = new FileCreateTransaction().SetKeys(operatorPublicKey).SetContents(contractBytecodeHex).SetMaxTransactionFee(Hbar.From(2)).Execute(client);
+            TransactionResponse bytecodeFileCreateTxResponse = new FileCreateTransaction
+            {
+                Keys = operatorPublicKey,
+                Contents = contractBytecodeHex,
+                MaxTransactionFee = Hbar.From(2),
+
+            }.Execute(client);
             TransactionReceipt bytecodeFileCreateTxReceipt = bytecodeFileCreateTxResponse.GetReceipt(client);
             FileId bytecodeFileId = bytecodeFileCreateTxReceipt.FileId;
-            bytecodeFileId;
+
             /// <summary>
             /// Step 2:
             /// Create a smart contract.
             /// </summary>
-            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction().SetAdminKey(operatorPublicKey).SetGas(100000).SetBytecodeFileId(bytecodeFileId).SetContractMemo("HIP-729 Contract").Execute(client);
+            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction
+            {
+                AdminKey = operatorPublicKey,
+                Gas = 100000,
+                BytecodeFileId = bytecodeFileId,
+                ContractMemo = "HIP-729 Contract",
+
+            }.Execute(client);
             TransactionReceipt contractCreateTxReceipt = contractCreateTxResponse.GetReceipt(client);
             ContractId contractId = contractCreateTxReceipt.ContractId;
-            contractId;
+
             Console.WriteLine("Created new contract with ID: " + contractId);
             /// <summary>
             /// Step 3:
             /// Get a record from a contract create transaction to check contracts nonces.
             /// We expect to see `nonce=2` as we deploy a contract that creates another contract in its constructor.
             /// </summary>
-            IList<ContractNonceInfo> contractNonces = contractCreateTxResponse.GetRecord(client).contractFunctionResult.contractNonces;
+            IList<ContractNonceInfo> contractNonces = contractCreateTxResponse.GetRecord(client).ContractFunctionResult.contractNonces;
             Console.WriteLine("Contract nonces: " + contractNonces);
             /// <summary>
             /// Clean up:
             /// Delete created contract.
             /// </summary>
-            new ContractDeleteTransaction().SetContractId(contractId).SetTransferAccountId(contractCreateTxReceipt.TransactionId.AccountId).SetMaxTransactionFee(Hbar.From(1)).Execute(client).GetReceipt(client);
+            new ContractDeleteTransaction
+            {
+                ContractId = contractId,
+                TransferAccountId = contractCreateTxReceipt.TransactionId.AccountId,
+                MaxTransactionFee = Hbar.From(1),
+            }
+            .Execute(client)
+            .GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Contract Nonces (HIP-729) Example Complete!");
         }

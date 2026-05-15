@@ -2,9 +2,11 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Threading;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -49,16 +51,17 @@ namespace Hedera.Hashgraph.Examples
             var publicKey1 = privateKey1.GetPublicKey();
             var privateKey2 = PrivateKey.GenerateED25519();
             Console.WriteLine("Creating a Key List..." + "(with threshold, it will require 2 of 2 keys we generated to sign on anything modifying this account).");
-            KeyList thresholdKey = KeyList.WithThreshold(2);
-            thresholdKey.Add(privateKey1);
-            thresholdKey.Add(privateKey2);
+            KeyList thresholdKey = KeyList.Of(2, privateKey1, privateKey2);
             Console.WriteLine("Created a Key List: " + thresholdKey);
             /// <summary>
             /// Step 2:
             /// Create the account
             /// </summary>
             Console.WriteLine("Creating new account...(with the above Key List as an account key).");
-            var alice = new AccountCreateTransaction().SetKeyWithoutAlias(thresholdKey).SetInitialBalance(new Hbar(2)).Execute(client).GetReceipt(client).AccountId;
+            var alice = new AccountCreateTransaction { InitialBalance = new Hbar(2) }
+                .SetKeyWithoutAlias(thresholdKey)
+                .Execute(client)
+                .GetReceipt(client).AccountId;
             Console.WriteLine("Created new account with ID: " + alice);
             /// <summary>
             /// Step 3:
@@ -67,17 +70,27 @@ namespace Hedera.Hashgraph.Examples
             /// 24 hours in the future and waitForExpiry=false
             /// </summary>
             Console.WriteLine("Creating new scheduled transaction with 1 day expiry");
-            TransferTransaction transfer = new TransferTransaction().AddHbarTransfer(alice, new Hbar(1).Negated()).AddHbarTransfer(client.GetOperatorAccountId(), new Hbar(1));
+            TransferTransaction transfer = new TransferTransaction().AddHbarTransfer(alice, new Hbar(1).Negated()).AddHbarTransfer(client.OperatorAccountId, new Hbar(1));
             int oneDayInSecs = 86400;
-            var scheduleId = transfer.Schedule().SetWaitForExpiry(false).SetExpirationTime(Instant.Now().PlusSeconds(oneDayInSecs)).Execute(client).GetReceipt(client).scheduleId;
+            var scheduleId = transfer.Schedule(_ =>
+            {
+                _.WaitForExpiry = false;
+                _.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(oneDayInSecs);
+            })
+            .Execute(client)
+            .GetReceipt(client).ScheduleId;
             /// <summary>
             /// Step 4:
             /// Sign the transaction with one key and verify the transaction is not executed
             /// </summary>
             Console.WriteLine("Signing the new scheduled transaction with 1 key");
-            new ScheduleSignTransaction().SetScheduleId(scheduleId).FreezeWith(client).Sign(privateKey1).Execute(client).GetReceipt(client);
+            new ScheduleSignTransaction { ScheduleId = scheduleId }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Execute(client)
+            .GetReceipt(client);
             ScheduleInfo info = new ScheduleInfoQuery { ScheduleId = scheduleId }.Execute(client);
-            Console.WriteLine("Scheduled transaction is not yet executed. Executed at: " + info.executedAt);
+            Console.WriteLine("Scheduled transaction is not yet executed. Executed at: " + info.ExecutedAt);
             /// <summary>
             /// Step 5:
             /// Sign the transaction with the other key and verify the transaction executes successfully
@@ -85,46 +98,72 @@ namespace Hedera.Hashgraph.Examples
             var accountBalance = new AccountBalanceQuery { AccountId = alice }.Execute(client);
             Console.WriteLine("Alice's account balance before schedule transfer: " + accountBalance.Hbars);
             Console.WriteLine("Signing the new scheduled transaction with the 2nd key");
-            new ScheduleSignTransaction().SetScheduleId(scheduleId).FreezeWith(client).Sign(privateKey2).Execute(client).GetReceipt(client);
+            new ScheduleSignTransaction { ScheduleId = scheduleId }
+            .FreezeWith(client)
+            .Sign(privateKey2)
+            .Execute(client)
+            .GetReceipt(client);
             accountBalance = new AccountBalanceQuery { AccountId = alice }.Execute(client);
             Console.WriteLine("Alice's account balance after schedule transfer: " + accountBalance.Hbars);
             info = new ScheduleInfoQuery { ScheduleId = scheduleId }.Execute(client);
-            Console.WriteLine("Scheduled transaction is executed. Executed at: " + info.executedAt);
+            Console.WriteLine("Scheduled transaction is executed. Executed at: " + info.ExecutedAt);
             /// <summary>
             /// Step 6:
             /// Schedule another transfer transaction of 1 Hbar from the account to the operator account
             /// with an expirationTime of 10 seconds in the future and waitForExpiry=true .
             /// </summary>
             Console.WriteLine("Creating new scheduled transaction with 10 seconds expiry");
-            transfer = new TransferTransaction().AddHbarTransfer(alice, new Hbar(1).Negated()).AddHbarTransfer(client.GetOperatorAccountId(), new Hbar(1));
-            var scheduleId2 = transfer.Schedule().SetWaitForExpiry(true).SetExpirationTime(Instant.Now().PlusSeconds(10)).Execute(client).GetReceipt(client).scheduleId;
-            long startTime = System.CurrentTimeMillis();
+            transfer = new TransferTransaction().AddHbarTransfer(alice, new Hbar(1).Negated()).AddHbarTransfer(client.OperatorAccountId, new Hbar(1));
+            var scheduleId2 = transfer.Schedule(_ =>
+            {
+                _.WaitForExpiry = true;
+                _.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(10);
+            })
+            .Execute(client)
+            .GetReceipt(client).ScheduleId;
+            long startTime = DateTime.Now.Millisecond;
             long elapsedTime = 0;
             /// <summary>
             /// Step 7:
             /// Sign the transaction with one key and verify the transaction is not executed
             /// </summary>
             Console.WriteLine("Signing the new scheduled transaction with 1 key");
-            new ScheduleSignTransaction().SetScheduleId(scheduleId2).FreezeWith(client).Sign(privateKey1).Execute(client).GetReceipt(client);
+            new ScheduleSignTransaction
+            {
+                ScheduleId = scheduleId2
+            }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Execute(client)
+            .GetReceipt(client);
             info = new ScheduleInfoQuery { ScheduleId = scheduleId2 }.Execute(client);
-            Console.WriteLine("Scheduled transaction is not yet executed. Executed at: " + info.executedAt);
+            Console.WriteLine("Scheduled transaction is not yet executed. Executed at: " + info.ExecutedAt);
             /// <summary>
             /// Step 8:
             /// Update the account’s key to be only the one key
             /// that has already signed the scheduled transfer.
             /// </summary>
             Console.WriteLine("Updating Alice's key to be the 1st key");
-            new AccountUpdateTransaction().SetAccountId(alice).SetKey(publicKey1).FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client).GetReceipt(client);
+            new AccountUpdateTransaction
+            {
+                AccountId = alice,
+                Key = publicKey1,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Sign(privateKey2)
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 9:
             /// Verify that the transfer successfully executes roughly at the time of its expiration.
             /// </summary>
             accountBalance = new AccountBalanceQuery { AccountId = alice }.Execute(client);
             Console.WriteLine("Alice's account balance before schedule transfer: " + accountBalance.Hbars);
-            while (elapsedTime < 10/// 1000)
+            while (elapsedTime < 10 / 1000)
             {
-                elapsedTime = System.CurrentTimeMillis() - startTime;
-                System.@out.Printf("Elapsed time: %.1f seconds\r", elapsedTime / 1000);
+                elapsedTime = DateTime.Now.Millisecond - startTime;
+                Console.WriteLine("Elapsed time: {0:000}.1f seconds\r", elapsedTime / 1000);
                 Thread.Sleep(100); // Pause briefly to reduce CPU usage
             }
 

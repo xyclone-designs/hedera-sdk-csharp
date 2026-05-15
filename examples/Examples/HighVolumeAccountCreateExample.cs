@@ -51,18 +51,33 @@ namespace Hedera.Hashgraph.Examples
             /// Create a new account using high-volume throttles and set a fee limit.
             /// </summary>
             Console.WriteLine("Creating new account with high-volume throttles...");
-            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(Hbar.From(1)).SetHighVolume(true).SetMaxTransactionFee(Hbar.From(5)).Execute(client);
+            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(1),
+                HighVolume = true,
+                MaxTransactionFee = Hbar.From(5),
+            }
+            .SetKeyWithoutAlias(publicKey)
+            .Execute(client);
 
             // This will wait for the receipt to become available.
             TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
             AccountId newAccountId = accountCreateTxReceipt.AccountId;
-            newAccountId;
+
             Console.WriteLine("Created account with ID: " + newAccountId);
             /// <summary>
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetTransferAccountId(OPERATOR_ID).SetAccountId(newAccountId).FreezeWith(client).Sign(privateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                TransferAccountId = OPERATOR_ID,
+                AccountId = newAccountId,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey)
+            .Execute(client)
+            .GetReceipt(client);
             client.Dispose();
             Console.WriteLine("High-Volume Account Create Example Complete!");
         }

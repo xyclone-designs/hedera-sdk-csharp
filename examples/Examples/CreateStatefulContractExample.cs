@@ -4,8 +4,8 @@ using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -51,7 +51,12 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Creating new bytecode file...");
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/stateful/stateful.json");
-            TransactionResponse fileCreateTxResponse = new FileCreateTransaction { Keys = operatorPublicKey, Contents = contractBytecodeHex }.Execute(client);
+            TransactionResponse fileCreateTxResponse = new FileCreateTransaction 
+            { 
+                Keys = operatorPublicKey, 
+                Contents = contractBytecodeHex 
+            
+            }.Execute(client);
             TransactionReceipt fileCreateTxReceipt = fileCreateTxResponse.GetReceipt(client);
             FileId newFileId = fileCreateTxReceipt.FileId;
 
@@ -60,12 +65,14 @@ namespace Hedera.Hashgraph.Examples
             /// Step 2:
             /// Create a smart contract.
             /// </summary>
-            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction()
-                .SetGas(350000)
-                .SetBytecodeFileId(newFileId)
-                .SetAdminKey(operatorPublicKey)
-                .SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera!"))
-            .Execute(client);
+            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction
+            {
+                Gas = 350000,
+                BytecodeFileId = newFileId,
+                AdminKey = operatorPublicKey,
+                ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera!"),
+
+            }.Execute(client);
             TransactionReceipt contractCreateTxReceipt = contractCreateTxResponse.GetReceipt(client);
             ContractId newContractId = contractCreateTxReceipt.ContractId;
 
@@ -75,12 +82,15 @@ namespace Hedera.Hashgraph.Examples
             /// Call smart contract function.
             /// </summary>
             Console.WriteLine("Calling contract function \"get_message\"...");
-            ContractFunctionResult contractCallResult_BeforeSetMessage = new ContractCallQuery()
-                .SetContractId(newContractId)
-                .SetGas(300000)
-                .SetFunction("get_message")
-                .SetMaxQueryPayment(Hbar.From(1))
-            .Execute(client);
+            ContractFunctionResult contractCallResult_BeforeSetMessage = new ContractCallQuery
+            {
+                ContractId = newContractId,
+                Gas = 300000,
+                Function = "get_message",
+                MaxQueryPayment = Hbar.From(1),
+
+            }.Execute(client);
+
             if (contractCallResult_BeforeSetMessage.ErrorMessage != null)
             {
                 throw new Exception("Error calling contract function \"get_message\": " + contractCallResult_BeforeSetMessage.ErrorMessage);
@@ -89,10 +99,12 @@ namespace Hedera.Hashgraph.Examples
             string contractCallResult_BeforeSetMessage_String = contractCallResult_BeforeSetMessage.GetString(0);
             Console.WriteLine("Contract call result (\"get_message\" function returned): " + contractCallResult_BeforeSetMessage_String);
             Console.WriteLine("Calling contract function \"set_message\"...");
-            TransactionResponse contractExecuteTxResponse = new ContractExecuteTransaction()
-                .SetContractId(newContractId)
-                .SetGas(300000)
-                .SetFunction("set_message", new ContractFunctionParameters().AddString("Hello from hedera again!"))
+            TransactionResponse contractExecuteTxResponse = new ContractExecuteTransaction
+            {
+                ContractId = newContractId,
+                Gas = 300000,
+            }
+            .SetFunction("set_message", new ContractFunctionParameters().AddString("Hello from hedera again!"))
             .Execute(client);
 
             // If this doesn't throw then we know the contract executed successfully.
@@ -102,11 +114,14 @@ namespace Hedera.Hashgraph.Examples
             /// Call smart contract function.
             /// </summary>
             Console.WriteLine("Calling contract function \"get_message\"...");
-            ContractFunctionResult contractCallResult_AfterSetMessage = new ContractCallQuery()
-                .SetGas(300000)
-                .SetContractId(newContractId)
-                .SetFunction("get_message")
-                .SetMaxQueryPayment(Hbar.From(1)).Execute(client);
+            ContractFunctionResult contractCallResult_AfterSetMessage = new ContractCallQuery
+            {
+                Gas = 300000,
+                ContractId = newContractId,
+                Function = "get_message",
+                MaxQueryPayment = Hbar.From(1),
+
+            }.Execute(client);
             if (contractCallResult_AfterSetMessage.ErrorMessage != null)
             {
                 throw new Exception("Error calling contract function \"get_message\": " + contractCallResult_AfterSetMessage.ErrorMessage);

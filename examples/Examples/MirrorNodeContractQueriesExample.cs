@@ -3,11 +3,12 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
+using System.Text;
 using System.Threading;
 
 namespace Hedera.Hashgraph.Examples
@@ -47,7 +48,13 @@ namespace Hedera.Hashgraph.Examples
             /// Step 1:
             /// Create the contract
             /// </summary>
-            var response = new ContractCreateTransaction().SetGas(300000).SetBytecode(Hex.Decode(SMART_CONTRACT_BYTECODE)).SetContractMemo("Simple contract with string field").Execute(client);
+            var response = new ContractCreateTransaction
+            {
+                Gas = 300000,
+                Bytecode = Hex.Decode(SMART_CONTRACT_BYTECODE),
+                ContractMemo = "Simple contract with string field",
+
+            }.Execute(client);
             var contractId = response.GetReceipt(client).ContractId;
             Console.WriteLine("Created new contract with ID: " + contractId);
             /// <summary>
@@ -59,19 +66,42 @@ namespace Hedera.Hashgraph.Examples
             /// Step 4:
             /// Estimate the gas needed
             /// </summary>
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetSender(client.GetOperatorAccountId()).SetGasLimit(30000).SetGasPrice(1234).SetFunction("getMessage").Execute(client);
+            var gas = new MirrorNodeContractEstimateGasQuery
+            {
+                ContractId = contractId,
+                Sender = client.OperatorAccountId,
+                GasLimit = 30000,
+                GasPrice = 1234,
+                Function = "getMessage",
+
+            }.Execute(client);
             Console.WriteLine("Gas needed for this query: " + gas);
             /// <summary>
             /// Step 5:
             /// Do the query against the consensus node using the estimated gas
             /// </summary>
-            var callQuery = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("getMessage").SetQueryPayment(new Hbar(1));
+            var callQuery = new ContractCallQuery
+            { 
+                ContractId = contractId,
+                Gas = gas,
+                Function = "getMessage",
+                QueryPayment = new Hbar(1)
+            };
             var result = callQuery.Execute(client);
             /// <summary>
             /// Step 6:
             /// Simulate the transaction for free, using the mirror node
             /// </summary>
-            var simulationResult = new MirrorNodeContractCallQuery().SetContractId(contractId).SetSender(client.GetOperatorAccountId()).SetGasLimit(30000).SetBlockNumber(10000).SetGasPrice(1234).SetFunction("getMessage").Execute(client);
+            var simulationResult = new MirrorNodeContractCallQuery
+            {
+                ContractId = contractId,
+                Sender = client.OperatorAccountId,
+                GasLimit = 30000,
+                BlockNumber = 10000,
+                GasPrice = 1234,
+                Function = "getMessage",
+
+            }.Execute(client);
 
             // Decode the result since it's coming in ABI Hex format from the Mirror Node
             var decodedResult = DecodeABIHexString(simulationResult);
@@ -96,7 +126,7 @@ namespace Hedera.Hashgraph.Examples
 
             // Using the extracted length, the code calculates the substring containing the actual data starting from
             // position 128.
-            string hexStringData = hex.Substring(128, 128 + length/// 2);
+            string hexStringData = hex.Substring(128, 128 + length / 2);
             byte[] bytes = new byte[length];
 
             // Iterate through the extracted hex data, two characters at a time, converting each pair to a byte and storing
@@ -108,7 +138,7 @@ namespace Hedera.Hashgraph.Examples
 
 
             // Convert to UTF 8
-            return new string (bytes, StandardCharsets.UTF_8);
+            return Encoding.UTF8.GetString(bytes);
         }
     }
 }

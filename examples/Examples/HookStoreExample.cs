@@ -5,9 +5,10 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -55,17 +56,22 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("\n=== HookStoreTransaction Example ===");
 
             // Create storage update (equivalent to TypeScript sample)
-            byte[] storageKey = new byte[32];
-            Arrays.Fill(storageKey, (byte)1);
-            byte[] storageValue = new byte[32];
-            Arrays.Fill(storageValue, (byte)200);
+            byte[] storageKey = [ .. Enumerable.Repeat((byte)1, 32) ];
+            byte[] storageValue = [ .. Enumerable.Repeat((byte)200, 32) ];
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
 
             // Create HookId for the existing hook (accountId with hook ID 1)
             HookId hookId = new HookId(new HookEntityId(accountId), 1);
 
             // Execute HookStoreTransaction (matches TypeScript pattern)
-            TransactionResponse hookStoreResponse = new HookStoreTransaction().SetHookId(hookId).AddStorageUpdate(storageUpdate).FreezeWith(client).Sign(accountKey).Execute(client);
+            TransactionResponse hookStoreResponse = new HookStoreTransaction 
+            { 
+                HookId = hookId,
+                StorageUpdates = [storageUpdate],
+            }
+            .FreezeWith(client)
+            .Sign(accountKey)
+            .Execute(client);
             hookStoreResponse.GetReceipt(client);
             Console.WriteLine("Successfully updated EVM hook storage!");
             client.Dispose();
@@ -77,12 +83,13 @@ namespace Hedera.Hashgraph.Examples
         /// </summary>
         private class AccountWithKey
         {
-            readonly AccountId accountId;
-            readonly PrivateKey privateKey;
-            AccountWithKey(AccountId accountId, PrivateKey privateKey)
+            public readonly AccountId AccountId;
+            public readonly PrivateKey PrivateKey;
+            
+            public AccountWithKey(AccountId accountId, PrivateKey privateKey)
             {
-                this.AccountId = accountId;
-                this.privateKey = privateKey;
+                AccountId = accountId;
+                PrivateKey = privateKey;
             }
         }
 
@@ -95,17 +102,24 @@ namespace Hedera.Hashgraph.Examples
 
             // Create hook creation details
             Key adminKey = OPERATOR_KEY.GetPublicKey();
-            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, evmHook, adminKey);
+            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, evmHook, adminKey);
 
             // Create account with lambda hook
             PrivateKey accountKey = PrivateKey.GenerateED25519();
             PublicKey accountPublicKey = accountKey.GetPublicKey();
             try
             {
-                TransactionResponse accountCreateResponse = new AccountCreateTransaction().SetKeyWithoutAlias(accountPublicKey).SetInitialBalance(Hbar.From(1)).AddHook(hookDetails).FreezeWith(client).Sign(accountKey).Execute(client);
+                TransactionResponse accountCreateResponse = new AccountCreateTransaction
+                {
+                    Hook = [hookDetails],
+                    InitialBalance = Hbar.From(1),
+                }
+                .SetKeyWithoutAlias(accountPublicKey)
+                .FreezeWith(client)
+                .Sign(accountKey)
+                .Execute(client);
                 TransactionReceipt accountCreateReceipt = accountCreateResponse.GetReceipt(client);
                 AccountId accountId = accountCreateReceipt.AccountId;
-                accountId;
                 Console.WriteLine("Created account with ID: " + accountId);
                 Console.WriteLine("Successfully created account with EVM hook and initial storage!");
                 return new AccountWithKey(accountId, accountKey);
@@ -120,7 +134,13 @@ namespace Hedera.Hashgraph.Examples
         private static FileId CreateBytecodeFile(Client client)
         {
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hiero_hook/hiero_hook.json");
-            var response = new FileCreateTransaction().SetKeys(OPERATOR_KEY).SetContents(contractBytecodeHex.GetBytes(StandardCharsets.UTF_8)).SetMaxTransactionFee(Hbar.From(2)).Execute(client);
+            var response = new FileCreateTransaction
+            {
+                Keys = OPERATOR_KEY,
+                Contents = contractBytecodeHex.GetBytes(StandardCharsets.UTF_8),
+                MaxTransactionFee = Hbar.From(2),
+
+            }.Execute(client);
             return response.GetReceipt(client).FileId;
         }
 

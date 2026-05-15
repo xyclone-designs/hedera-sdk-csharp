@@ -5,6 +5,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -57,10 +58,21 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating exchange and receiver accounts...");
 
             // The exchange creates an account for the user to transfer funds to.
-            AccountId exchangeAccountId = new AccountCreateTransaction().SetReceiverSignatureRequired(true).SetKeyWithoutAlias(exchangePublicKey).FreezeWith(client).Sign(exchangePrivateKey).Execute(client).GetReceipt(client).AccountId;
+            AccountId exchangeAccountId = new AccountCreateTransaction { ReceiverSignatureRequired = true }
+            .SetKeyWithoutAlias(exchangePublicKey)
+            .FreezeWith(client)
+            .Sign(exchangePrivateKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             // For the purpose of this example we create an account for the user with a balance of 5 Hbar.
-            AccountId userAccountId = new AccountCreateTransaction().SetInitialBalance(Hbar.From(2)).SetKeyWithoutAlias(userPublicKey).Execute(client).GetReceipt(client).AccountId;
+            AccountId userAccountId = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(2),
+            }
+            .SetKeyWithoutAlias(userPublicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             Hbar senderBalanceBefore = new AccountBalanceQuery { AccountId = userAccountId }.Execute(client).Hbars;
             Hbar exchangeBalanceBefore = new AccountBalanceQuery { AccountId = exchangeAccountId }.Execute(client).Hbars;
             Console.WriteLine("User account (" + userAccountId + ") balance: " + senderBalanceBefore);
@@ -69,17 +81,24 @@ namespace Hedera.Hashgraph.Examples
             /// Step 3:
             /// Make a transfer from the user account to the exchange account, this requires signing by both parties.
             /// </summary>
-            TransferTransaction transferTx = new TransferTransaction().AddHbarTransfer(userAccountId, Hbar.From(1).Negated()).AddHbarTransfer(exchangeAccountId, Hbar.From(1)).SetTransactionMemo("https://some-exchange.com/user1/account1").FreezeWith(client).Sign(userPrivateKey);
+            TransferTransaction transferTx = new TransferTransaction
+            {
+                TransactionMemo = "https://some-exchange.com/user1/account1"
+            }
+                .AddHbarTransfer(userAccountId, Hbar.From(1).Negated())
+                .AddHbarTransfer(exchangeAccountId, Hbar.From(1))
+            .FreezeWith(client)
+            .Sign(userPrivateKey);
 
             // The exchange must sign the transaction in order for it to be accepted by the network
             // (assume this is some REST call to the exchange API server).
             byte[] signedTransferTxBytes = Transaction.FromBytes(transferTx.ToBytes()).Sign(exchangePrivateKey).ToBytes();
 
             // Parse the transaction bytes returned from the exchange.
-            Transaction<TWildcardTodo> signedTransferTx = Transaction.FromBytes(signedTransferTxBytes);
+            TransferTransaction signedTransferTx = Transaction.FromBytes<TransferTransaction>(signedTransferTxBytes);
 
             // Get the amount we are about to transfer (we built this with +2, -2).
-            Hbar transferAmount = ((TransferTransaction)signedTransferTx).GetHbarTransfers().Values().ToArray(new Hbar[0])[0];
+            Hbar transferAmount = signedTransferTx.GetHbarTransfers().Values.ToArray(new Hbar[0])[0];
             Console.WriteLine("Transferring " + transferAmount + " from the user account to the exchange account...");
 
             // We now execute the signed transaction and wait for it to be accepted.
@@ -99,8 +118,24 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(exchangeAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(exchangePrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(userAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(userPrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = exchangeAccountId,
+                TransferAccountId = OPERATOR_ID
+            }
+            .FreezeWith(client)
+            .Sign(exchangePrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = userAccountId,
+                TransferAccountId = OPERATOR_ID
+            }
+            .FreezeWith(client)
+            .Sign(userPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             client.Dispose();
             Console.WriteLine("MultiApp Transfer Example Complete!");
         }

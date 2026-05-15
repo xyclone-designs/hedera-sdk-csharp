@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -47,11 +48,13 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Creating new bytecode file...");
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hello_world/hello_world.json");
-            TransactionResponse fileCreateTxResponse = new FileCreateTransaction()
-                .SetKeys(operatorPublicKey)
-                .SetContents(contractBytecodeHex.GetBytes(StandardCharsets.UTF_8))
-                .SetMaxTransactionFee(Hbar.From(2))
-            .Execute(client);
+            TransactionResponse fileCreateTxResponse = new FileCreateTransaction
+            {
+                Keys = operatorPublicKey,
+                Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
+                MaxTransactionFee = Hbar.From(2),
+
+            }.Execute(client);
             TransactionReceipt fileCreateTxReceipt = fileCreateTxResponse.GetReceipt(client);
             FileId newFileId = fileCreateTxReceipt.FileId;
 
@@ -61,12 +64,14 @@ namespace Hedera.Hashgraph.Examples
             /// Create a smart contract.
             /// </summary>
             Console.WriteLine("Creating new contract...");
-            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction()
-                .SetGas(300000)
-                .SetBytecodeFileId(newFileId)
-                .SetAdminKey(operatorPublicKey)
-                .SetMaxTransactionFee(Hbar.From(16))
-            .Execute(client);
+            TransactionResponse contractCreateTxResponse = new ContractCreateTransaction
+            {
+                Gas = 300000,
+                BytecodeFileId = newFileId,
+                AdminKey = operatorPublicKey,
+                MaxTransactionFee = Hbar.From(16),
+
+            }.Execute(client);
             TransactionReceipt contractCreateTxReceipt = contractCreateTxResponse.GetReceipt(client);
             ContractId newContractId = contractCreateTxReceipt.ContractId;
 

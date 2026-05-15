@@ -3,10 +3,10 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Text;
 using System.Threading;
 
 namespace Hedera.Hashgraph.Examples
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Setting up a mirror client...");
             new TopicMessageQuery { TopicId = hederaTopicId }.Subscribe(client, (resp) =>
             {
-                string messageAsString = new string (resp.contents, StandardCharsets.UTF_8);
+                string messageAsString = Encoding.UTF8.GetString(resp.Contents);
                 Console.WriteLine("Topic message received!" + " | Time: " + resp.ConsensusTimestamp + " | Content: " + messageAsString);
                 MESSAGES_LATCH.CountDown();
             });

@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.File;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -43,8 +45,11 @@ namespace Hedera.Hashgraph.Examples
             /// Get contents of the file '0.0.112'. It is a system file, where exchange rate is stored.
             /// </summary>
             Console.WriteLine("Getting contents of the file `0.0.112`...");
-            ByteString fileContentsByteString = new FileContentsQuery().SetFileId(FileId.FromString("0.0.112")).Execute(client);
-            fileContentsByteString;
+            ByteString fileContentsByteString = new FileContentsQuery
+            {
+                FileId = FileId.FromString("0.0.112")
+
+            }.Execute(client);
             /// <summary>
             /// Step 2:
             /// Parse file contents to an ExchangeRates object.
@@ -55,14 +60,14 @@ namespace Hedera.Hashgraph.Examples
             /// Step 3:
             /// Print the info.
             /// </summary>
-            Console.WriteLine("Current numerator: " + exchangeRateSet.currentRate.cents);
-            Console.WriteLine("Current denominator: " + exchangeRateSet.currentRate.Hbars);
-            Console.WriteLine("Current expiration time: " + exchangeRateSet.currentRate.expirationTime.ToString());
-            Console.WriteLine("Current Exchange Rate: " + exchangeRateSet.currentRate.exchangeRateInCents);
-            Console.WriteLine("Next numerator: " + exchangeRateSet.nextRate.cents);
-            Console.WriteLine("Next denominator: " + exchangeRateSet.nextRate.Hbars);
-            Console.WriteLine("Next expiration time: " + exchangeRateSet.nextRate.expirationTime.ToString());
-            Console.WriteLine("Next Exchange Rate: " + exchangeRateSet.nextRate.exchangeRateInCents);
+            Console.WriteLine("Current numerator: " + exchangeRateSet.CurrentRate.Cents);
+            Console.WriteLine("Current denominator: " + exchangeRateSet.CurrentRate.Hbars);
+            Console.WriteLine("Current expiration time: " + exchangeRateSet.CurrentRate.ExpirationTime.ToString());
+            Console.WriteLine("Current Exchange Rate: " + exchangeRateSet.CurrentRate.ExchangeRateInCents);
+            Console.WriteLine("Next numerator: " + exchangeRateSet.NextRate.Cents);
+            Console.WriteLine("Next denominator: " + exchangeRateSet.NextRate.Hbars);
+            Console.WriteLine("Next expiration time: " + exchangeRateSet.NextRate.ExpirationTime.ToString());
+            Console.WriteLine("Next Exchange Rate: " + exchangeRateSet.NextRate.ExchangeRateInCents);
             /// <summary>
             /// Clean up:
             /// </summary>

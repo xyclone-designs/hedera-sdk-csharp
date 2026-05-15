@@ -55,20 +55,44 @@ namespace Hedera.Hashgraph.Examples
                 "QmPzY5GxevjyfMUF5vEAjtyRoigzWp47MiKAtLBduLMC1T"
             };
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
-            TransactionReceipt nftCreateTxReceipt = new TokenCreateTransaction().SetTokenName("HIP-336 NFT1").SetTokenSymbol("HIP336NFT1").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetDecimals(0).SetInitialSupply(0).SetMaxSupply(CIDs.Length).SetTreasuryAccountId(OPERATOR_ID).SetSupplyType(TokenSupplyType.FINITE).SetAdminKey(operatorPublicKey).SetSupplyKey(operatorPublicKey).SetWipeKey(operatorPublicKey).FreezeWith(client).Execute(client).GetReceipt(client);
+            TransactionReceipt nftCreateTxReceipt = new TokenCreateTransaction
+            {
+                TokenName = "HIP-336 NFT1",
+                TokenSymbol = "HIP336NFT1",
+                TokenType = TokenType.NonFungibleUnique,
+                Decimals = 0,
+                InitialSupply = 0,
+                MaxSupply = CIDs.Length,
+                TreasuryAccountId = OPERATOR_ID,
+                TokenSupplyType = TokenSupplyType.Finite,
+                AdminKey = operatorPublicKey,
+                SupplyKey = operatorPublicKey,
+                WipeKey = operatorPublicKey,
+            }
+            .FreezeWith(client)
+            .Execute(client)
+            .GetReceipt(client);
             TokenId nftTokenId = nftCreateTxReceipt.TokenId;
-            nftTokenId;
+
             Console.WriteLine("Created NFT with token ID: " + nftTokenId);
             /// <summary>
             /// Step 2:
             /// Mint NFTs.
             /// </summary>
             Console.WriteLine("Minting NFTs...");
-            IList<TransactionReceipt> nftMintTxReceipts = new List();
+            IList<TransactionReceipt> nftMintTxReceipts = [];
             for (int i = 0; i < CIDs.Length; i++)
             {
-                nftMintTxReceipts.Add(new TokenMintTransaction().SetTokenId(nftTokenId).SetMetadata(List.Of(CIDs[i].GetBytes(StandardCharsets.UTF_8))).FreezeWith(client).Execute(client).GetReceipt(client));
-                Console.WriteLine("Minted NFT (token ID: " + nftTokenId + ") with serial: " + nftMintTxReceipts[i].serials[0]);
+                nftMintTxReceipts.Add(new TokenMintTransaction
+                {
+                    TokenId = nftTokenId
+                }
+                    .SetMetadata(List.Of(CIDs[i].GetBytes(StandardCharsets.UTF_8)))
+                .FreezeWith(client)
+                .Execute(client)
+                .GetReceipt(client)
+                );
+                Console.WriteLine("Minted NFT (token ID: " + nftTokenId + ") with serial: " + nftMintTxReceipts[i].Serials[0]);
             }
 
             /// <summary>
@@ -78,12 +102,18 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating spender and receiver accounts...");
             PrivateKey spenderPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey spenderPublicKey = spenderPrivateKey.GetPublicKey();
-            AccountId spenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(spenderPublicKey).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+            AccountId spenderAccountId = new AccountCreateTransaction { InitialBalance = Hbar.From(2) }
+            .SetKeyWithoutAlias(spenderPublicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             
             Console.WriteLine("Created spender account with ID: " + spenderAccountId);
             PrivateKey receiverPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey receiverPublicKey = receiverPrivateKey.GetPublicKey();
-            AccountId receiverAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverPublicKey).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+            AccountId receiverAccountId = new AccountCreateTransaction { InitialBalance = Hbar.From(2) }
+            .SetKeyWithoutAlias(receiverPublicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             
             Console.WriteLine("Created receiver account with ID: " + receiverAccountId);
             /// <summary>
@@ -91,9 +121,25 @@ namespace Hedera.Hashgraph.Examples
             /// Associate spender and receiver accounts with the NFT.
             /// </summary>
             Console.WriteLine("Associating spender and receiver accounts with the NFT...");
-            TransactionReceipt spenderAssociateReceipt = new TokenAssociateTransaction().SetAccountId(spenderAccountId).SetTokenIds(List.Of(nftTokenId)).FreezeWith(client).Sign(spenderPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt spenderAssociateReceipt = new TokenAssociateTransaction
+            {
+                AccountId = spenderAccountId,
+                TokenIds = [nftTokenId],
+            }
+            .FreezeWith(client)
+            .Sign(spenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Spender association transaction was complete with status: " + spenderAssociateReceipt.Status);
-            TransactionReceipt receiverAssociateReceipt = new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(List.Of(nftTokenId)).FreezeWith(client).Sign(receiverPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt receiverAssociateReceipt = new TokenAssociateTransaction
+            {
+                AccountId = receiverAccountId,
+                TokenIds = [nftTokenId],
+            }
+            .FreezeWith(client)
+            .Sign(receiverPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Receiver association transaction was complete with status: " + receiverAssociateReceipt.Status);
             /// <summary>
             /// Step 5:
@@ -114,7 +160,15 @@ namespace Hedera.Hashgraph.Examples
             // for the transaction to be executed on behalf of the spender.
             TransactionId onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
             Console.WriteLine("Transferring NFT (serial #1) on behalf of the spender...");
-            TransactionReceipt approvedSendReceipt = new TransferTransaction().AddApprovedNftTransfer(nft1, OPERATOR_ID, receiverAccountId).SetTransactionId(onBehalfOfTransactionId).FreezeWith(client).Sign(spenderPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt approvedSendReceipt = new TransferTransaction
+            { 
+                TransactionId = onBehalfOfTransactionId,
+            }
+            .AddApprovedNftTransfer(nft1, OPERATOR_ID, receiverAccountId)
+            .FreezeWith(client)
+            .Sign(spenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Transfer transaction was complete with status: " + approvedSendReceipt.Status);
             /// <summary>
             /// Step 7:
@@ -132,7 +186,16 @@ namespace Hedera.Hashgraph.Examples
             try
             {
                 Console.WriteLine("Transferring NFT (serial #2) on behalf of the spender...");
-                new TransferTransaction().AddApprovedNftTransfer(nft2, OPERATOR_ID, receiverAccountId).SetTransactionId(onBehalfOfTransactionId2).FreezeWith(client).Sign(spenderPrivateKey).Execute(client).GetReceipt(client);
+                new TransferTransaction
+                { 
+                
+                }
+                    .AddApprovedNftTransfer(nft2, OPERATOR_ID, receiverAccountId)
+                    .SetTransactionId(onBehalfOfTransactionId2)
+                .FreezeWith(client)
+                .Sign(spenderPrivateKey)
+                .Execute(client)
+                .GetReceipt(client);
             }
             catch (Exception e)
             {
@@ -153,7 +216,21 @@ namespace Hedera.Hashgraph.Examples
                 "QmPzY5GxevjyfMUF5vEAjtyRoigzWp47MiKAtLBduLMC1T"
             };
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
-            TransactionReceipt nftCreateReceipt2 = new TokenCreateTransaction().SetTokenName("HIP336NFT2").SetTokenSymbol("HIP336NFT2").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetDecimals(0).SetInitialSupply(0).SetMaxSupply(CIDs2.Length).SetTreasuryAccountId(OPERATOR_ID).SetSupplyType(TokenSupplyType.FINITE).SetAdminKey(operatorPublicKey).SetSupplyKey(operatorPublicKey).SetWipeKey(operatorPublicKey).FreezeWith(client).Execute(client).GetReceipt(client);
+            TransactionReceipt nftCreateReceipt2 = new TokenCreateTransaction()
+                .SetTokenName("HIP336NFT2")
+                .SetTokenSymbol("HIP336NFT2")
+                .SetTokenType(TokenType.NonFungibleUnique)
+                .SetDecimals(0)
+                .SetInitialSupply(0)
+                .SetMaxSupply(CIDs2.Length)
+                .SetTreasuryAccountId(OPERATOR_ID)
+                .SetSupplyType(TokenSupplyType.Finite)
+                .SetAdminKey(operatorPublicKey)
+                .SetSupplyKey(operatorPublicKey)
+                .SetWipeKey(operatorPublicKey)
+            .FreezeWith(client)
+            .Execute(client)
+            .GetReceipt(client);
             TokenId nftTokenId2 = nftCreateReceipt2.TokenId;
 
             Console.WriteLine("Created NFT with token ID: " + nftTokenId2);
@@ -165,8 +242,13 @@ namespace Hedera.Hashgraph.Examples
             IList<TransactionReceipt> nftCollection2 = new List();
             for (int i = 0; i < CIDs2.Length; i++)
             {
-                nftCollection2.Add(new TokenMintTransaction().SetTokenId(nftTokenId2).SetMetadata(List.Of(CIDs2[i].GetBytes(StandardCharsets.UTF_8))).FreezeWith(client).Execute(client).GetReceipt(client));
-                Console.WriteLine("Minted NFT (token ID: " + nftTokenId2 + ") with serial: " + nftCollection2[i].serials[0]);
+                nftCollection2.Add(new TokenMintTransaction()
+                    .SetTokenId(nftTokenId2)
+                    .SetMetadata(List.Of(CIDs2[i].GetBytes(StandardCharsets.UTF_8)))
+                .FreezeWith(client)
+                .Execute(client)
+                .GetReceipt(client));
+                Console.WriteLine("Minted NFT (token ID: " + nftTokenId2 + ") with serial: " + nftCollection2[i].Serials[0]);
             }
 
             /// <summary>
@@ -176,12 +258,18 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating spender and receiver accounts...");
             PrivateKey delegatingSpenderPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey delegatingSpenderPublicKey2 = delegatingSpenderPrivateKey.GetPublicKey();
-            AccountId delegatingSpenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(delegatingSpenderPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+            AccountId delegatingSpenderAccountId = new AccountCreateTransaction { InitialBalance = Hbar.From(2) }
+            .SetKeyWithoutAlias(delegatingSpenderPublicKey2)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             Console.WriteLine("Created spender account with ID: " + delegatingSpenderAccountId);
             PrivateKey receiverPrivateKey2 = PrivateKey.GenerateECDSA();
             PublicKey receiverPublicKey2 = receiverPrivateKey2.GetPublicKey();
-            AccountId receiverAccountId2 = new AccountCreateTransaction().SetKeyWithoutAlias(receiverPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+            AccountId receiverAccountId2 = new AccountCreateTransaction { InitialBalance = Hbar.From(2) }
+            .SetKeyWithoutAlias(receiverPublicKey2)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             Console.WriteLine("Created receiver account with ID: " + receiverAccountId2);
             /// <summary>
@@ -189,9 +277,25 @@ namespace Hedera.Hashgraph.Examples
             /// Associate spender and receiver accounts with the NFT.
             /// </summary>
             Console.WriteLine("Associating spender and receiver accounts with the NFT...");
-            TransactionReceipt spenderAssociateReceipt2 = new TokenAssociateTransaction().SetAccountId(delegatingSpenderAccountId).SetTokenIds(List.Of(nftTokenId2)).FreezeWith(client).Sign(delegatingSpenderPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt spenderAssociateReceipt2 = new TokenAssociateTransaction
+            {
+                AccountId = delegatingSpenderAccountId,
+                TokenIds = [nftTokenId2],
+            }
+            .FreezeWith(client)
+            .Sign(delegatingSpenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Spender association transaction was complete with status: " + spenderAssociateReceipt2.Status);
-            TransactionReceipt receiverAssociateReceipt2 = new TokenAssociateTransaction().SetAccountId(receiverAccountId2).SetTokenIds(List.Of(nftTokenId2)).FreezeWith(client).Sign(receiverPrivateKey2).Execute(client).GetReceipt(client);
+            TransactionReceipt receiverAssociateReceipt2 = new TokenAssociateTransaction
+            {
+                AccountId = receiverAccountId2,
+                TokenIds = [nftTokenId2],
+            }
+            .FreezeWith(client)
+            .Sign(receiverPrivateKey2)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Receiver association transaction was complete with status: " + receiverAssociateReceipt2.Status);
             /// <summary>
             /// Step 13:
@@ -210,7 +314,13 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating delegate spender account...");
             PrivateKey spenderPrivateKey2 = PrivateKey.GenerateECDSA();
             PublicKey spenderPublicKey2 = spenderPrivateKey2.GetPublicKey();
-            AccountId spenderAccountId2 = new AccountCreateTransaction().SetKeyWithoutAlias(spenderPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+            AccountId spenderAccountId2 = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(2)
+            }
+                .SetKeyWithoutAlias(spenderPublicKey2)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             Console.WriteLine("Created delegate spender account with ID: : " + spenderAccountId2);
             /// <summary>
@@ -218,7 +328,11 @@ namespace Hedera.Hashgraph.Examples
             /// Give delegatingSpender allowance for NFT with serial #3 on behalf of spender account which has approveForAll rights.
             /// </summary>
             Console.WriteLine("Approving delegate spender account allowance for NFT (serial #3) on behalf of spender account which has `approveForAll` rights...");
-            TransactionReceipt approveDelegateAllowanceReceipt = new AccountAllowanceApproveTransaction().ApproveTokenNftAllowance(example2Nft3, OPERATOR_ID, spenderAccountId2, delegatingSpenderAccountId).FreezeWith(client).Sign(delegatingSpenderPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt approveDelegateAllowanceReceipt = new AccountAllowanceApproveTransaction().ApproveTokenNftAllowance(example2Nft3, OPERATOR_ID, spenderAccountId2, delegatingSpenderAccountId)
+            .FreezeWith(client)
+            .Sign(delegatingSpenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Approve delegated spender allowance for serial 3 - status: " + approveDelegateAllowanceReceipt.Status);
             /// <summary>
             /// Step 16:
@@ -230,7 +344,15 @@ namespace Hedera.Hashgraph.Examples
             // Generate TransactionId from spender's account id in order,
             // for the transaction to be executed on behalf of the spender.
             TransactionId delegatedOnBehalfOfTxId = TransactionId.Generate(spenderAccountId2);
-            TransactionReceipt delegatedSendTx = new TransferTransaction().AddApprovedNftTransfer(example2Nft3, OPERATOR_ID, receiverAccountId2).SetTransactionId(delegatedOnBehalfOfTxId).FreezeWith(client).Sign(spenderPrivateKey2).Execute(client).GetReceipt(client);
+            TransactionReceipt delegatedSendTx = new TransferTransaction
+            {
+                TransactionId = delegatedOnBehalfOfTxId
+            }
+                .AddApprovedNftTransfer(example2Nft3, OPERATOR_ID, receiverAccountId2)
+            .FreezeWith(client)
+            .Sign(spenderPrivateKey2)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Transfer serial 3 on behalf of the delegated spender status:" + delegatedSendTx.Status);
             /// <summary>
             /// Step 17:
@@ -242,7 +364,15 @@ namespace Hedera.Hashgraph.Examples
             // Generate TransactionId from spender's account id in order,
             // for the transaction to be executed on behalf of the spender.
             TransactionId onBehalfOfTransactionId3 = TransactionId.Generate(delegatingSpenderAccountId);
-            TransactionReceipt approvedSendReceipt3 = new TransferTransaction().AddApprovedNftTransfer(example2Nft1, OPERATOR_ID, receiverAccountId2).SetTransactionId(onBehalfOfTransactionId3).FreezeWith(client).Sign(delegatingSpenderPrivateKey).Execute(client).GetReceipt(client);
+            TransactionReceipt approvedSendReceipt3 = new TransferTransaction
+            {
+                TransactionId = onBehalfOfTransactionId3
+            }
+                .AddApprovedNftTransfer(example2Nft1, OPERATOR_ID, receiverAccountId2)
+            .FreezeWith(client)
+            .Sign(delegatingSpenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Transfer serial 1 on behalf of the spender status:" + approvedSendReceipt3.Status);
             /// <summary>
             /// Step 18:
@@ -261,7 +391,15 @@ namespace Hedera.Hashgraph.Examples
             TransactionId onBehalfOfTransactionId4 = TransactionId.Generate(delegatingSpenderAccountId);
             try
             {
-                new TransferTransaction().AddApprovedNftTransfer(example2Nft2, OPERATOR_ID, receiverAccountId2).SetTransactionId(onBehalfOfTransactionId4).FreezeWith(client).Sign(delegatingSpenderPrivateKey).Execute(client).GetReceipt(client);
+                new TransferTransaction
+                {
+                    TransactionId = onBehalfOfTransactionId4
+                }
+                    .AddApprovedNftTransfer(example2Nft2, OPERATOR_ID, receiverAccountId2)
+                .FreezeWith(client)
+                .Sign(delegatingSpenderPrivateKey)
+                .Execute(client)
+                .GetReceipt(client);
             }
             catch (Exception e)
             {
@@ -272,12 +410,62 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts and tokens.
             /// </summary>
-            new TokenWipeTransaction().SetTokenId(nftTokenId).AddSerial(1).SetAccountId(receiverAccountId).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
-            new TokenWipeTransaction().SetTokenId(nftTokenId2).AddSerial(1).AddSerial(3).SetAccountId(receiverAccountId2).FreezeWith(client).Sign(OPERATOR_KEY).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(spenderAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(spenderPrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(receiverAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(receiverPrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(delegatingSpenderAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(delegatingSpenderPrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(receiverAccountId2).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(receiverPrivateKey2).Execute(client).GetReceipt(client);
+            new TokenWipeTransaction
+            {
+                TokenId = nftTokenId,
+                AccountId = receiverAccountId,
+                Serials = [1]
+            }
+            .FreezeWith(client)
+            .Sign(OPERATOR_KEY)
+            .Execute(client)
+            .GetReceipt(client);
+            new TokenWipeTransaction
+            { 
+                TokenId = nftTokenId2,
+                AccountId = receiverAccountId2,
+                Serials = [1, 2]
+            }
+            .FreezeWith(client)
+            .Sign(OPERATOR_KEY)
+            .Execute(client)
+            .GetReceipt(client);
+            new AccountDeleteTransaction
+            { 
+                AccountId = spenderAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(spenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+            new AccountDeleteTransaction
+            { 
+                AccountId = receiverAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(receiverPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+            new AccountDeleteTransaction
+            { 
+                AccountId = delegatingSpenderAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(delegatingSpenderPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = receiverAccountId2,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(receiverPrivateKey2)
+            .Execute(client)
+            .GetReceipt(client);
             new TokenDeleteTransaction { TokenId = nftTokenId }.Execute(client).GetReceipt(client);
             new TokenDeleteTransaction { TokenId = nftTokenId2 }.Execute(client).GetReceipt(client);
             client.Dispose();

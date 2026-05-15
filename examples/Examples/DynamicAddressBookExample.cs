@@ -3,8 +3,10 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -25,27 +27,46 @@ namespace Hedera.Hashgraph.Examples
 
             // Defaults the operator account ID and key such that all generated transactions will be paid for
             // by this account and be signed by this key
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
             AccountId accountId = AccountId.FromString("0.0.1999");
             string description = "Hedera™ cryptocurrency";
             string newDescription = "Hedera™ cryptocurrency - updated";
 
             // Set up IPv4 address
-            Endpoint gossipEndpoint = new Endpoint();
-            gossipEndpoint.SetAddress(new byte[] { 0x00, 0x01, 0x02, 0x03 });
+            Endpoint gossipEndpoint = new Endpoint()
+            {
+                Address = [0x00, 0x01, 0x02, 0x03],
+                Port = 123456
+            };
 
             // Set up service endpoint
-            Endpoint serviceEndpoint = new Endpoint();
-            serviceEndpoint.SetAddress(new byte[] { 0x00, 0x01, 0x02, 0x03 });
+            Endpoint serviceEndpoint = new Endpoint()
+            {
+                Address = [0x00, 0x01, 0x02, 0x03],
+                Port = 123456
+            };
 
             // Set up grpcWebProxyEndpoint address
-            var grpcWebProxyEndpoint = new Endpoint().SetAddress(new byte[] { 0x00, 0x01, 0x02, 0x05 }).SetPort(12345);
+            var grpcWebProxyEndpoint = new Endpoint()
+            {
+                Address = [0x00, 0x01, 0x02, 0x05],
+                Port = 123456
+            };
 
             // Generate admin key
             PrivateKey adminKey = PrivateKey.GenerateED25519();
 
             // Create node create transaction
-            NodeCreateTransaction nodeCreateTransaction = new NodeCreateTransaction().SetAccountId(accountId).SetDescription(description).SetGossipCaCertificate("gossipCaCertificate".GetBytes()).SetServiceEndpoints([serviceEndpoint]).SetGossipEndpoints([gossipEndpoint]).SetGrpcWebProxyEndpoint(grpcWebProxyEndpoint).SetAdminKey(adminKey.GetPublicKey());
+            NodeCreateTransaction nodeCreateTransaction = new NodeCreateTransaction
+            {
+                AccountId = accountId,
+                Description = description,
+                GossipCaCertificate = Encoding.UTF8.GetBytes("gossipCaCertificate"),
+                ServiceEndpoints = [serviceEndpoint],
+                GossipEndpoints = [gossipEndpoint],
+                GrpcWebProxyEndpoint = grpcWebProxyEndpoint,
+                AdminKey = adminKey.GetPublicKey()
+            };
             try
             {
                 nodeCreateTransaction.Execute(client).GetReceipt(client);
@@ -55,8 +76,23 @@ namespace Hedera.Hashgraph.Examples
                 Console.WriteLine(e);
             }
 
-            var grpcWebProxyEndpointUpdated = new Endpoint().SetAddress(new byte[] { 0x00, 0x01, 0x02, 0x06 }).SetPort(123456);
-            var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(123).SetAccountId(accountId).SetDescription(newDescription).SetGossipCaCertificate("gossipCaCertificate".GetBytes()).SetServiceEndpoints([serviceEndpoint]).SetGossipEndpoints([gossipEndpoint]).SetDeclineReward(true).SetGrpcWebProxyEndpoint(grpcWebProxyEndpointUpdated).SetAdminKey(adminKey.GetPublicKey());
+            var grpcWebProxyEndpointUpdated = new Endpoint
+            {
+                Address = [0x00, 0x01, 0x02, 0x06],
+                Port = 123456
+            };
+            var nodeUpdateTransaction = new NodeUpdateTransaction
+            {
+                NodeId = 123,
+                AccountId = accountId,
+                Description = newDescription,
+                GossipCaCertificate = Encoding.UTF8.GetBytes("gossipCaCertificate"),
+                ServiceEndpoints = [serviceEndpoint],
+                GossipEndpoints = [gossipEndpoint],
+                DeclineReward = true,
+                GrpcWebProxyEndpoint = grpcWebProxyEndpointUpdated,
+                AdminKey = adminKey.GetPublicKey()
+            };
             try
             {
                 nodeUpdateTransaction.Execute(client).GetReceipt(client);
@@ -66,7 +102,7 @@ namespace Hedera.Hashgraph.Examples
                 Console.WriteLine(e);
             }
 
-            var nodeDeleteTransaction = new NodeDeleteTransaction().SetNodeId(123);
+            var nodeDeleteTransaction = new NodeDeleteTransaction { NodeId = 123 };
             try
             {
                 nodeDeleteTransaction.Execute(client).GetReceipt(client);
