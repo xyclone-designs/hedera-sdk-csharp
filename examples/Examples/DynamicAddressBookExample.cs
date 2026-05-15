@@ -15,10 +15,10 @@ namespace Hedera.Hashgraph.Examples
     {
         // see `.env.sample` in the repository root for how to specify these values
         // or set environment variables with the same names
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
         // HEDERA_NETWORK defaults to testnet if not specified in dotenv
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
         public static void Main(string[] args)
         {
             Client client = ClientHelper.ForName(HEDERA_NETWORK);

@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
 
@@ -24,10 +26,10 @@ namespace Hedera.Hashgraph.Examples
     {
         // see `.env.sample` in the repository root for how to specify these values
         // or set environment variables with the same names
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
         // HEDERA_NETWORK defaults to testnet if not specified in dotenv
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
         private SolidityPrecompileExample()
         {
         }
@@ -38,51 +40,88 @@ namespace Hedera.Hashgraph.Examples
 
             // Defaults the operator account ID and key such that all generated transactions will be paid for
             // by this account and be signed by this key
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
 
             // Create a new account to use as the operator for subsequent transactions
             PrivateKey newOperatorPrivateKey = PrivateKey.GenerateED25519();
             PublicKey newOperatorPublicKey = newOperatorPrivateKey.GetPublicKey();
-            AccountId newOperatorAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(newOperatorPublicKey).SetInitialBalance(Hbar.FromTinybars(1000000)).Execute(client).GetReceipt(client).AccountId;
+            AccountId newOperatorAccountId = new AccountCreateTransaction { InitialBalance = Hbar.FromTinybars(1000000), }
+            .SetKeyWithoutAlias(newOperatorPublicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             // Set the new account as the operator
-            _client.OperatorSet(newOperatorAccountId, newOperatorPrivateKey);
+            client.OperatorSet(newOperatorAccountId, newOperatorPrivateKey);
             PrivateKey alicePrivateKey = PrivateKey.GenerateED25519();
             PublicKey alicePublicKey = alicePrivateKey.GetPublicKey();
-            AccountId aliceAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(alicePublicKey).SetInitialBalance(Hbar.FromTinybars(1000)).Execute(client).GetReceipt(client).AccountId;
+            AccountId aliceAccountId = new AccountCreateTransaction { InitialBalance = Hbar.FromTinybars(1000), }
+            .SetKeyWithoutAlias(alicePublicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
 
             // Instantiate ContractHelper
             ContractHelper contractHelper = new ContractHelper("contracts/precompile/PrecompileExample.json", new ContractFunctionParameters().AddAddress(OPERATOR_ID.ToEvmAddress()).AddAddress(aliceAccountId.ToEvmAddress()), client);
 
             // Update the signer to have contractId KeyList (this is by security requirement)
-            new AccountUpdateTransaction().SetAccountId(OPERATOR_ID).SetKey(KeyList.Of(OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId).SetThreshold(1)).Execute(client).GetReceipt(client);
+            new AccountUpdateTransaction
+            {
+                AccountId = OPERATOR_ID,
+                Key = KeyList.Of(1, OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId),
+            }
+            .Execute(client)
+            .GetReceipt(client);
 
             // Update the Alice account to have contractId KeyList (this is by security requirement)
-            new AccountUpdateTransaction().SetAccountId(aliceAccountId).SetKey(KeyList.Of(alicePublicKey, contractHelper.ContractId).SetThreshold(1)).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
+            new AccountUpdateTransaction
+            {
+                AccountId = aliceAccountId,
+                Key = KeyList.Of(1, alicePublicKey, contractHelper.ContractId),
+            }
+            .FreezeWith(client)
+            .Sign(alicePrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             Action<string> additionalLogic = (tokenAddress) =>
             {
                 try
                 {
-                    var tokenUpdateTransactionReceipt = new TokenUpdateTransaction().SetTokenId(TokenId.FromEvmAddress(0, 0, tokenAddress)).SetAdminKey(KeyList.Of(OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId).SetThreshold(1)).SetSupplyKey(KeyList.Of(OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId).SetThreshold(1)).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
+                    var tokenUpdateTransactionReceipt = new TokenUpdateTransaction
+                    {
+                        TokenId = TokenId.FromEvmAddress(0, 0, tokenAddress),
+                        AdminKey = KeyList.Of(1, OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId),
+                        SupplyKey = KeyList.Of(1, OPERATOR_KEY.GetPublicKey(), contractHelper.ContractId),
+                    }
+                    .FreezeWith(client)
+                    .Sign(alicePrivateKey)
+                    .Execute(client)
+                    .GetReceipt(client);
                     Console.WriteLine("Status of Token Update Transaction: " + tokenUpdateTransactionReceipt.Status);
                 }
                 catch (Exception e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(e.Message, e);
                 }
             };
 
             // Configure steps in ContractHelper
-            contractHelper.SetResultValidatorForStep(0, (contractFunctionResult) =>
+            contractHelper
+            .SetResultValidatorForStep(0, (contractFunctionResult) =>
             {
-                Console.WriteLine("getPseudoRandomSeed() returned " + Arrays.ToString(contractFunctionResult.GetBytes32(0)));
+                Console.WriteLine("getPseudoRandomSeed() returned " + string.Join("; ", contractFunctionResult.GetBytes32(0)));
+
                 return true;
-            }).SetPayableAmountForStep(1, Hbar.From(20)).AddSignerForStep(3, alicePrivateKey).AddSignerForStep(5, alicePrivateKey).SetParameterSupplierForStep(11, () =>
+            })
+            .SetPayableAmountForStep(1, Hbar.From(20)).AddSignerForStep(3, alicePrivateKey).AddSignerForStep(5, alicePrivateKey)
+            .SetParameterSupplierForStep(11, () =>
             {
                 return new ContractFunctionParameters().AddBytes(alicePublicKey.ToBytesRaw());
-            }).SetPayableAmountForStep(11, Hbar.From(40)).AddSignerForStep(11, alicePrivateKey).SetStepLogic(11, additionalLogic).AddSignerForStep(12, alicePrivateKey).SetParameterSupplierForStep(12, () =>
+            })
+            .SetPayableAmountForStep(11, Hbar.From(40)).AddSignerForStep(11, alicePrivateKey)
+            .SetStepLogic(11, additionalLogic).AddSignerForStep(12, alicePrivateKey)
+            .SetParameterSupplierForStep(12, () =>
             {
-                return new ContractFunctionParameters().AddBytesArray(new byte[] { new byte[] { 0x01b }, new byte[] { 0x02b }, new byte[] { 0x03b } });
+                return new ContractFunctionParameters().AddBytesArray([[0x01b], [0x02b], [0x03b]]);
+
             }).AddSignerForStep(13, alicePrivateKey).AddSignerForStep(16, alicePrivateKey);
 
             // step 0 tests pseudo random number generator (PRNG)

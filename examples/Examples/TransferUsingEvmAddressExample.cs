@@ -3,8 +3,8 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -18,13 +18,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Transfer Using Evm Address Example Start!");
@@ -69,9 +69,13 @@ namespace Hedera.Hashgraph.Examples
             /// Step 5:
             /// Get the child receipt or child record to return the Hedera Account ID for the new account that was created.
             /// </summary>
-            TransactionReceipt transferTxReceipt = new TransactionReceiptQuery().SetTransactionId(transferTxResponse.TransactionId).SetIncludeChildren(true).Execute(client);
-            AccountId aliceAccountId = transferTxReceipt.children[0].AccountId;
-            aliceAccountId;
+            TransactionReceipt transferTxReceipt = new TransactionReceiptQuery
+            {
+                TransactionId = transferTxResponse.TransactionId,
+                IncludeChildren = true
+
+            }.Execute(client);
+            AccountId aliceAccountId = transferTxReceipt.Children[0].AccountId;
             Console.WriteLine("The \"normal\" account ID of the given alias: " + aliceAccountId);
             /// <summary>
             /// Step 6:
@@ -84,7 +88,7 @@ namespace Hedera.Hashgraph.Examples
             /// Use the hollow account as a transaction fee payer in a HAPI transaction.
             /// </summary>
             Console.WriteLine("Setting new account as client's operator...");
-            _client.OperatorSet(aliceAccountId, alicePrivateKey);
+            client.OperatorSet(aliceAccountId, alicePrivateKey);
             PrivateKey bobPrivateKey = PrivateKey.GenerateED25519();
             PublicKey bobPublicKey = bobPrivateKey.GetPublicKey();
             Console.WriteLine("Creating Bob's account...");
@@ -97,7 +101,6 @@ namespace Hedera.Hashgraph.Examples
             TransactionResponse accountCreateTxResponse = accountCreateTxSigned.Execute(client);
             TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
             var bobAccountId = accountCreateTxReceipt.AccountId;
-            bobAccountId;
             Console.WriteLine("Created Bob's account with ID: " + bobAccountId);
             /// <summary>
             /// Step 9:
@@ -105,14 +108,24 @@ namespace Hedera.Hashgraph.Examples
             /// by returning the public key on the account.
             /// </summary>
             AccountInfo aliceAccountInfo_AfterEnhancing = new AccountInfoQuery { AccountId = aliceAccountId }.Execute(client);
-            Console.WriteLine("The public key of the newly created (and now complete) account: " + aliceAccountInfo_AfterEnhancing.key);
+            Console.WriteLine("The public key of the newly created (and now complete) account: " + aliceAccountInfo_AfterEnhancing.Key);
             /// <summary>
             /// Clean up:
             /// Delete created accounts.
             /// </summary>
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
-            new AccountDeleteTransaction().SetAccountId(aliceAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
-            new AccountDeleteTransaction().SetAccountId(bobAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            new AccountDeleteTransaction 
+            { 
+                AccountId = aliceAccountId, 
+                TransferAccountId = OPERATOR_ID 
+            
+            }.FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction 
+            { 
+                AccountId = bobAccountId, 
+                TransferAccountId = OPERATOR_ID 
+            
+            }.FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Transfer Using Evm Address Example Complete!");
         }

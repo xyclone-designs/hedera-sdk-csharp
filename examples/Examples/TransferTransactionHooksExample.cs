@@ -2,9 +2,13 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -14,13 +18,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "localhost");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "localhost";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Transfer Transaction Hooks Example Start!");
@@ -63,20 +67,25 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating hook call objects (demonstration)...");
 
             // HBAR transfer with pre-tx allowance hook
-            FungibleHookCall hbarHook = new FungibleHookCall(1001, new EvmHookCall(new byte[] { 0x01, 0x02 }, 20000), FungibleHookType.PRE_TX_ALLOWANCE_HOOK);
+            FungibleHookCall hbarHook = new FungibleHookCall(1001, new EvmHookCall(new byte[] { 0x01, 0x02 }, 20000), FungibleHookType.PreTxAllowanceHook);
 
             // NFT sender hook (pre-hook)
-            NftHookCall nftSenderHook = new NftHookCall(1002, new EvmHookCall(new byte[] { 0x03, 0x04 }, 20000), NftHookType.PRE_HOOK_SENDER);
+            NftHookCall nftSenderHook = new NftHookCall(1002, new EvmHookCall(new byte[] { 0x03, 0x04 }, 20000), NftHookType.PreHookSender);
 
             // NFT receiver hook (pre-hook)
-            NftHookCall nftReceiverHook = new NftHookCall(1003, new EvmHookCall(new byte[] { 0x05, 0x06 }, 20000), NftHookType.PRE_HOOK_RECEIVER);
+            NftHookCall nftReceiverHook = new NftHookCall(1003, new EvmHookCall(new byte[] { 0x05, 0x06 }, 20000), NftHookType.PreHookReceiver);
 
             // Fungible token transfer with pre-post allowance hook
-            FungibleHookCall fungibleTokenHook = new FungibleHookCall(1004, new EvmHookCall(new byte[] { 0x07, 0x08 }, 20000), FungibleHookType.PRE_POST_TX_ALLOWANCE_HOOK);
+            FungibleHookCall fungibleTokenHook = new FungibleHookCall(1004, new EvmHookCall(new byte[] { 0x07, 0x08 }, 20000), FungibleHookType.PrePostTxAllowanceHook);
 
             // Build TransferTransaction with hooks (demonstration)
             Console.WriteLine("Building TransferTransaction with hooks...");
-            new TransferTransaction().AddHbarTransferWithHook(senderAccountId, Hbar.From(-100), hbarHook).AddHbarTransfer(receiverAccountId, Hbar.From(100)).AddNftTransferWithHook(nftId, senderAccountId, receiverAccountId, nftSenderHook, nftReceiverHook).AddTokenTransferWithHook(fungibleTokenId, senderAccountId, -1000, fungibleTokenHook).AddTokenTransfer(fungibleTokenId, receiverAccountId, 1000);
+            new TransferTransaction()
+                .AddHbarTransferWithHook(senderAccountId, Hbar.From(-100), hbarHook)
+                .AddHbarTransfer(receiverAccountId, Hbar.From(100))
+                .AddNftTransferWithHook(nftId, senderAccountId, receiverAccountId, nftSenderHook, nftReceiverHook)
+                .AddTokenTransferWithHook(fungibleTokenId, senderAccountId, -1000, fungibleTokenHook)
+                .AddTokenTransfer(fungibleTokenId, receiverAccountId, 1000);
             Console.WriteLine("TransferTransaction built successfully with the following hook calls:");
             Console.WriteLine("  - HBAR transfer with pre-tx allowance hook (ID: 1001)");
             Console.WriteLine("  - NFT transfer with sender hook (ID: 1002) and receiver hook (ID: 1003)");
@@ -91,7 +100,9 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("\n=== Executing Simple Transfer (without hooks) ===");
             try
             {
-                TransactionResponse simpleTransferResponse = new TransferTransaction().AddHbarTransfer(senderAccountId, Hbar.From(-1)).AddHbarTransfer(receiverAccountId, Hbar.From(1)).Execute(client);
+                TransactionResponse simpleTransferResponse = new TransferTransaction()
+                    .AddHbarTransfer(senderAccountId, Hbar.From(-1))
+                    .AddHbarTransfer(receiverAccountId, Hbar.From(1)).Execute(client);
                 simpleTransferResponse.GetReceipt(client);
                 Console.WriteLine("Successfully executed simple HBAR transfer!");
                 Console.WriteLine("Transaction ID: " + simpleTransferResponse.TransactionId);
@@ -111,10 +122,20 @@ namespace Hedera.Hashgraph.Examples
         private static TokenId CreateFungibleToken(Client client)
         {
             Console.WriteLine("Creating fungible token...");
-            TransactionResponse tokenCreateResponse = new TokenCreateTransaction().SetTokenName("Example Fungible Token").SetTokenSymbol("EFT").SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(2).SetInitialSupply(10000).SetTreasuryAccountId(OPERATOR_ID).SetAdminKey(OPERATOR_KEY).SetSupplyKey(OPERATOR_KEY).Execute(client);
+            TransactionResponse tokenCreateResponse = new TokenCreateTransaction 
+            {
+                TokenName = "Example Fungible Token",
+                TokenSymbol = "EFT",
+                TokenType = TokenType.FungibleCommon,
+                Decimals = 2,
+                InitialSupply = 10000,
+                TreasuryAccountId = OPERATOR_ID,
+                AdminKey = OPERATOR_KEY,
+                SupplyKey = OPERATOR_KEY,
+
+            }.Execute(client);
             TransactionReceipt tokenCreateReceipt = tokenCreateResponse.GetReceipt(client);
             TokenId tokenId = tokenCreateReceipt.TokenId;
-            tokenId;
             Console.WriteLine("Created fungible token with ID: " + tokenId);
             return tokenId;
         }
@@ -125,10 +146,18 @@ namespace Hedera.Hashgraph.Examples
         private static TokenId CreateNftToken(Client client)
         {
             Console.WriteLine("Creating NFT token...");
-            TransactionResponse tokenCreateResponse = new TokenCreateTransaction().SetTokenName("Example NFT Token").SetTokenSymbol("ENT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(OPERATOR_ID).SetAdminKey(OPERATOR_KEY).SetSupplyKey(OPERATOR_KEY).Execute(client);
+            TransactionResponse tokenCreateResponse = new TokenCreateTransaction
+            {
+                TokenName = "Example NFT Token",
+                TokenSymbol = "ENT",
+                TokenType = TokenType.NonFungibleUnique,
+                TreasuryAccountId = OPERATOR_ID,
+                AdminKey = OPERATOR_KEY,
+                SupplyKey = OPERATOR_KEY,
+
+            }.Execute(client);
             TransactionReceipt tokenCreateReceipt = tokenCreateResponse.GetReceipt(client);
             TokenId tokenId = tokenCreateReceipt.TokenId;
-            tokenId;
             Console.WriteLine("Created NFT token with ID: " + tokenId);
             return tokenId;
         }
@@ -141,11 +170,16 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Minting NFT...");
 
             // Create metadata for the NFT
-            byte[] metadata = "Example NFT Metadata".GetBytes(StandardCharsets.UTF_8);
-            TransactionResponse mintResponse = new TokenMintTransaction().SetTokenId(tokenId).AddMetadata(metadata).Execute(client);
+            byte[] metadata = Encoding.UTF8.GetBytes("Example NFT Metadata");
+            TransactionResponse mintResponse = new TokenMintTransaction
+            {
+                TokenId = tokenId,
+                Metadata = [metadata],
+
+            }.Execute(client);
             TransactionReceipt mintReceipt = mintResponse.GetReceipt(client);
-            long serialNumber = mintReceipt.serials.GetFirst();
-            NftId nftId = new NftId(tokenId, serialNumber);
+            long serialNumber = mintReceipt.Serials[0];
+            NftId nftId = new (tokenId, serialNumber);
             Console.WriteLine("Minted NFT with ID: " + nftId);
             return nftId;
         }

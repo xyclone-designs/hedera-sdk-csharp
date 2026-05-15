@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
@@ -14,13 +17,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "localhost");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "localhost";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Hook Store Example Start!");
@@ -44,7 +47,7 @@ namespace Hedera.Hashgraph.Examples
             ContractId contractId = CreateContractId(client);
             AccountWithKey accountWithKey = CreateAccountWithLambdaHook(client, contractId);
             AccountId accountId = accountWithKey.AccountId;
-            PrivateKey accountKey = accountWithKey.privateKey;
+            PrivateKey accountKey = accountWithKey.PrivateKey;
             /// <summary>
             /// Step 2:
             /// Demonstrate HookStoreTransaction - the core functionality.

@@ -3,6 +3,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
 
@@ -14,13 +15,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Token Metadata (HIP-646 and HIP-765) Example Start!");
@@ -50,17 +51,23 @@ namespace Hedera.Hashgraph.Examples
             /// Create a mutable fungible token with a metadata, but without a Metadata Key.
             /// </summary>
             Console.WriteLine("The beginning of the first example (mutable token's metadata).");
-            byte[] initialTokenMetadata = new byte[]
-            {
-                1,
-                1,
-                1,
-                1,
-                1
-            };
+            byte[] initialTokenMetadata = [1, 1, 1, 1, 1];
             Console.WriteLine("Creating mutable Fungible Token using the Hedera Token Service...");
-            var mutableFungibleTokenId = new TokenCreateTransaction().SetTokenName("HIP-646 Mutable FT").SetTokenSymbol("HIP646MFT").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(OPERATOR_ID).SetDecimals(3).SetInitialSupply(1000000).SetAdminKey(adminPublicKey).FreezeWith(client).Sign(adminPrivateKey).Execute(client).GetReceipt(client).TokenId;
-            mutableFungibleTokenId;
+            var mutableFungibleTokenId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-646 Mutable FT",
+                TokenSymbol = "HIP646MFT",
+                TokenMetadata = initialTokenMetadata,
+                TokenType = TokenType.FungibleCommon,
+                TreasuryAccountId = OPERATOR_ID,
+                Decimals = 3,
+                InitialSupply = 1000000,
+                AdminKey = adminPublicKey,
+            }
+            .FreezeWith(client)
+            .Sign(adminPrivateKey)
+            .Execute(client)
+            .GetReceipt(client).TokenId;
             Console.WriteLine("Created mutable Fungible Token with ID: " + mutableFungibleTokenId);
             /// <summary>
             /// Step 3:
@@ -69,9 +76,9 @@ namespace Hedera.Hashgraph.Examples
             var mutableFungibleTokenInfo_AfterCreation = new TokenInfoQuery { TokenId = mutableFungibleTokenId }.Execute(client);
 
             // Check that metadata was set correctly.
-            if (Arrays.Equals(mutableFungibleTokenInfo_AfterCreation.metadata, initialTokenMetadata))
+            if (Equals(mutableFungibleTokenInfo_AfterCreation.Metadata, initialTokenMetadata))
             {
-                Console.WriteLine("Mutable Fungible Token metadata after creation: " + Arrays.ToString(mutableFungibleTokenInfo_AfterCreation.metadata));
+                Console.WriteLine("Mutable Fungible Token metadata after creation: " + string.Join("; ", mutableFungibleTokenInfo_AfterCreation.Metadata));
             }
             else
             {
@@ -91,7 +98,15 @@ namespace Hedera.Hashgraph.Examples
                 2
             };
             Console.WriteLine("Updating mutable Fungible Token metadata...");
-            new TokenUpdateTransaction().SetTokenId(mutableFungibleTokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(client).Sign(adminPrivateKey).Execute(client).GetReceipt(client);
+            new TokenUpdateTransaction
+            {
+                TokenId = mutableFungibleTokenId,
+                TokenMetadata = updatedTokenMetadata,
+            }
+            .FreezeWith(client)
+            .Sign(adminPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 5:
             /// Query and output mutable Fungible Token info after its metadata was updated.
@@ -99,9 +114,9 @@ namespace Hedera.Hashgraph.Examples
             var mutableFungibleTokenInfo_AfterMetadataUpdate = new TokenInfoQuery { TokenId = mutableFungibleTokenId }.Execute(client);
 
             // Check that metadata was updated correctly.
-            if (Arrays.Equals(mutableFungibleTokenInfo_AfterMetadataUpdate.metadata, updatedTokenMetadata))
+            if (Equals(mutableFungibleTokenInfo_AfterMetadataUpdate.Metadata, updatedTokenMetadata))
             {
-                Console.WriteLine("Mutable Fungible Token metadata after update: " + Arrays.ToString(mutableFungibleTokenInfo_AfterMetadataUpdate.metadata));
+                Console.WriteLine("Mutable Fungible Token metadata after update: " + string.Join("; ", mutableFungibleTokenInfo_AfterMetadataUpdate.Metadata));
             }
             else
             {
@@ -116,8 +131,19 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("The beginning of the second example (immutable token's metadata).");
             Console.WriteLine("Creating immutable Fungible Token using the Hedera Token Service...");
-            var immutableFungibleTokenId = new TokenCreateTransaction().SetTokenName("HIP-646 Immutable FT").SetTokenSymbol("HIP646IMMFT").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(OPERATOR_ID).SetMetadataKey(metadataPublicKey).SetDecimals(3).SetInitialSupply(1000000).Execute(client).GetReceipt(client).TokenId;
-            immutableFungibleTokenId;
+            var immutableFungibleTokenId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-646 Immutable FT",
+                TokenSymbol = "HIP646IMMFT",
+                TokenMetadata = initialTokenMetadata,
+                TokenType = TokenType.FungibleCommon,
+                TreasuryAccountId = OPERATOR_ID,
+                MetadataKey = metadataPublicKey,
+                Decimals = 3,
+                InitialSupply = 1000000,
+            }
+            .Execute(client)
+            .GetReceipt(client).TokenId;
             Console.WriteLine("Created an immutable Fungible Token with ID: " + immutableFungibleTokenId);
             /// <summary>
             /// Step 7:
@@ -126,9 +152,9 @@ namespace Hedera.Hashgraph.Examples
             var immutableFungibleTokenTokenInfo_AfterCreation = new TokenInfoQuery { TokenId = immutableFungibleTokenId }.Execute(client);
 
             // Check that metadata was set correctly.
-            if (Arrays.Equals(immutableFungibleTokenTokenInfo_AfterCreation.metadata, initialTokenMetadata))
+            if (Equals(immutableFungibleTokenTokenInfo_AfterCreation.Metadata, initialTokenMetadata))
             {
-                Console.WriteLine("Immutable Fungible Token metadata after creation: " + Arrays.ToString(immutableFungibleTokenTokenInfo_AfterCreation.metadata));
+                Console.WriteLine("Immutable Fungible Token metadata after creation: " + string.Join("; ", immutableFungibleTokenTokenInfo_AfterCreation.Metadata));
             }
             else
             {
@@ -140,7 +166,15 @@ namespace Hedera.Hashgraph.Examples
             /// Update immutable Fungible Token metadata.
             /// </summary>
             Console.WriteLine("Updating immutable Fungible Token metadata...");
-            new TokenUpdateTransaction().SetTokenId(immutableFungibleTokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(client).Sign(metadataPrivateKey).Execute(client).GetReceipt(client);
+            new TokenUpdateTransaction
+            {
+                TokenId = immutableFungibleTokenId,
+                TokenMetadata = updatedTokenMetadata,
+            }
+            .FreezeWith(client)
+            .Sign(metadataPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 5:
             /// Query and output immutable Fungible Token info after its metadata was updated.
@@ -148,9 +182,9 @@ namespace Hedera.Hashgraph.Examples
             var immutableFungibleTokenInfo_AfterMetadataUpdate = new TokenInfoQuery { TokenId = immutableFungibleTokenId }.Execute(client);
 
             // Check that metadata was updated correctly.
-            if (Arrays.Equals(immutableFungibleTokenInfo_AfterMetadataUpdate.metadata, updatedTokenMetadata))
+            if (Equals(immutableFungibleTokenInfo_AfterMetadataUpdate.Metadata, updatedTokenMetadata))
             {
-                Console.WriteLine("Immutable Fungible Token metadata after update: " + Arrays.ToString(immutableFungibleTokenInfo_AfterMetadataUpdate.metadata));
+                Console.WriteLine("Immutable Fungible Token metadata after update: " + string.Join("; ", immutableFungibleTokenInfo_AfterMetadataUpdate.Metadata));
             }
             else
             {
@@ -161,7 +195,7 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created mutable token.
             /// </summary>
-            new TokenDeleteTransaction().SetTokenId(mutableFungibleTokenId).FreezeWith(client).Sign(adminPrivateKey).Execute(client).GetReceipt(client);
+            new TokenDeleteTransaction { TokenId = mutableFungibleTokenId }.FreezeWith(client).Sign(adminPrivateKey).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Token Metadata (HIP-646 and HIP-765) Example Complete!");
         }

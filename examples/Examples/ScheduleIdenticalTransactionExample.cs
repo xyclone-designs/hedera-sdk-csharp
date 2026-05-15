@@ -3,6 +3,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
 
@@ -17,13 +18,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Schedule Identical Transaction Example Start!");
@@ -57,12 +58,12 @@ namespace Hedera.Hashgraph.Examples
                 Console.WriteLine("Key pair #" + (i + 1) + " | Private key: " + privateKeys[i]);
                 Console.WriteLine("Key pair #" + (i + 1) + " | Public key: " + publicKeys[i]);
                 Console.WriteLine("Creating new account...");
-                TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetKeyWithoutAlias(newPublicKey).SetInitialBalance(Hbar.From(1)).Execute(client);
+                TransactionResponse accountCreateTxResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(1) }.SetKeyWithoutAlias(newPublicKey).Execute(client);
 
                 // Make sure the transaction succeeded.
                 TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
                 Client newClient = ClientHelper.ForName(HEDERA_NETWORK);
-                newClient.SetOperator(accountCreateTxReceipt.AccountId), newPrivateKey;
+                newClient.OperatorSet(accountCreateTxReceipt.AccountId, newPrivateKey);
                 clients[i] = newClient;
                 accounts[i] = accountCreateTxReceipt.AccountId;
                 Console.WriteLine("Created new account with ID: " + accounts[i]);
@@ -75,8 +76,7 @@ namespace Hedera.Hashgraph.Examples
             /// (at least 2 of 3 keys to sign anything modifying the account).
             /// </summary>
             Console.WriteLine("Creating a Key List..." + "(with threshold, it will require 2 of 3 keys we generated to sign on anything modifying this account).");
-            KeyList thresholdKey = KeyList.WithThreshold(2);
-            Collections.AddAll(thresholdKey, publicKeys);
+            KeyList thresholdKey = KeyList.Of(2, publicKeys);
             Console.WriteLine("Created a Key List: " + thresholdKey);
             /// <summary>
             /// Step 3:
@@ -86,12 +86,11 @@ namespace Hedera.Hashgraph.Examples
             // We are using all of these keys, so the scheduled transaction doesn't automatically go through.
             // It works perfectly fine with just one key.
             Console.WriteLine("Creating new account...(with the above Key List as an account key).");
-            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetKeyWithoutAlias(thresholdKey).SetInitialBalance(Hbar.From(10)).Execute(client);
+            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(10) }.SetKeyWithoutAlias(thresholdKey).Execute(client);
 
             // Make sure the transaction succeeded.
             TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
             AccountId thresholdAccount = accountCreateTxReceipt.AccountId;
-            thresholdAccount;
             Console.WriteLine("Created new account with ID: " + thresholdAccount);
             Console.WriteLine("\n---\n");
             /// <summary>
@@ -101,7 +100,7 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             foreach (Client loopClient in clients)
             {
-                AccountId operatorId = loopClient.GetOperatorAccountId();
+                AccountId operatorId = loopClient.OperatorAccountId;
                 Console.WriteLine("Creating transfer transaction...");
                 TransferTransaction transferTx = new TransferTransaction();
                 foreach (AccountId account in accounts)
@@ -109,35 +108,43 @@ namespace Hedera.Hashgraph.Examples
                     transferTx.AddHbarTransfer(account, Hbar.From(1));
                 }
 
-                transferTx.AddHbarTransfer(thresholdAccount), Hbar.From(3).Negated();
+                transferTx.AddHbarTransfer(thresholdAccount, Hbar.From(3).Negated());
                 Console.WriteLine("Scheduling created transfer transaction...");
-                ScheduleCreateTransaction scheduledTx = new ScheduleCreateTransaction().SetScheduledTransaction(transferTx);
-                scheduledTx.SetPayerAccountId(thresholdAccount);
+                ScheduleCreateTransaction scheduledTx = new ScheduleCreateTransaction
+                {
+                    ScheduledTransactionBody = transferTx
+                };
+                scheduledTx.PayerAccountId = thresholdAccount);
                 TransactionResponse scheduledTxResponse = scheduledTx.Execute(loopClient);
                 Console.WriteLine("Executing scheduled transaction...");
-                TransactionReceipt loopReceipt = new TransactionReceiptQuery().SetTransactionId(scheduledTxResponse.TransactionId).SetNodeAccountIds([scheduledTxResponse.nodeId]).Execute(loopClient);
-                Console.WriteLine("Operator (ID: " + operatorId + ") | Schedule ID: " + loopReceipt.scheduleId);
+                TransactionReceipt loopReceipt = new TransactionReceiptQuery
+                {
+                    TransactionId = scheduledTxResponse.TransactionId,
+                    NodeAccountIds = [scheduledTxResponse.NodeId]
+
+                }.Execute(loopClient);
+                Console.WriteLine("Operator (ID: " + operatorId + ") | Schedule ID: " + loopReceipt.ScheduleId);
 
                 // Save the schedule ID, so that it can be asserted for each loopClient submission.
                 if (scheduleId == null)
                 {
-                    scheduleId = loopReceipt.scheduleId;
+                    scheduleId = loopReceipt.ScheduleId;
                 }
 
-                if (!scheduleId.Equals(loopReceipt.scheduleId))
+                if (!scheduleId.Equals(loopReceipt.ScheduleId))
                 {
-                    throw new Exception("Invalid generated schedule ID! Expected " + scheduleId + ", got " + loopReceipt.scheduleId);
+                    throw new Exception("Invalid generated schedule ID! Expected " + scheduleId + ", got " + loopReceipt.ScheduleId);
                 }
 
 
                 // If the status return by the receipt is related to already created, execute a schedule sign transaction.
-                if (loopReceipt.Status == Status.IDENTICAL_SCHEDULE_ALREADY_CREATED)
+                if (loopReceipt.Status == ResponseStatus.IdenticalScheduleAlreadyCreated)
                 {
                     Console.WriteLine("Appending signature to a schedule transaction...");
-                    TransactionResponse scheduleSignTxResponse = new ScheduleSignTransaction { ScheduleId = scheduleId, NodeAccountIds = [accountCreateTxResponse.nodeId], ScheduleId = loopReceipt.scheduleId }.Execute(loopClient);
-                    TransactionReceipt scheduleSignTxReceipt = new TransactionReceiptQuery { TransactionId = scheduleSignTxResponse.TransactionId }.Execute(client);
+                    TransactionResponse scheduleSignTxResponse = new ScheduleSignTransaction { ScheduleId = scheduleId, NodeAccountIds = [accountCreateTxResponse.NodeId], ScheduleId = loopReceipt.ScheduleId }.Execute(loopClient);
+                    TransactionReceipt scheduleSignTxReceipt = new TransactionReceiptQuery { TransactionId = scheduleSignTxResponse.TransactionId, }.Execute(client);
                     Console.WriteLine("A transaction that appends signature to a schedule transaction " + "was complete with status: " + scheduleSignTxReceipt.Status);
-                    if (scheduleSignTxReceipt.Status != Status.SUCCESS && scheduleSignTxReceipt.Status != Status.SCHEDULE_ALREADY_EXECUTED)
+                    if (scheduleSignTxReceipt.Status != ResponseStatus.Success && scheduleSignTxReceipt.Status != ResponseStatus.ScheduleAlreadyExecuted)
                     {
                         throw new Exception("Bad status while getting receipt of schedule sign with operator " + operatorId + ": " + scheduleSignTxReceipt.Status);
                     }
@@ -157,11 +164,24 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts and close created clients.
             /// </summary>
-            AccountDeleteTransaction accountDeleteTx = new AccountDeleteTransaction().SetAccountId(thresholdAccount).SetTransferAccountId(OPERATOR_ID).FreezeWith(client);
+            AccountDeleteTransaction accountDeleteTx = new AccountDeleteTransaction 
+            {
+                AccountId = thresholdAccount,
+                TransferAccountId = OPERATOR_ID,
+            
+            }.FreezeWith(client);
             for (int i = 0; i < 3; i++)
             {
                 accountDeleteTx.Sign(privateKeys[i]);
-                new AccountDeleteTransaction().SetAccountId(accounts[i]).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKeys[i]).Execute(client).GetReceipt(client);
+                new AccountDeleteTransaction
+                {
+                    AccountId = accounts[i],
+                    TransferAccountId = OPERATOR_ID,
+                }
+                    .FreezeWith(client)
+                    .Sign(privateKeys[i])
+                    .Execute(client)
+                    .GetReceipt(client);
             }
 
             accountDeleteTx.Execute(client).GetReceipt(client);

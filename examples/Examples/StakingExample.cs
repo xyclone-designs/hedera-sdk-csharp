@@ -2,8 +2,7 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -14,13 +13,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Staking Example Start!");
@@ -52,23 +51,29 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Creating new account with staked account ID...");
             AccountId stakedAccountId = AccountId.FromString("0.0.3");
-            AccountId newAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(Hbar.From(1)).SetStakedAccountId(stakedAccountId).Execute(client).GetReceipt(client).AccountId;
-            newAccountId;
+            AccountId newAccountId = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(1),
+                StakedAccountId = stakedAccountId,
+            }
+            .SetKeyWithoutAlias(publicKey)
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             Console.WriteLine("Created new account with ID: " + newAccountId);
 
             // Show the required key used to sign the account update transaction to
             // stake the accounts Hbar i.e. the fee payer key and key to authorize
             // changes to the account should be different.
             Console.WriteLine("Key required to update staking information: " + publicKey);
-            Console.WriteLine("Fee payer or operator key: " + client.GetOperatorPublicKey());
+            Console.WriteLine("Fee payer or operator key: " + client.OperatorPublicKey);
             /// <summary>
             /// Step 3:
             /// Query the account info, it should show the staked account ID to be 0.0.3.
             /// </summary>
             AccountInfo info = new AccountInfoQuery { AccountId = newAccountId }.Execute(client);
-            if (info.stakingInfo.stakedAccountId.Equals(stakedAccountId))
+            if (info.StakingInfo.StakedAccountId.Equals(stakedAccountId))
             {
-                Console.WriteLine("New account staking info: " + info.stakingInfo);
+                Console.WriteLine("New account staking info: " + info.StakingInfo);
             }
             else
             {
@@ -79,7 +84,15 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(newAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = newAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey)
+            .Execute(client)
+            .GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Staking Example Complete!");
         }

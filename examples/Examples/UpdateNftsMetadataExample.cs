@@ -2,12 +2,13 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -20,13 +21,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Update Nfts Metadata Example Start!");
@@ -56,55 +57,66 @@ namespace Hedera.Hashgraph.Examples
             /// Create a non-fungible token (NFT) with the metadata key field set.
             /// </summary>
             Console.WriteLine("The beginning of the first example (mutable token's metadata).");
-            byte[] initialMetadata = new byte[]
-            {
-                1
-            };
+            byte[] initialMetadata = [1];
             Console.WriteLine("Creating mutable NFT with the metadata key field set...");
-            var mutableNftCreateTx = new TokenCreateTransaction().SetTokenName("HIP-657 Mutable NFT").SetTokenSymbol("HIP657MNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(OPERATOR_ID).SetAdminKey(operatorKeyPublic).SetSupplyKey(operatorKeyPublic).SetMetadataKey(metadataPublicKey).FreezeWith(client);
+            var mutableNftCreateTx = new TokenCreateTransaction
+            {
+                TokenName = "HIP-657 Mutable NFT",
+                TokenSymbol = "HIP657MNFT",
+                TokenType = TokenType.NonFungibleUnique,
+                TreasuryAccountId = OPERATOR_ID,
+                AdminKey = operatorKeyPublic,
+                SupplyKey = operatorKeyPublic,
+                MetadataKey = metadataPublicKey,
+
+            }.FreezeWith(client);
             var mutableNftCreateTxResponse = mutableNftCreateTx.Sign(OPERATOR_KEY).Execute(client);
             var mutableNftCreateTxReceipt = mutableNftCreateTxResponse.GetReceipt(client);
 
             // Get the token ID of the token that was created.
             var mutableNftId = mutableNftCreateTxReceipt.TokenId;
-            mutableNftId;
             Console.WriteLine("Created mutable NFT with token ID: " + mutableNftId);
             /// <summary>
             /// Step 3:
             /// Query for the mutable token information stored in consensus node state to see that the Metadata Key is set.
             /// </summary>
             var mutableNftInfo = new TokenInfoQuery { TokenId = mutableNftId }.Execute(client);
-            Console.WriteLine("Mutable NFT metadata key: " + mutableNftInfo.metadataKey);
+            Console.WriteLine("Mutable NFT metadata key: " + mutableNftInfo.MetadataKey);
             /// <summary>
             /// Step 4:
             /// Mint the first NFT and set the initial metadata for the NFT.
             /// </summary>
             Console.WriteLine("Minting NFTs...");
-            var mutableNftMintTx = new TokenMintTransaction().SetMetadata(List.Of(initialMetadata)).SetTokenId(mutableNftId);
-            mutableNftMintTx.GetMetadata().ForEach((metadata) =>
+            var mutableNftMintTx = new TokenMintTransaction
             {
-                Console.WriteLine("Setting metadata: " + Arrays.ToString(metadata));
-            });
+                Metadata = [initialMetadata],
+                TokenId = mutableNftId
+            };
+            foreach (var metadata in mutableNftMintTx.Metadata)
+                Console.WriteLine("Setting metadata: " + string.Join("; ", metadata));
             var mutableNftMintTxResponse = mutableNftMintTx.Execute(client);
 
             // Get receipt for mint token transaction.
             var mutableNftMintTxReceipt = mutableNftMintTxResponse.GetReceipt(client);
             Console.WriteLine("Mint transaction was complete with status: " + mutableNftMintTxReceipt.Status);
-            var mutableNftSerials = mutableNftMintTxReceipt.serials;
+            var mutableNftSerials = mutableNftMintTxReceipt.Serials;
 
             // Check that metadata on the NFT was set correctly.
             GetMetadataList(client, mutableNftId, mutableNftSerials).ForEach((metadata) =>
             {
-                Console.WriteLine("Metadata after mint: " + Arrays.ToString(metadata));
+                Console.WriteLine("Metadata after mint: " + string.Join("; ", metadata));
             });
             /// <summary>
             /// Step 5:
             /// Create an account to send the NFT to.
             /// </summary>
             Console.WriteLine("Creating Alice's account...");
-            var aliceAccountCreateTx = new AccountCreateTransaction { KeyWithoutAlias = operatorKeyPublic, MaxAutomaticTokenAssociations = 10 }.Execute(client);
+            var aliceAccountCreateTx = new AccountCreateTransaction 
+            { 
+                MaxAutomaticTokenAssociations = 10
+                
+            }.SetKeyWithoutAlias(operatorKeyPublic).Execute(client);
             var aliceAccountId = aliceAccountCreateTx.GetReceipt(client).AccountId;
-            aliceAccountId;
             Console.WriteLine("Created Alice's account with ID: " + aliceAccountId);
             /// <summary>
             /// Step 6:
@@ -122,8 +134,14 @@ namespace Hedera.Hashgraph.Examples
                 2
             };
             Console.WriteLine("Updating NFTs' metadata...");
-            var tokenUpdateNftsTx = new TokenUpdateNftsTransaction().SetTokenId(mutableNftId).SetSerials(mutableNftSerials).SetMetadata(updatedMetadata).FreezeWith(client);
-            Console.WriteLine("Updated NFTs' metadata: " + Arrays.ToString(tokenUpdateNftsTx.GetMetadata()));
+            var tokenUpdateNftsTx = new TokenUpdateNftsTransaction 
+            {
+                TokenId = mutableNftId,
+                Serials = [.. mutableNftSerials],
+                Metadata = updatedMetadata,
+            
+            }.FreezeWith(client);
+            Console.WriteLine("Updated NFTs' metadata: " + string.Join("; ", tokenUpdateNftsTx.Metadata));
             var tokenUpdateNftsTxResponse = tokenUpdateNftsTx.Sign(metadataPrivateKey).Execute(client);
 
             // Get receipt for update NFTs metadata transaction.
@@ -133,7 +151,7 @@ namespace Hedera.Hashgraph.Examples
             // Check that metadata for the NFT was updated correctly.
             GetMetadataList(client, mutableNftId, mutableNftSerials).ForEach((metadata) =>
             {
-                Console.WriteLine("NFTs' metadata after update: " + Arrays.ToString(metadata));
+                Console.WriteLine("NFTs' metadata after update: " + string.Join("; ", metadata));
             });
             /// <summary>
             /// Step 8:
@@ -143,50 +161,61 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("The beginning of the second example (immutable token's metadata).");
             Console.WriteLine("Creating immutable NFT with the metadata key field set...");
-            var immutableNftCreateTx = new TokenCreateTransaction().SetTokenName("HIP-657 Immutable NFT").SetTokenSymbol("HIP657IMMNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(OPERATOR_ID).SetSupplyKey(operatorKeyPublic).SetMetadataKey(metadataPublicKey).FreezeWith(client);
+            var immutableNftCreateTx = new TokenCreateTransaction
+            {
+                TokenName = "HIP-657 Immutable NFT",
+                TokenSymbol = "HIP657IMMNFT",
+                TokenType = TokenType.NonFungibleUnique,
+                TreasuryAccountId = OPERATOR_ID,
+                SupplyKey = operatorKeyPublic,
+                MetadataKey = metadataPublicKey,
+
+            }.FreezeWith(client);
             var immutableNftCreateTxResponse = immutableNftCreateTx.Sign(OPERATOR_KEY).Execute(client);
             var immutableNftCreateTxReceipt = immutableNftCreateTxResponse.GetReceipt(client);
 
             // Get the token ID of the token that was created.
             var immutableNftId = immutableNftCreateTxReceipt.TokenId;
-            immutableNftId;
             Console.WriteLine("Created immutable NFT with token ID: " + immutableNftId);
             /// <summary>
             /// Step 9:
             /// Query for the mutable token information stored in consensus node state to see that the metadata key is set.
             /// </summary>
             var immutableNftInfo = new TokenInfoQuery { TokenId = immutableNftId }.Execute(client);
-            Console.WriteLine("Immutable NFT metadata key: " + immutableNftInfo.metadataKey);
+            Console.WriteLine("Immutable NFT metadata key: " + immutableNftInfo.MetadataKey);
             /// <summary>
             /// Step 10:
             /// Mint the first NFT and set the initial metadata for the NFT.
             /// </summary>
             Console.WriteLine("Minting NFTs...");
-            var immutableNftMintTx = new TokenMintTransaction().SetMetadata(List.Of(initialMetadata)).SetTokenId(immutableNftId);
-            immutableNftMintTx.GetMetadata().ForEach((metadata) =>
+            var immutableNftMintTx = new TokenMintTransaction
             {
-                Console.WriteLine("Setting metadata: " + Arrays.ToString(metadata));
-            });
+                Metadata = [initialMetadata],
+                TokenId = immutableNftId
+            };
+
+            foreach (var metadata in immutableNftMintTx.Metadata)
+                Console.WriteLine("Setting metadata: " + string.Join("; ", metadata));
             var immutableNftMintTxResponse = immutableNftMintTx.Execute(client);
 
             // Get receipt for mint token transaction.
             var immutableNftMintTxReceipt = immutableNftMintTxResponse.GetReceipt(client);
             Console.WriteLine("Mint transaction was complete with status: " + immutableNftMintTxReceipt.Status);
-            var immutableNftSerials = immutableNftMintTxReceipt.serials;
+            var immutableNftSerials = immutableNftMintTxReceipt.Serials;
 
             // Check that metadata on the NFT was set correctly.
             GetMetadataList(client, immutableNftId, immutableNftSerials).ForEach((metadata) =>
             {
-                Console.WriteLine("Metadata after mint: " + Arrays.ToString(metadata));
+                Console.WriteLine("Metadata after mint: " + string.Join("; ", metadata));
             });
             /// <summary>
             /// Step 11:
             /// Create an account to send the NFT to.
             /// </summary>
             Console.WriteLine("Creating Bob's account...");
-            var bobAccountCreateTx = new AccountCreateTransaction { KeyWithoutAlias = operatorKeyPublic, MaxAutomaticTokenAssociations = 10 }.Execute(client);
+            var bobAccountCreateTx = new AccountCreateTransaction { MaxAutomaticTokenAssociations = 10 }.SetKeyWithoutAlias(operatorKeyPublic).Execute(client);
             var bobAccountId = bobAccountCreateTx.GetReceipt(client).AccountId;
-            bobAccountId;
+
             Console.WriteLine("Created Bob's account with ID: " + bobAccountId);
             /// <summary>
             /// Step 12:
@@ -199,8 +228,14 @@ namespace Hedera.Hashgraph.Examples
             /// Update NFTs' metadata.
             /// </summary>
             Console.WriteLine("Updating NFTs' metadata...");
-            var immutableNftUpdateNftsTx = new TokenUpdateNftsTransaction().SetTokenId(immutableNftId).SetSerials(immutableNftSerials).SetMetadata(updatedMetadata).FreezeWith(client);
-            Console.WriteLine("Updated NFTs' metadata: " + Arrays.ToString(immutableNftUpdateNftsTx.GetMetadata()));
+            var immutableNftUpdateNftsTx = new TokenUpdateNftsTransaction
+            {
+                TokenId = immutableNftId,
+                Serials = immutableNftSerials,
+                Metadata = updatedMetadata,
+            
+            }.FreezeWith(client);
+            Console.WriteLine("Updated NFTs' metadata: " + string.Join("; ", immutableNftUpdateNftsTx.Metadata));
             var immutableNftUpdateNftsTxResponse = immutableNftUpdateNftsTx.Sign(metadataPrivateKey).Execute(client);
 
             // Get receipt for update NFTs metadata transaction.
@@ -210,7 +245,7 @@ namespace Hedera.Hashgraph.Examples
             // Check that metadata for the NFT was updated correctly.
             GetMetadataList(client, immutableNftId, immutableNftSerials).ForEach((metadata) =>
             {
-                Console.WriteLine("NFTs' metadata after update: " + Arrays.ToString(metadata));
+                Console.WriteLine("NFTs' metadata after update: " + string.Join("; ", metadata));
             });
             /// <summary>
             /// Clean up:
@@ -223,17 +258,24 @@ namespace Hedera.Hashgraph.Examples
 
         private static List<byte[]> GetMetadataList(Client client, TokenId tokenId, IList<long> nftSerials)
         {
-            return nftSerials.Stream().Map((serial) => new NftId(tokenId, serial)).FlatMap((nftId) =>
+            return [ .. nftSerials.SelectMany(_ =>
             {
+                NftId nftid = new (tokenId, _);
+
+                IList<TokenNftInfo> list = [];
+
                 try
                 {
-                    return new TokenNftInfoQuery { NftId = nftId }.Execute(client).Stream();
+                    list = new TokenNftInfoQuery { NftId = nftid }.Execute(client);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    throw new Exception(e);
+                    // throw new Exception(e);
                 }
-            }).Map((tokenNftInfo) => tokenNftInfo.metadata).ToList();
+
+                return list.Select(_ => _.Metadata);
+
+            }) ];
         }
     }
 }

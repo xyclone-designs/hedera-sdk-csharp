@@ -3,6 +3,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
 
@@ -14,13 +15,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Scheduled Transfer Transaction Example Start!");
@@ -49,7 +50,6 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Create Bob's account...(with receiver signature property enabled).");
             AccountId bobAccountId = new AccountCreateTransaction().SetReceiverSignatureRequired(true).SetKeyWithoutAlias(bobPublicKey).SetInitialBalance(Hbar.From(1)).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client).AccountId;
-            bobAccountId;
             Console.WriteLine("Created Bob's account with ID: " + bobAccountId);
             /// <summary>
             /// Step 3:
@@ -81,7 +81,6 @@ namespace Hedera.Hashgraph.Examples
             /// will be charged for executing the scheduled transaction.
             /// </summary>
             ScheduleId scheduleId = new ScheduleCreateTransaction { ScheduledTransaction = transferTx, PayerAccountId = bobAccountId }.Execute(client).GetReceipt(client).scheduleId;
-            scheduleId;
             Console.WriteLine("Schedule ID for the transaction above: " + scheduleId);
             /// <summary>
             /// Step 6:

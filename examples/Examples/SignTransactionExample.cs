@@ -2,8 +2,8 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Sign Transaction Example Start!");
@@ -52,26 +52,32 @@ namespace Hedera.Hashgraph.Examples
             /// Create a Key List from keys generated in previous step.
             /// </summary>
             Console.WriteLine("Creating a Key List...");
-            KeyList keylist = new KeyList();
-            keylist.Add(publicKey1);
-            keylist.Add(publicKey2);
+            KeyList keylist = [publicKey1, publicKey2];
             Console.WriteLine("Created a Key List: " + keylist);
             /// <summary>
             /// Step 3:
             /// Create a new account with a Key List created in a previous step.
             /// </summary>
             Console.WriteLine("Creating new account...");
-            TransactionResponse createAccountTxResponse = new AccountCreateTransaction().SetInitialBalance(Hbar.From(2)).SetKeyWithoutAlias(keylist).Execute(client);
+            TransactionResponse createAccountTxResponse = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(2)
+            }
+            .SetKeyWithoutAlias(keylist)
+            .Execute(client);
             TransactionReceipt createAccountTxReceipt = createAccountTxResponse.GetReceipt(client);
             var accountId = createAccountTxReceipt.AccountId;
-            accountId;
             Console.WriteLine("Created new account with ID: " + accountId);
             /// <summary>
             /// Step 4:
             /// Create a transfer transaction and freeze it with a client.
             /// </summary>
             Console.WriteLine("Creating a transfer transaction...");
-            TransferTransaction transferTx = new TransferTransaction().SetNodeAccountIds([new AccountId(0, 0, 3])).AddHbarTransfer(createAccountTxReceipt.AccountId), Hbar.From(1).Negated()).AddHbarTransfer(new AccountId(0, 0, 3), Hbar.From(1)).FreezeWith(client;
+            TransferTransaction transferTx = new TransferTransaction()
+                .SetNodeAccountIds([new AccountId(0, 0, 3)])
+                .AddHbarTransfer(createAccountTxReceipt.AccountId, Hbar.From(1).Negated())
+                .AddHbarTransfer(new AccountId(0, 0, 3), Hbar.From(1))
+            .FreezeWith(client);
             /// <summary>
             /// Step 5:
             /// Sign the transfer transaction with all respective keys (from a Key List).
@@ -92,7 +98,12 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = accountId,
+                TransferAccountId = OPERATOR_ID,
+
+            }.FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Sign Transaction Example Complete!");
         }

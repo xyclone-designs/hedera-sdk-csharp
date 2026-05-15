@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Transfer Crypto Example Start!");
@@ -53,11 +53,10 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Executing the transfer transaction...");
             Hbar transferAmount = Hbar.From(1);
-            TransactionResponse transferTxResponse = new TransferTransaction()
-                .AddHbarTransfer(OPERATOR_ID, transferAmount.Negated())
-                .AddHbarTransfer(recipientId, transferAmount)
-                .SetTransactionMemo("Transfer example")
-                .Execute(client);
+            TransactionResponse transferTxResponse = new TransferTransaction { TransactionMemo = "Transfer example" }
+            .AddHbarTransfer(OPERATOR_ID, transferAmount.Negated())
+            .AddHbarTransfer(recipientId, transferAmount)
+            .Execute(client);
             Console.WriteLine("Transaction info: " + transferTxResponse);
             TransactionRecord record = transferTxResponse.GetRecord(client);
             Console.WriteLine("Transferred " + transferAmount);

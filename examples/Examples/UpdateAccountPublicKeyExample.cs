@@ -2,8 +2,8 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Update Account Public Key Example Start!");
@@ -53,16 +53,25 @@ namespace Hedera.Hashgraph.Examples
             /// Create a new account.
             /// </summary>
             Console.WriteLine("Creating new account...");
-            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey1).SetInitialBalance(Hbar.From(1)).Execute(client);
+            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(1)
+            }
+            .SetKeyWithoutAlias(publicKey1)
+            .Execute(client);
             AccountId accountId = accountCreateTxResponse.GetReceipt(client).AccountId;
-            accountId;
             Console.WriteLine("Created new account with ID: " + accountId + " and public key: " + publicKey1);
             /// <summary>
             /// Step 2:
             /// Update account's key.
             /// </summary>
             Console.WriteLine("Updating public key of new account...(Setting key: " + publicKey2 + ").");
-            TransactionResponse accountUpdateTxResponse = new AccountUpdateTransaction().SetAccountId(accountId).SetKey(publicKey2).FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client);
+            TransactionResponse accountUpdateTxResponse = new AccountUpdateTransaction
+            {
+                AccountId = accountId,
+                Key = publicKey2,
+
+            }.FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client);
 
             // (Important!) Wait for the transaction to complete by querying the receipt.
             accountUpdateTxResponse.GetReceipt(client);
@@ -71,12 +80,17 @@ namespace Hedera.Hashgraph.Examples
             /// Get account info to confirm the key was changed.
             /// </summary>
             AccountInfo accountInfo = new AccountInfoQuery { AccountId = accountId }.Execute(client);
-            Console.WriteLine("New account public key: " + accountInfo.key);
+            Console.WriteLine("New account public key: " + accountInfo.Key);
             /// <summary>
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKey2).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = accountId,
+                TransferAccountId = OPERATOR_ID,
+
+            }.FreezeWith(client).Sign(privateKey2).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Update Account Public Key Example Complete!");
         }

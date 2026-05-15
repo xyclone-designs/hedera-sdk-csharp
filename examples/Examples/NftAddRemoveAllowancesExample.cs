@@ -3,8 +3,11 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -17,13 +20,13 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
         public static void Main(string[] args)
         {
             Console.WriteLine("Nft Add Remove Allowances (HIP-336) Example Start!");
@@ -76,12 +79,12 @@ namespace Hedera.Hashgraph.Examples
             PrivateKey spenderPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey spenderPublicKey = spenderPrivateKey.GetPublicKey();
             AccountId spenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(spenderPublicKey).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
-            spenderAccountId;
+            
             Console.WriteLine("Created spender account with ID: " + spenderAccountId);
             PrivateKey receiverPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey receiverPublicKey = receiverPrivateKey.GetPublicKey();
             AccountId receiverAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverPublicKey).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
-            receiverAccountId;
+            
             Console.WriteLine("Created receiver account with ID: " + receiverAccountId);
             /// <summary>
             /// Step 4:
@@ -152,7 +155,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
             TransactionReceipt nftCreateReceipt2 = new TokenCreateTransaction().SetTokenName("HIP336NFT2").SetTokenSymbol("HIP336NFT2").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetDecimals(0).SetInitialSupply(0).SetMaxSupply(CIDs2.Length).SetTreasuryAccountId(OPERATOR_ID).SetSupplyType(TokenSupplyType.FINITE).SetAdminKey(operatorPublicKey).SetSupplyKey(operatorPublicKey).SetWipeKey(operatorPublicKey).FreezeWith(client).Execute(client).GetReceipt(client);
             TokenId nftTokenId2 = nftCreateReceipt2.TokenId;
-            nftCreateReceipt2;
+
             Console.WriteLine("Created NFT with token ID: " + nftTokenId2);
             /// <summary>
             /// Step 10:
@@ -174,12 +177,12 @@ namespace Hedera.Hashgraph.Examples
             PrivateKey delegatingSpenderPrivateKey = PrivateKey.GenerateECDSA();
             PublicKey delegatingSpenderPublicKey2 = delegatingSpenderPrivateKey.GetPublicKey();
             AccountId delegatingSpenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(delegatingSpenderPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
-            delegatingSpenderAccountId;
+
             Console.WriteLine("Created spender account with ID: " + delegatingSpenderAccountId);
             PrivateKey receiverPrivateKey2 = PrivateKey.GenerateECDSA();
             PublicKey receiverPublicKey2 = receiverPrivateKey2.GetPublicKey();
             AccountId receiverAccountId2 = new AccountCreateTransaction().SetKeyWithoutAlias(receiverPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
-            receiverAccountId2;
+
             Console.WriteLine("Created receiver account with ID: " + receiverAccountId2);
             /// <summary>
             /// Step 12:
@@ -208,7 +211,7 @@ namespace Hedera.Hashgraph.Examples
             PrivateKey spenderPrivateKey2 = PrivateKey.GenerateECDSA();
             PublicKey spenderPublicKey2 = spenderPrivateKey2.GetPublicKey();
             AccountId spenderAccountId2 = new AccountCreateTransaction().SetKeyWithoutAlias(spenderPublicKey2).SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
-            spenderAccountId2;
+
             Console.WriteLine("Created delegate spender account with ID: : " + spenderAccountId2);
             /// <summary>
             /// Step 15:

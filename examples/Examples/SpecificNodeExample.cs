@@ -2,9 +2,11 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -14,14 +16,14 @@ namespace Hedera.Hashgraph.Examples
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
         /// </summary>
-        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Dotenv.Load()["OPERATOR_ID"]);
+        private static readonly AccountId OPERATOR_ID = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
         /// <summary>
         /// Operator's private key.
         /// </summary>
-        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Dotenv.Load()["OPERATOR_KEY"]);
-        private static readonly string HEDERA_NETWORK = Dotenv.Load().Get("HEDERA_NETWORK", "testnet");
-        private static readonly string SDK_LOG_LEVEL = Dotenv.Load().Get("SDK_LOG_LEVEL", "SILENT");
-        private static readonly bool USE_TLS = !"localhost".EqualsIgnoreCase(HEDERA_NETWORK);
+        private static readonly PrivateKey OPERATOR_KEY = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+        private static readonly string HEDERA_NETWORK = Environment.GetEnvironmentVariable("HEDERA_NETWORK") ?? "testnet";
+        private static readonly string SDK_LOG_LEVEL = Environment.GetEnvironmentVariable("SDK_LOG_LEVEL") ?? "SILENT";
+        private static readonly bool USE_TLS = !string.Equals("localhost", HEDERA_NETWORK, StringComparison.OrdinalIgnoreCase);
         public static void Main(string[] args)
         {
             Console.WriteLine("Specific Node Communication Example Start!");
@@ -57,13 +59,14 @@ namespace Hedera.Hashgraph.Examples
             {
                 try
                 {
-                    client.SetTransportSecurity(true).SetVerifyCertificates(true);
+                    client.TransportSecurity = true; 
+                    client.VerifyCertificates = true;
                     Console.WriteLine("TLS security enabled for this connection");
                 }
-                catch (InterruptedException e)
+                catch (ThreadInterruptedException e)
                 {
                     Console.WriteLine("TLS setup was interrupted: " + e.Message);
-                    Thread.CurrentThread().Interrupt(); // Restore the interrupted status
+                    Thread.CurrentThread.Interrupt(); // Restore the interrupted status
                     throw e; // Re-throw the exception to be handled by the caller
                 }
             }
@@ -76,15 +79,15 @@ namespace Hedera.Hashgraph.Examples
             /// Step 3:
             /// Set basic client configuration
             /// </summary>
-            _client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
+            client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
             //_client.Logger = new Logger(Enum.Parse<LogLevel>(SDK_LOG_LEVEL)));
             /// <summary>
             /// Step 4:
             /// Create a network map with only one specific node and update the client
             /// </summary>
-            Dictionary<string, AccountId> networkMap = new HashMap();
+            Dictionary<string, AccountId> networkMap = [];
             networkMap.Add("0.testnet.hedera.com:50211", new AccountId(3));
-            client.SetNetwork(networkMap);
+            client.Network_.SetNetwork(networkMap);
             /// <summary>
             /// Step 5:
             /// Set max node attempts to 1 to limit retries
@@ -93,13 +96,13 @@ namespace Hedera.Hashgraph.Examples
             /// a bad gRPC status. The SDK will only use this one node because we've configured
             /// only one node in our network map above.
             /// </summary>
-            client.SetMaxNodeAttempts(1);
+            client.MaxNodeAttempts = 1;
             /// <summary>
             /// Step 6:
             /// Get the node from the network for the ping operation
             /// </summary>
-            var network = client.GetNetwork();
-            var nodes = new List(network.Values());
+            var network = client.Network_;
+            var nodes = new List<AccountId>(network.GetNetwork().Values);
             var node = nodes[0];
             /// <summary>
             /// Step 7:
@@ -129,21 +132,24 @@ namespace Hedera.Hashgraph.Examples
             /// Step 2:
             /// Get the full network map and extract a specific node
             /// </summary>
-            var network = client.GetNetwork();
-            Map.Entry<String, AccountId> firstNodeEntry = network.EntrySet().Iterator().Next();
-            string nodeAddress = firstNodeEntry.GetKey();
-            AccountId nodeAccountId = firstNodeEntry.GetValue();
+            var network = client.Network_;
+            KeyValuePair<string, AccountId> firstNodeEntry = network.GetNetwork().First();
+            string nodeAddress = firstNodeEntry.Key;
+            AccountId nodeAccountId = firstNodeEntry.Value;
             Console.WriteLine("Selected node: " + nodeAddress + " (Account ID: " + nodeAccountId + ")");
             /// <summary>
             /// Step 3:
             /// Create a new map with only the specific node
             /// </summary>
-            Dictionary<string, AccountId> specificNodeMap = Map.Of(nodeAddress, nodeAccountId);
+            Dictionary<string, AccountId> specificNodeMap = new()
+            {
+                { nodeAddress, nodeAccountId }
+            };
             /// <summary>
             /// Step 4:
             /// Update the client to use only the specific node
             /// </summary>
-            client.SetNetwork(specificNodeMap);
+            client.Network_.SetNetwork(specificNodeMap);
             /// <summary>
             /// Step 5:
             /// Ping all nodes (which is now just the one specific node)
