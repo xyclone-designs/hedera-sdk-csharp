@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK;
 
 using System;
 using System.Numerics;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {

@@ -11,7 +11,7 @@ using Hedera.Hashgraph.SDK.Token;
 
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {
     /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="T:TransactionReceipt"]' />
     public sealed class TransactionReceipt(

@@ -2,10 +2,10 @@
 using System;
 
 using Hedera.Hashgraph.SDK.Consensus;
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {

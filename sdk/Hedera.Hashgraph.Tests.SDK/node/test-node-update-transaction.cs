@@ -12,6 +12,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Google.Protobuf;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Node
 {

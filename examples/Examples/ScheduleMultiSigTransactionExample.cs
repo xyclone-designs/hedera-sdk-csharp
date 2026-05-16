@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
@@ -61,17 +62,20 @@ namespace Hedera.Hashgraph.Examples
             /// multiple keys are required to sign.
             /// </summary>
             Console.WriteLine("Creating a Key List...");
-            KeyList keyList = new KeyList();
-            keyList.Add(publicKey1);
-            keyList.Add(publicKey2);
-            keyList.Add(publicKey3);
+            KeyList keyList = KeyList.Of(null, publicKey1, publicKey2, publicKey3);
             Console.WriteLine("Created a Key List: " + keyList);
             /// <summary>
             /// Step 3:
             /// Create a new account with a Key List created in a previous step.
             /// </summary>
             Console.WriteLine("Creating new account...");
-            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction().SetNodeAccountIds([new AccountId(0, 0, 3])).SetKeyWithoutAlias(keyList).SetInitialBalance(Hbar.From(2)).Execute(client);
+            TransactionResponse accountCreateTxResponse = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(2)
+            }
+            .SetNodeAccountIds([new AccountId(0, 0, 3)])
+            .SetKeyWithoutAlias(keyList)
+            .Execute(client);
 
             // This will wait for the receipt to become available.
             TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
@@ -93,7 +97,13 @@ namespace Hedera.Hashgraph.Examples
 
             // Schedule the transaction.
             Console.WriteLine("Scheduling the token transfer transaction...");
-            ScheduleCreateTransaction scheduled = transferTx.Schedule().SetPayerAccountId(OPERATOR_ID).SetAdminKey(operatorPublicKey).FreezeWith(client).Sign(privateKey2);
+            ScheduleCreateTransaction scheduled = transferTx.Schedule(_ =>
+            {
+                _.PayerAccountId = OPERATOR_ID;
+                _.AdminKey = operatorPublicKey;
+            })
+            .FreezeWith(client)
+            .Sign(privateKey2);
             accountCreateTxReceipt = scheduled.Execute(client).GetReceipt(client);
 
             // Get the schedule ID from the receipt.
@@ -103,7 +113,12 @@ namespace Hedera.Hashgraph.Examples
             /// Step 5:
             /// Get the schedule info to see if signatories is populated with 2/3 signatures.
             /// </summary>
-            ScheduleInfo scheduleInfo_BeforeLastSignature = new ScheduleInfoQuery().SetNodeAccountIds([accountCreateTxResponse.nodeId]).SetScheduleId(scheduleId).Execute(client);
+            ScheduleInfo scheduleInfo_BeforeLastSignature = new ScheduleInfoQuery
+            {
+                NodeAccountIds = { accountCreateTxResponse.NodeId },
+                ScheduleId = scheduleId
+
+            }.Execute(client);
             Console.WriteLine("Schedule info: " + scheduleInfo_BeforeLastSignature);
             transferTx = (TransferTransaction)scheduleInfo_BeforeLastSignature.GetScheduledTransaction();
             Dictionary<AccountId, Hbar> transfers = transferTx.GetHbarTransfers();
@@ -132,19 +147,41 @@ namespace Hedera.Hashgraph.Examples
             /// This last signature should mean the transaction executes since all 3 signatures have been provided.
             /// </summary>
             Console.WriteLine("Appending private key #3 signature to a schedule transaction..." + "(This last signature should mean the transaction executes since all 3 signatures have been provided)");
-            TransactionReceipt scheduleSignTxReceipt = new ScheduleSignTransaction().SetNodeAccountIds([accountCreateTxResponse.nodeId]).SetScheduleId(scheduleId).FreezeWith(client).Sign(privateKey3).Execute(client).GetReceipt(client);
+            TransactionReceipt scheduleSignTxReceipt = new ScheduleSignTransaction
+            {
+                NodeAccountIds = { accountCreateTxResponse.NodeId },
+                ScheduleId = scheduleId,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey3)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("A transaction that appends signature to a schedule transaction (private key #3) " + "was complete with status: " + scheduleSignTxReceipt.Status);
             /// <summary>
             /// Step 7:
             /// Query the schedule info again.
             /// </summary>
-            ScheduleInfo scheduleInfo_AfterAllSigned = new ScheduleInfoQuery().SetNodeAccountIds([accountCreateTxResponse.nodeId]).SetScheduleId(scheduleId).Execute(client);
+            ScheduleInfo scheduleInfo_AfterAllSigned = new ScheduleInfoQuery
+            {
+                NodeAccountIds = { accountCreateTxResponse.NodeId },
+                ScheduleId = scheduleId,
+
+            }.Execute(client);
             Console.WriteLine("Schedule info: " + scheduleInfo_AfterAllSigned);
             /// <summary>
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Sign(privateKey3).Execute(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = accountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Sign(privateKey2)
+            .Sign(privateKey3)
+            .Execute(client);
             client.Dispose();
             Console.WriteLine("Scheduled Transaction Multi-Sig Example Complete!");
         }

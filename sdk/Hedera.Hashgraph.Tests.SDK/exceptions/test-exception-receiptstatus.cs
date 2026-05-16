@@ -1,9 +1,8 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
 using System;
-
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Exceptions
 {

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Text;
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Examples
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hello_world/hello_world.json");
             TransactionResponse fileCreateTxResponse = new FileCreateTransaction
             {
-                Keys = operatorPublicKey,
+                Keys = [operatorPublicKey],
                 Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
                 MaxTransactionFee = Hbar.From(2),
 
@@ -85,10 +85,9 @@ namespace Hedera.Hashgraph.Examples
             {
                 Gas = 300000,
                 ContractId = newContractId,
-                Function = "greet",
                 MaxQueryPayment = Hbar.From(1),
             
-            }.Execute(client);
+            }.SetFunction("greet").Execute(client);
             if (contractCallResult.ErrorMessage != null)
             {
                 throw new Exception("Error calling contract function \"greet\": " + contractCallResult.ErrorMessage);

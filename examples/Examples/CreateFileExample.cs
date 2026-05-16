@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -51,8 +52,8 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating new file...");
             TransactionResponse fileCreateTxResponse = new FileCreateTransaction
             {
-                Keys = operatorPublicKey,
-                Contents = fileContents,
+                Keys = [operatorPublicKey],
+                Contents = Encoding.UTF8.GetBytes(fileContents),
                 MaxTransactionFee = Hbar.From(2),
             
             }.Execute(client);

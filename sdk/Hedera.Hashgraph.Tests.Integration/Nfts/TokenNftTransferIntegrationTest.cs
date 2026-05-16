@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Nfts
 {

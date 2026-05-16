@@ -3,9 +3,9 @@ using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Airdrops;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Token
 {

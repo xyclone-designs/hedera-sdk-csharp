@@ -3,12 +3,11 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Grpc.Core;
-
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using Org.BouncyCastle.Utilities.Encoders;
 

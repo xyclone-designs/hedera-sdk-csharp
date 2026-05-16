@@ -8,6 +8,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 using Org.BouncyCastle.Utilities.Encoders;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Fee;
@@ -86,7 +87,7 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             CustomFixedFee customHbarFee = new CustomFixedFee
             {
-                HbarAmount = Hbar.From(1),
+                AmountHbar = Hbar.From(1),
                 FeeCollectorAccountId = aliceAccountId
             };
             IList<CustomFee> hbarFeeList = [customHbarFee];

@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 		public PublicKey? AliasKey { get; }
 		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.EvmAddress"]' />
 		public EvmAddress? EvmAddress { get; }
-		private string? Checksum { get; }
+		public string? Checksum { get; }
 
 		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToSolidityAddress"]' />
 		public string ToSolidityAddress()

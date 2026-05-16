@@ -9,6 +9,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Token
 {

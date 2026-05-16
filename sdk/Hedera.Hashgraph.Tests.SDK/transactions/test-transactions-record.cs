@@ -10,7 +10,6 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using Hedera.Hashgraph.Tests.SDK.Contract;
 
@@ -21,6 +20,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {

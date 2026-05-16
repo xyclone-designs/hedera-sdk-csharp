@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.System
 {

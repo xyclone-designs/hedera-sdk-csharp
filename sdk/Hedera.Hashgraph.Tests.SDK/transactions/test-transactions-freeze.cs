@@ -13,6 +13,7 @@ using System;
 using Org.BouncyCastle.Utilities.Encoders;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {

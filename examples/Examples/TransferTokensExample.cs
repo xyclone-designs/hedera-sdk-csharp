@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
@@ -82,7 +83,7 @@ namespace Hedera.Hashgraph.Examples
                 KycKey = operatorPublicKey,
                 SupplyKey = operatorPublicKey,
                 FreezeDefault = false,
-                NodeAccountIds = [bobAccountCreateTxResponse.NodeId],
+                NodeAccountIds = { bobAccountCreateTxResponse.NodeId },
                 TokenName = "Example Fungible Token for Transfer demo",
                 TokenSymbol = "EFT",
 
@@ -96,7 +97,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Associating the token with created accounts...");
             new TokenAssociateTransaction
             {
-                NodeAccountIds = [tokenCreateTxResponse.NodeId],
+                NodeAccountIds = { tokenCreateTxResponse.NodeId },
                 AccountId = aliceAccountId,
                 TokenIds = [tokenId],
 
@@ -104,7 +105,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Associated account " + aliceAccountId + " with token " + tokenId);
             new TokenAssociateTransaction
             {
-                NodeAccountIds = [tokenCreateTxResponse.NodeId],
+                NodeAccountIds = { tokenCreateTxResponse.NodeId },
                 AccountId = bobAccountId,
                 TokenIds = [tokenId],
 
@@ -115,9 +116,9 @@ namespace Hedera.Hashgraph.Examples
             /// Grant token KYC for created accounts.
             /// </summary>
             Console.WriteLine("Granting token KYC for created accounts...");
-            new TokenGrantKycTransaction { NodeAccountIds = [tokenCreateTxResponse.NodeId], AccountId = aliceAccountId, TokenId = tokenId }.Execute(client).GetReceipt(client);
+            new TokenGrantKycTransaction { NodeAccountIds = { tokenCreateTxResponse.NodeId }, AccountId = aliceAccountId, TokenId = tokenId }.Execute(client).GetReceipt(client);
             Console.WriteLine("Granted KYC for account " + aliceAccountId + " on token " + tokenId);
-            new TokenGrantKycTransaction { NodeAccountIds = [tokenCreateTxResponse.NodeId], AccountId = bobAccountId, TokenId = tokenId }.Execute(client).GetReceipt(client);
+            new TokenGrantKycTransaction { NodeAccountIds = { tokenCreateTxResponse.NodeId }, AccountId = bobAccountId, TokenId = tokenId }.Execute(client).GetReceipt(client);
             Console.WriteLine("Granted KYC for account " + bobAccountId + " on token " + tokenId);
             /// <summary>
             /// Step 6:
@@ -125,7 +126,11 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Transferring tokens from operator's (treasury) account to the `accountId1`...");
             new TransferTransaction()
-                .SetNodeAccountIds([tokenCreateTxResponse.NodeId]).AddTokenTransfer(tokenId, OPERATOR_ID, -10).AddTokenTransfer(tokenId, aliceAccountId, 10).Execute(client).GetReceipt(client);
+                .SetNodeAccountIds([tokenCreateTxResponse.NodeId])
+                .AddTokenTransfer(tokenId, OPERATOR_ID, -10)
+                .AddTokenTransfer(tokenId, aliceAccountId, 10)
+                .Execute(client)
+                .GetReceipt(client);
             Console.WriteLine("Sent 10 tokens from account " + OPERATOR_ID + " to account " + aliceAccountId + " on token " + tokenId);
             /// <summary>
             /// Step 6:
@@ -133,7 +138,13 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Transferring tokens from the `accountId1` to the `accountId2`...");
             new TransferTransaction()
-                .SetNodeAccountIds([tokenCreateTxResponse.NodeId]).AddTokenTransfer(tokenId, aliceAccountId, -10).AddTokenTransfer(tokenId, bobAccountId, 10).FreezeWith(client).Sign(alicePrivateKey).Execute(client).GetReceipt(client);
+                .SetNodeAccountIds([tokenCreateTxResponse.NodeId])
+                .AddTokenTransfer(tokenId, aliceAccountId, -10)
+                .AddTokenTransfer(tokenId, bobAccountId, 10)
+                .FreezeWith(client)
+                .Sign(alicePrivateKey)
+                .Execute(client)
+                .GetReceipt(client);
             Console.WriteLine("Sent 10 tokens from account " + aliceAccountId + " to account " + bobAccountId + " on token " + tokenId);
             /// <summary>
             /// Step 6:
@@ -141,7 +152,13 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Transferring tokens from the `accountId2` to the `accountId1`...");
             new TransferTransaction()
-                .SetNodeAccountIds([tokenCreateTxResponse.NodeId]).AddTokenTransfer(tokenId, bobAccountId, -10).AddTokenTransfer(tokenId, aliceAccountId, 10).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+                .SetNodeAccountIds([tokenCreateTxResponse.NodeId])
+                .AddTokenTransfer(tokenId, bobAccountId, -10)
+                .AddTokenTransfer(tokenId, aliceAccountId, 10)
+                .FreezeWith(client)
+                .Sign(bobPrivateKey)
+                .Execute(client)
+                .GetReceipt(client);
             Console.WriteLine("Sent 10 tokens from account " + bobAccountId + " to account " + aliceAccountId + " on token " + tokenId);
             /// <summary>
             /// Clean up:
@@ -152,10 +169,10 @@ namespace Hedera.Hashgraph.Examples
                 TokenId = tokenId,
                 AccountId = aliceAccountId,
                 Amount = 10,
-                NodeAccountIds = [tokenCreateTxResponse.NodeId],
+                NodeAccountIds = { tokenCreateTxResponse.NodeId },
 
             }.Execute(client).GetReceipt(client);
-            new TokenDeleteTransaction { NodeAccountIds = [tokenCreateTxResponse.NodeId], TokenId = tokenId }.Execute(client).GetReceipt(client);
+            new TokenDeleteTransaction { NodeAccountIds = { tokenCreateTxResponse.NodeId }, TokenId = tokenId }.Execute(client).GetReceipt(client);
             new AccountDeleteTransaction
             {
                 AccountId = aliceAccountId,

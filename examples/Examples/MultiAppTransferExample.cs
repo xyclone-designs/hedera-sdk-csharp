@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
@@ -58,7 +59,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating exchange and receiver accounts...");
 
             // The exchange creates an account for the user to transfer funds to.
-            AccountId exchangeAccountId = new AccountCreateTransaction { ReceiverSignatureRequired = true }
+            AccountId exchangeAccountId = new AccountCreateTransaction { ReceiverSigRequired = true }
             .SetKeyWithoutAlias(exchangePublicKey)
             .FreezeWith(client)
             .Sign(exchangePrivateKey)
@@ -92,13 +93,13 @@ namespace Hedera.Hashgraph.Examples
 
             // The exchange must sign the transaction in order for it to be accepted by the network
             // (assume this is some REST call to the exchange API server).
-            byte[] signedTransferTxBytes = Transaction.FromBytes(transferTx.ToBytes()).Sign(exchangePrivateKey).ToBytes();
+            byte[] signedTransferTxBytes = ITransaction.FromBytes(transferTx.ToBytes()).Sign(exchangePrivateKey).ToBytes();
 
             // Parse the transaction bytes returned from the exchange.
             TransferTransaction signedTransferTx = Transaction.FromBytes<TransferTransaction>(signedTransferTxBytes);
 
             // Get the amount we are about to transfer (we built this with +2, -2).
-            Hbar transferAmount = signedTransferTx.GetHbarTransfers().Values.ToArray(new Hbar[0])[0];
+            Hbar transferAmount = signedTransferTx.GetHbarTransfers().Values.First();
             Console.WriteLine("Transferring " + transferAmount + " from the user account to the exchange account...");
 
             // We now execute the signed transaction and wait for it to be accepted.

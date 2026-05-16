@@ -5,8 +5,8 @@ using System.Linq;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Networking
 {

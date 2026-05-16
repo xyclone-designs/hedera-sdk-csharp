@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -64,9 +64,10 @@ namespace Hedera.Hashgraph.Examples
             /// Transfers from hollow accounts will not work because the hollow account does not have a public key
             /// assigned to authorize transfers out of the account.
             /// </summary>
-            TransferTransaction transferTx = new TransferTransaction().AddHbarTransfer(OPERATOR_ID, Hbar.From(1).Negated()).AddHbarTransfer(AccountId.FromEvmAddress(evmAddress, 0, 0), Hbar.From(1))
-            .FreezeWith(client)
-            ;
+            TransferTransaction transferTx = new TransferTransaction()
+                .AddHbarTransfer(OPERATOR_ID, Hbar.From(1).Negated())
+                .AddHbarTransfer(AccountId.FromEvmAddress(evmAddress, 0, 0), Hbar.From(1))
+            .FreezeWith(client);
             /// <summary>
             /// Step 5:
             /// Sign and execute the TransferTransaction transaction using existing Hedera account

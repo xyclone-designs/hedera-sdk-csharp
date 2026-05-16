@@ -1,36 +1,24 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Contract;
-using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fee;
-using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.LiveHashes;
-using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
-using Hedera.Hashgraph.SDK.Systems;
-using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Consensus;
-
-using Org.BouncyCastle.Crypto.Digests;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {	
 	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]' />
 	public abstract partial class Transaction<T> : Executable<T, Proto.Services.Transaction, Proto.Services.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>

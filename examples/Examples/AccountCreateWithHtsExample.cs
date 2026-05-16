@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -8,6 +9,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -107,7 +109,7 @@ namespace Hedera.Hashgraph.Examples
             TransactionReceipt[] nftMintTxReceipts = new TransactionReceipt[CIDs.Length];
             for (int i = 0; i < CIDs.Length; i++)
             {
-                byte[] nftMetadata = CIDs[i].GetBytes();
+                byte[] nftMetadata = Encoding.UTF8.GetBytes(CIDs[i]);
                 TokenMintTransaction nftMintTx = new TokenMintTransaction
                 {
                     TokenId = nftTokenId,

@@ -4,11 +4,11 @@ using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {

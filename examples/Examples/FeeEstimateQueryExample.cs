@@ -54,8 +54,10 @@ namespace Hedera.Hashgraph.Examples
         {
             Console.WriteLine("\n=== Creating Transfer Transaction ===");
             Hbar transferAmount = Hbar.From(1);
-            TransferTransaction tx = new TransferTransaction().AddHbarTransfer(OPERATOR_ID, transferAmount.Negated()).AddHbarTransfer(recipientId, transferAmount)
-                .SetTransactionMemo("Fee estimate example").FreezeWith(client);
+            TransferTransaction tx = new TransferTransaction { TransactionMemo = "Fee estimate example" }
+                .AddHbarTransfer(OPERATOR_ID, transferAmount.Negated())
+                .AddHbarTransfer(recipientId, transferAmount)
+                .FreezeWith(client);
             tx.SignWithOperator(client);
             Console.WriteLine("Transaction created: Transfer " + transferAmount + " from " + OPERATOR_ID + " to " + recipientId);
             return tx;
@@ -64,33 +66,36 @@ namespace Hedera.Hashgraph.Examples
         private static FeeEstimateResponse EstimateWithStateMode(Client client, TransferTransaction tx)
         {
             Console.WriteLine("\n=== Estimating Fees with STATE Mode ===");
-            FeeEstimateResponse stateEstimate = new FeeEstimateQuery()
-                .SetMode(FeeEstimateMode.STATE)
-                .SetTransaction(tx).Execute(client);
+            FeeEstimateResponse stateEstimate = new FeeEstimateQuery
+            {
+                Mode = FeeEstimateMode.State,
+                Transaction = tx
+
+            }.Execute(client);
             PrintNetworkFee(stateEstimate);
             PrintNodeFee(stateEstimate);
             PrintServiceFee(stateEstimate);
             PrintTotalFee(stateEstimate);
-            Console.WriteLine("\nHigh Volume Multiplier: " + stateEstimate.GetHighVolumeMultiplier());
+            Console.WriteLine("\nHigh Volume Multiplier: " + stateEstimate.HighVolumeMultiplier); 
             return stateEstimate;
         }
 
         private static void PrintNetworkFee(FeeEstimateResponse estimate)
         {
             Console.WriteLine("\nNetwork Fee:");
-            Console.WriteLine("  Multiplier: " + estimate.GetNetwork().GetMultiplier());
-            Console.WriteLine("  Subtotal: " + estimate.GetNetwork().GetSubtotal() + " tinycents");
+            Console.WriteLine("  Multiplier: " + estimate.NetworkFee.Multiplier);
+            Console.WriteLine("  Subtotal: " + estimate.NetworkFee.Subtotal + " tinycents");
         }
 
         private static void PrintNodeFee(FeeEstimateResponse estimate)
         {
             Console.WriteLine("\nNode Fee:");
-            Console.WriteLine("  Base: " + estimate.GetNode().GetBase() + " tinycents");
-            long nodeTotal = estimate.GetNode().GetBase();
-            foreach (FeeExtra extra in estimate.GetNode().GetExtras())
+            Console.WriteLine("  Base: " + estimate.NodeFee.Base + " tinycents");
+            long nodeTotal = estimate.NodeFee.Base;
+            foreach (FeeExtra extra in estimate.NodeFee.Extras)
             {
-                Console.WriteLine("  Extra - " + extra.GetName() + ": " + extra.GetSubtotal() + " tinycents");
-                nodeTotal += extra.GetSubtotal();
+                Console.WriteLine("  Extra - " + extra.Name + ": " + extra.Subtotal + " tinycents");
+                nodeTotal += extra.Subtotal;
             }
 
             Console.WriteLine("  Node Total: " + nodeTotal + " tinycents");
@@ -99,12 +104,12 @@ namespace Hedera.Hashgraph.Examples
         private static void PrintServiceFee(FeeEstimateResponse estimate)
         {
             Console.WriteLine("\nService Fee:");
-            Console.WriteLine("  Base: " + estimate.GetService().GetBase() + " tinycents");
-            long serviceTotal = estimate.GetService().GetBase();
-            foreach (FeeExtra extra in estimate.GetService().GetExtras())
+            Console.WriteLine("  Base: " + estimate.ServiceFee.Base + " tinycents");
+            long serviceTotal = estimate.ServiceFee.Base;
+            foreach (FeeExtra extra in estimate.ServiceFee.Extras)
             {
-                Console.WriteLine("  Extra - " + extra.GetName() + ": " + extra.GetSubtotal() + " tinycents");
-                serviceTotal += extra.GetSubtotal();
+                Console.WriteLine("  Extra - " + extra.Name + ": " + extra.Subtotal + " tinycents");
+                serviceTotal += extra.Subtotal;
             }
 
             Console.WriteLine("  Service Total: " + serviceTotal + " tinycents");
@@ -119,12 +124,15 @@ namespace Hedera.Hashgraph.Examples
         private static FeeEstimateResponse EstimateWithIntrinsicMode(Client client, TransferTransaction tx)
         {
             Console.WriteLine("\n=== Estimating Fees with INTRINSIC Mode ===");
-            FeeEstimateResponse intrinsicEstimate = new FeeEstimateQuery()
-                .SetMode(FeeEstimateMode.INTRINSIC)
-                .SetTransaction(tx).Execute(client);
-            Console.WriteLine("Network Fee Subtotal: " + intrinsicEstimate.GetNetwork().GetSubtotal() + " tinycents");
-            Console.WriteLine("Node Fee Base: " + intrinsicEstimate.GetNode().GetBase() + " tinycents");
-            Console.WriteLine("Service Fee Base: " + intrinsicEstimate.GetService().GetBase() + " tinycents");
+            FeeEstimateResponse intrinsicEstimate = new FeeEstimateQuery
+            {
+                Mode = FeeEstimateMode.Intrinsic,
+                Transaction = tx.ToProtobuf()
+
+            }.Execute(client);
+            Console.WriteLine("Network Fee Subtotal: " + intrinsicEstimate.NetworkFee.Subtotal + " tinycents");
+            Console.WriteLine("Node Fee Base: " + intrinsicEstimate.NodeFee.Base + " tinycents");
+            Console.WriteLine("Service Fee Base: " + intrinsicEstimate.ServiceFee.Base + " tinycents");
             Console.WriteLine("Total Estimated Fee: " + intrinsicEstimate.Total + " tinycents");
             Console.WriteLine("Total Estimated Fee: " + Hbar.FromTinybars(intrinsicEstimate.Total / 100));
             return intrinsicEstimate;
@@ -142,16 +150,23 @@ namespace Hedera.Hashgraph.Examples
         private static void DemonstrateTokenCreationEstimate(Client client)
         {
             Console.WriteLine("\n=== Estimating Token Creation Fees ===");
-            TokenCreateTransaction tokenTx = new TokenCreateTransaction()
-                .SetTokenName("Example Token")
-                .SetTokenSymbol("EXT")
-                .SetDecimals(3)
-                .SetInitialSupply(1000000)
-                .SetTreasuryAccountId(OPERATOR_ID)
-                .SetAdminKey(OPERATOR_KEY).FreezeWith(client).SignWithOperator(client);
-            FeeEstimateResponse tokenEstimate = new FeeEstimateQuery()
-                .SetMode(FeeEstimateMode.STATE)
-                .SetTransaction(tokenTx).Execute(client);
+            TokenCreateTransaction tokenTx = new TokenCreateTransaction
+            {
+                TokenName = "Example Token",
+                TokenSymbol = "EXT",
+                Decimals = 3,
+                InitialSupply = 1000000,
+                TreasuryAccountId = OPERATOR_ID,
+                AdminKey = OPERATOR_KEY,
+            }
+            .FreezeWith(client)
+            .SignWithOperator(client);
+            FeeEstimateResponse tokenEstimate = new FeeEstimateQuery
+            {
+                Mode = FeeEstimateMode.State,
+                Transaction = tokenTx
+
+            }.Execute(client);
             Console.WriteLine("Token Creation Estimated Fee:  " + tokenEstimate.Total + " tinycents");
             Console.WriteLine("Token Creation Estimated Fee: " + Hbar.FromTinybars(tokenEstimate.Total / 100));
         }

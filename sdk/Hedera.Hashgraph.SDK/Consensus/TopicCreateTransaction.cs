@@ -11,6 +11,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Consensus
 {

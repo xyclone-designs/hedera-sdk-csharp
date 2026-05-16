@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
@@ -54,7 +56,7 @@ namespace Hedera.Hashgraph.Examples
             /// Submit message to the topic created in previous step.
             /// </summary>
             Console.WriteLine("Publishing message to the topic...");
-            TransactionResponse topicMessageSubmitTxResponse = new TopicMessageSubmitTransaction { TopicId = topicCreateTxReceipt.TopicId, Message = "Hello World" }.Execute(client);
+            TransactionResponse topicMessageSubmitTxResponse = new TopicMessageSubmitTransaction { TopicId = topicCreateTxReceipt.TopicId, Message = ByteString.CopyFromUtf8("Hello World") }.Execute(client);
             TransactionReceipt topicMessageSubmitTxReceipt = topicMessageSubmitTxResponse.GetReceipt(client);
             Console.WriteLine("Topic sequence number: " + topicMessageSubmitTxReceipt.TopicSequenceNumber);
             /// <summary>

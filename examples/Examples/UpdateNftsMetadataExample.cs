@@ -231,7 +231,7 @@ namespace Hedera.Hashgraph.Examples
             var immutableNftUpdateNftsTx = new TokenUpdateNftsTransaction
             {
                 TokenId = immutableNftId,
-                Serials = immutableNftSerials,
+                Serials = [immutableNftSerials],
                 Metadata = updatedMetadata,
             
             }.FreezeWith(client);

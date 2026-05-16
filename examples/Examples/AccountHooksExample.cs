@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Text;
@@ -101,7 +101,7 @@ namespace Hedera.Hashgraph.Examples
                 TransactionResponse accountCreateResponse = new AccountCreateTransaction
                 {
                     InitialBalance = Hbar.From(1),
-                    HookCreationDetails = [hookDetails],
+                    HookCreationDetails = { hookDetails },
 
                 }.SetKeyWithoutAlias(accountPublicKey).FreezeWith(client).Sign(accountKey).Execute(client);
                 TransactionReceipt accountCreateReceipt = accountCreateResponse.GetReceipt(client);
@@ -138,12 +138,9 @@ namespace Hedera.Hashgraph.Examples
                     AccountId = accountId,
                     HookCreationDetails =
                     [
-                        hook1,
-                        hook2
+                        hook1, hook2
                     ]
                 }
-                    .AddHookToCreate(hook1)
-                    .AddHookToCreate(hook2)
                 .FreezeWith(client)
                 .Sign(accountKey)
                 .Execute(client);
@@ -198,7 +195,7 @@ namespace Hedera.Hashgraph.Examples
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hiero_hook/hiero_hook.json");
             var response = new FileCreateTransaction
             {
-                Keys = OPERATOR_KEY,
+                Keys = [OPERATOR_KEY],
                 Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
                 MaxTransactionFee = Hbar.From(2)
 

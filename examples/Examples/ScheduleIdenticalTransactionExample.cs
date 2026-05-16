@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Logging;
@@ -58,14 +59,14 @@ namespace Hedera.Hashgraph.Examples
                 Console.WriteLine("Key pair #" + (i + 1) + " | Private key: " + privateKeys[i]);
                 Console.WriteLine("Key pair #" + (i + 1) + " | Public key: " + publicKeys[i]);
                 Console.WriteLine("Creating new account...");
-                TransactionResponse accountCreateTxResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(1) }.SetKeyWithoutAlias(newPublicKey).Execute(client);
+                TransactionResponse _accountCreateTxResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(1) }.SetKeyWithoutAlias(newPublicKey).Execute(client);
 
                 // Make sure the transaction succeeded.
-                TransactionReceipt accountCreateTxReceipt = accountCreateTxResponse.GetReceipt(client);
+                TransactionReceipt _accountCreateTxReceipt = _accountCreateTxResponse.GetReceipt(client);
                 Client newClient = ClientHelper.ForName(HEDERA_NETWORK);
-                newClient.OperatorSet(accountCreateTxReceipt.AccountId, newPrivateKey);
+                newClient.OperatorSet(_accountCreateTxReceipt.AccountId, newPrivateKey);
                 clients[i] = newClient;
-                accounts[i] = accountCreateTxReceipt.AccountId;
+                accounts[i] = _accountCreateTxReceipt.AccountId;
                 Console.WriteLine("Created new account with ID: " + accounts[i]);
                 Console.WriteLine("---");
             }
@@ -112,9 +113,9 @@ namespace Hedera.Hashgraph.Examples
                 Console.WriteLine("Scheduling created transfer transaction...");
                 ScheduleCreateTransaction scheduledTx = new ScheduleCreateTransaction
                 {
-                    ScheduledTransactionBody = transferTx
+                    // TODO ScheduledTransactionBody = transferTx,
+                    PayerAccountId = thresholdAccount
                 };
-                scheduledTx.PayerAccountId = thresholdAccount);
                 TransactionResponse scheduledTxResponse = scheduledTx.Execute(loopClient);
                 Console.WriteLine("Executing scheduled transaction...");
                 TransactionReceipt loopReceipt = new TransactionReceiptQuery
@@ -141,7 +142,12 @@ namespace Hedera.Hashgraph.Examples
                 if (loopReceipt.Status == ResponseStatus.IdenticalScheduleAlreadyCreated)
                 {
                     Console.WriteLine("Appending signature to a schedule transaction...");
-                    TransactionResponse scheduleSignTxResponse = new ScheduleSignTransaction { ScheduleId = scheduleId, NodeAccountIds = [accountCreateTxResponse.NodeId], ScheduleId = loopReceipt.ScheduleId }.Execute(loopClient);
+                    TransactionResponse scheduleSignTxResponse = new ScheduleSignTransaction 
+                    { 
+                        ScheduleId = scheduleId,
+                        // TODO ScheduleId = loopReceipt.ScheduleId
+                        NodeAccountIds = [accountCreateTxResponse.NodeId],
+                    }.Execute(loopClient);
                     TransactionReceipt scheduleSignTxReceipt = new TransactionReceiptQuery { TransactionId = scheduleSignTxResponse.TransactionId, }.Execute(client);
                     Console.WriteLine("A transaction that appends signature to a schedule transaction " + "was complete with status: " + scheduleSignTxReceipt.Status);
                     if (scheduleSignTxReceipt.Status != ResponseStatus.Success && scheduleSignTxReceipt.Status != ResponseStatus.ScheduleAlreadyExecuted)

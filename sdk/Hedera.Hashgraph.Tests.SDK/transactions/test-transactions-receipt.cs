@@ -9,11 +9,11 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Consensus;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {

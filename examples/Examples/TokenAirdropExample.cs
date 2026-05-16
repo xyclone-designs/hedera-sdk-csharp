@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Claiming ft with carol");
             new TokenClaimAirdropTransaction
             {
-                PendingAirdropIds = [txnRecord.PendingAirdropRecords[0].PendingAirdropId]
+                PendingAirdropIds = { txnRecord.PendingAirdropRecords[0].PendingAirdropId }
 
             }.FreezeWith(client).Sign(privateKey3).Execute(client).GetReceipt(client);
             carolBalance = new AccountBalanceQuery { AccountId = carol }.Execute(client);
@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Claiming nft with Bob");
             new TokenClaimAirdropTransaction 
             { 
-                PendingAirdropIds = [txnRecord.PendingAirdropRecords[0].PendingAirdropId] 
+                PendingAirdropIds = { txnRecord.PendingAirdropRecords[0].PendingAirdropId } 
             
             }.FreezeWith(client).Sign(privateKey2).Execute(client).GetReceipt(client);
             bobBalance = new AccountBalanceQuery { AccountId = bob }.Execute(client);
@@ -199,7 +199,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Canceling nft for Carol");
             new TokenCancelAirdropTransaction 
             { 
-                PendingAirdropIds = [txnRecord.PendingAirdropRecords[1].PendingAirdropId] 
+                PendingAirdropIds = { txnRecord.PendingAirdropRecords[1].PendingAirdropId } 
             
             }.FreezeWith(client).Sign(treasuryKey).Execute(client).GetReceipt(client);
             carolBalance = new AccountBalanceQuery { AccountId = carol }.Execute(client);

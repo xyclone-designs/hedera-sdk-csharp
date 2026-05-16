@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
-
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {
     /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="T:TransactionRecordQuery"]' />
     public sealed class TransactionRecordQuery : Query<TransactionRecord, TransactionRecordQuery>

@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {

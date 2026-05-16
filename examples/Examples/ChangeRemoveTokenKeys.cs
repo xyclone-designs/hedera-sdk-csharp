@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TokenId = nftTokenId,
                 WipeKey = emptyKeyList,
-                KeyVerificationMode = TokenKeyValidation.FullValidation,
+                TokenKeyVerificationMode = TokenKeyValidation.FullValidation,
             }
             .FreezeWith(client)
             .Sign(adminPrivateKey)
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TokenId = nftTokenId,
                 AdminKey = emptyKeyList,
-                KeyVerificationMode = TokenKeyValidation.NoValidation,
+                TokenKeyVerificationMode = TokenKeyValidation.NoValidation,
             }
             .FreezeWith(client)
             .Sign(adminPrivateKey)
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TokenId = nftTokenId,
                 SupplyKey = newSupplyPublicKey,
-                KeyVerificationMode = TokenKeyValidation.FullValidation,
+                TokenKeyVerificationMode = TokenKeyValidation.FullValidation,
             }
             .FreezeWith(client)
             .Sign(supplyPrivateKey)
@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TokenId = nftTokenId,
                 SupplyKey = PublicKey.UnusableKey(),
-                KeyVerificationMode = TokenKeyValidation.NoValidation,
+                TokenKeyVerificationMode = TokenKeyValidation.NoValidation,
             }
             .FreezeWith(client)
             .Sign(newSupplyPrivateKey)

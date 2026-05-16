@@ -3,13 +3,13 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Consensus;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Threading;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Topic
 {

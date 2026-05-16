@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Schedule;
@@ -91,8 +92,9 @@ namespace Hedera.Hashgraph.Examples
             /// </summary>
             Console.WriteLine("Scheduling crypto transfer from multi-sig account to operator account...");
             TransactionResponse transferTxScheduled = new TransferTransaction()
-            .AddHbarTransfer(multiSigAccountId, Hbar.From(1).Negated())
-            .AddHbarTransfer(client.GetOperatorAccountId()), Hbar.From(1)).Schedule()
+                .AddHbarTransfer(multiSigAccountId, Hbar.From(1).Negated())
+                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
+            .Schedule()
             .FreezeWith(client)
             .Sign(privateKeys[0])
             .Execute(client);

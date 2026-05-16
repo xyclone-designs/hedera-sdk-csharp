@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -56,12 +57,10 @@ namespace Hedera.Hashgraph.Examples
             /// Create a Multi-sig account.
             /// </summary>
             Console.WriteLine("Creating new Key List..");
-            KeyList keylist = new KeyList();
-            keylist.Add(alicePublicKey);
-            keylist.Add(bobPublicKey);
+            KeyList keylist = KeyList.Of(null, alicePublicKey, bobPublicKey);
             Console.WriteLine("Created Key List: " + keylist);
             Console.WriteLine("Creating a new account...");
-            TransactionResponse createAccountTxResponse = new AccountCreateTransaction().SetInitialBalance(Hbar.From(2)).SetKeyWithoutAlias(keylist).Execute(client);
+            TransactionResponse createAccountTxResponse = new AccountCreateTransaction { InitialBalance = Hbar.From(2) }.SetKeyWithoutAlias(keylist).Execute(client);
             TransactionReceipt createAccountTxReceipt = createAccountTxResponse.GetReceipt(client);
             var newAccountId = createAccountTxReceipt.AccountId;
 
@@ -71,14 +70,17 @@ namespace Hedera.Hashgraph.Examples
             /// Create a transfer from new account to the account with ID '0.0.3'.
             /// </summary>
             Console.WriteLine("Transferring 1 Hbar from new account to the account with ID `0.0.3`...");
-            TransferTransaction transferTx = new TransferTransaction().SetNodeAccountIds([new AccountId(0, 0, 3])).AddHbarTransfer(createAccountTxReceipt.AccountId), Hbar.From(1).Negated()).AddHbarTransfer(new AccountId(0, 0, 3), Hbar.From(1)).FreezeWith(client;
+            TransferTransaction transferTx = new TransferTransaction().SetNodeAccountIds([new AccountId(0, 0, 3)])
+                .AddHbarTransfer(createAccountTxReceipt.AccountId, Hbar.From(1).Negated())
+                .AddHbarTransfer(new AccountId(0, 0, 3), Hbar.From(1))
+            .FreezeWith(client);
             /// <summary>
             /// Step 3:
             /// Convert transaction to bytes to send to signatories.
             /// </summary>
             Console.WriteLine("Converting transaction to bytes to send to signatories...");
             byte[] transactionBytes = transferTx.ToBytes();
-            Transaction<TWildcardTodo> transactionToExecute = Transaction.FromBytes(transactionBytes);
+            Transaction<> transactionToExecute = Transaction.FromBytes(transactionBytes);
             /// <summary>
             /// Step 4:
             /// Ask users to sign and return signature.
@@ -107,7 +109,12 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetAccountId(newAccountId).SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(alicePrivateKey).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = newAccountId,
+                TransferAccountId = OPERATOR_ID
+
+            }.FreezeWith(client).Sign(alicePrivateKey).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Multi Sig Offline Example Complete!");
         }

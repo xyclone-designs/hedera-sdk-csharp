@@ -37,13 +37,6 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Getting address book for " + HEDERA_NETWORK + "...");
             NodeAddressBook addressBook = new AddressBookQuery { FileId = FileId.ADDRESS_BOOK }.Execute(client);
             Console.WriteLine("Address book for " + HEDERA_NETWORK + ": " + addressBook);
-            /// <summary>
-            /// Clean up:
-            /// </summary>
-            Files.DeleteIfExists(FileSystems.GetDefault().GetPath("address-book.proto.bin"));
-            client.Dispose();
-            Files.Copy(new ByteArrayInputStre am(addressBook.ToBytes().ToByteArray()), FileSystems.GetDefault().GetPath("address-book.proto.bin"));
-            Console.WriteLine("Get Address Book Example Complete!");
         }
     }
 }

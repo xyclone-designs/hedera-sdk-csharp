@@ -3,12 +3,12 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Token
 {

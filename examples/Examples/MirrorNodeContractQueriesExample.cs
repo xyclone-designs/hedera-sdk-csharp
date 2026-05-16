@@ -72,9 +72,8 @@ namespace Hedera.Hashgraph.Examples
                 Sender = client.OperatorAccountId,
                 GasLimit = 30000,
                 GasPrice = 1234,
-                Function = "getMessage",
-
-            }.Execute(client);
+                
+            }.SetFunction("getMessage").Execute(client);
             Console.WriteLine("Gas needed for this query: " + gas);
             /// <summary>
             /// Step 5:
@@ -84,9 +83,9 @@ namespace Hedera.Hashgraph.Examples
             { 
                 ContractId = contractId,
                 Gas = gas,
-                Function = "getMessage",
                 QueryPayment = new Hbar(1)
-            };
+
+            }.SetFunction("getMessage");
             var result = callQuery.Execute(client);
             /// <summary>
             /// Step 6:
@@ -99,9 +98,8 @@ namespace Hedera.Hashgraph.Examples
                 GasLimit = 30000,
                 BlockNumber = 10000,
                 GasPrice = 1234,
-                Function = "getMessage",
-
-            }.Execute(client);
+                
+            }.SetFunction("getMessage").Execute(client);
 
             // Decode the result since it's coming in ABI Hex format from the Mirror Node
             var decodedResult = DecodeABIHexString(simulationResult);
@@ -111,18 +109,16 @@ namespace Hedera.Hashgraph.Examples
 
         private static string DecodeABIHexString(string hex)
         {
-
             // Trim 0x at the beginning
             if (hex.StartsWith("0x"))
             {
                 hex = hex.Substring(2);
             }
 
-
             // Extract the length of the data by parsing the substring from position 64 to 128 as a hexadecimal integer
             // This section represents the length of the dynamic data, specifically the number of bytes in the string or
             // array
-            int length = Integer.ParseInt(hex.Substring(64, 128), 16);
+            int length = Convert.ToInt32(hex.Substring(64, 64), 16);
 
             // Using the extracted length, the code calculates the substring containing the actual data starting from
             // position 128.
@@ -133,9 +129,8 @@ namespace Hedera.Hashgraph.Examples
             // it in a byte array.
             for (int i = 0; i < length; i++)
             {
-                bytes[i] = (byte)Integer.ParseInt(hexStringData.Substring(i / 2, i/ 2 + 2), 16);
+                bytes[i] = Convert.ToByte(hexStringData.Substring(i / 2, 2), 16);
             }
-
 
             // Convert to UTF 8
             return Encoding.UTF8.GetString(bytes);

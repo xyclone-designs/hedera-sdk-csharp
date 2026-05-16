@@ -15,9 +15,9 @@ namespace Hedera.Hashgraph.SDK.Fee
         public CustomFee() { }
 
 		/// <include file="CustomFee.cs.xml" path='docs/member[@name="P:CustomFee.FeeCollectorAccountId"]' />
-		public virtual AccountId? FeeCollectorAccountId { get; internal set; }
+		public virtual AccountId? FeeCollectorAccountId { get; set; }
 		/// <include file="CustomFee.cs.xml" path='docs/member[@name="P:CustomFee.AllCollectorsAreExempt"]' />
-		public virtual bool AllCollectorsAreExempt { get; internal set; }
+		public virtual bool AllCollectorsAreExempt { get; set; }
 
 		/// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromProtobufInner(Proto.Services.CustomFee)"]' />
 		public static CustomFee FromProtobufInner(Proto.Services.CustomFee customFee)

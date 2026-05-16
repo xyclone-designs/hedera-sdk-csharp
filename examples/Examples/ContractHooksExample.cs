@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -77,12 +78,11 @@ namespace Hedera.Hashgraph.Examples
                 AdminKey = OPERATOR_KEY,
                 Gas = 400000,
                 BytecodeFileId = CreateBytecodeFile(client),
-                HookCreationDetails_ = [hookDetails]
+                HookCreationDetails_ = { hookDetails }
             
             }.Execute(client);
             var receipt = response.GetReceipt(client);
             ContractId contractId = receipt.ContractId;
-            contractId;
             Console.WriteLine("Created contract with ID: " + contractId);
             Console.WriteLine("Successfully created contract with basic lambda hook!");
             return contractId;
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Examples
                 TransactionResponse contractUpdateResponse = new ContractUpdateTransaction 
                 {
                     ContractId = targetContractId,
-                    HookCreationDetails_ = [hook3]
+                    HookCreationDetails_ = { hook3 }
 
                 }.FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
                 contractUpdateResponse.GetReceipt(client);
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.Examples
                 TransactionResponse deleteHookResponse = new ContractUpdateTransaction
                 {
                     ContractId = contractId,
-                    HookIdsToDelete = [1, 3]
+                    HookIdsToDelete = { 1, 3 }
                 
                 }.FreezeWith(client).Sign(OPERATOR_KEY).Execute(client);
                 deleteHookResponse.GetReceipt(client);
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.Examples
         private static FileId CreateBytecodeFile(Client client)
         {
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hello_world/hello_world.json");
-            var response = new FileCreateTransaction { Keys = OPERATOR_KEY, Contents = contractBytecodeHex }.Execute(client);
+            var response = new FileCreateTransaction { Keys = [OPERATOR_KEY], Contents = Encoding.UTF8.GetBytes(contractBytecodeHex) }.Execute(client);
             return response.GetReceipt(client).FileId;
         }
 

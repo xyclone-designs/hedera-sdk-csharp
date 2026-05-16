@@ -7,9 +7,9 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Airdrops;
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.Tests.Integration.Nfts;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Token
 {

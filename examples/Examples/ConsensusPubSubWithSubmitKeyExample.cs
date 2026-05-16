@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Text;
@@ -14,7 +16,7 @@ namespace Hedera.Hashgraph.Examples
     public class ConsensusPubSubWithSubmitKeyExample
     {
         private static readonly int TOTAL_MESSAGES = 5;
-        private static readonly CountDownLatch MESSAGES_LATCH = new CountDownLatch(TOTAL_MESSAGES);
+        private static readonly CountdownEvent MessagesLatch = new(TOTAL_MESSAGES);
         /// <summary>
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
@@ -78,13 +80,13 @@ namespace Hedera.Hashgraph.Examples
             {
                 string messageAsString = Encoding.UTF8.GetString(resp.Contents);
                 Console.WriteLine("Topic message received!" + " | Time: " + resp.ConsensusTimestamp + " | Content: " + messageAsString);
-                MESSAGES_LATCH.CountDown();
+                MessagesLatch.Signal();
             });
             /// <summary>
             /// Step 5:
             /// Publish a list of messages to a topic, signing each transaction with the topic's Submit Key.
             /// </summary>
-            Random randomGenerator = new Random();
+            Random randomGenerator = new ();
             for (int i = 0; i <= TOTAL_MESSAGES; i++)
             {
                 string message = "random message " + randomGenerator.NextInt64();
@@ -92,7 +94,7 @@ namespace Hedera.Hashgraph.Examples
                 new TopicMessageSubmitTransaction
                 {
                     TopicId = hederaTopicId,
-                    Message = message,
+                    Message = ByteString.CopyFromUtf8(message),
                 }
                 .FreezeWith(client)
                 .Sign(submitPrivateKey)
@@ -102,9 +104,8 @@ namespace Hedera.Hashgraph.Examples
                 Thread.Sleep(2000);
             }
 
-
             // Wait 60 seconds to receive all the messages. Fail if not received.
-            bool allMessagesReceived = MESSAGES_LATCH.Await(60, TimeUnit.SECONDS);
+            bool allMessagesReceived = MessagesLatch.Wait(TimeSpan.FromSeconds(60));
             /// <summary>
             /// Clean up:
             /// Delete created topic.

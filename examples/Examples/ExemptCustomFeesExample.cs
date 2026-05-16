@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Fee;
@@ -67,6 +68,8 @@ namespace Hedera.Hashgraph.Examples
             /// - bobFee sends 2/100 of the transferred value to Bob's account;
             /// - charlieFee sends 3/100 of the transferred value to Charlie's account.
             /// </summary>
+            ///
+
             CustomFractionalFee aliceFee = new () { FeeCollectorAccountId = aliceAccountId, Numerator = 1, Denominator = 100, AllCollectorsAreExempt = true };
             CustomFractionalFee bobFee = new () { FeeCollectorAccountId = bobAccountId, Numerator = 2, Denominator = 100, AllCollectorsAreExempt = true };
             CustomFractionalFee charlieFee = new () { FeeCollectorAccountId = charlieAccountId, Numerator = 3, Denominator = 100, AllCollectorsAreExempt = true };
@@ -114,9 +117,9 @@ namespace Hedera.Hashgraph.Examples
             /// Show that the fee collector accounts in the custom fee list
             /// of the token that was created was not charged a custom fee in the transfer.
             /// </summary>
-            long aliceAccountBalanceAfter = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens[fungibleTokenId];
-            long bobAccountBalanceAfter = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).Tokens[fungibleTokenId];
-            long charlieAccountBalanceAfter = new AccountBalanceQuery { AccountId = charlieAccountId }.Execute(client).Tokens[fungibleTokenId];
+            ulong aliceAccountBalanceAfter = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens[fungibleTokenId];
+            ulong bobAccountBalanceAfter = new AccountBalanceQuery { AccountId = bobAccountId }.Execute(client).Tokens[fungibleTokenId];
+            ulong charlieAccountBalanceAfter = new AccountBalanceQuery { AccountId = charlieAccountId }.Execute(client).Tokens[fungibleTokenId];
             Console.WriteLine("Alice's balance after transferring the fungible token: " + aliceAccountBalanceAfter);
             Console.WriteLine("Bob's account balance after transferring the fungible token: " + bobAccountBalanceAfter);
             Console.WriteLine("Charlie's account balance after transferring the fungible token: " + charlieAccountBalanceAfter);
@@ -124,7 +127,7 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts and token.
             /// </summary>
-            Dictionary<TokenId, long> alicesTokens = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens;
+            Dictionary<TokenId, ulong> alicesTokens = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Tokens;
             new TokenWipeTransaction
             {
                 TokenId = fungibleTokenId,

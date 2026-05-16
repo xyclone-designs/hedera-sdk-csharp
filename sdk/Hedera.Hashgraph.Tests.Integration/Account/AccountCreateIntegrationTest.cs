@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Account
 {

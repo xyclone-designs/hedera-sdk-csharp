@@ -2,9 +2,9 @@
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
@@ -63,36 +63,45 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating FT and NFT...");
 
             // Create a Fungible Token.
-            int FUNGIBLE_TOKEN_SUPPLY = 1000000;
-            TokenId fungibleTokenId = new TokenCreateTransaction()
-                .SetTokenName("HIP-904 FT")
-                .SetTokenSymbol("HIP904FT")
-                .SetDecimals(0)
-                .SetInitialSupply(FUNGIBLE_TOKEN_SUPPLY)
-                .SetMaxSupply(FUNGIBLE_TOKEN_SUPPLY)
-                .SetTreasuryAccountId(treasuryAccountId)
-                .SetSupplyType(TokenSupplyType.FINITE)
-                .SetAdminKey(treasuryAccountPublicKey).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client).TokenId;
+            uint FUNGIBLE_TOKEN_SUPPLY = 1000000;
+            TokenId fungibleTokenId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-904 FT",
+                TokenSymbol = "HIP904FT",
+                Decimals = 0,
+                InitialSupply = FUNGIBLE_TOKEN_SUPPLY,
+                MaxSupply = FUNGIBLE_TOKEN_SUPPLY,
+                TreasuryAccountId = treasuryAccountId,
+                TokenSupplyType = TokenSupplyType.Finite,
+                AdminKey = treasuryAccountPublicKey
+
+            }.FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client).TokenId;
             
             // Create NFT.
-            TokenId nftId = new TokenCreateTransaction()
-                .SetTokenName("HIP-904 NFT")
-                .SetTokenSymbol("HIP904NFT")
-                .SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE)
-                .SetTreasuryAccountId(treasuryAccountId)
-                .SetSupplyType(TokenSupplyType.FINITE)
-                .SetMaxSupply(3)
-                .SetAdminKey(treasuryAccountPublicKey)
-                .SetSupplyKey(treasuryAccountPublicKey).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client).TokenId;
+            TokenId nftId = new TokenCreateTransaction
+            {
+                TokenName = "HIP-904 NFT",
+                TokenSymbol = "HIP904NFT",
+                TokenType = TokenType.NonFungibleUnique,
+                TreasuryAccountId = treasuryAccountId,
+                TokenSupplyType = TokenSupplyType.Finite,
+                MaxSupply = 3,
+                AdminKey = treasuryAccountPublicKey,
+                SupplyKey = treasuryAccountPublicKey,
+
+            }.FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client).TokenId;
             /// <summary>
             /// Step 4:
             /// Mint three NFTs.
             /// </summary>
             Console.WriteLine("Minting three NFTs...");
-            var tokenMintTxReceipt = new TokenMintTransaction()
-                .SetTokenId(nftId)
-                .SetMetadata(GenerateNftMetadata((byte)3)).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client);
-            var nftSerials = tokenMintTxReceipt.serials;
+            var tokenMintTxReceipt = new TokenMintTransaction
+            {
+                TokenId = nftId,
+                Metadata = GenerateNftMetadata(3)
+
+            }.FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client);
+            var nftSerials = tokenMintTxReceipt.Serials;
             /// <summary>
             /// Step 5:
             /// Transfer tokens to the receiver.
@@ -127,16 +136,26 @@ namespace Hedera.Hashgraph.Examples
             /// Reject the fungible token.
             /// </summary>
             Console.WriteLine("Receiver rejects example fungible tokens...");
-            new TokenRejectTransaction()
-                .SetOwnerId(receiverAccountId).AddTokenId(fungibleTokenId).FreezeWith(client).Sign(receiverAccountPrivateKey).Execute(client).GetReceipt(client);
+            new TokenRejectTransaction { OwnerId = receiverAccountId }
+            .AddTokenId(fungibleTokenId)
+            .FreezeWith(client)
+            .Sign(receiverAccountPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 8:
             /// Execute the token reject flow -- reject NFTs.
             /// </summary>
             Console.WriteLine("Receiver rejects example NFTs...");
-            new TokenRejectFlow()
-                .SetOwnerId(receiverAccountId)
-                .SetNftIds(List.Of(nftId.Nft(nftSerials[0]), nftId.Nft(nftSerials[1]), nftId.Nft(nftSerials[2]))).FreezeWith(client).Sign(receiverAccountPrivateKey).Execute(client).GetReceipt(client);
+            new TokenRejectFlow
+            {
+                OwnerId = receiverAccountId,
+                NftIds = [nftId.Nft(nftSerials[0]), nftId.Nft(nftSerials[1]), nftId.Nft(nftSerials[2])],
+                FreezeWithClient = client,
+                SignPrivateKey = receiverAccountPrivateKey
+            }
+            .Execute(client)
+            .GetReceipt(client);
             /// <summary>
             /// Step 9:
             /// Check receiver account balance after token reject.
@@ -187,16 +206,32 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created accounts and tokens.
             /// </summary>
-            new AccountDeleteTransaction()
-                .SetAccountId(treasuryAccountId)
-                .SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client);
-            new AccountDeleteTransaction()
-                .SetAccountId(receiverAccountId)
-                .SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(receiverAccountPrivateKey).Execute(client);
-            new TokenDeleteTransaction()
-                .SetTokenId(fungibleTokenId).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client);
-            new TokenDeleteTransaction()
-                .SetTokenId(nftId).FreezeWith(client).Sign(treasuryAccountPrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = treasuryAccountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(treasuryAccountPrivateKey)
+            .Execute(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = receiverAccountId,
+                TransferAccountId = OPERATOR_ID
+            }
+            .FreezeWith(client)
+            .Sign(receiverAccountPrivateKey)
+            .Execute(client);
+            new TokenDeleteTransaction { TokenId = fungibleTokenId }
+            .FreezeWith(client)
+            .Sign(treasuryAccountPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
+            new TokenDeleteTransaction { TokenId = nftId }
+            .FreezeWith(client)
+            .Sign(treasuryAccountPrivateKey)
+            .Execute(client)
+            .GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Token Reject (HIP-904) Example Complete!");
         }
@@ -206,7 +241,7 @@ namespace Hedera.Hashgraph.Examples
             List<byte[]> metadatas = [];
             for (byte i = 0; i < metadataCount; i++)
             {
-                byte[] md = [i]
+                byte[] md = [i];
                 metadatas.Add(md);
             }
 

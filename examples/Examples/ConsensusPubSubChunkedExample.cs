@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -6,6 +8,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Text;
 using System.Threading;
 
 namespace Hedera.Hashgraph.Examples
@@ -15,7 +18,7 @@ namespace Hedera.Hashgraph.Examples
     /// </summary>
     public class ConsensusPubSubChunkedExample
     {
-        private static readonly CountDownLatch LARGE_MESSAGE_LATCH = new CountDownLatch(1);
+        private static readonly CountdownEvent LARGE_MESSAGE_LATCH = new CountdownEvent(1);
         /// <summary>
         /// See .env.sample in the examples folder root for how to specify values below
         /// or set environment variables with the same names.
@@ -72,7 +75,7 @@ namespace Hedera.Hashgraph.Examples
             new TopicMessageQuery { TopicId = hederaTopicID }.Subscribe(client, (topicMessage) =>
             {
                 Console.WriteLine("Topic message received!" + " | Time: " + topicMessage.ConsensusTimestamp + " | Sequence No.: " + topicMessage.SequenceNumber + " | Size: " + topicMessage.Contents.Length + " bytes.");
-                LARGE_MESSAGE_LATCH.CountDown();
+                LARGE_MESSAGE_LATCH.Wait();
             });
             /// <summary>
             /// Step 5:
@@ -87,7 +90,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 MaxChunks = 15,
                 TopicId = hederaTopicID,
-                Message = largeMessage,
+                Message = ByteString.CopyFromUtf8(largeMessage),
 
             }.SignWithOperator(client);
 
@@ -110,7 +113,7 @@ namespace Hedera.Hashgraph.Examples
             topicMessageSubmitTx.Execute(client).GetReceipt(client);
 
             // Wait 60 seconds to receive the message. Fail if not received.
-            bool largeMessageReceived = LARGE_MESSAGE_LATCH.Await(60, TimeUnit.SECONDS);
+            bool largeMessageReceived = LARGE_MESSAGE_LATCH.Wait(TimeSpan.FromSeconds(60));
             /// <summary>
             /// Clean up:
             /// Delete created topic.
@@ -130,7 +133,7 @@ namespace Hedera.Hashgraph.Examples
         private static string ReadResources(string filename)
         {
             InputStream inputStream = typeof(ConsensusPubSubChunkedExample).GetResourceAsStream(filename);
-            StringBuilder bigContents = new StringBuilder();
+            StringBuilder bigContents = new ();
             try
             {
                 using (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream), UTF_8))

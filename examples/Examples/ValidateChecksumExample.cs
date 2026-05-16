@@ -41,25 +41,24 @@ namespace Hedera.Hashgraph.Examples
             /// Read an input and validate the checksum (manual).
             /// </summary>
             Console.WriteLine("An example of manual checksum validation:");
-            Scanner inputScanner = new Scanner(System.@in, Charset.DefaultCharset().Name());
             while (true)
             {
                 try
                 {
-                    System.@out.Print("Enter an account ID with checksum: ");
-                    string inputString = inputScanner.NextLine();
+                    Console.WriteLine("Enter an account ID with checksum: ");
+                    string? inputString = Console.ReadLine();
 
                     // Throws IllegalArgumentException if incorrectly formatted.
                     AccountId accountId = AccountId.FromString(inputString);
                     Console.WriteLine("The account ID with no checksum is: " + accountId.ToString());
                     Console.WriteLine("The account ID with the correct checksum is: " + accountId.ToStringWithChecksum(client));
-                    if (accountId.GetChecksum() == null)
+                    if (accountId.Checksum == null)
                     {
                         Console.WriteLine("You must enter a checksum.");
                         continue;
                     }
 
-                    Console.WriteLine("The checksum entered was: " + accountId.GetChecksum());
+                    Console.WriteLine("The checksum entered was: " + accountId.Checksum);
 
                     // Throws BadEntityIdException if checksum is incorrect.
                     accountId.ValidateChecksum(client);
@@ -76,7 +75,7 @@ namespace Hedera.Hashgraph.Examples
                 catch (BadEntityIdException exc)
                 {
                     Console.WriteLine(exc.Message);
-                    Console.WriteLine("You entered " + exc.shard + "." + exc.realm + "." + exc.num + "-" + exc.presentChecksum + ", the expected checksum was " + exc.expectedChecksum);
+                    Console.WriteLine("You entered " + exc.Shard + "." + exc.Realm + "." + exc.Num + "-" + exc.PresentChecksum + ", the expected checksum was " + exc.ExpectedChecksum);
                 }
             }
 
@@ -96,14 +95,14 @@ namespace Hedera.Hashgraph.Examples
             /// invalid checksum is encountered.
             /// </summary>
             Console.WriteLine("An example of automatic checksum validation:");
-            client.SetAutoValidateChecksums(true);
+            client.AutoValidateChecksums = true;
             while (true)
             {
                 try
                 {
-                    System.@out.Print("Enter an account ID with checksum: ");
-                    AccountId accountId = AccountId.FromString(inputScanner.NextLine());
-                    if (accountId.GetChecksum() == null)
+                    Console.WriteLine("Enter an account ID with checksum: ");
+                    AccountId accountId = AccountId.FromString(Console.ReadLine());
+                    if (accountId.Checksum == null)
                     {
                         Console.WriteLine("You must enter a checksum.");
                         continue;

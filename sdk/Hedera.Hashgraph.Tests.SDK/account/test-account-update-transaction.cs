@@ -8,6 +8,7 @@ using System;
 
 using VerifyXunit;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {

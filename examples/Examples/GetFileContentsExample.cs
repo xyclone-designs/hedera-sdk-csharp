@@ -2,10 +2,10 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Text;
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating new file...");
             TransactionResponse fileCreateTxResponse = new FileCreateTransaction
             {
-                Keys = operatorPublicKey,
+                Keys = [operatorPublicKey],
                 Contents = fileContents,
                 MaxTransactionFee = Hbar.From(2)
 

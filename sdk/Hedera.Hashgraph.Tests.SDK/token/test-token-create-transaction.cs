@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 
 using VerifyXunit;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {

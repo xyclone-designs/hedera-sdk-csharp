@@ -1,5 +1,5 @@
 using Google.Protobuf.Reflection;
-
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 

@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -47,8 +48,8 @@ namespace Hedera.Hashgraph.Examples
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/parent_deploys_child/parent_deploys_child.json");
             TransactionResponse bytecodeFileCreateTxResponse = new FileCreateTransaction
             {
-                Keys = operatorPublicKey,
-                Contents = contractBytecodeHex,
+                Keys = [operatorPublicKey],
+                Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
                 MaxTransactionFee = Hbar.From(2),
 
             }.Execute(client);
@@ -76,7 +77,7 @@ namespace Hedera.Hashgraph.Examples
             /// Get a record from a contract create transaction to check contracts nonces.
             /// We expect to see `nonce=2` as we deploy a contract that creates another contract in its constructor.
             /// </summary>
-            IList<ContractNonceInfo> contractNonces = contractCreateTxResponse.GetRecord(client).ContractFunctionResult.contractNonces;
+            IList<ContractNonceInfo> contractNonces = contractCreateTxResponse.GetRecord(client).ContractFunctionResult.ContractNonces;
             Console.WriteLine("Contract nonces: " + contractNonces);
             /// <summary>
             /// Clean up:

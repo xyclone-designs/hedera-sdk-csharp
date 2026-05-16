@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {
     /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="T:TransactionResponse"]' />
     public sealed class TransactionResponse

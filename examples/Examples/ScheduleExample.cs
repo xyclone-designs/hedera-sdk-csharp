@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -53,9 +54,13 @@ namespace Hedera.Hashgraph.Examples
             /// Create new account.
             /// </summary>
             Console.WriteLine("Creating new account...");
-            AccountId accountId = new AccountCreateTransaction()
-                .SetKeyWithoutAlias(KeyList.Of(publicKey1, publicKey2))
-                .SetInitialBalance(Hbar.From(1)).Execute(client).GetReceipt(client).AccountId;
+            AccountId accountId = new AccountCreateTransaction
+            {
+                InitialBalance = Hbar.From(1)
+            }
+            .SetKeyWithoutAlias(KeyList.Of(null, publicKey1, publicKey2))
+            .Execute(client)
+            .GetReceipt(client).AccountId;
             Console.WriteLine("Created new account with ID: " + accountId);
             /// <summary>
             /// Step 2:
@@ -64,9 +69,13 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Scheduling token transfer...");
             TransactionResponse transferTxResponse = new TransferTransaction()
                 .AddHbarTransfer(accountId, Hbar.From(1).Negated())
-                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1)).Schedule()
-                .SetExpirationTime(Instant.Now().PlusSeconds(24/// 60/// 60))
-                .SetWaitForExpiry(true).Execute(client);
+                .AddHbarTransfer(client.OperatorAccountId, Hbar.From(1))
+                .Schedule(_ =>
+                {
+                    _.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(24 / 60 / 60);
+                    _.WaitForExpiry = true;
+
+                }).Execute(client);
             Console.WriteLine("Scheduled transaction ID: " + transferTxResponse.TransactionId);
             ScheduleId scheduleId = transferTxResponse.GetReceipt(client).ScheduleId;
             Console.WriteLine("Schedule ID for the transaction above: " + scheduleId);
@@ -77,8 +86,14 @@ namespace Hedera.Hashgraph.Examples
             /// Sign the schedule transaction with the first key.
             /// </summary>
             Console.WriteLine("Appending private key #1 signature to a schedule transaction...");
-            var scheduleSignTxReceiptFirstSignature = new ScheduleSignTransaction()
-                .SetScheduleId(scheduleId).FreezeWith(client).Sign(privateKey1).Execute(client).GetReceipt(client);
+            var scheduleSignTxReceiptFirstSignature = new ScheduleSignTransaction
+            {
+                ScheduleId = scheduleId 
+            }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("A transaction that appends signature to a schedule transaction (private key #1) " + "was complete with status: " + scheduleSignTxReceiptFirstSignature.Status);
             /// <summary>
             /// Step 4:
@@ -91,20 +106,32 @@ namespace Hedera.Hashgraph.Examples
             /// Sign the schedule transaction with the second key.
             /// </summary>
             Console.WriteLine("Appending private key #2 signature to a schedule transaction...");
-            var scheduleSignTxReceiptSecondSignature = new ScheduleSignTransaction()
-                .SetScheduleId(scheduleId).FreezeWith(client).Sign(privateKey2).Execute(client).GetReceipt(client);
+            var scheduleSignTxReceiptSecondSignature = new ScheduleSignTransaction
+            {
+                ScheduleId = scheduleId 
+            }
+                .FreezeWith(client)
+                .Sign(privateKey2)
+                .Execute(client)
+                .GetReceipt(client);
             Console.WriteLine("A transaction that appends signature to a schedule transaction (private key #2) " + "was complete with status: " + scheduleSignTxReceiptSecondSignature.Status);
             TransactionId transactionId = transferTxResponse.TransactionId;
-            string validMirrorTransactionId = transactionId.AccountId.ToString() + "-" + transactionId.ValidStart.GetEpochSecond() + "-" + transactionId.ValidStart.GetNano();
+            string validMirrorTransactionId = transactionId.AccountId.ToString() + "-" + transactionId.ValidStart.ToUnixTimeSeconds() + "-" + transactionId.ValidStart.Nanosecond;
             string mirrorNodeUrl = "https://" + HEDERA_NETWORK + ".mirrornode.hedera.com/api/v1/transactions/" + validMirrorTransactionId;
             Console.WriteLine("The following link should query the mirror node for the scheduled transaction: " + mirrorNodeUrl);
             /// <summary>
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction()
-                .SetAccountId(accountId)
-                .SetTransferAccountId(OPERATOR_ID).FreezeWith(client).Sign(privateKey1).Sign(privateKey2).Execute(client);
+            new AccountDeleteTransaction
+            {
+                AccountId = accountId,
+                TransferAccountId = OPERATOR_ID,
+            }
+            .FreezeWith(client)
+            .Sign(privateKey1)
+            .Sign(privateKey2)
+            .Execute(client);
             client.Dispose();
             Console.WriteLine("Schedule Transaction Example Complete!");
         }

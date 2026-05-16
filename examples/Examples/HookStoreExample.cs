@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Linq;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -67,7 +68,7 @@ namespace Hedera.Hashgraph.Examples
             TransactionResponse hookStoreResponse = new HookStoreTransaction 
             { 
                 HookId = hookId,
-                StorageUpdates = [storageUpdate],
+                StorageUpdates = { storageUpdate },
             }
             .FreezeWith(client)
             .Sign(accountKey)
@@ -98,7 +99,7 @@ namespace Hedera.Hashgraph.Examples
             Console.WriteLine("Creating account with EVM hook");
 
             // Create EVM hook with initial storage updates
-            EvmHook evmHook = new EvmHook(contractId);
+            EvmHook evmHook = new (contractId);
 
             // Create hook creation details
             Key adminKey = OPERATOR_KEY.GetPublicKey();
@@ -111,7 +112,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TransactionResponse accountCreateResponse = new AccountCreateTransaction
                 {
-                    Hook = [hookDetails],
+                    HookCreationDetails = { hookDetails },
                     InitialBalance = Hbar.From(1),
                 }
                 .SetKeyWithoutAlias(accountPublicKey)
@@ -136,8 +137,8 @@ namespace Hedera.Hashgraph.Examples
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/hiero_hook/hiero_hook.json");
             var response = new FileCreateTransaction
             {
-                Keys = OPERATOR_KEY,
-                Contents = contractBytecodeHex.GetBytes(StandardCharsets.UTF_8),
+                Keys = [OPERATOR_KEY],
+                Contents = Encoding.UTF8.GetBytes(contractBytecodeHex),
                 MaxTransactionFee = Hbar.From(2),
 
             }.Execute(client);

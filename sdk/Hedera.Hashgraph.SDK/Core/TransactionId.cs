@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
-
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {
     /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]' />
     /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]' />

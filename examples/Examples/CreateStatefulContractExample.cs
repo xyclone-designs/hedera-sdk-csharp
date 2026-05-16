@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -53,8 +54,8 @@ namespace Hedera.Hashgraph.Examples
             string contractBytecodeHex = ContractHelper.GetBytecodeHex("contracts/stateful/stateful.json");
             TransactionResponse fileCreateTxResponse = new FileCreateTransaction 
             { 
-                Keys = operatorPublicKey, 
-                Contents = contractBytecodeHex 
+                Keys = [operatorPublicKey], 
+                Contents = Encoding.UTF8.GetBytes(contractBytecodeHex)
             
             }.Execute(client);
             TransactionReceipt fileCreateTxReceipt = fileCreateTxResponse.GetReceipt(client);
@@ -70,7 +71,7 @@ namespace Hedera.Hashgraph.Examples
                 Gas = 350000,
                 BytecodeFileId = newFileId,
                 AdminKey = operatorPublicKey,
-                ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera!"),
+                ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera!").ToBytes(null),
 
             }.Execute(client);
             TransactionReceipt contractCreateTxReceipt = contractCreateTxResponse.GetReceipt(client);
@@ -86,10 +87,9 @@ namespace Hedera.Hashgraph.Examples
             {
                 ContractId = newContractId,
                 Gas = 300000,
-                Function = "get_message",
                 MaxQueryPayment = Hbar.From(1),
 
-            }.Execute(client);
+            }.SetFunction("get_message").Execute(client);
 
             if (contractCallResult_BeforeSetMessage.ErrorMessage != null)
             {
@@ -118,10 +118,9 @@ namespace Hedera.Hashgraph.Examples
             {
                 Gas = 300000,
                 ContractId = newContractId,
-                Function = "get_message",
                 MaxQueryPayment = Hbar.From(1),
 
-            }.Execute(client);
+            }.SetFunction("get_message").Execute(client);
             if (contractCallResult_AfterSetMessage.ErrorMessage != null)
             {
                 throw new Exception("Error calling contract function \"get_message\": " + contractCallResult_AfterSetMessage.ErrorMessage);

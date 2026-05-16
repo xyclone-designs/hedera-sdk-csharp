@@ -3,11 +3,11 @@ using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {

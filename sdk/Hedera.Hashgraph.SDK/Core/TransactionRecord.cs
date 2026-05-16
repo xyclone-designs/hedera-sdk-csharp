@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Transactions
+namespace Hedera.Hashgraph.SDK.Core
 {
     /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord"]' />
     public sealed class TransactionRecord

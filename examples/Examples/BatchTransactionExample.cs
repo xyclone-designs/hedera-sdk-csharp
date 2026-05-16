@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -131,10 +132,10 @@ namespace Hedera.Hashgraph.Examples
             /// Execute the batch
             /// </summary>
             Console.WriteLine("Executing batch transaction...");
-            var receipt = new BatchTransaction()
-                .AddInnerTransaction(aliceBatchedTransfer)
-                .InnerTransaction(bobBatchedTransfer)
-                .AddInnerTransaction(carolBatchedTransfer)
+            var receipt = new BatchTransaction
+            {
+                InnerTransactions = [aliceBatchedTransfer, bobBatchedTransfer, carolBatchedTransfer]
+            }
                 .FreezeWith(client)
                 .Sign(batchKey1)
                 .Sign(batchKey2)
@@ -223,11 +224,14 @@ namespace Hedera.Hashgraph.Examples
             /// Execute the batch
             /// </summary>
             Console.WriteLine("Executing batch transaction...");
-            var receipt = new BatchTransaction()
-                .AddInnerTransaction(aliceBatchedTransfer)
-                .FreezeWithClient()
-                .Sign(batchKey).
-                Execute(client).GetReceipt(client);
+            var receipt = new BatchTransaction
+            {
+                InnerTransactions = [aliceBatchedTransfer],
+            }
+            .FreezeWith(client)
+            .Sign(batchKey)
+            .Execute(client)
+            .GetReceipt(client);
             Console.WriteLine("Batch transaction executed with status: " + receipt.Status);
             /// <summary>
             /// Step 7:

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
-
+using Hedera.Hashgraph.SDK.Core;
 using System;
 
 namespace Hedera.Hashgraph.SDK.Transactions

@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
@@ -145,7 +148,6 @@ namespace Hedera.Hashgraph.Examples
                 transferTx = transferTx.AddSignature(senderKey.GetPublicKey(), signature, signable.TransactionID, signable.NodeID);
             }
 
-
             // Step 3 - Execute transaction and get receipt
             Console.WriteLine("Executing transaction...");
             TransactionResponse transferResponse = transferTx.Execute(client);
@@ -164,8 +166,8 @@ namespace Hedera.Hashgraph.Examples
             // Create file transaction
             FileCreateTransaction fileCreateTx = new FileCreateTransaction
             {
-                Keys = senderKey.GetPublicKey(),
-                Contents = smallContents.GetBytes(),
+                Keys = [senderKey.GetPublicKey()],
+                Contents = Encoding.UTF8.GetBytes(smallContents),
                 MaxTransactionFee = Hbar.From(5),
             }
             .FreezeWith(client)
@@ -180,7 +182,7 @@ namespace Hedera.Hashgraph.Examples
             FileAppendTransaction fileAppendTx = new FileAppendTransaction
             {
                 FileId = fileId,
-                Contents = appendContent.GetBytes(),
+                Contents = ByteString.CopyFromUtf8(appendContent),
                 MaxTransactionFee = Hbar.From(5),
                 TransactionId = TransactionId.Generate(senderId),
 

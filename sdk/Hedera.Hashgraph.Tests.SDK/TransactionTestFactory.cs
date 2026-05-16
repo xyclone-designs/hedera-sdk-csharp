@@ -1,11 +1,11 @@
 using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Ethereum;
 
 using System;
 using System.Collections.Generic;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {

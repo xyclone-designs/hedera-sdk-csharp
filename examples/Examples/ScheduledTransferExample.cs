@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -36,7 +37,7 @@ namespace Hedera.Hashgraph.Examples
                 // Attach logger to the SDK Client.
                 //_client.Logger = new Logger(Enum.Parse<LogLevel>(SDK_LOG_LEVEL));
             });
-            Console.WriteLine("In this example Alice's account ID would be equal to the Operator's account ID: " + client.GetOperatorAccountId());
+            Console.WriteLine("In this example Alice's account ID would be equal to the Operator's account ID: " + client.OperatorAccountId);
             /// <summary>
             /// Step 1:
             /// Generate ED25519 key pair.
@@ -49,7 +50,12 @@ namespace Hedera.Hashgraph.Examples
             /// Create Bob's account with receiver signature property enabled.
             /// </summary>
             Console.WriteLine("Create Bob's account...(with receiver signature property enabled).");
-            AccountId bobAccountId = new AccountCreateTransaction().SetReceiverSignatureRequired(true).SetKeyWithoutAlias(bobPublicKey).SetInitialBalance(Hbar.From(1)).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client).AccountId;
+            AccountId bobAccountId = new AccountCreateTransaction
+            {
+                ReceiverSigRequired = true,
+                InitialBalance = Hbar.From(1)
+
+            }.SetKeyWithoutAlias(bobPublicKey).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client).AccountId;
             Console.WriteLine("Created Bob's account with ID: " + bobAccountId);
             /// <summary>
             /// Step 3:
@@ -61,7 +67,7 @@ namespace Hedera.Hashgraph.Examples
             /// Step 4:
             /// Create a transfer transaction which we will schedule.
             /// </summary>
-            TransferTransaction transferTx = new TransferTransaction().AddHbarTransfer(client.GetOperatorAccountId(), Hbar.From(1).Negated()).AddHbarTransfer(bobAccountId, Hbar.From(1));
+            TransferTransaction transferTx = new TransferTransaction().AddHbarTransfer(client.OperatorAccountId, Hbar.From(1).Negated()).AddHbarTransfer(bobAccountId, Hbar.From(1));
             Console.WriteLine("Scheduling token transfer: " + transferTx);
             /// <summary>
             /// Step 5:
@@ -80,7 +86,11 @@ namespace Hedera.Hashgraph.Examples
             /// If payerAccountId is not specified, the account who creates the scheduled transaction
             /// will be charged for executing the scheduled transaction.
             /// </summary>
-            ScheduleId scheduleId = new ScheduleCreateTransaction { ScheduledTransaction = transferTx, PayerAccountId = bobAccountId }.Execute(client).GetReceipt(client).scheduleId;
+            ScheduleId scheduleId = new ScheduleCreateTransaction 
+            { 
+                // TODO ScheduledTransaction = transferTx, 
+                PayerAccountId = bobAccountId 
+            }.Execute(client).GetReceipt(client).ScheduleId;
             Console.WriteLine("Schedule ID for the transaction above: " + scheduleId);
             /// <summary>
             /// Step 6:
@@ -101,25 +111,22 @@ namespace Hedera.Hashgraph.Examples
 
             // getScheduledTransaction() will return an SDK Transaction object identical to the transaction
             // that was scheduled, which Bob can then inspect like a normal transaction.
-            Transaction<TWildcardTodo> scheduledTransaction = scheduledTransactionInfo.GetScheduledTransaction();
-
             // We happen to know that this transaction is (or certainly ought to be) a TransferTransaction.
-            if (scheduledTransaction is TransferTransaction)
-            {
-                TransferTransaction scheduledTransfer = (TransferTransaction)scheduledTransaction;
-                Console.WriteLine("The scheduled transfer transaction from Bob's POV: " + scheduledTransfer);
-            }
-            else
-            {
+            TransferTransaction scheduledTransaction = 
+                scheduledTransactionInfo.GetScheduledTransaction() as TransferTransaction ??
                 throw new Exception("The scheduled transaction was not a transfer transaction! (Fail)");
-            }
+            Console.WriteLine("The scheduled transfer transaction from Bob's POV: " + scheduledTransaction);
 
             /// <summary>
             /// Step 8:
             /// Appends Bob's signature to a schedule transaction, i.e. Bob signs the scheduled transaction.
             /// </summary>
             Console.WriteLine("Appending Bob's signature to a schedule transaction...");
-            var scheduleSignTxReceipt = new ScheduleSignTransaction().SetScheduleId(scheduleId).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+            var scheduleSignTxReceipt = new ScheduleSignTransaction
+            {
+                ScheduleId = scheduleId
+
+            }.FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
             Console.WriteLine("A transaction that appends Bob's signature to a schedule transfer transaction " + "was complete with status: " + scheduleSignTxReceipt.Status);
             /// <summary>
             /// Step 9:
@@ -137,7 +144,12 @@ namespace Hedera.Hashgraph.Examples
             /// Clean up:
             /// Delete created account.
             /// </summary>
-            new AccountDeleteTransaction().SetTransferAccountId(client.GetOperatorAccountId()).SetAccountId(bobAccountId).FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
+            new AccountDeleteTransaction
+            {
+                TransferAccountId = client.OperatorAccountId,
+                AccountId = bobAccountId
+
+            }.FreezeWith(client).Sign(bobPrivateKey).Execute(client).GetReceipt(client);
             client.Dispose();
             Console.WriteLine("Scheduled Transfer Transaction Example Complete!");
         }

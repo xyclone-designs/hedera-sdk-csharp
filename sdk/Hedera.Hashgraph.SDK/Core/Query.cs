@@ -3,6 +3,7 @@ using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Transactions;

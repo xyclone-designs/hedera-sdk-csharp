@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hedera.Hashgraph.Examples
 {
@@ -85,9 +87,9 @@ namespace Hedera.Hashgraph.Examples
             {
                 nftMintTxReceipts.Add(new TokenMintTransaction
                 {
-                    TokenId = nftTokenId
+                    TokenId = nftTokenId,
+                    Metadata = [Encoding.UTF8.GetBytes(CIDs[i])]
                 }
-                    .SetMetadata(List.Of(CIDs[i].GetBytes(StandardCharsets.UTF_8)))
                 .FreezeWith(client)
                 .Execute(client)
                 .GetReceipt(client)
@@ -187,11 +189,10 @@ namespace Hedera.Hashgraph.Examples
             {
                 Console.WriteLine("Transferring NFT (serial #2) on behalf of the spender...");
                 new TransferTransaction
-                { 
-                
+                {
+                    TransactionId = onBehalfOfTransactionId2
                 }
-                    .AddApprovedNftTransfer(nft2, OPERATOR_ID, receiverAccountId)
-                    .SetTransactionId(onBehalfOfTransactionId2)
+                .AddApprovedNftTransfer(nft2, OPERATOR_ID, receiverAccountId)
                 .FreezeWith(client)
                 .Sign(spenderPrivateKey)
                 .Execute(client)
@@ -216,18 +217,20 @@ namespace Hedera.Hashgraph.Examples
                 "QmPzY5GxevjyfMUF5vEAjtyRoigzWp47MiKAtLBduLMC1T"
             };
             Console.WriteLine("Creating NFT using the Hedera Token Service...");
-            TransactionReceipt nftCreateReceipt2 = new TokenCreateTransaction()
-                .SetTokenName("HIP336NFT2")
-                .SetTokenSymbol("HIP336NFT2")
-                .SetTokenType(TokenType.NonFungibleUnique)
-                .SetDecimals(0)
-                .SetInitialSupply(0)
-                .SetMaxSupply(CIDs2.Length)
-                .SetTreasuryAccountId(OPERATOR_ID)
-                .SetSupplyType(TokenSupplyType.Finite)
-                .SetAdminKey(operatorPublicKey)
-                .SetSupplyKey(operatorPublicKey)
-                .SetWipeKey(operatorPublicKey)
+            TransactionReceipt nftCreateReceipt2 = new TokenCreateTransaction
+            {
+                TokenName = "HIP336NFT2",
+                TokenSymbol = "HIP336NFT2",
+                TokenType = TokenType.NonFungibleUnique,
+                Decimals = 0,
+                InitialSupply = 0,
+                MaxSupply = CIDs2.Length,
+                TreasuryAccountId = OPERATOR_ID,
+                TokenSupplyType = TokenSupplyType.Finite,
+                AdminKey = operatorPublicKey,
+                SupplyKey = operatorPublicKey,
+                WipeKey = operatorPublicKey,
+            }
             .FreezeWith(client)
             .Execute(client)
             .GetReceipt(client);
@@ -239,12 +242,14 @@ namespace Hedera.Hashgraph.Examples
             /// Mint NFTs.
             /// </summary>
             Console.WriteLine("Minting NFTs...");
-            IList<TransactionReceipt> nftCollection2 = new List();
+            IList<TransactionReceipt> nftCollection2 = [];
             for (int i = 0; i < CIDs2.Length; i++)
             {
-                nftCollection2.Add(new TokenMintTransaction()
-                    .SetTokenId(nftTokenId2)
-                    .SetMetadata(List.Of(CIDs2[i].GetBytes(StandardCharsets.UTF_8)))
+                nftCollection2.Add(new TokenMintTransaction
+                {
+                    TokenId = nftTokenId2,
+                    Metadata = [ Encoding.UTF8.GetBytes(CIDs2[i]) ]
+                }
                 .FreezeWith(client)
                 .Execute(client)
                 .GetReceipt(client));
@@ -395,7 +400,7 @@ namespace Hedera.Hashgraph.Examples
                 {
                     TransactionId = onBehalfOfTransactionId4
                 }
-                    .AddApprovedNftTransfer(example2Nft2, OPERATOR_ID, receiverAccountId2)
+                .AddApprovedNftTransfer(example2Nft2, OPERATOR_ID, receiverAccountId2)
                 .FreezeWith(client)
                 .Sign(delegatingSpenderPrivateKey)
                 .Execute(client)
@@ -414,7 +419,7 @@ namespace Hedera.Hashgraph.Examples
             {
                 TokenId = nftTokenId,
                 AccountId = receiverAccountId,
-                Serials = [1]
+                Serials = { 1 }
             }
             .FreezeWith(client)
             .Sign(OPERATOR_KEY)
@@ -424,7 +429,7 @@ namespace Hedera.Hashgraph.Examples
             { 
                 TokenId = nftTokenId2,
                 AccountId = receiverAccountId2,
-                Serials = [1, 2]
+                Serials = { 1, 2 }
             }
             .FreezeWith(client)
             .Sign(OPERATOR_KEY)

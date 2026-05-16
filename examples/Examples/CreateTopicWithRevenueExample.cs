@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Fee;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Examples
@@ -39,10 +41,14 @@ namespace Hedera.Hashgraph.Examples
                     /// </summary>
                     Console.WriteLine("Creating Alice's account...");
                     PrivateKey aliceKey = PrivateKey.GenerateECDSA();
-                    var aliceAccountId = new AccountCreateTransaction()
-                        .SetKeyWithoutAlias(aliceKey)
-                        .SetMaxAutomaticTokenAssociations(1)
-                        .SetInitialBalance(Hbar.From(2)).Execute(client).GetReceipt(client).AccountId;
+                    var aliceAccountId = new AccountCreateTransaction
+                    {
+                        MaxAutomaticTokenAssociations = 1,
+                        InitialBalance = Hbar.From(2)
+                    }
+                    .SetKeyWithoutAlias(aliceKey)
+                    .Execute(client)
+                    .GetReceipt(client).AccountId;
 
                     Console.WriteLine("Alice's Account ID: " + aliceAccountId);
 
@@ -50,10 +56,18 @@ namespace Hedera.Hashgraph.Examples
                     /// Step 2: Create a topic with an HBAR custom fee.
                     /// </summary>
                     Console.WriteLine("Creating a topic with HBAR custom fee...");
-                    var customFee = new CustomFixedFee()
-                        .SetAmount(new Hbar(1).ToTinybars())
-                        .SetFeeCollectorAccountId(OPERATOR_ID);
-                    var topicId = new TopicCreateTransaction { AdminKey = OPERATOR_KEY, FeeScheduleKey = OPERATOR_KEY, CustomFees = [customFee] }.Execute(client).GetReceipt(client).TopicId;
+                    var customFee = new CustomFixedFee
+                    {
+                        Amount = new Hbar(1).ToTinybars(),
+                        FeeCollectorAccountId = OPERATOR_ID
+                    };
+                    var topicId = new TopicCreateTransaction 
+                    { 
+                        AdminKey = OPERATOR_KEY, 
+                        FeeScheduleKey = OPERATOR_KEY, 
+                        CustomFees = [customFee] 
+                    
+                    }.Execute(client).GetReceipt(client).TopicId;
                     Console.WriteLine("Created Topic ID: " + topicId);
 
                     /// <summary>
@@ -62,15 +76,20 @@ namespace Hedera.Hashgraph.Examples
                     Console.WriteLine("Submitting a message as Alice to the topic...");
                     var aliceBalanceBefore = new AccountBalanceQuery { AccountId = aliceAccountId }.Execute(client).Hbars;
                     var feeCollectorBalanceBefore = new AccountBalanceQuery { AccountId = OPERATOR_ID }.Execute(client).Hbars;
-                    var customFeeLimit = new CustomFeeLimit()
-                        .SetPayerId(aliceAccountId)
-                        .SetCustomFees(List.Of(new CustomFixedFee()
-                        .SetAmount(Hbar.From(2).ToTinybars())));
+                    var customFeeLimit = new CustomFeeLimit
+                    {
+                        PayerId = aliceAccountId,
+                        CustomFees = [new CustomFixedFee { Amount = Hbar.From(2).ToTinybars() }]
+                    };
                     client.OperatorSet(aliceAccountId, aliceKey);
-                    new TopicMessageSubmitTransaction()
-                        .SetCustomFeeLimits(List.Of(customFeeLimit))
-                        .SetTopicId(topicId)
-                        .SetMessage("Hello, Hedera™ hashgraph!").Execute(client).GetReceipt(client);
+                    new TopicMessageSubmitTransaction
+                    {
+                        CustomFeeLimits = [customFeeLimit],
+                        TopicId = topicId,
+                        Message = ByteString.CopyFromUtf8("Hello, Hedera™ hashgraph!"),
+                    }
+                    .Execute(client)
+                    .GetReceipt(client);
                     Console.WriteLine("Message submitted successfully.");
 
                     /// <summary>
@@ -86,32 +105,44 @@ namespace Hedera.Hashgraph.Examples
                     /// Step 5: Create a fungible token and transfer it to Alice.
                     /// </summary>
                     Console.WriteLine("Creating a token and transferring it to Alice...");
-                    var tokenId = new TokenCreateTransaction()
-                        .SetTokenName("revenue-generating token")
-                        .SetTokenSymbol("RGT")
-                        .SetTreasuryAccountId(client.GetOperatorAccountId())
-                        .SetDecimals(8)
-                        .SetInitialSupply(100).Execute(client).GetReceipt(client).TokenId;
-                    new TransferTransaction().AddTokenTransfer(tokenId, client.GetOperatorAccountId(), -1).AddTokenTransfer(tokenId, aliceAccountId, 1).Execute(client).GetReceipt(client);
+                    var tokenId = new TokenCreateTransaction
+                    {
+                        TokenName = "revenue-generating token",
+                        TokenSymbol = "RGT",
+                        TreasuryAccountId = client.OperatorAccountId,
+                        Decimals = 8,
+                        InitialSupply = 100,
+                    }
+                    .Execute(client)
+                    .GetReceipt(client).TokenId;
+                    new TransferTransaction().AddTokenTransfer(tokenId, client.OperatorAccountId, -1).AddTokenTransfer(tokenId, aliceAccountId, 1)
+                    .Execute(client)
+                    .GetReceipt(client);
 
                     /// <summary>
                     /// Step 6: Update the topic to charge a token-based fee.
                     /// </summary>
                     Console.WriteLine("Updating the topic to charge a token-based fee...");
-                    var customFeeToken = new CustomFixedFee()
-                        .SetAmount(1)
-                        .SetFeeCollectorAccountId(OPERATOR_ID)
-                        .SetDenominatingTokenId(tokenId);
-                    new TopicUpdateTransaction()
-                        .SetTopicId(topicId)
-                        .SetCustomFees(List.Of(customFeeToken)).Execute(client).GetReceipt(client);
+                    var customFeeToken = new CustomFixedFee
+                    {
+                        Amount = 1,
+                        FeeCollectorAccountId = OPERATOR_ID,
+                        // TODO DenominatingTokenId = tokenId,
+                    };
+                    new TopicUpdateTransaction
+                    {
+                        TopicId = topicId,
+                        CustomFees = { customFeeToken },
+                    }                        
+                    .Execute(client)
+                    .GetReceipt(client);
 
                     /// <summary>
                     /// Step 7: Submit another message without specifying a custom fee limit.
                     /// </summary>
                     Console.WriteLine("Submitting another message without custom fee limit...");
                     client.OperatorSet(aliceAccountId, aliceKey);
-                    new TopicMessageSubmitTransaction { TopicId = topicId, Message = "Another message!" }.Execute(client).GetReceipt(client);
+                    new TopicMessageSubmitTransaction { TopicId = topicId, Message = ByteString.CopyFromUtf8("Another message!") }.Execute(client).GetReceipt(client);
                     client.OperatorSet(OPERATOR_ID, OPERATOR_KEY);
 
                     /// <summary>
@@ -135,13 +166,13 @@ namespace Hedera.Hashgraph.Examples
                     /// Step 10: Exempt Bob from paying topic fees.
                     /// </summary>
                     Console.WriteLine("Updating topic to add Bob as a fee-exempt key...");
-                    new TopicUpdateTransaction { TopicId = topicId.Realm, FeeExemptKeys = [bobKey] }.Execute(client).GetReceipt(client);
+                    new TopicUpdateTransaction { TopicId = topicId, FeeExemptKeys = { bobKey } }.Execute(client).GetReceipt(client);
 
                     /// <summary>
                     /// Step 11: Bob submits a message to the topic without paying the fee.
                     /// </summary>
                     client.OperatorSet(bobAccountId, bobKey);
-                    new TopicMessageSubmitTransaction { TopicId = topicId, Message = "Hello from Bob!" }.Execute(client).GetReceipt(client);
+                    new TopicMessageSubmitTransaction { TopicId = topicId, Message = ByteString.CopyFromUtf8("Hello from Bob!") }.Execute(client).GetReceipt(client);
                     Console.WriteLine("Message submitted successfully by Bob without being charged.");
 
                     /// <summary>
