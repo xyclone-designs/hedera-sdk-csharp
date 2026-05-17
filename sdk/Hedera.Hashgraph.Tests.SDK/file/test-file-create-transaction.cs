@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
             return new FileCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				Contents = new byte[] { 1, 2, 3, 4 },
 				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),

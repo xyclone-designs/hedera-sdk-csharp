@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             return new TokenAssociateTransaction(txBody)
             {
-                NodeAccountIds = [..testNodeAccountIds],
+                NodeAccountIds = testNodeAccountIds,
                 TransactionId = TransactionId.WithValidStart(testAccountId, validStart)
 
             }.Freeze().Sign(unusedPrivateKey);
@@ -129,14 +129,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				InitialBalance = new Hbar(2),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             var accountCreateTransaction2 = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             Assert.Equal(accountCreateTransaction.GetTransactionSize(), accountCreateTransaction2.GetTransactionSize());
@@ -149,14 +149,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				InitialBalance = new Hbar(2),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze().Sign(PrivateKey.GenerateECDSA());
             var accountCreateTransaction2 = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             Assert.True(accountCreateTransaction.GetTransactionSize() > accountCreateTransaction2.GetTransactionSize());
@@ -169,14 +169,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				Contents_String = "smallBody",
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             var fileCreateTransactionLargeContent = new FileCreateTransaction
             {
 				Contents_String = "largeLargeBody",
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             Assert.True(fileCreateTransactionSmallContent.GetTransactionBodySize() < fileCreateTransactionLargeContent.GetTransactionBodySize());
@@ -188,13 +188,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var noOptionalFieldsTransaction = new AccountCreateTransaction
             {
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			}.Freeze();
             var fullOptionalFieldsTransaction = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 				MaxTransactionFee = new Hbar(1),
 				TransactionValidDuration = TimeSpan.FromHours(1),
 			
@@ -215,7 +215,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				ChunkSize = chunkSize,
 				Contents = ByteString.CopyFrom(content),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
  
@@ -236,7 +236,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				FileId = new FileId(1),
 				Contents = ByteString.CopyFrom(smallContent),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
@@ -252,7 +252,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				FileId = new FileId(1),
 				TransactionId = new TransactionId(testAccountId, validStart),
 				Contents_String = " ",
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				Contents = ByteString.CopyFrom(largeContent),
 				ChunkSize = 1024,
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             long largeSize = largeFileAppendTx.GetTransactionSize();
@@ -282,7 +282,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				FileId = new FileId(1),
 				Contents = ByteString.CopyFrom(smallContent),
 				TransactionId = new TransactionId(testAccountId, validStart),
-				NodeAccountIds = [..testNodeAccountIds],
+				NodeAccountIds = testNodeAccountIds,
 			
             }.Freeze();
             long smallSize = smallFileAppendTx.GetTransactionSize();
@@ -302,7 +302,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
-                NodeAccountIds = [nodeAccountID1],
+                NodeAccountIds = nodeAccountID1,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
 
@@ -325,7 +325,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
-                NodeAccountIds = [..nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
 
@@ -359,7 +359,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = content,
-                NodeAccountIds = [..nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
 
@@ -390,7 +390,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
-                NodeAccountIds = [..nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
 
@@ -408,7 +408,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
-                NodeAccountIds = [..nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
             
@@ -429,7 +429,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 FileId = fileID,
                 Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
-                NodeAccountIds = [nodeAccountID1],
+                NodeAccountIds = nodeAccountID1,
                 TransactionId = testTransactionID,
                 ChunkSize = 2048,
 
@@ -481,7 +481,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tx = new TransferTransaction
             {
-                NodeAccountIds = [nodeAccountID1],
+                NodeAccountIds = nodeAccountID1,
                 TransactionId = testTransactionID,
             }
             .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
@@ -500,7 +500,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tx = new TransferTransaction
             {
-                NodeAccountIds = [nodeAccountID1],
+                NodeAccountIds = nodeAccountID1,
                 TransactionId = testTransactionID,
             }
             .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
@@ -518,7 +518,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tx = new TransferTransaction
             {
-                NodeAccountIds = [.. nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
             }
             .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
@@ -551,7 +551,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             var tx = new FileAppendTransaction
             {
-                NodeAccountIds = [..nodeAccountIDs],
+                NodeAccountIds = nodeAccountIDs,
                 TransactionId = testTransactionID,
                 FileId = new FileId(5),
                 Contents_Bytes = content,

@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             return new AccountAllowanceDeleteTransaction
             {
 				MaxTransactionFee = Hbar.FromTinybars(100000),
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			}
             .DeleteAllHbarAllowances(ownerId)

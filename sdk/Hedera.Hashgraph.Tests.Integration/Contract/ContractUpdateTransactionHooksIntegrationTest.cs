@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
                 }
                 .Execute(testEnv.Client);
                 var receipt = response.GetReceipt(testEnv.Client);
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
 					{
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-						HookCreationDetails_ = [hookDetails, hookDetails],
+						HookCreationDetails_ = new(hookDetails, hookDetails),
 
 					}.Execute(testEnv.Client);
 				
@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                     {
                         ContractId = createdContractId,
                         MaxTransactionFee = Hbar.From(20),
-                        HookCreationDetails_ = [hookDetails],
+                        HookCreationDetails_ = hookDetails,
                     }
                     .Execute(testEnv.Client);
 
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
 
                 }.Execute(testEnv.Client);
 
@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
                     MaxTransactionFee = Hbar.From(20), 
                     ContractId = createdContractId,
-                    HookCreationDetails_ = [ hookDetails1 ],
+                    HookCreationDetails_ = hookDetails1,
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-                        HookCreationDetails_ = [ hookDetails2 ],
+                        HookCreationDetails_ = hookDetails2,
                     }
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
@@ -235,7 +235,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
                     MaxTransactionFee = Hbar.From(20), 
                     ContractId = createdContractId,
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-                    HookIdsToDelete = [ 1 ],
+                    HookIdsToDelete = 1,
 				
                 }.Execute(testEnv.Client);
 
@@ -277,7 +277,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					MaxTransactionFee = Hbar.From(20),
 					ContractId = createdContractId,
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -288,7 +288,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-						HookIdsToDelete = [123],
+						HookIdsToDelete = 123,
 					
                     }.Execute(testEnv.Client);
 
@@ -324,8 +324,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-						HookCreationDetails_ = [hookDetails],
-						HookIdsToDelete = [1],
+						HookCreationDetails_ = hookDetails,
+						HookIdsToDelete = 1,
 					
                     }.Execute(testEnv.Client);
 
@@ -361,7 +361,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
                     MaxTransactionFee = Hbar.From(20), 
                     ContractId = createdContractId,
-                    HookCreationDetails_ = [ hookDetails ],
+                    HookCreationDetails_ = hookDetails,
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -371,7 +371,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-					HookIdsToDelete = [1],
+					HookIdsToDelete = 1,
 				
                 }.Execute(testEnv.Client);
                 
@@ -386,7 +386,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Contract
                     {
                         MaxTransactionFee = Hbar.From(20), 
                         ContractId = createdContractId,
-						HookIdsToDelete = [1],
+						HookIdsToDelete = 1,
 					
                     }.Execute(testEnv.Client);
 

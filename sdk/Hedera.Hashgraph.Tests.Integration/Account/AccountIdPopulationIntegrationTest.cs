@@ -5,6 +5,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 
 using System.Threading;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.Integration.Account
 {

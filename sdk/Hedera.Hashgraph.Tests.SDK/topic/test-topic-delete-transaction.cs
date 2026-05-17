@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             return new TopicDeleteTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 TopicId = TopicId.FromString("0.0.5007"),
                 MaxTransactionFee = Hbar.FromTinybars(100000),

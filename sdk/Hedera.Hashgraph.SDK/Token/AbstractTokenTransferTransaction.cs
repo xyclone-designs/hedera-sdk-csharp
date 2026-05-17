@@ -167,12 +167,12 @@ namespace Hedera.Hashgraph.SDK.Token
             return transfers;
         }
 		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:GetTokenNftTransfers"]' />
-		public virtual Dictionary<TokenId, IList<TokenNftTransfer>> GetTokenNftTransfers()
+		public virtual Dictionary<TokenId, List<TokenNftTransfer>> GetTokenNftTransfers()
 		{
-			Dictionary<TokenId, IList<TokenNftTransfer>> transfers = [];
+			Dictionary<TokenId, List<TokenNftTransfer>> transfers = [];
 			foreach (var transfer in nftTransfers)
 			{
-				var current = transfers.TryGetValue(transfer.TokenId, out IList<TokenNftTransfer>? _transfers) ? _transfers ?? [] : [];
+				var current = transfers.TryGetValue(transfer.TokenId, out List<TokenNftTransfer>? _transfers) ? _transfers ?? [] : [];
 				current.Add(transfer);
 				transfers.AddOrReplace(transfer.TokenId, current);
 			}

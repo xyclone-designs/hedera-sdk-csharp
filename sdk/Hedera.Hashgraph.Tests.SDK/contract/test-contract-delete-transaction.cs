@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             return new ContractDeleteTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.5007"),
 				TransferAccountId = new AccountId(0, 0, 9),
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             var tx = new ContractDeleteTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.5007"),
 				TransferAccountId = new AccountId(0, 0, 9),

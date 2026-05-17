@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using VerifyXunit;
+
 using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
@@ -47,16 +48,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                     SenderId = AccountId.FromString("1.2.3").ToProtobuf(),
                 }),
                 transfers: [new Transfer(AccountId.FromString("4.4.4"), Hbar.From(5))],
-                tokenTransfers: new Dictionary<TokenId, IDictionary<AccountId, long>>
+                tokenTransfers: new Dictionary<TokenId, Dictionary<AccountId, long>>
                 {
                     { TokenId.FromString("6.6.6"), new Dictionary<AccountId, long> { { AccountId.FromString("1.1.1"), 4 } } }
                 },
                 tokenTransferList: [new TokenTransfer(TokenId.FromString("8.9.10"), AccountId.FromString("1.2.3"), 4, 3, true)],
-                tokenNftTransfers: new Dictionary<TokenId, IList<TokenNftTransfer>>
+                tokenNftTransfers: new Dictionary<TokenId, List<TokenNftTransfer>>
                 {
                     {
                         TokenId.FromString("4.4.4"),
-                        [new TokenNftTransfer(TokenId.FromString("4.4.4"), AccountId.FromString("1.2.3"), AccountId.FromString("3.2.1"), 4, true, null, null)]
+                        [ new TokenNftTransfer(TokenId.FromString("4.4.4"), AccountId.FromString("1.2.3"), AccountId.FromString("3.2.1"), 4, true, null, null)]
                     }
                 },
                 scheduleRef: ScheduleId.FromString("3.3.3"),

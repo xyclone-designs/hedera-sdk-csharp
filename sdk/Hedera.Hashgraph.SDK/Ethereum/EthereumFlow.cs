@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 					{
 						FileId = transactionreceipt.FileId,
 						MaxChunks = 1000,
-						NodeAccountIds = [transactionresponse.NodeId],
+						NodeAccountIds = transactionresponse.NodeId,
 						//Contents = Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length),
 						Contents = ByteString.CopyFrom([.. callDataHex.Skip(FileAppendTransaction.DEFAULT_CHUNK_SIZE)])
 					}
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 				TransactionResponse transactionresponse2 = await new FileAppendTransaction
 				{
 					FileId = transactionreceipt.FileId,
-					NodeAccountIds = [transactionresponse.NodeId],
+					NodeAccountIds = transactionresponse.NodeId,
 					MaxChunks = 1000,
 					//Contents = Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length),
 					Contents = ByteString.CopyFrom([.. callDataHex.Skip(FileAppendTransaction.DEFAULT_CHUNK_SIZE)])

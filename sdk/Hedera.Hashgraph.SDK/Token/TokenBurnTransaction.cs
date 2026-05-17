@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenId = TokenId.FromProtobuf(body.Token);
 
 			Amount = body.Amount;
-            Serials.ClearAndSet(body.SerialNumbers);
+            Serials.Operate(_ => [.. body.SerialNumbers]);
         }
 
         public override void ValidateChecksums(Client client)

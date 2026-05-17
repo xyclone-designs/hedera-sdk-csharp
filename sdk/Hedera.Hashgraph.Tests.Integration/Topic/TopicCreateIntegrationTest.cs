@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                IList<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
+                List<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
                 var denominatingTokenId1 = CreateToken(testEnv);
                 var amount1 = 1;
                 var denominatingTokenId2 = CreateToken(testEnv);
@@ -87,8 +87,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [..feeExemptKeys],
-					CustomFees = [..customFixedFees],
+					FeeExemptKeys = feeExemptKeys,
+					CustomFees = customFixedFees,
 				}
                 .Execute(testEnv.Client);
 
@@ -120,7 +120,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 
 
                 // Update the revenue-generating topic
-                IList<Key> newFeeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
+                List<Key> newFeeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
                 var newFeeScheduleKey = PrivateKey.GenerateECDSA();
                 var newAmount1 = 3;
                 var newDenominatingTokenId1 = CreateToken(testEnv);
@@ -145,9 +145,9 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 				var updateResponse = new TopicUpdateTransaction
                 {
 					TopicId = topicId,
-					FeeExemptKeys = [..newFeeExemptKeys],
+					FeeExemptKeys = newFeeExemptKeys,
 					FeeScheduleKey = newFeeScheduleKey.GetPublicKey(),
-					CustomFees = [..newCustomFixedFees],
+					CustomFees = newCustomFixedFees,
 				
                 }.Execute(testEnv.Client);
                 
@@ -183,12 +183,12 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
             {
                 var feeExemptKey = PrivateKey.GenerateECDSA();
 
-                IList<Key> feeExemptKeyListWithDuplicates = [feeExemptKey, feeExemptKey];
+                List<Key> feeExemptKeyListWithDuplicates = [feeExemptKey, feeExemptKey];
 
 				Action duplicatesExecutable = () => new TopicCreateTransaction
                 {
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [.. feeExemptKeyListWithDuplicates],
+					FeeExemptKeys = feeExemptKeyListWithDuplicates,
 				
                 }.Execute(testEnv.Client);
 
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 				Action invalidKeyExecutable = () => new TopicCreateTransaction
                 {
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [invalidKey],
+					FeeExemptKeys = invalidKey,
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
@@ -210,13 +210,13 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
                 Assert.Equal((Proto.Services.ResponseCodeEnum)exception2.Receipt.Status, Proto.Services.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList);
 
                 // Create 11 keys (exceeding the limit of 10)
-                IList<Key> feeExemptKeyListExceedingLimit = [.. Enumerable.Range(0, 11).Select(_ => PrivateKey.GenerateECDSA())];
+                List<Key> feeExemptKeyListExceedingLimit = [.. Enumerable.Range(0, 11).Select(_ => PrivateKey.GenerateECDSA())];
 
                 Action exceedKeyListLimitExecutable = () => new TopicCreateTransaction
                 {
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [.. feeExemptKeyListExceedingLimit]
-				
+					FeeExemptKeys = feeExemptKeyListExceedingLimit
+
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to exceeding fee exempt key list limit
@@ -284,7 +284,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 				Action updateExecutable = () => new TopicUpdateTransaction
                 {
 					TopicId = topicId,
-					CustomFees = [.. customFees],
+					CustomFees = customFees,
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
@@ -309,8 +309,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
                 {
 					AdminKey = testEnv.OperatorKey,
 					FeeScheduleKey = testEnv.OperatorKey,
-                    CustomFees = [customFixedFee]
-				}
+                    CustomFees = customFixedFee
+                }
                 .Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var accountId = CreateAccount(testEnv, new Hbar(1), privateKey);
@@ -351,9 +351,9 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
                 {
 					AdminKey = testEnv.OperatorKey,
 					FeeScheduleKey = testEnv.OperatorKey,
-					FeeExemptKeys = [feeExemptKey1.GetPublicKey(), feeExemptKey2.GetPublicKey()],
-					CustomFees = [customFixedFee]
-				}
+					FeeExemptKeys = new (feeExemptKey1.GetPublicKey(), feeExemptKey2.GetPublicKey()),
+					CustomFees = customFixedFee
+                }
                 .Execute(testEnv.Client);
 
                 var topicId = response.GetReceipt(testEnv.Client).TopicId;
@@ -435,7 +435,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
-				IList<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
+				List<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
 				var denominatingTokenId1 = CreateToken(testEnv);
 				var amount1 = 1;
 				var denominatingTokenId2 = CreateToken(testEnv);
@@ -462,10 +462,10 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [..feeExemptKeys],
-					CustomFees = [..customFixedFees]
+					FeeExemptKeys = feeExemptKeys,
+					CustomFees = customFixedFees
 
-				}.Execute(testEnv.Client);
+                }.Execute(testEnv.Client);
 				var topicId = response.GetReceipt(testEnv.Client).TopicId;
 
 				// Get Topic Info
@@ -520,7 +520,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
-				IList<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
+				List<Key> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
 				var denominatingTokenId1 = CreateToken(testEnv);
 				var amount1 = 1;
 				var denominatingTokenId2 = CreateToken(testEnv);
@@ -547,8 +547,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Topic
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = [..feeExemptKeys],
-					CustomFees = [..customFixedFees],
+					FeeExemptKeys = feeExemptKeys,
+					CustomFees = customFixedFees,
 				}
 				.Execute(testEnv.Client);
 

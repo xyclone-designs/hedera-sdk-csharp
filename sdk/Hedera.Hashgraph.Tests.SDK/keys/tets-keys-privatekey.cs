@@ -2,13 +2,13 @@
 using System;
 using System.Text;
 
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptography;
 
 using Org.BouncyCastle.Utilities.Encoders;
-using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             byte[] bytes = new AccountCreateTransaction()
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005")],
+				NodeAccountIds = AccountId.FromString("0.0.5005"),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				InitialBalance = Hbar.FromTinybars(450),
 				ProxyAccountId = AccountId.FromString("0.0.1001"),

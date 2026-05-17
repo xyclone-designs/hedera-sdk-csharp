@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         /// <include file="test-fees-custom-limit.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestSetCustomFees"]' />
         public virtual void TestSetCustomFees()
         {
-            IList<CustomFixedFee> newFees = [];
+            List<CustomFixedFee> newFees = [];
 
             // Create a new instance using the builder
             CustomFeeLimit updatedFeeLimit = new ()

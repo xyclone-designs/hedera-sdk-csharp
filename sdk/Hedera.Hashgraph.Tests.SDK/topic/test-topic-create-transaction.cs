@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             return new TopicCreateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 SubmitKey = unusedPrivateKey,
                 AdminKey = unusedPrivateKey,
@@ -83,9 +83,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             Key feeExemptKey1 = PrivateKey.GenerateECDSA();
             Key feeExemptKey2 = PrivateKey.GenerateECDSA();
-            IList<Key> feeExemptKeys = [feeExemptKey1, feeExemptKey2];
-            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = [.. feeExemptKeys] };
-            IList<Key> retrievedKeys = topicCreateTransaction.FeeExemptKeys;
+            List<Key> feeExemptKeys = [feeExemptKey1, feeExemptKey2];
+            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = feeExemptKeys };
+            List<Key> retrievedKeys = topicCreateTransaction.FeeExemptKeys;
             for (int i = 0; i < feeExemptKeys.Count; i++)
             {
                 Assert.Equal(retrievedKeys[i].ToString(), feeExemptKeys[i].ToString());
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             TopicCreateTransaction topicCreateTransaction = new ();
             PrivateKey feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicCreateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+            topicCreateTransaction.FeeExemptKeys.Operate(_ => _.Add(feeExemptKeyToBeAdded));
 
             Assert.Equal(topicCreateTransaction.FeeExemptKeys, [feeExemptKeyToBeAdded]);
         }
@@ -106,9 +106,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void ShouldAddFeeExemptKeyToList()
         {
             PrivateKey feeExemptKey = PrivateKey.GenerateECDSA();
-            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = [feeExemptKey] };
+            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = feeExemptKey };
             Key feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicCreateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+            topicCreateTransaction.FeeExemptKeys.Operate(_ => _.Add(feeExemptKeyToBeAdded));
 
             Assert.Equal(topicCreateTransaction.FeeExemptKeys, [feeExemptKey, feeExemptKeyToBeAdded]);
         }
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         /// <include file="test-topic-create-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldSetTopicCustomFees"]' />
         public virtual void ShouldSetTopicCustomFees()
         {
-            IList<CustomFixedFee> customFixedFees =
+            List<CustomFixedFee> customFixedFees =
             [
                 new CustomFixedFee
                 {
@@ -134,14 +134,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                     DenominatingTokenId = new TokenId(0, 0, 2)
                 },
             ];
-            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = [..customFixedFees] };
+            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = customFixedFees };
             Assert.Equal(topicCreateTransaction.CustomFees, customFixedFees);
         }
         [Fact]
         /// <include file="test-topic-create-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldAddTopicCustomFeeToList"]' />
         public virtual void ShouldAddTopicCustomFeeToList()
         {
-            IList<CustomFixedFee> customFixedFees =
+            List<CustomFixedFee> customFixedFees =
             [
                 new CustomFixedFee
                 {
@@ -165,9 +165,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 Amount = 4,
                 DenominatingTokenId = new TokenId(0, 0, 3)
             };
-            IList<CustomFixedFee> expectedCustomFees = [ .. customFixedFees, customFixedFeeToBeAdded];
-            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = [.. customFixedFees] };
-            topicCreateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+            List<CustomFixedFee> expectedCustomFees = [ .. customFixedFees, customFixedFeeToBeAdded];
+            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = customFixedFees };
+            topicCreateTransaction.CustomFees.Operate(_ => _.Add(customFixedFeeToBeAdded));
             Assert.Equal(topicCreateTransaction.CustomFees, expectedCustomFees);
         }
         [Fact]
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 DenominatingTokenId = new TokenId(0, 0, 3)
             };
             TopicCreateTransaction topicCreateTransaction = new();
-            topicCreateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+            topicCreateTransaction.CustomFees.Operate(_ => _.Add(customFixedFeeToBeAdded));
 
             Assert.Equal(topicCreateTransaction.CustomFees, [customFixedFeeToBeAdded]);
         }

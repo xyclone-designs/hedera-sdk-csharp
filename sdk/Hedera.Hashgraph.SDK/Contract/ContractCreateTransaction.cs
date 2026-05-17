@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             HookCreationDetails_.Clear();
 
             foreach (var protoHookDetails in body.HookCreationDetails)
-				HookCreationDetails_.Add(HookCreationDetails.FromProtobuf(protoHookDetails));
+				HookCreationDetails_.Operate(_ => _.Add(HookCreationDetails.FromProtobuf(protoHookDetails)));
 		}
 
 		public override MethodDescriptor GetMethodDescriptor()

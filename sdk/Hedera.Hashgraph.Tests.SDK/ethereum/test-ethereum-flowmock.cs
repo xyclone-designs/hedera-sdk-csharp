@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         /// <include file="test-ethereum-flowmock.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest.DontTruncateEthereumDataUnnecessarily"]' />
         public virtual void DontTruncateEthereumDataUnnecessarily()
         {
-            IList<object> responses1 =
+            List<object> responses1 =
             [
                 (Func<object, object>)
                 (_ =>
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         [InlineData("")]
         public virtual void ExtractsCallData(string versionToTest)
         {
-            IList<object> responses =
+            List<object> responses =
             [
                 (Func<object, object>)
                 (_ =>

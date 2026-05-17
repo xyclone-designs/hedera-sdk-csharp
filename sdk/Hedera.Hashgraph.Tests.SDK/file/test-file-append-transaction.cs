@@ -31,11 +31,11 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(SpawnTestTransaction([AccountId.FromString("0.0.5005")]).ToString());
         }
 
-        private FileAppendTransaction SpawnTestTransaction(IList<AccountId> accountIds)
+        private FileAppendTransaction SpawnTestTransaction(List<AccountId> accountIds)
         {
             return new FileAppendTransaction()
             {
-				NodeAccountIds = [.. accountIds],
+				NodeAccountIds = accountIds,
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
 				Contents =  ByteString.CopyFrom(new byte[] { 1, 2, 3, 4 }),
@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
             return new FileAppendTransaction()
             {
-				NodeAccountIds = [.. nodeAccountIds],
+				NodeAccountIds = nodeAccountIds,
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
 				Contents = ByteString.CopyFromUtf8(BIG_CONTENTS),

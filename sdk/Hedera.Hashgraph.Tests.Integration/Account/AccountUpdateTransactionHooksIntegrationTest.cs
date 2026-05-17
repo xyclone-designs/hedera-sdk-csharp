@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-                    HookCreationDetails = [hookDetails],
+                    HookCreationDetails = hookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
-						HookCreationDetails = [hookDetails1, hookDetails2],
+						HookCreationDetails = new (hookDetails1, hookDetails2),
 					}
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					Key = accountKey,
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails1],
+					HookCreationDetails = hookDetails1,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -120,7 +120,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
-                        HookCreationDetails = [hookDetails2]
+                        HookCreationDetails = hookDetails2
 					}
 					.FreezeWith(testEnv.Client)
                     .Sign(accountKey)
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
-					HookCreationDetails = [hookDetails1],
+					HookCreationDetails = hookDetails1,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     new AccountUpdateTransaction
                     {
 						AccountId = accountId,
-                        HookCreationDetails = [hookDetails2],
+                        HookCreationDetails = hookDetails2,
 						MaxTransactionFee = Hbar.From(10)
 					}
                     .FreezeWith(testEnv.Client)
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -234,7 +234,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-                    HookIdsToDelete = [1]
+                    HookIdsToDelete = 1
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
@@ -260,7 +260,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -272,7 +272,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
-						HookIdsToDelete = [999]
+						HookIdsToDelete = 999
 					}
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
@@ -310,8 +310,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(20),
-						HookCreationDetails = [hookDetails],
-                        HookIdsToDelete = [1]
+						HookCreationDetails = hookDetails,
+                        HookIdsToDelete = 1
 					}
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
@@ -338,7 +338,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					MaxTransactionFee = Hbar.From(10),
 					InitialBalance = new Hbar(1),
 					Key = accountKey,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -348,7 +348,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-					HookIdsToDelete = [1],
+					HookIdsToDelete = 1,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
@@ -363,7 +363,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
-						HookIdsToDelete = [1],
+						HookIdsToDelete = 1,
 					}
 					.FreezeWith(testEnv.Client)
                     .Sign(accountKey)

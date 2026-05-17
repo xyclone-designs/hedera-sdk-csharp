@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractFunctionParametersTest
     {
-        private static IList<object[]> Int256Arguments()
+        private static List<object[]> Int256Arguments()
         {
             return
             [
@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             ];
         }
 
-        private static IList<object[]> UInt256Arguments()
+        private static List<object[]> UInt256Arguments()
         {
             return
             [
@@ -316,7 +316,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         public virtual void IntSizesEncodeCorrectly()
         {
-            IList<string> snapshotStrings = [];
+            List<string> snapshotStrings = [];
 
             for (int n = 8; n <= 256; n += 8)
             {

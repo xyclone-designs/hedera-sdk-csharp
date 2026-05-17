@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.SDK
             new AccountBalanceQuery
 			{
 				AccountId = nodeAccountId,
-				NodeAccountIds = [nodeAccountId],
+				NodeAccountIds = nodeAccountId,
 
 			}.Execute(this, timeout);
         }
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK
         {
 			await new AccountBalanceQuery()
 			{
-				NodeAccountIds = [nodeAccountId],
+				NodeAccountIds = nodeAccountId,
 
 			}.ExecuteAsync(this, timeout);
         }

@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             
             return transferTransaction.Schedule(_ =>
             {
-                _.NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")];
+                _.NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"));
 				_.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
 				_.AdminKey = unusedPrivateKey;
 				_.PayerAccountId = AccountId.FromString("0.0.222");
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
                 .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10))
                 .Schedule(_ =>
                 {
-                    _.NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")];
+                    _.NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"));
                     _.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
                     _.AdminKey = unusedPrivateKey;
                     _.PayerAccountId = AccountId.FromString("0.0.222");

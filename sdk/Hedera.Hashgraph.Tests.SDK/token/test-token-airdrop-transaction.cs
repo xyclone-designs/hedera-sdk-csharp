@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             transaction.AddNftTransfer(nftId, sender, receiver);
 
-            Dictionary<TokenId, IList<TokenNftTransfer>> nftTransfers = transaction.GetTokenNftTransfers();
+            Dictionary<TokenId, List<TokenNftTransfer>> nftTransfers = transaction.GetTokenNftTransfers();
             Assert.True(nftTransfers.ContainsKey(nftId.TokenId));
             Assert.Equal(1, nftTransfers[nftId.TokenId].Count);
             Assert.Equal(sender, nftTransfers[nftId.TokenId][0].Sender);
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             transaction.AddApprovedNftTransfer(nftId, sender, receiver);
 
-            Dictionary<TokenId, IList<TokenNftTransfer>> nftTransfers = transaction.GetTokenNftTransfers();
+            Dictionary<TokenId, List<TokenNftTransfer>> nftTransfers = transaction.GetTokenNftTransfers();
             Assert.True(nftTransfers.ContainsKey(nftId.TokenId));
             Assert.Equal(1, nftTransfers[nftId.TokenId].Count);
             Assert.Equal(sender, nftTransfers[nftId.TokenId][0].Sender);

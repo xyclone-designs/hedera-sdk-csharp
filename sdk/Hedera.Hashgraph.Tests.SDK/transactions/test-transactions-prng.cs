@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             return new PrngTransaction()
             {
-                NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
+                NodeAccountIds = new(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 MaxTransactionFee = Hbar.FromTinybars(100000)
             }
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             return new PrngTransaction()
             {
                 Range = 100,
-                NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
+                NodeAccountIds = new(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 MaxTransactionFee = Hbar.FromTinybars(100000)
             }

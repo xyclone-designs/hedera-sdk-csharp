@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [..entry.Value.Select(_ => _.AccountId)],
+						NodeAccountIds = new (entry.Value.Select(_ => _.AccountId)),
 						AccountId = entry.Key,
 					}
                     .Execute(client);
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						NodeAccountIds = new (entry.Value.Select(_ => _.AccountId)),
 						AccountId = entry.Key,
 					}
                     .Execute(client);
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						NodeAccountIds = new(entry.Value.Select(_ => _.AccountId)),
 						AccountId = entry.Key,
 					}
                     .Execute(client);
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                 {
                     new AccountBalanceQuery()
 					{
-						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						NodeAccountIds = new(entry.Value.Select(_ => _.AccountId)),
 						AccountId = entry.Key,
 
 					}.Execute(client);

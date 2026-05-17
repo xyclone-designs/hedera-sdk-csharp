@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             if (body.Token is not null)
 				TokenId = TokenId.FromProtobuf(body.Token);
 
-			Serials.ClearAndSet(body.SerialNumbers);
+			Serials.Operate(_ => [.. body.SerialNumbers]);
 
             if (body.Metadata is not null)
                 Metadata = body.Metadata.ToByteArray();

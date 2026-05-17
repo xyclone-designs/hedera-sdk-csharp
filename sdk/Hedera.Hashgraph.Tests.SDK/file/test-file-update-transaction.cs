@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
             return new FileUpdateTransaction()
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
 				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),

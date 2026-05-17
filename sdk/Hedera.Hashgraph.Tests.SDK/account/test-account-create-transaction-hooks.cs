@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             byte[] storageKey = [ 0x01, 0x02 ];
             byte[] storageValue = [ 0x03, 0x04 ];
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
-            IList<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
+            List<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
 
             // Create account create transaction with hooks
             var lambdaHookWithStorage = new EvmHook(contractId, storageUpdates);
@@ -39,12 +39,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(100),
-                HookCreationDetails = [hookWithAdmin, simpleHook]
+                HookCreationDetails = new (hookWithAdmin, simpleHook)
                 
 			}; // Simple hook without admin key or storage
 
             // Verify hooks were added
-            IList<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
+            List<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
             Assert.Equal(2, hookDetails.Count);
 
             // Verify first hook
@@ -78,11 +78,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(50),
-			    HookCreationDetails = [hookDetails],
+			    HookCreationDetails = hookDetails,
 			};
 
             // Verify hooks were set
-            IList<HookCreationDetails> retrievedHooks = transaction.HookCreationDetails;
+            List<HookCreationDetails> retrievedHooks = transaction.HookCreationDetails;
             Assert.Equal(1, retrievedHooks.Count);
             Assert.Equal(hookDetails, retrievedHooks[0]);
         }
@@ -90,17 +90,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         /// <include file="test-account-create-transaction-hooks.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionHookValidation"]' />
         public virtual void TestAccountCreateTransactionHookValidation()
         {
-            ContractId contractId = new ContractId(300);
+            ContractId contractId = new (300);
 
             // Test duplicate hook IDs
             var lambdaHook = new EvmHook(contractId);
             var hook1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hook2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook); // Duplicate ID
-            AccountCreateTransaction transaction = new AccountCreateTransaction
+            AccountCreateTransaction transaction = new ()
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(25),
-                HookCreationDetails = [hook1, hook2]
+                HookCreationDetails = new (hook1, hook2)
 
 			}; // Duplicate hook ID
 
@@ -124,8 +124,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(75),
-                HookCreationDetails = [hook]
-			};
+                HookCreationDetails = hook
+            };
 
             // Build the protobuf
             var protoBody = transaction.ToProtobuf();
@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 			};
 
             // Verify no hooks
-            IList<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
+            List<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
             Assert.True(hookDetails.Count == 0);
 
             // Should build successfully
@@ -171,8 +171,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(123),
-				HookCreationDetails = [hookDetails]
-			};
+				HookCreationDetails = hookDetails
+            };
 
             // Serialize to bytes then deserialize back
             byte[] bytes = originalTx.ToBytes();
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             AccountCreateTransaction parsedTx = (AccountCreateTransaction)parsed;
 
             // Verify hook information persisted
-            IList<HookCreationDetails> parsedHooks = parsedTx.HookCreationDetails;
+            List<HookCreationDetails> parsedHooks = parsedTx.HookCreationDetails;
 
             Assert.Equal(1, parsedHooks.Count);
             HookCreationDetails parsedHook = parsedHooks[0];

@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-				    HookCreationDetails = { hookDetails }
+				    HookCreationDetails = hookDetails
                 }
                 .FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 { 
                     AccountId = acct1,
                     MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails1],
+					HookCreationDetails = hookDetails1,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(key1)
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 { 
                     AccountId = acct2,
                     MaxTransactionFee = Hbar.From(10),
-                    HookCreationDetails = [hookDetails2],
+                    HookCreationDetails = hookDetails2,
                 }
                 .FreezeWith(testEnv.Client)
                 .Sign(key2)
@@ -110,9 +110,9 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 // One transaction that touches both accounts; both hooks must approve
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys ]
+                    NodeAccountIds = new(testEnv.Client.Network_.Network_Read.Keys)
                 }
-                
+
                 .AddHbarTransfer(testEnv.OperatorId, new Hbar(-2))
                 
                 .AddHbarTransferWithHook(acct1, new Hbar(1), hookCall1)
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey)
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PrePostTxAllowanceHook);
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
+                    NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys)
                 }
                     
                 .AddHbarTransfer(testEnv.OperatorId, new Hbar(-1))
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -237,7 +237,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 new AccountUpdateTransaction
                 {
 					AccountId = testEnv.OperatorId,
-                    HookCreationDetails = [hookDetails2],
+                    HookCreationDetails = hookDetails2,
                     MaxTransactionFee = Hbar.From(10),
 				}
                 .FreezeWith(testEnv.Client)
@@ -249,7 +249,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
                 var resp = new TransferTransaction
                 { 
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys ]
+                    NodeAccountIds = new(testEnv.Client.Network_.Network_Read.Keys)
 				}
                     
                 .AddTokenTransferWithHook(tokenId, testEnv.OperatorId, -1000, hookCall)
@@ -291,7 +291,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = senderId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
 				.FreezeWith(testEnv.Client)
                 .Sign(senderKey)
@@ -303,7 +303,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 				}
 				.FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -353,7 +353,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var receiverHookCall = new NftHookCall(2, new EvmHookCall(new byte[] { }, 25000), NftHookType.PreHookReceiver);
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
+                    NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys)
                 }
                     
                 .AddNftTransferWithHook(tokenId.Nft(serial), senderId, receiverId, senderHookCall, receiverHookCall)
@@ -398,7 +398,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = senderId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [senderHookDetails],
+					HookCreationDetails = senderHookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(senderKey)
@@ -409,7 +409,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
-					HookCreationDetails = [receiverHookDetails],
+					HookCreationDetails = receiverHookDetails,
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -420,11 +420,9 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var receiverHookCall2 = new FungibleHookCall(2, new EvmHookCall([], 25000), FungibleHookType.PreTxAllowanceHook);
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
+                    NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys)
                 }
-                
                 .AddHbarTransferWithHook(senderId, new Hbar(-1), senderHookCall2)
-                
                 .AddHbarTransferWithHook(receiverId, new Hbar(1), receiverHookCall2)
                 .FreezeWith(testEnv.Client)
                 .SignWithOperator(testEnv.Client)

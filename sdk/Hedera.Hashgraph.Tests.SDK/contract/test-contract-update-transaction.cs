@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             return new ContractUpdateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.5007"),
 				AdminKey = privateKey,
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             return new ContractUpdateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.5007"),
 				AdminKey = privateKey,
@@ -102,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             var tx = new ContractUpdateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.5007"),
 				AdminKey = privateKey,

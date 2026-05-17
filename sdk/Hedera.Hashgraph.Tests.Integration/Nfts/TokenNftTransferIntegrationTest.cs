@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Nfts
                 {
 					TokenId = tokenId,
 					AccountId = accountId,
-					Serials = [.. serialsToTransfer]
+					Serials = serialsToTransfer
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);

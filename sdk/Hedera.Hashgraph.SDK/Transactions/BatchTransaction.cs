@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					SignedTransactionBytes = atomicTransactionBytes
 				};
 
-				InnerTransactions.Add(ITransaction.FromBytes(transaction.ToByteArray()));
+				InnerTransactions.Operate(_ => _.Add(ITransaction.FromBytes(transaction.ToByteArray())));
 			}
 		}
 		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ValidateInnerTransaction(ITransaction)"]' />

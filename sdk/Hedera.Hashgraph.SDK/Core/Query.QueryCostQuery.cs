@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK
 				// without this, an error of MISSING_QUERY_HEADER is returned
 				header.Payment = new TransferTransaction
 				{
-					NodeAccountIds = [ new AccountId(0, 0, 0) ],
+					NodeAccountIds = new AccountId(0, 0, 0),
 					TransactionId = TransactionId.WithValidStart(new AccountId(0, 0, 0), DateTimeOffset.FromUnixTimeMilliseconds(0))
 
 				}.Freeze().MakeRequest();;

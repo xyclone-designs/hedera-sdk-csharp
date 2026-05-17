@@ -63,12 +63,12 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // claim the tokens with the receiver
                 record = new TokenClaimAirdropTransaction
 				{
-					PendingAirdropIds = 
-                    [
+					PendingAirdropIds = new 
+                    (
                         record.PendingAirdropRecords[0].PendingAirdropId,
 					    record.PendingAirdropRecords[1].PendingAirdropId,
-					    record.PendingAirdropRecords[2].PendingAirdropId,
-                    ]
+					    record.PendingAirdropRecords[2].PendingAirdropId
+                    )
 				}
                     .FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
@@ -140,7 +140,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
 
                 record = new TokenClaimAirdropTransaction
                 {
-					PendingAirdropIds = [.. pendingAirdropIDs],
+					PendingAirdropIds = pendingAirdropIDs,
 				
                 }.FreezeWith(testEnv.Client).Sign(receiver1AccountKey).Sign(receiver2AccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -227,7 +227,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // claim the all the tokens with the receiver
                 var record = new TokenClaimAirdropTransaction
                 {
-					PendingAirdropIds = [.. pendingAirdropIDs],
+					PendingAirdropIds = pendingAirdropIDs,
 
 				}.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -274,8 +274,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenClaimAirdropTransaction()
 					{
-						PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
-					}
+						PendingAirdropIds = record.PendingAirdropRecords[0].PendingAirdropId
+                    }
 					.Execute(testEnv.Client)
                     .GetRecord(testEnv.Client);
                 }); 
@@ -305,8 +305,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // claim the tokens with the receiver
                 new TokenClaimAirdropTransaction()
 				{
-					PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
-				}
+					PendingAirdropIds = record.PendingAirdropRecords[0].PendingAirdropId
+                }
 					.FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -369,7 +369,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenClaimAirdropTransaction()
 					{
-						PendingAirdropIds = [ record.PendingAirdropRecords[0].PendingAirdropId, record.PendingAirdropRecords[0].PendingAirdropId]
+						PendingAirdropIds = new (record.PendingAirdropRecords[0].PendingAirdropId, record.PendingAirdropRecords[0].PendingAirdropId)
 					}
 					.Execute(testEnv.Client)
                     .GetRecord(testEnv.Client);
@@ -406,7 +406,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenClaimAirdropTransaction()
 					{
-						PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
+						PendingAirdropIds = record.PendingAirdropRecords[0].PendingAirdropId
 					}
 					.FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey)
@@ -445,7 +445,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenClaimAirdropTransaction()
 					{
-						PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
+						PendingAirdropIds = record.PendingAirdropRecords[0].PendingAirdropId
 					}
 					.FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey)
@@ -499,7 +499,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenClaimAirdropTransaction
                     {
-                        PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
+                        PendingAirdropIds = record.PendingAirdropRecords[0].PendingAirdropId
                     }
                     .FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey)

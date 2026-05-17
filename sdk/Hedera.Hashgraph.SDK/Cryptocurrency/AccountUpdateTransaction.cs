@@ -168,8 +168,8 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             StakedNodeId = body.StakedNodeId;
 
 			// Initialize hook create/delete details
-			HookCreationDetails.ClearAndSet(body.HookCreationDetails.Select(_ => Hook.HookCreationDetails.FromProtobuf(_)));
-            HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);
+			HookCreationDetails.Operate(_ => body.HookCreationDetails.Select(_ => Hook.HookCreationDetails.FromProtobuf(_)));
+            HookIdsToDelete.Operate(_ => [.. body.HookIdsToDelete]);
         }
 
         /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.ToProtobuf"]' />

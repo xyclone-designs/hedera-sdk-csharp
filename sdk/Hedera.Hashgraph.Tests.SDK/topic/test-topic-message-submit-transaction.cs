@@ -1,14 +1,16 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
-using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -24,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             return new TopicMessageSubmitTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 TopicId = testTopicId,
                 Message = ByteString.CopyFrom(testMessageBytes),
@@ -37,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             return new TopicMessageSubmitTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 TopicId = testTopicId,
                 Message = ByteString.CopyFrom(testMessageBytes),
@@ -195,7 +197,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             expectedCustomFeeLimits.Add(customFeeLimitToBeAdded);
             var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction
             {
-                CustomFeeLimits = [.. customFeeLimits, customFeeLimitToBeAdded]
+                CustomFeeLimits = new([.. customFeeLimits, customFeeLimitToBeAdded])
             };
 
             Assert.Equal(topicMessageSubmitTransaction.CustomFeeLimits, expectedCustomFeeLimits);
@@ -213,7 +215,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                     DenominatingTokenId = new TokenId(0, 0, 3)
                 } ]
             };
-            var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction { CustomFeeLimits = [customFeeLimitToBeAdded] };
+            var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction { CustomFeeLimits = customFeeLimitToBeAdded };
 
             Assert.Equal(topicMessageSubmitTransaction.CustomFeeLimits, [customFeeLimitToBeAdded]);
         }

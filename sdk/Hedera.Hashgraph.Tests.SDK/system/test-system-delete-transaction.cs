@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         {
             return new SystemDeleteTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.444"),
 				ExpirationTime = validStart,
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         {
             return new SystemDeleteTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.444"),
 				ExpirationTime = validStart,

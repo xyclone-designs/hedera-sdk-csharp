@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             foreach (var pendingAirdropId in body.PendingAirdrops)
             {
-                PendingAirdropIds.Add(PendingAirdropId.FromProtobuf(pendingAirdropId));
+                PendingAirdropIds.Operate(_ => _.Add(PendingAirdropId.FromProtobuf(pendingAirdropId)));
             }
         }
 

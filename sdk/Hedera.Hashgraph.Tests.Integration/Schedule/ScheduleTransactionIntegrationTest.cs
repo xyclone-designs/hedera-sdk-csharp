@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
                     AdminKey = testEnv.OperatorKey,
                     FeeScheduleKey = testEnv.OperatorKey,
-                    CustomFees = [customFixedFee]
+                    CustomFees = customFixedFee
                 }
                 .Execute(testEnv.Client);
                 var topicId = topicResponse.GetReceipt(testEnv.Client).TopicId;
@@ -60,8 +60,8 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
 					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
-					CustomFeeLimits = [customFeeLimit]
-				};
+					CustomFeeLimits = customFeeLimit
+                };
                 var scheduleResponse = submitMessageTransaction.Schedule().Execute(payerClient);
                 var scheduleId = scheduleResponse.GetReceipt(payerClient).ScheduleId;
 
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
 					AdminKey = testEnv.OperatorKey,
 					FeeScheduleKey = testEnv.OperatorKey,
-					CustomFees = [customFixedFee],
+					CustomFees = customFixedFee,
 				}
                 .Execute(testEnv.Client);
                 var topicId = topicResponse.GetReceipt(testEnv.Client).TopicId;
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
 					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
-					CustomFeeLimits = [customFeeLimit],
+					CustomFeeLimits = customFeeLimit,
 				}
                 .Schedule()
                 .Execute(payerClient)
@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
                     AdminKey = testEnv.OperatorKey,
                     FeeScheduleKey = testEnv.OperatorKey,
-                    CustomFees = [customFixedFee]
+                    CustomFees = customFixedFee
                 }
                 .Execute(testEnv.Client);
 
@@ -240,7 +240,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Schedule
                 {
 					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
-					CustomFeeLimits = [customFeeLimit],
+					CustomFeeLimits = customFeeLimit,
 				}
                 .Schedule()
                 .Execute(testEnv.Client)

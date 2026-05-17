@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
         } = ByteString.Empty;
 		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody"]' />
-		public IList<CustomFeeLimit> CustomFeeLimits
+		public ListGuarded<CustomFeeLimit> CustomFeeLimits
 		{
 			init; get => field ??= new ListGuarded<CustomFeeLimit>
 			{

@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				NodeAccountIds = TransactionTestFactory.CreateDefaultNodeAccountIds(),
 				TransactionId = TransactionTestFactory.CreateDefaultTransactionId(),
-				InnerTransactions = [.. INNER_TRANSACTIONS],
+				InnerTransactions = INNER_TRANSACTIONS,
 			}
             .Freeze()
             .Sign(batchKey);
@@ -79,8 +79,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void SetInnerTransactionsShouldUpdateTransactions()
         {
             var batchTransaction = new BatchTransaction();
-            IList<ITransaction> newInnerTransactions = [ SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate() ];
-            batchTransaction.InnerTransactions.ClearAndSet(newInnerTransactions);
+            List<ITransaction> newInnerTransactions = [ SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate() ];
+            batchTransaction.InnerTransactions.Operate(_ => newInnerTransactions);
             
 			Assert.Equal(batchTransaction.InnerTransactions.Count, 2);
 			Assert.Equal(batchTransaction.InnerTransactions[0], newInnerTransactions[0]);
@@ -92,7 +92,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction();
             var newTransaction = SpawnTestTransactionAccountCreate();
-            batchTransaction.InnerTransactions.Add(newTransaction);
+            batchTransaction.InnerTransactions.Operate(_ => _.Add(newTransaction));
 
             Assert.Equal(batchTransaction.InnerTransactions.Count, 1);
             Assert.Equal(batchTransaction.InnerTransactions[0], newTransaction);
@@ -114,9 +114,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005")],
+				NodeAccountIds = AccountId.FromString("0.0.5005"),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
-                InnerTransactions = [SpawnTestTransactionAccountCreate()],
+                InnerTransactions = SpawnTestTransactionAccountCreate(),
 
 			} .Freeze();
             
@@ -133,14 +133,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				StartTime = DateTimeOffset.UtcNow,
 				FreezeType = FreezeType.FreezeOnly,
-				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 
 			}.Freeze();
 
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                batchTransaction.InnerTransactions.Add(freezeTransaction);
+                batchTransaction.InnerTransactions.Operate(_ => _.Add(freezeTransaction));
             });
             Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
@@ -152,11 +152,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var innerBatchTransaction = new BatchTransaction
             {
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))
 
 			}.Freeze();
 
-			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(innerBatchTransaction));
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(innerBatchTransaction)));
             Assert.Contains("Transaction type BatchTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
@@ -169,12 +169,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				StartTime = DateTimeOffset.UtcNow,
 				FreezeType = FreezeType.FreezeOnly,
-				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
 			
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(validTransaction, freezeTransaction));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.AddRange([validTransaction, freezeTransaction])));
             Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
@@ -184,11 +184,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var unfrozenTransaction = new AccountCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			};
 
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransaction));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(unfrozenTransaction)));
 			Assert.Contains("Inner transaction should be frozen", exception.Message);
         }
         [Fact]
@@ -197,12 +197,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction
             {
-				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(SpawnTestTransactionAccountCreate()));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(SpawnTestTransactionAccountCreate())));
             Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
@@ -211,12 +211,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(INNER_TRANSACTIONS));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.AddRange(INNER_TRANSACTIONS)));
 			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
@@ -228,8 +228,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transaction2 = SpawnTestTransactionAccountCreate();
             var transaction3 = SpawnTestTransactionAccountCreate();
             
-            IList<ITransaction> transactions = [transaction1, transaction2, transaction3];
-            batchTransaction.InnerTransactions.ClearAndSet(transactions);
+            List<ITransaction> transactions = [transaction1, transaction2, transaction3];
+            batchTransaction.InnerTransactions.Operate(_ => transactions);
             
             Assert.Equal(batchTransaction.InnerTransactions, [transaction1, transaction2, transaction3]);
         }
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction();
             List<ITransaction> mutableList = [.. INNER_TRANSACTIONS];
-            batchTransaction.InnerTransactions.ClearAndSet(mutableList);
+            batchTransaction.InnerTransactions.Operate(_ => mutableList);
             mutableList.Clear();
 
             Assert.Equal(batchTransaction.InnerTransactions, INNER_TRANSACTIONS);
@@ -251,12 +251,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var transactionWithoutBatchKey = new AccountCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(transactionWithoutBatchKey));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(transactionWithoutBatchKey)));
 			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
@@ -267,12 +267,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validTransaction = SpawnTestTransactionAccountCreate();
             var transactionWithoutBatchKey = new AccountCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 
 			}.Freeze();
             
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.ClearAndSet(validTransaction, transactionWithoutBatchKey));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.AddRange([validTransaction, transactionWithoutBatchKey])));
 			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
@@ -284,15 +284,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             // Test unfrozen transaction with no batch key
             var unfrozenTransactionWithoutBatchKey = new AccountCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			};
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransactionWithoutBatchKey));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(unfrozenTransactionWithoutBatchKey)));
             Assert.Contains("Inner transaction should be frozen", exception.Message);
 
 			// Test frozen transaction with no batch key
 			var frozenTransactionWithoutBatchKey = unfrozenTransactionWithoutBatchKey.Freeze();
-            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(frozenTransactionWithoutBatchKey));
+            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(frozenTransactionWithoutBatchKey)));
             Assert.Contains("Batch key needs to be set", exception1.Message);
 
 			// Test blacklisted transaction with batch key
@@ -300,13 +300,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				StartTime = DateTimeOffset.UtcNow,
 				FreezeType = FreezeType.FreezeOnly,
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				BatchKey = privateKeyECDSA
 			
             }.Freeze();
 
-            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(blacklistedTransaction));
+            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(blacklistedTransaction)));
             Assert.Contains("FreezeTransaction is not allowed in a batch transaction", exception2.Message);
 		}
         [Fact]
@@ -316,13 +316,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var validTransaction = new AccountCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				BatchKey = privateKeyECDSA,
 
 			}.Freeze();
             
-            batchTransaction.InnerTransactions.Add(validTransaction);
+            batchTransaction.InnerTransactions.Operate(_ => _.Add(validTransaction));
 
             Assert.Equal(batchTransaction.InnerTransactions, [validTransaction]);
         }
@@ -333,17 +333,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var transaction = new AccountCreateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)
             };
 
             // First check should be for frozen state
-            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(transaction));
+            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(transaction)));
 			Assert.Contains(exception1.Message, "Inner transaction should be frozen");
 
 			// After freezing, next check should be for batch key
 			var frozenTransaction = transaction.Freeze();
-            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(frozenTransaction));
+            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Operate(_ => _.Add(frozenTransaction)));
             Assert.Contains(exception2.Message, "Batch key needs to be set");
         }
     }

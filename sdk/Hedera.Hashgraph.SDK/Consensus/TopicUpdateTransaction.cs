@@ -137,10 +137,10 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
 
 			if (body.FeeExemptKeyList is not null)
-				FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
+				FeeExemptKeys.Operate(_ => body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
 
 			if (body.CustomFees is not null)
-				CustomFees.ClearAndSet(body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
+				CustomFees.Operate(_ => body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
 		}
 
         /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.ToProtobuf"]' />

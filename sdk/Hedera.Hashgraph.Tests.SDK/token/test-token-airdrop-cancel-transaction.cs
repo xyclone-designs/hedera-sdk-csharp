@@ -24,16 +24,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenCancelAirdropTransaction SpawnTestTransaction()
         {
-            IList<PendingAirdropId> pendingAirdropIds = [];
+            List<PendingAirdropId> pendingAirdropIds = [];
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123)));
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123)));
             
             return new TokenCancelAirdropTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
-				PendingAirdropIds = [.. pendingAirdropIds],
+				PendingAirdropIds = pendingAirdropIds,
 			}
             .Freeze()
             .Sign(privateKey);
@@ -66,20 +66,20 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         /// <include file="test-token-airdrop-cancel-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestGetAndSetPendingAirdropIds"]' />
         public virtual void TestGetAndSetPendingAirdropIds()
         {
-            IList<PendingAirdropId> pendingAirdropIds = [];
+            List<PendingAirdropId> pendingAirdropIds = [];
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123)));
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123)));
-            transaction.PendingAirdropIds.ClearAndSet(pendingAirdropIds);
+            transaction.PendingAirdropIds.Operate(_ => pendingAirdropIds);
             Assert.Equal(pendingAirdropIds, transaction.PendingAirdropIds);
         }
         [Fact]
         /// <include file="test-token-airdrop-cancel-transaction.ts.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestClearPendingAirdropIds"]' />
         public virtual void TestClearPendingAirdropIds()
         {
-            IList<PendingAirdropId> pendingAirdropIds = [];
+            List<PendingAirdropId> pendingAirdropIds = [];
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             pendingAirdropIds.Add(pendingAirdropId);
-            transaction.PendingAirdropIds.ClearAndSet(pendingAirdropIds);
+            transaction.PendingAirdropIds.Operate(_ => pendingAirdropIds);
             transaction.PendingAirdropIds.Clear();
             
             Assert.Equal(transaction.PendingAirdropIds.Count, 0);
@@ -91,8 +91,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             PendingAirdropId pendingAirdropId1 = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             PendingAirdropId pendingAirdropId2 = new (new AccountId(0, 0, 458), new AccountId(0, 0, 459), new TokenId(0, 0, 123));
             
-            transaction.PendingAirdropIds.Add(pendingAirdropId1);
-            transaction.PendingAirdropIds.Add(pendingAirdropId2);
+            transaction.PendingAirdropIds.Operate(_ => _.Add(pendingAirdropId1));
+            transaction.PendingAirdropIds.Operate(_ => _.Add(pendingAirdropId2));
             
             Assert.Equal(2, transaction.PendingAirdropIds.Count);
             Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId1));
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void TestBuildTransactionBody()
         {
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
-            transaction.PendingAirdropIds.Add(pendingAirdropId);
+            transaction.PendingAirdropIds.Operate(_ => _.Add(pendingAirdropId));
             Proto.Services.TokenCancelAirdropTransactionBody builder = transaction.ToProtobuf();
 
             Assert.Equal(1, builder.PendingAirdrops.Count);

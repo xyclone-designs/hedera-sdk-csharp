@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             var transaction = new TransferTransaction()
             {
-				NodeAccountIds = [new AccountId(0, 0, 3)],
+				NodeAccountIds = new AccountId(0, 0, 3),
 				TransactionId = TransactionId.Generate(new AccountId(0, 0, 4)),
 			
             }.Freeze();

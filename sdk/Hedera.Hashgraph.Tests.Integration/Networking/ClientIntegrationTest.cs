@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
             {
                 return new AccountBalanceQuery
                 {
-					NodeAccountIds = [.. nodes],
+					NodeAccountIds = nodes,
 					AccountId = new AccountId(0, 0, 7),
 				
                 }.Execute(client);
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
             nodes.Add(new AccountId(0, 0, 1000));
             new AccountBalanceQuery
             {
-				NodeAccountIds = [.. nodes],
+				NodeAccountIds = nodes,
 				AccountId = new AccountId(0, 0, 7),
 
 			}.Execute(client);

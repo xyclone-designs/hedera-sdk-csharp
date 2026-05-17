@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenPauseTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = testTokenId,
 				MaxTransactionFee = new Hbar(1),

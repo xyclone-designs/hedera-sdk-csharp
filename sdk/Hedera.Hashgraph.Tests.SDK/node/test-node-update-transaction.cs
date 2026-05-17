@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             return new NodeUpdateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				NodeId = TEST_NODE_ID,
 				AccountId = TEST_ACCOUNT_ID,
@@ -375,7 +375,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             var transaction = new NodeUpdateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.3")],
+				NodeAccountIds = AccountId.FromString("0.0.3"),
 				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
 				NodeId = TEST_NODE_ID
 			};
@@ -390,7 +390,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             var transaction = new NodeUpdateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.3")],
+                NodeAccountIds = AccountId.FromString("0.0.3"),
                 TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
             };
 
@@ -404,7 +404,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             var transaction = new NodeUpdateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.3")],
+                NodeAccountIds = AccountId.FromString("0.0.3"),
                 TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
             };
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
@@ -418,7 +418,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 			var transaction = new NodeUpdateTransaction
 			{
 				NodeId = TEST_NODE_ID,
-				NodeAccountIds = [AccountId.FromString("0.0.3")],
+				NodeAccountIds = AccountId.FromString("0.0.3"),
 				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
 			};
             var mockClient = Client.ForTestnet();
@@ -433,7 +433,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             var transaction = new NodeUpdateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.3")],
+                NodeAccountIds = AccountId.FromString("0.0.3"),
                 TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
                 NodeId = TEST_NODE_ID,
                 Description = TEST_DESCRIPTION,

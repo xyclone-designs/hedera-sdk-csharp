@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             return new NodeDeleteTransaction()
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				NodeId = TEST_NODE_ID,
 				MaxTransactionFee = new Hbar(1),
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             AccountId ACCOUNT_Id = AccountId.FromString("0.6.9");
             var transaction = new NodeDeleteTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.3")],
+                NodeAccountIds = AccountId.FromString("0.0.3"),
                 TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
                 NodeId = 420,
             };
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             AccountId ACCOUNT_Id = AccountId.FromString("0.6.9");
             var transaction = new NodeDeleteTransaction
             {
-                NodeAccountIds = [ AccountId.FromString("0.0.3")],
+                NodeAccountIds = AccountId.FromString("0.0.3"),
                 TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
             };
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             AccountId ACCOUNT_Id = AccountId.FromString("0.6.9");
             var transaction = new NodeDeleteTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.3")],
+				NodeAccountIds = AccountId.FromString("0.0.3"),
 				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
 
 			};
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
             AccountId ACCOUNT_Id = AccountId.FromString("0.6.9");
             var transaction = new NodeDeleteTransaction()
             {
-				NodeAccountIds = [AccountId.FromString("0.0.3")],
+				NodeAccountIds = AccountId.FromString("0.0.3"),
 				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
 				NodeId = 420
 			};

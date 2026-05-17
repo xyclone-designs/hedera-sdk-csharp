@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.SDK.Core
                 return new TransactionReceiptQuery
                 {
                     TransactionId = transactionResponse.TransactionId,
-                    NodeAccountIds = [transactionResponse.NodeId]
+                    NodeAccountIds = transactionResponse.NodeId
 
                 }.Execute(client).ValidateStatus(oldresponse.ValidateStatus);
             });   
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Core
             return new TransactionReceiptQuery
             {
 				TransactionId = TransactionId,
-				NodeAccountIds = [NodeId]
+				NodeAccountIds = NodeId
 			};
         }
         /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.GetReceiptAsync(Client)"]' />
@@ -192,7 +192,7 @@ namespace Hedera.Hashgraph.SDK.Core
             return new TransactionRecordQuery
             {
 				TransactionId = TransactionId,
-				NodeAccountIds = [NodeId],
+				NodeAccountIds = NodeId,
 			};
         }
         /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.GetRecordAsync(Client)"]' />

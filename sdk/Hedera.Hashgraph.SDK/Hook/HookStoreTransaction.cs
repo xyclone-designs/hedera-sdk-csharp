@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			var body = SourceTransactionBody.HookStore;
 
 			HookId = HookId.FromProtobuf(body.HookId);
-			StorageUpdates.ClearAndSet(body.StorageUpdates.Select(_ => EvmHookStorageUpdate.FromProtobuf(_)));
+			StorageUpdates.Operate(_ => body.StorageUpdates.Select(_ => EvmHookStorageUpdate.FromProtobuf(_)));
 		}
 
 		public virtual HookId? HookId { get; set { RequireNotFrozen(); field = value; } }

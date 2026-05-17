@@ -34,11 +34,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         {
             return new TokenUpdateNftsTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = testTokenId,
 				Metadata = testMetadata,
-				Serials = [..testSerialNumbers],
+				Serials = testSerialNumbers,
 				MaxTransactionFee = new Hbar(1),
             }
             .Freeze()
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.Serials.AddRange(testSerialNumbers));
+            Assert.Throws<InvalidOperationException>(() => tx.Serials.Operate(_ => _.AddRange(testSerialNumbers)));
         }
     }
 }

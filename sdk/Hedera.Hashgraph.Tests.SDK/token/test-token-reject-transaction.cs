@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenRejectTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				OwnerId = TEST_OWNER_ID,
 				TokenIds = TEST_TOKEN_IDS,

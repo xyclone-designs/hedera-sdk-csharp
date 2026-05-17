@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.Tests.Integration.File
                 var createTransaction = new FileCreateTransaction
                 {
 					Keys = [newKey.GetPublicKey()],
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
 					Contents = Encoding.UTF8.GetBytes("Hello"),
 					TransactionMemo = "java sdk e2e tests",
 
@@ -239,8 +239,8 @@ namespace Hedera.Hashgraph.Tests.Integration.File
                 var contents = new FileContentsQuery
                 {
 					FileId = fileId,
-					NodeAccountIds = [appendResponse.NodeId]
-				
+					NodeAccountIds = appendResponse.NodeId
+
                 }.Execute(testEnv.Client);
 
                 var expectedContent = "Hello" + Contents.BIG_CONTENTS;

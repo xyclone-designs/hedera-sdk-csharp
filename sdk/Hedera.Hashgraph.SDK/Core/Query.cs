@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK
 			return new TransferTransaction
 			{
 				TransactionId = paymentTransactionId,
-				NodeAccountIds = [nodeId],
+				NodeAccountIds = nodeId,
 				MaxTransactionFee = new Hbar(1),
 
 			}.SignWith(operator_.PublicKey, operator_.TransactionSigner).MakeRequest();
@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.SDK
 				// Get a list of node AccountId's if the user has not set them manually.
 				try
 				{
-					NodeAccountIds.ClearAndSet(client.Network_.GetNodeAccountIdsForExecute());
+					NodeAccountIds.Operate(_ => client.Network_.GetNodeAccountIdsForExecute());
 				}
 				catch (ThreadInterruptedException e)
 				{
@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return new QueryCostQuery
 			{
-				NodeAccountIds = [.. NodeAccountIds ?? []]
+				NodeAccountIds = NodeAccountIds
 
 			}.Execute(client, timeout);
 		}
@@ -256,7 +256,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return new QueryCostQuery
 			{
-				NodeAccountIds = [.. NodeAccountIds ?? []]
+				NodeAccountIds = NodeAccountIds
 
 			}.ExecuteAsync(client, timeout);
 		}

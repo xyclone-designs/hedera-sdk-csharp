@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.Integration
                 new AccountUpdateTransaction
 				{
 					AccountId = ownerId,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 					MaxTransactionFee = Hbar.From(10),
 				}
 				.FreezeWith(testEnv.Client)
@@ -59,9 +59,9 @@ namespace Hedera.Hashgraph.Tests.Integration
                 var resp = new HookStoreTransaction
                 {
 					HookId = hookId,
-					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
-					StorageUpdates = [update]
-				
+					NodeAccountIds = new (testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)),
+					StorageUpdates = update
+
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
                 var receipt = resp.GetReceipt(testEnv.Client);
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.Integration
                 new AccountUpdateTransaction
 				{
 					AccountId = ownerId,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 					MaxTransactionFee = Hbar.From(10),
 				}
                 .FreezeWith(testEnv.Client)
@@ -111,9 +111,9 @@ namespace Hedera.Hashgraph.Tests.Integration
                 var unauthorizedKey = PrivateKey.GenerateED25519();
                 var tx = new HookStoreTransaction
                 {
-                    NodeAccountIds = [..testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
+                    NodeAccountIds = new(testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)),
                     HookId = hookId,
-                    StorageUpdates = [update]
+                    StorageUpdates = update
 
                 }.FreezeWith(testEnv.Client);
 
@@ -143,8 +143,8 @@ namespace Hedera.Hashgraph.Tests.Integration
                 var tx = new HookStoreTransaction
                 {
 					HookId = hookId,
-					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
-					StorageUpdates = [update]
+					NodeAccountIds = new(testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)),
+					StorageUpdates = update
 				
                 }.FreezeWith(testEnv.Client).Sign(signerKey);
                 
@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.Tests.Integration
                 new AccountUpdateTransaction
                 {
 					AccountId = ownerId,
-					HookCreationDetails = [hookDetails],
+					HookCreationDetails = hookDetails,
 					MaxTransactionFee = Hbar.From(10),
 				}
                 .FreezeWith(testEnv.Client)
@@ -198,9 +198,9 @@ namespace Hedera.Hashgraph.Tests.Integration
                 var tx = new HookStoreTransaction
                 {
 					HookId = hookId,
-					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
-					StorageUpdates = [..updates]
-				}
+					NodeAccountIds = new(testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)),
+					StorageUpdates = updates
+                }
                 .FreezeWith(testEnv.Client)
                 .Sign(adminKey);
 

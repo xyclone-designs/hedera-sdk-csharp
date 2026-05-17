@@ -88,10 +88,10 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
 
             if (body.FeeExemptKeyList is not null)
-				FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
+				FeeExemptKeys.Operate(_ => body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
 
             if (body.CustomFees is not null)
-				CustomFees.ClearAndSet(body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
+				CustomFees.Operate(_ => body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
 
             TopicMemo = body.Memo;
         }

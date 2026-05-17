@@ -2,6 +2,7 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Core;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -12,7 +13,6 @@ using System;
 using System.Collections.Generic;
 
 using VerifyXunit;
-using Hedera.Hashgraph.SDK.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenCreateTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 InitialSupply = testInitialSupply,
                 FeeScheduleKey = testFeeScheduleKey,
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenCreateTransaction 
             { 
-                NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ], 
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")), 
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart), 
                 FeeScheduleKey = testFeeScheduleKey,
                 SupplyKey = testSupplyKey,

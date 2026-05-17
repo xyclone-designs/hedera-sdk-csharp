@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
     /// <include file="test-fees-custom-list.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeListTest"]' />
     public class CustomFeeListTest
     {
-        private static IList<CustomFee> SpawnCustomFeeListExample()
+        private static List<CustomFee> SpawnCustomFeeListExample()
         {
             return new List<CustomFee>
             {

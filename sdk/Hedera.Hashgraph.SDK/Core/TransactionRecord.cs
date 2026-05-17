@@ -28,9 +28,9 @@ namespace Hedera.Hashgraph.SDK.Core
             long transactionFee, 
             ContractFunctionResult? contractFunctionResult, 
             IEnumerable<Transfer> transfers, 
-            IDictionary<TokenId, IDictionary<AccountId, long>> tokenTransfers, 
+            Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers, 
             IEnumerable<TokenTransfer> tokenTransferList, 
-            IDictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, 
+            Dictionary<TokenId, List<TokenNftTransfer>> tokenNftTransfers, 
             ScheduleId scheduleRef, 
             IEnumerable<AssessedCustomFee> assessedCustomFees,
 			IEnumerable<TokenAssociation> automaticTokenAssociations, 
@@ -94,8 +94,8 @@ namespace Hedera.Hashgraph.SDK.Core
                 transfers.Add(Transfer.FromProtobuf(accountAmount));
             }
 
-            var tokenTransfers = new Dictionary<TokenId, IDictionary<AccountId, long>>();
-            var tokenNftTransfers = new Dictionary<TokenId, IList<TokenNftTransfer>>();
+            var tokenTransfers = new Dictionary<TokenId, Dictionary<AccountId, long>>();
+            var tokenNftTransfers = new Dictionary<TokenId, List<TokenNftTransfer>>();
             var allTokenTransfers = new List<TokenTransfer>();
 
             foreach (var transferList in transactionRecord.TokenTransferLists)
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Core
 
                 foreach (var transfer in tokenTransfersList)
                 {
-                    var current = tokenTransfers.TryGetValue(transfer.TokenId, out IDictionary<AccountId, long>? value) ? value : new Dictionary<AccountId, long> { };
+                    var current = tokenTransfers.TryGetValue(transfer.TokenId, out Dictionary<AccountId, long>? value) ? value : new Dictionary<AccountId, long> { };
 
                     current.Add(transfer.AccountId, transfer.Amount);
                     tokenTransfers.Add(transfer.TokenId, current);
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Core
                 allTokenTransfers.AddRange(tokenTransfersList);
                 foreach (var transfer in nftTransfersList)
                 {
-                    var current = tokenNftTransfers.TryGetValue(transfer.TokenId, out IList<TokenNftTransfer>? value) ? value : [];
+                    var current = tokenNftTransfers.TryGetValue(transfer.TokenId, out List<TokenNftTransfer>? value) ? value : [];
                     current.Add(transfer);
                     tokenNftTransfers.Add(transfer.TokenId, current);
                 }

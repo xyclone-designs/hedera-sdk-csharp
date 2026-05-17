@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     InitialBalance = new Hbar(1),
                     MaxTransactionFee = Hbar.From(10),
 					Key = PrivateKey.GenerateED25519(),
-                    HookCreationDetails = [ hookDetails ],
+                    HookCreationDetails = hookDetails,
                 
                 }.Execute(testEnv.Client);
 
@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                     MaxTransactionFee = Hbar.From(10),
                     InitialBalance = new Hbar(1),
                     Key = PrivateKey.GenerateED25519(),
-                    HookCreationDetails = [ hookDetails ],
+                    HookCreationDetails = hookDetails,
                 
                 }.Execute(testEnv.Client);
 
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
                         InitialBalance = new Hbar(1),
                         MaxTransactionFee = Hbar.From(10),
                         Key = PrivateKey.GenerateED25519(),
-                        HookCreationDetails = [hookDetails1, hookDetails2],
+                        HookCreationDetails = new (hookDetails1, hookDetails2),
                     }
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Account
 					MaxTransactionFee = Hbar.From(10),
 					InitialBalance = new Hbar(1),
                     Key = PrivateKey.GenerateED25519(),
-                    HookCreationDetails = [ hookDetails ],
+                    HookCreationDetails = hookDetails,
                 
                 }.FreezeWith(testEnv.Client)
                 .Sign(adminKey);

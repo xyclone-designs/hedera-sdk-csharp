@@ -41,12 +41,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenWipeTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
 				Amount = testAmount,
-				Serials = [..testSerialNumbers],
+				Serials = testSerialNumbers,
 				MaxTransactionFee = new Hbar(1)
 			}
             .Freeze()
@@ -62,11 +62,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenWipeTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
-				Serials = [444],
+				Serials = 444,
 				MaxTransactionFee = new Hbar(1),
 			}
             .Freeze()
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.Serials.ClearAndSet(testSerialNumbers));
+            Assert.Throws<InvalidOperationException>(() => tx.Serials.Operate(_ => testSerialNumbers));
         }
     }
 }

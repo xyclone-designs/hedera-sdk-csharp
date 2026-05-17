@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				ProxyAccountId = ProxyAccountId,
 				AutoRenewPeriod = AutoRenewPeriod,
 				AutoRenewAccountId = AutoRenewAccountId,
-				NodeAccountIds = [.. NodeAccountIds],
+				NodeAccountIds = NodeAccountIds,
 				StakedAccountId = StakedAccountId,
 				StakedNodeId = StakedNodeId
 			};
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             return new TransactionReceiptQuery
             {
-				NodeAccountIds = [response.NodeId],
+				NodeAccountIds = response.NodeId,
 				TransactionId = response.TransactionId,
 			};
         }

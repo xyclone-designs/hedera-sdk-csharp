@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             return new ContractCreateTransaction
 			{
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				BytecodeFileId = FileId.FromString("0.0.3003"),
 
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             return new ContractCreateTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				Bytecode = Hex.Decode("deadbeef"),
 				AdminKey = unusedPrivateKey,

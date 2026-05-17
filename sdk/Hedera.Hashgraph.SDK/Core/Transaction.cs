@@ -78,13 +78,13 @@ namespace Hedera.Hashgraph.SDK.Core
                 {
                     if (!transactionEntry.Key.Equals(Transaction.DUMMY_TRANSACTION_ID))
                     {
-                        TransactionIds.Add(transactionEntry.Key);
+                        TransactionIds.Operate(_ => _.Add(transactionEntry.Key));
                     }
 
                     foreach (var nodeEntry in transactionEntry.Value)
                     {
                         if (NodeAccountIds.Count != nodeCount)
-							NodeAccountIds.Add(nodeEntry.Key);
+							NodeAccountIds.Operate(_ => _.Add(nodeEntry.Key));
 
 						var transaction = Proto.Services.SignedTransaction.Parser.ParseFrom(nodeEntry.Value.SignedTransactionBytes);
                         OuterTransactions.Add(nodeEntry.Value);
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Core
                     }
                 }
 
-                NodeAccountIds.Remove(new AccountId(0, 0, 0));
+                NodeAccountIds.Operate(_ => _.Remove(new AccountId(0, 0, 0)));
 
                 // Verify that transaction bodies match
                 for (int i = 0; i < txCount; i++)
@@ -199,7 +199,7 @@ namespace Hedera.Hashgraph.SDK.Core
 			}
 			set
 			{
-				TransactionIds.ClearAndSet(value);
+				TransactionIds.Operate(_ => [value]);
 				TransactionIds.IsLocked = true;
 			}
 		}
@@ -434,7 +434,7 @@ namespace Hedera.Hashgraph.SDK.Core
 					if (@operator != null)
 					{
 						// Set a default transaction ID, generated from the operator account ID
-						TransactionIds.ClearAndSet([TransactionId.Generate(@operator.AccountId)]);
+						TransactionIds.Operate(_ => [TransactionId.Generate(@operator.AccountId)]);
 					}
 					else
 					{
@@ -456,9 +456,9 @@ namespace Hedera.Hashgraph.SDK.Core
 				try
 				{
 					if (BatchKey == null)
-						NodeAccountIds.ClearAndSet(client.Network_.GetNodeAccountIdsForExecute());
+						NodeAccountIds.Operate(_ => client.Network_.GetNodeAccountIdsForExecute());
 					else 
-						NodeAccountIds.ClearAndSet([AccountId.FromString(Transaction.ATOMIC_BATCH_NODE_ACCOUNT_ID)]);
+						NodeAccountIds.Operate(_ => [AccountId.FromString(Transaction.ATOMIC_BATCH_NODE_ACCOUNT_ID)]);
 				}
 				catch (ThreadInterruptedException e)
 				{
@@ -591,7 +591,7 @@ namespace Hedera.Hashgraph.SDK.Core
 
 			if (count == 1)
 			{
-				TransactionIds.ClearAndSet([initialTransactionId]);
+				TransactionIds.Operate(_ => [initialTransactionId]);
 				return;
 			}
 
@@ -600,7 +600,7 @@ namespace Hedera.Hashgraph.SDK.Core
 			TransactionIds.Clear();
 			for (int i = 0; i < count; i++)
 			{
-				TransactionIds.Add(TransactionId.FromProtobuf(nextTransactionId));
+				TransactionIds.Operate(_ => _.Add(TransactionId.FromProtobuf(nextTransactionId)));
 
 				// add 1 ns to the validStart to make cascading transaction IDs
 				var nextValidStart = nextTransactionId.TransactionValidStart;
@@ -882,7 +882,7 @@ namespace Hedera.Hashgraph.SDK.Core
 		{
 			RequireNotFrozen();
 
-			NodeAccountIds = [.. nodeaccountids];
+			NodeAccountIds = new (nodeaccountids);
 
 			return (T)this;
 		}

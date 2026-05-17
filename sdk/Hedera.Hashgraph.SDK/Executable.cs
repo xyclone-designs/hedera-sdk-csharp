@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_2"]' />
 		protected ListGuarded<Node> Nodes
 		{
-			get => [.. field ??= []];
+			get => field ??= new ListGuarded<Node>();
 			set
 			{
 				field = value;
@@ -269,8 +269,9 @@ namespace Hedera.Hashgraph.SDK
 					throw new InvalidOperationException("Account ID did not map to valid node in the client's network");
 				}
 
-				Nodes.AddRange(nodeProxies);
-				Nodes.Shuffle();
+				Nodes
+					.Operate(_ => _.AddRange(nodeProxies))
+					.Shuffle();
 				return;
 			}
 
@@ -288,7 +289,7 @@ namespace Hedera.Hashgraph.SDK
 
 				 Node node = nodeProxies[random.Next(nodeProxies.Count)];
 
-				Nodes.Add(node);
+				Nodes.Operate(_ => _.Add(node));
 			}
 
 			if (Nodes.Count == 0)

@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         {
             return new EthereumTransaction()
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				EthereumData = Hex.Decode("deadbeef"),
 				CallDataFileId = FileId.FromString("4.5.6"),

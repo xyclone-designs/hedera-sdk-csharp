@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 				MaxTransactionFee = new Hbar(1),
 				DeclineReward = false,
 
-				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
+				NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 			}
             .Freeze()

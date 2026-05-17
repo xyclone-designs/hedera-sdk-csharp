@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenBurnTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 TokenId = testTokenId,
                 Amount = testAmount,
@@ -58,10 +58,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenBurnTransaction
             {
-                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 TokenId = testTokenId,
-                Serials = [.. testSerials],
+                Serials = testSerials,
                 MaxTransactionFee = new Hbar(1),
             }
             .Freeze()
@@ -152,8 +152,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tokenBurnTransaction = new TokenBurnTransaction
             {
-				Serials = [.. testSerials]
-			};
+				Serials = testSerials
+            };
             
             Assert.Equal(tokenBurnTransaction.Serials, testSerials);
         }

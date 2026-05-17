@@ -192,8 +192,8 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             AutoRenewAccountId = body.AutoRenewAccountId is null ? null : AccountId.FromProtobuf(body.AutoRenewAccountId);
 
-			HookCreationDetails_.ClearAndSet(body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
-			HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);
+			HookCreationDetails_.Operate(_ => body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
+			HookIdsToDelete.Operate(_ => [.. body.HookIdsToDelete]);
         }
 
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.ToProtobuf"]' />

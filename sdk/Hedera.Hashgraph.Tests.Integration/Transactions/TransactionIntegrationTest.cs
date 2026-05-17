@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var publicKey = adminKey.GetPublicKey();
                 var accountCreateTransaction = new AccountCreateTransaction
                 {
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
 					Key = publicKey,
 					InitialBalance = new Hbar(1),
 				};
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 
                 var accountCreateTransaction = new AccountCreateTransaction
                 {
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
 					Key = publicKey,
 					InitialBalance = new Hbar(1),
 				};
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var publicKey = adminKey.GetPublicKey();
                 var accountCreateTransaction = new AccountCreateTransaction
                 {
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
 					Key = publicKey,
 				};
                 var expectedBalance = new Hbar(1);
@@ -396,7 +396,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 
                 var fileAppendTransaction = new FileAppendTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+                    NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
                     FileId = fileId,
                     Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
                 };
@@ -534,7 +534,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
                     TopicId = topicId,
                     MaxChunks = 15,
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys),
 					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
 				};
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
@@ -659,7 +659,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 var createResponse = new AccountCreateTransaction
                 {
 					Key = newKey.GetPublicKey(),
-					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
+					NodeAccountIds = new (testEnv.Client.Network_.Network_Read.Keys)
 				
                 }.Execute(testEnv.Client);
 
@@ -670,7 +670,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 // Step 3: Create account delete transaction and freeze it
                 var deleteTransaction = new AccountDeleteTransaction
                 {
-					NodeAccountIds = [nodeId],
+					NodeAccountIds = nodeId,
 					AccountId = accountId,
 					TransferAccountId = testEnv.Client.OperatorAccountId,
 				

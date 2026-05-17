@@ -1,150 +1,198 @@
-﻿
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace System.Collections.Generic
 {
-    public class ListGuarded<T> : IList<T>
-    {
+	public class ListGuarded<T> : IEnumerable<T>
+	{
 		public ListGuarded() : this(_ => { }) { }
-		public ListGuarded(params T[] values) : this(_ => { }) 
+		public ListGuarded(params T[] values) : this(_ => { })
 		{
-			_list = [.. values];
-		}
-		public ListGuarded(IEnumerable<T> values) : this(_ => { }) 
-		{
-            _list = [.. values];
+            _list = new ListInternal<T>(this);
+            _list.AddRange(values);
         }
-        public ListGuarded(Action<ListGuarded<T>> oninit)
+		public ListGuarded(IEnumerable<T> values) : this(_ => { })
 		{
-			OnRequireNotFrozen = () => { if (IsFrozen) throw new InvalidOperationException("Cannot operate on a frozen list"); }; 
+			_list = new ListInternal<T>(this);
+			_list.AddRange(values);
+        }
+		public ListGuarded(Action<ListGuarded<T>> oninit)
+		{
+			OnRequireNotFrozen = () => { if (IsFrozen) throw new InvalidOperationException("Cannot operate on a frozen list"); };
 			OnRequireNotLocked = () => { if (IsLocked) throw new InvalidOperationException("Cannot modify a locked list"); };
 
-			oninit.Invoke(this);
-		}
+            _list = new ListInternal<T>(this);
 
-        private readonly List<T> _list = [];
+            oninit.Invoke(this);
+        }
 
-        public T this[int index] 
-        {
-            get => _list[index];
-            set
-            {
-                OnRequireNotFrozen?.Invoke();
+		private ListInternal<T> _list;
+
+        public T this[int index]
+		{
+			get => _list[index];
+			set
+			{
+				OnRequireNotFrozen?.Invoke();
 				OnRequireNotLocked?.Invoke();
 				OnValidate?.Invoke(value);
 				_list[index] = value;
 			}
-        }
+		}
 
 		public int Index { get; set; }
 		public int Count { get => _list.Count; }
-        public bool IsReadOnly { get => false; }
+		public bool IsReadOnly { get => false; }
 		public bool IsFrozen { get; internal set; }
 		public bool IsLocked { get; internal set; }
 		public bool IsEmpty { get => _list.Count == 0; }
 
 		public T Current { get => _list[Index]; }
 
-		public Action OnRequireNotFrozen { get; internal set; }
-        public Action OnRequireNotLocked { get; internal set; }
-        public Action<T>? OnValidate { get; internal set; }
+        public IReadOnlyList<T> Read { get => _list.AsReadOnly(); }
 
-		public int Advance()
-		{
-			int index = Index;
-			Index = (Index + 1) % _list.Count;
-			return index;
-		}
+        public Action OnRequireNotFrozen { get; internal set; }
+		public Action OnRequireNotLocked { get; internal set; }
+		public Action<T>? OnValidate { get; internal set; }
 
-		public void Add(T item)
+        public ListGuarded<T> Operate(Action<List<T>> list)
         {
             OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-            OnValidate?.Invoke(item);
+            OnRequireNotLocked?.Invoke();
 
-			_list.Add(item);
+            list.Invoke(_list);
+
+            if (OnValidate is not null)
+                foreach (T item in _list)
+                    OnValidate?.Invoke(item);
+
+            _list = new ListInternal<T>(this, (List<T>)_list);
+
+            return this;
         }
-        public void Clear()
+        public ListGuarded<T> Operate(Func<List<T>, IEnumerable<T>> list)
 		{
-			OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-			_list.Clear();
+            OnRequireNotFrozen?.Invoke();
+            OnRequireNotLocked?.Invoke();
+
+            List<T> items = [.. list.Invoke((List<T>)_list)];
+
+            if (OnValidate is not null)
+                foreach (T item in items)
+                    OnValidate?.Invoke(item);
+
+            _list = new ListInternal<T>(this, items);
+
+            return this;
+		}
+
+        public void Clear()
+        {
+            _list.Clear();
+        }
+        public void Shuffle()
+        {
+            OnRequireNotFrozen?.Invoke();
+            OnRequireNotLocked?.Invoke();
+
+            var rng = Random.Shared;
+
+            for (int i = _list.Count - 1; i > 0; i--)
+            {
+                int j = rng.Next(i + 1);
+                (_list[i], _list[j]) = (_list[j], _list[i]);
+            }
         }
         public bool Contains(T item)
         {
             return _list.Contains(item);
         }
-        public void CopyTo(T[] array, int arrayIndex)
+        public int Advance()
+		{
+			int index = Index;
+			Index = (Index + 1) % _list.Count;
+			return index;
+		}
+        public int EnsureCapacity(int capacity)
         {
-            _list.CopyTo(array, arrayIndex);
-        }
-        public int IndexOf(T item)
-        {
-            return _list.IndexOf(item);
-        }
-        public void Insert(int index, T item)
-		{
-			OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-			OnValidate?.Invoke(item);
-			_list.Insert(index, item);
-        }
-        public bool Remove(T item)
-		{
-			OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-			return _list.Remove(item);
-        }
-        public void RemoveAt(int index)
-		{
-			OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-			_list.RemoveAt(index);
+            return _list.EnsureCapacity(capacity);
         }
 
-		public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
 		{
 			return ((IEnumerable<T>)_list).GetEnumerator();
 		}
-		public IReadOnlyList<T> Read { get => _list.AsReadOnly(); }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void AddRange(params T[] values)
-        {
-            foreach (T value in values) Add(value);
-		}
-        public void AddRange(IEnumerable<T> values)
-        {
-            foreach (T value in values) Add(value);
-		}
-		public void ClearAndSet(params T[] values)
-        {
-            ClearAndSet(values as IEnumerable<T>);
-        }
-        public void ClearAndSet(IEnumerable<T> values)
+		IEnumerator IEnumerable.GetEnumerator()
 		{
-			Clear();
-			foreach (T value in values) Add(value);
+			return GetEnumerator();
 		}
 
-		public void Shuffle()
+        public static implicit operator ListGuarded<T>(T item) => new(item);
+        public static implicit operator ListGuarded<T>(T[] array) => new(array);
+		public static implicit operator ListGuarded<T>(List<T> list) => new (list);
+		public static implicit operator T[](ListGuarded<T> list) => [.. list];
+		public static implicit operator List<T>(ListGuarded<T> list) => [.. list];
+
+		private class ListInternal<TT> : List<TT>
 		{
-			OnRequireNotFrozen?.Invoke();
-			OnRequireNotLocked?.Invoke();
-
-			var rng = Random.Shared;
-
-			for (int i = _list.Count - 1; i > 0; i--)
+			public ListInternal(ListGuarded<TT> parent) : this(parent, []) { }
+			public ListInternal(ListGuarded<TT> parent, params TT[] values) : this (parent, values as IEnumerable<TT>) { }
+			public ListInternal(ListGuarded<TT> parent, IEnumerable<TT> values)
 			{
-				int j = rng.Next(i + 1);
-				(_list[i], _list[j]) = (_list[j], _list[i]);
+				Parent = parent;
+
+                AddRange(values);
 			}
-		}
-		public int EnsureCapacity(int capacity)
-		{
-			return _list.EnsureCapacity(capacity);
-		}
+
+            public ListGuarded<TT> Parent { get; } 
+
+            public new void Add(TT item)
+            {
+                Parent.OnRequireNotFrozen?.Invoke();
+                Parent.OnRequireNotLocked?.Invoke();
+                Parent.OnValidate?.Invoke(item);
+
+                base.Add(item);
+            }
+            public new void Clear()
+            {
+                Parent.OnRequireNotFrozen?.Invoke();
+                Parent.OnRequireNotLocked?.Invoke();
+                
+				base.Clear();
+            }
+            public new void CopyTo(TT[] array, int arrayIndex)
+            {
+                base.CopyTo(array, arrayIndex);
+            }
+            public new int IndexOf(TT item)
+            {
+                return base.IndexOf(item);
+            }
+            public new void Insert(int index, TT item)
+            {
+                Parent.OnRequireNotFrozen?.Invoke();
+                Parent.OnRequireNotLocked?.Invoke();
+                Parent.OnValidate?.Invoke(item);
+
+                base.Insert(index, item);
+            }
+            public new bool Remove(TT item)
+            {
+                Parent.OnRequireNotFrozen?.Invoke();
+                Parent.OnRequireNotLocked?.Invoke();
+                
+				return base.Remove(item);
+            }
+            public new void RemoveAt(int index)
+            {
+                Parent.OnRequireNotFrozen?.Invoke();
+                Parent.OnRequireNotLocked?.Invoke();
+                
+				base.RemoveAt(index);
+            }
+        }
     }
 }

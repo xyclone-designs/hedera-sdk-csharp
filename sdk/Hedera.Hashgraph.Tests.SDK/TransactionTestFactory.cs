@@ -17,14 +17,14 @@ namespace Hedera.Hashgraph.Tests.SDK
         public static AccountId SecondaryNodeAccountId => AccountId.FromString(TestData.SECONDARY_ENTITY_ID);
         public static AccountId DefaultStakedAccountId => AccountId.FromString(TestData.STANDARD_ENTITY_ID);
 
-        public static TransactionId CreateDefaultTransactionId(PrivateKey privateKey = null)
+        public static TransactionId CreateDefaultTransactionId(PrivateKey? privateKey = null)
         {
             return TransactionId.WithValidStart(SecondaryNodeAccountId, DEFAULT_VALID_START);
         }
 
         public static ListGuarded<AccountId> CreateDefaultNodeAccountIds()
         {
-            return new ListGuarded<AccountId> { DefaultNodeAccountId, SecondaryNodeAccountId };
+            return new ListGuarded<AccountId>(DefaultNodeAccountId, SecondaryNodeAccountId);
         }
 
         public static T ApplyDefaultTransactionProperties<T>(T transaction, PrivateKey signingKey) where T : ITransaction

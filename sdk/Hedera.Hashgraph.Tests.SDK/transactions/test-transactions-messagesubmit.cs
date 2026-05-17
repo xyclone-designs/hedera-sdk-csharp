@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             return new TopicMessageSubmitTransaction()
 			{
-                NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
+                NodeAccountIds = new (AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")),
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TopicId = TopicId.FromString("0.0.5007"),
 				Message = ByteString.CopyFromUtf8("hello"),

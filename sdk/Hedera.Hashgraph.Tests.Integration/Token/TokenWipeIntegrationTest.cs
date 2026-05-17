@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
 					TokenId = tokenId,
 					AccountId = accountId,
-					Serials = [.. serialsToTransfer]
+					Serials = serialsToTransfer
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
@@ -188,7 +188,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                     {
 						TokenId = tokenId,
 						AccountId = accountId,
-						Serials = [.. serialsToTransfer]
+						Serials = serialsToTransfer
 
 					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 

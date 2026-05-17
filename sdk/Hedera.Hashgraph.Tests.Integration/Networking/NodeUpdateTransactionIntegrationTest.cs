@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
                     NodeId = 0,
                     Description = "testUpdated",
                     AccountId = new AccountId(0, 0, 3),
-                    NodeAccountIds = [new AccountId(0, 0, 3)],
+                    NodeAccountIds = new AccountId(0, 0, 3),
 
                 }.Execute(client);
 
@@ -234,7 +234,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
                 resp = new NodeUpdateTransaction
                 {
 					NodeId = 0,
-					NodeAccountIds = [newNodeAccountID],
+					NodeAccountIds = newNodeAccountID,
 					Description = "testUpdated",
 					AccountId = new AccountId(0, 0, 3),
 				
@@ -282,7 +282,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
 					NodeId = 0,
 					Description = "testUpdated",
 					AccountId = new AccountId(0, 0, 3),
-					NodeAccountIds = [new AccountId(0, 0, 3)],
+					NodeAccountIds = new AccountId(0, 0, 3),
 				};
 
 				// Then: The transaction should fail with INVALID_SIGNATURE
@@ -329,7 +329,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
 					NodeId = 0,
 					Description = "testUpdated",
 					AccountId = newAccountId,
-					NodeAccountIds = [new AccountId(0, 0, 3)]
+					NodeAccountIds = new AccountId(0, 0, 3)
 				};
 
                 // Note: The operator (0.0.2) has node admin privileges, so the transaction
@@ -376,7 +376,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
 					NodeId = 0,
 					Description = "testUpdated",
 					AccountId = new AccountId(0, 0, 9999999),
-					NodeAccountIds = [new AccountId(0, 0, 3)]
+					NodeAccountIds = new AccountId(0, 0, 3)
 				};
 
 				// Then: The transaction should fail with INVALID_NODE_ACCOUNT_ID
@@ -435,7 +435,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
 					NodeId = 0,
 					Description = "testUpdated",
 					AccountId = newAccountId,
-					NodeAccountIds = [new AccountId(0, 0, 3)],
+					NodeAccountIds = new AccountId(0, 0, 3),
 				}
                 .FreezeWith(client)
                 .Sign(newAccountKey);
@@ -505,7 +505,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
                 resp = new NodeUpdateTransaction
                 {
 					NodeId = 0,
-					NodeAccountIds = [newNodeAccountID],
+					NodeAccountIds = newNodeAccountID,
 					Description = "testUpdated",
 					AccountId = new AccountId(0, 0, 3),
 				
@@ -573,7 +573,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
         {
             var transaction = new NodeUpdateTransaction
             {
-                NodeAccountIds = [.. nodeAccountIds],
+                NodeAccountIds = new (nodeAccountIds),
                 NodeId = (ulong)nodeId,
                 Description = "testUpdated",
                 AccountId = newAccountId,
@@ -591,7 +591,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Networking
             var resp = new AccountCreateTransaction
             {
 				Key = newAccountKey.GetPublicKey(),
-				NodeAccountIds = [..nodeAccountIds],
+				NodeAccountIds = new (nodeAccountIds),
 			
             }.Execute(client);
             

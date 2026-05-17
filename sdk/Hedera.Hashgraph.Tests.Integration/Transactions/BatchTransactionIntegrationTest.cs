@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 					InitialBalance = new Hbar(1),
 				
                 }.Batchify(testEnv.Client, testEnv.OperatorKey);
-				var batchTransaction = new BatchTransaction { InnerTransactions = [tx] };
+				var batchTransaction = new BatchTransaction { InnerTransactions = tx };
 				batchTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var accountIdInnerTransaction = batchTransaction.InnerTransactions.Read.Select(_ => _.TransactionId).ElementAt(0).AccountId;
                 var execute = new AccountInfoQuery
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 					InitialBalance = new Hbar(1),
 				
                 }.Batchify(testEnv.Client, testEnv.OperatorKey);
-                var batchTransaction = new BatchTransaction { InnerTransactions = [ tx ] };
+                var batchTransaction = new BatchTransaction { InnerTransactions = tx };
                 var batchTransactionBytes = batchTransaction.ToBytes();
                 var batchTransactionFromBytes = Transaction.FromBytes<BatchTransaction>(batchTransactionBytes);
                 batchTransactionFromBytes.Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 					
                     }.Batchify(testEnv.Client, testEnv.OperatorKey);
 
-                    batchTransaction.InnerTransactions.Add(tx);
+                    batchTransaction.InnerTransactions.Operate(_ => _.Add(tx));
                 }
 
                 batchTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -133,7 +133,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 				
                 }.Batchify(testEnv.Client, testEnv.OperatorKey);
                 
-                ArgumentException exception1 = Assert.Throws<ArgumentException>(() => new BatchTransaction().InnerTransactions.Add(freezeTransaction));
+                ArgumentException exception1 = Assert.Throws<ArgumentException>(() => new BatchTransaction().InnerTransactions.Operate(_ => _.Add(freezeTransaction)));
                 Assert.Contains(exception1.Message, "Transaction type FreezeTransaction is not allowed in a batch transaction");
                 
                 var key = PrivateKey.GenerateECDSA();
@@ -146,11 +146,11 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 
                 var batchTransaction = new BatchTransaction()
                 {
-                    InnerTransactions = [tx]
+                    InnerTransactions = tx
                 
                 }.Batchify(testEnv.Client, testEnv.OperatorKey);
 
-                ArgumentException exception2 = Assert.Throws<ArgumentException>(() => new BatchTransaction().InnerTransactions.Add(batchTransaction));
+                ArgumentException exception2 = Assert.Throws<ArgumentException>(() => new BatchTransaction().InnerTransactions.Operate(_ => _.Add(batchTransaction)));
 
                 Assert.Contains(exception2.Message, "Transaction type BatchTransaction is not allowed in a batch transaction");
             }
@@ -174,7 +174,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
 
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
-                    batchTransaction.InnerTransactions.Add(tx);
+                    batchTransaction.InnerTransactions.Operate(_ => _.Add(tx));
                     batchTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 });
                 
@@ -205,7 +205,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 
                 new BatchTransaction
                 {
-                    InnerTransactions = [topicMessageSubmitTransaction]
+                    InnerTransactions = topicMessageSubmitTransaction
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -287,12 +287,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 
                 var receipt = new BatchTransaction
                 {
-                    InnerTransactions = 
-                    [
-						batchedTransfer1,
-						batchedTransfer2,
-						batchedTransfer3,
-					]
+                    InnerTransactions = new (batchedTransfer1, batchedTransfer2, batchedTransfer3)
                 }
                 .FreezeWith(testEnv.Client)
                 .Sign(batchKey1)
@@ -345,12 +340,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Transactions
                 {
                     new BatchTransaction
                     {
-                        InnerTransactions =
-                        [
-							tx1,
-							tx2,
-							tx3,
-						]
+                        InnerTransactions = new (tx1, tx2, tx3)
                     }
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);

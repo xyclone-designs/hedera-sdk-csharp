@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             // Set up the transaction properly before freezing
             tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.UtcNow);
-            tx.NodeAccountIds = [AccountId.FromString("0.0.5005")];
+            tx.NodeAccountIds = AccountId.FromString("0.0.5005");
 
             // Freeze the transaction
             tx.Freeze();

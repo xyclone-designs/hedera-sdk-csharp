@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 AccountId = AccountId.FromProtobuf(body.Account);
 
             Amount = body.Amount;
-            Serials.ClearAndSet(body.SerialNumbers);
+            Serials.Operate(_ => [.. body.SerialNumbers]);
         }
 
         /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.ToProtobuf"]' />

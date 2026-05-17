@@ -4,6 +4,7 @@ using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
 
 using System.Collections.Generic;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Core;
 
@@ -26,18 +27,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             byte[] storageKey = [ (byte)0x01, (byte)0x02 ];
             byte[] storageValue = [ (byte)0x03, (byte)0x04 ];
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
-            IList<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
+            List<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
 
 			// Build two hooks, one with admin key and storage, one simple
 			var tx = new ContractCreateTransaction
 			{
 				Gas = 1000000,
 				InitialBalance = Hbar.From(10),
-				HookCreationDetails_ =
-				[
+				HookCreationDetails_ = new
+				(
 					new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId, storageUpdates), adminKey.GetPublicKey()),
 					new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(targetContractId))
-				]
+				)
 			};
 
             var hooks = tx.HookCreationDetails_;
@@ -66,8 +67,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             {
 				Gas = 500000,
 				InitialBalance = Hbar.From(5),
-				HookCreationDetails_ = [hookDetails]
-			};
+				HookCreationDetails_ = hookDetails
+            };
             var retrieved = tx.HookCreationDetails_;
             Assert.Equal(1, retrieved.Count);
             Assert.Equal(hookDetails, retrieved[0]);
@@ -81,11 +82,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             {
                 Gas = 250000,
                 InitialBalance = Hbar.From(3),
-                HookCreationDetails_ = 
-                [
+                HookCreationDetails_ = new 
+                (
 					new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId)),
 				    new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId))
-				]
+				)
             };
 
             var proto = tx.ToProtobuf();
@@ -103,11 +104,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 			{
 				Gas = 750000,
 				InitialBalance = Hbar.From(7),
-				HookCreationDetails_ =
-				[
-					new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId)),
-				]
-			};
+				HookCreationDetails_ = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId))
+            };
 
             var protoBody = tx.ToProtobuf();
             Assert.Equal(1, protoBody.HookCreationDetails.Count);            
@@ -135,14 +133,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         /// <include file="test-contract-create-transaction-hooks.cs.cs.xml" path='docs/member[@name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionHooksPersistThroughBytesRoundTrip"]' />
         public virtual void TestContractCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
-            ContractId targetContractId = new ContractId(500);
+            ContractId targetContractId = new (500);
             var lambdaHook = new EvmHook(targetContractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaHook);
             var original = new ContractCreateTransaction
             {
 				Gas = 999999,
 				InitialBalance = Hbar.From(9),
-				HookCreationDetails_ = [hookDetails],
+				HookCreationDetails_ = hookDetails,
 			};
 
             byte[] bytes = original.ToBytes();

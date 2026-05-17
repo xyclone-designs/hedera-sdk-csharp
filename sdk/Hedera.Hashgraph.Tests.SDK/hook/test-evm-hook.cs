@@ -48,8 +48,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var spec1 = new ContractId(0, 0, 1);
             var spec2 = new ContractId(0, 0, 2);
             
-            IList<EvmHookStorageUpdate> u1 = [ new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x02 }) ];
-            IList<EvmHookStorageUpdate> u2 = [ new EvmHookStorageSlot(new byte[] { 0x03 }, new byte[] { 0x04 }) ];
+            List<EvmHookStorageUpdate> u1 = [ new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x02 }) ];
+            List<EvmHookStorageUpdate> u2 = [ new EvmHookStorageSlot(new byte[] { 0x03 }, new byte[] { 0x04 }) ];
             
             var a = new EvmHook(spec1, u1);
             var b = new EvmHook(spec1, [..u1]);

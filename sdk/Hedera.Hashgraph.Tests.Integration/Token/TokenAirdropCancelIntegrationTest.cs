@@ -49,12 +49,12 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // sender cancels the tokens
                 record = new TokenCancelAirdropTransaction
                 {
-                    PendingAirdropIds = 
-                    [
+                    PendingAirdropIds = new
+                    (
 						record.PendingAirdropRecords[0].PendingAirdropId,
 					    record.PendingAirdropRecords[1].PendingAirdropId,
-					    record.PendingAirdropRecords[2].PendingAirdropId,
-					]
+					    record.PendingAirdropRecords[2].PendingAirdropId
+					)
                
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // cancel
                 new TokenCancelAirdropTransaction
                 {
-                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
                     
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // cancel
                 new TokenCancelAirdropTransaction
                 {
-                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
                     
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // cancel
                 new TokenCancelAirdropTransaction
         {
-                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
                     
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
@@ -222,10 +222,10 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 Assert.Equal(6, record.PendingAirdropRecords.Count);
 
                 // cancel the tokens signing with receiver1 and receiver2
-                var pendingAirdropIDs = record.PendingAirdropRecords.Select(_ => _.PendingAirdropId);
+                List<PendingAirdropId> pendingAirdropIDs = [..record.PendingAirdropRecords.Select(_ => _.PendingAirdropId)];
                 record = new TokenCancelAirdropTransaction
                 {
-					PendingAirdropIds = [.. pendingAirdropIDs],
+					PendingAirdropIds = pendingAirdropIDs,
 
 				}.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -304,7 +304,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // cancel the all the tokens with the receiver
                 var record = new TokenCancelAirdropTransaction
                 {
-					PendingAirdropIds = [.. pendingAirdropIDs],
+					PendingAirdropIds = pendingAirdropIDs,
 
 				}.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -359,7 +359,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                     new TokenCancelAirdropTransaction
                     {
 						TransactionId = TransactionId.Generate(randomAccount),
-                        PendingAirdropIds = [ record.PendingAirdropRecords[0].PendingAirdropId ],
+                        PendingAirdropIds = new (record.PendingAirdropRecords[0].PendingAirdropId),
                         
                     }.Execute(testEnv.Client).GetRecord(testEnv.Client);
                 }); 
@@ -386,7 +386,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 // cancel the tokens with the receiver
                 new TokenCancelAirdropTransaction
         {
-                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
                     
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
@@ -396,7 +396,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
                     new TokenCancelAirdropTransaction
                 {
-                        PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                        PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
                         
                     }.Execute(testEnv.Client).GetRecord(testEnv.Client);
                 }); 
@@ -442,7 +442,7 @@ namespace Hedera.Hashgraph.Tests.Integration.Token
                 {
 					new TokenCancelAirdropTransaction()
 					{
-						PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
+						PendingAirdropIds = new(record.PendingAirdropRecords[0].PendingAirdropId)
 					}
                     .Execute(testEnv.Client).GetRecord(testEnv.Client);
                 }); 
