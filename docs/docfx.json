@@ -4,25 +4,25 @@
     {
       "src": [
         {
-          "src": "../src/forks.hashgraph.hedera-sdk-reference",
+          "src": "../sdk/forks.hashgraph.hedera-sdk-reference",
           "files": [
             "**/*.csproj"
           ]
         },
         {
-          "src": "../src/Hedera.Hashgraph.SDK",
+          "src": "../sdk/Hedera.Hashgraph.SDK",
           "files": [
             "**/*.csproj"
           ]
         },
         {
-          "src": "../src/Hedera.Hashgraph.Tests.SDK",
+          "src": "../sdk/Hedera.Hashgraph.Tests.SDK",
           "files": [
             "**/*.csproj"
           ]
         },
         {
-          "src": "../src/Hedera.Hashgraph.Tests.Integration",
+          "src": "../sdk/Hedera.Hashgraph.Tests.Integration",
           "files": [
             "**/*.csproj"
           ]
