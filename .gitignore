@@ -8,8 +8,6 @@
 /sdk/forks.hedera-protobufs/obj/
 /sdk/forks.hiero-ledger.hiero-consensus-node/bin/
 /sdk/forks.hiero-ledger.hiero-consensus-node/obj/
-/sdk/forks.hiero-ledger.hiero-sdk-tck/bin/
-/sdk/forks.hiero-ledger.hiero-sdk-tck/obj/
 /sdk/Hedera.Hashgraph/bin/
 /sdk/Hedera.Hashgraph/obj/
 /sdk/Hedera.Hashgraph.SDK/bin/
@@ -18,3 +16,6 @@
 /sdk/Hedera.Hashgraph.Tests.SDK/obj/
 /sdk/Hedera.Hashgraph.Tests.Integration/bin/
 /sdk/Hedera.Hashgraph.Tests.Integration/obj/
+/tck/.vs
+/tck/forks.hiero-ledger.hiero-sdk-tck/bin/
+/tck/forks.hiero-ledger.hiero-sdk-tck/obj/
